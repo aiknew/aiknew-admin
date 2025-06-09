@@ -1,0 +1,12 @@
+{
+  "hasChildren": "This article category has subcategories and cannot be deleted.",
+  "haveRelated": "There are related articles under this article category and cannot be deleted.",
+  "seed": {
+    "title": "Article classification management",
+    "list": "Article category list",
+    "child": "Get subcategory",
+    "add": "Add article category",
+    "edit": "Edit article category",
+    "delete": "Delete article category"
+  }
+}

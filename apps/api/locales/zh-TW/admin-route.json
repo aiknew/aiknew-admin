@@ -1,0 +1,45 @@
+{
+  "nonExistenceApis": "不存在的api",
+  "nonExistenceParentId": "不存在的上級ID",
+  "alreadyExists": "已存在相同的路由",
+  "hasRelated": "該路由正在被關聯使用中",
+  "settings": {
+    "title": "設定"
+  },
+  "adminUsers": {
+    "title": "管理員帳號",
+    "adminUserSettings": "管理員設定"
+  },
+  "common": {
+    "add": "新增",
+    "edit": "編輯",
+    "delete": "刪除"
+  },
+  "roleSettings": {
+    "title": "角色設定"
+  },
+  "authSettings": {
+    "title": "權限設定",
+    "menuSettings": "選單設定"
+  },
+  "apiSettings": "API設定",
+  "hasChild": "該項目存在下級，不能刪除",
+  "content": {
+    "title": "內容管理",
+    "file": {
+      "title": "文件管理",
+      "uploadFile": "上傳文件",
+      "editFile": "編輯文件",
+      "deleteFile": "刪除文件",
+      "addGroup": "新增檔案分組",
+      "editGroup": "編輯文件分組",
+      "deleteGroup": "刪除文件分組"
+    },
+    "articleManagement": {
+      "title": "文章管理",
+      "category": "文章分類列表",
+      "article": "文章列表",
+      "articleDetail": "文章詳情"
+    }
+  }
+}

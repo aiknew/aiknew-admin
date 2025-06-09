@@ -1,0 +1,7 @@
+packages:
+  - 'apps/**'
+  - 'packages/**'
+
+catalog:
+  'lodash-es': '^4.17.21'
+  '@types/lodash-es': '^4.17.12'

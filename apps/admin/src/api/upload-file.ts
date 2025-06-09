@@ -1,0 +1,81 @@
+import { useApiData } from '@/composables'
+import type { components, paths } from '@/types/open-api'
+import { fetchClient } from '@/utils/openapi-fetch-client'
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import type { Reactive, Ref } from 'vue'
+
+export type UploadFilesAndGroupsDto = components['schemas']['UploadFilesAndGroupsDto']
+
+export type UploadFilesAndGroupsQuery =
+  paths['/admin/upload-file/filesAndGroups']['get']['parameters']['query']
+
+export type CreateUploadFileDto = components['schemas']['UploadFileDto']
+
+export type UpdateUploadFileDto = components['schemas']['UpdateUploadFileDto']
+
+export const uploadFileUrl = '/admin/upload-file'
+
+export const useUploadFileCreate = () => {
+  return useMutation({
+    mutationKey: ['create-upload-file'],
+    mutationFn: (body: CreateUploadFileDto) => {
+      return useApiData(() =>
+        fetchClient.POST(uploadFileUrl, {
+          body
+        })
+      )
+    }
+  })
+}
+
+export const useUploadFileUpdate = () => {
+  return useMutation({
+    mutationKey: ['update-upload-file'],
+    mutationFn: ({ id, body }: { id: string; body: UpdateUploadFileDto }) => {
+      return useApiData(() =>
+        fetchClient.PATCH('/admin/upload-file/{id}', {
+          params: {
+            path: {
+              id
+            }
+          },
+          body
+        })
+      )
+    }
+  })
+}
+
+export const useUploadFileDelete = () => {
+  return useMutation({
+    mutationKey: ['delete-upload-file'],
+    mutationFn: (id: string) => {
+      return useApiData(() =>
+        fetchClient.DELETE('/admin/upload-file/{id}', {
+          params: {
+            path: {
+              id
+            }
+          }
+        })
+      )
+    }
+  })
+}
+
+export const useUploadFilesAndGroups = (query: Ref<UploadFilesAndGroupsQuery>) => {
+  return useQuery({
+    queryKey: ['upload-files-and-groups', query],
+    enabled: false,
+    queryFn: () => {
+      return useApiData(() =>
+        fetchClient.GET('/admin/upload-file/filesAndGroups', {
+          params: {
+            query: query.value
+          },
+          showMsg: false
+        })
+      )
+    }
+  })
+}

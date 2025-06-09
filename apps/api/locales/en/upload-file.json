@@ -1,0 +1,11 @@
+{
+  "fileGroupNotExists": "Group that does not exist",
+  "unsupportedFileType": "Unsupported file types",
+  "fileSizeInvalid": "File size cannot exceed {maxSize} mb",
+  "generateFileNameErr": "Failed to generate random name for uploading file, file name: {fileName}",
+  "sameGroup": "A file with the same name already exists under this group",
+  "inexistentFile": "non-existent file",
+  "uploadSuccess": "Upload successful",
+  "deleteSuccess": "File deleted successfully",
+  "updateSuccess": "File information modified successfully"
+}

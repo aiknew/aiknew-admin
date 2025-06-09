@@ -1,0 +1,279 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../../../node_modules/.prisma/client"
+  previewFeatures = ["typedSql"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LanguageOrientation {
+  LTR
+  RTL
+}
+
+enum RouteType {
+  GROUP
+  SMALL_GROUP
+  MENU
+  BUTTON
+}
+
+enum RequestMethod {
+  GET
+  POST
+  PATCH
+  PUT
+  DELETE
+}
+
+model Language {
+  key                        String                       @unique @db.VarChar(30)
+  name                       String                       @db.VarChar(50)
+  orientation                LanguageOrientation          @default(LTR)
+  status                     Boolean                      @default(true)
+  order                      Int                          @default(10)
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  ArticleTranslation         ArticleTranslation[]
+  AdminRoleTranslation       AdminRoleTranslation[]
+  AdminRouteTranslation      AdminRouteTranslation[]
+  AdminApiTranslation        AdminApiTranslation[]
+  ArticleCategoryTranslation ArticleCategoryTranslation[]
+}
+
+model AdminUser {
+  id            String          @id @default(cuid())
+  userName      String          @unique() @db.VarChar(20)
+  password      String          @db.VarChar(100)
+  super         Boolean         @default(false)
+  tokenVersion  Int             @default(0)
+  lastLoginTime DateTime        @default(now())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  roles         AdminUserRole[]
+  UploadFile    UploadFile[]
+}
+
+model AdminUserRole {
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id])
+  adminUserId String
+  adminRole   AdminRole @relation(fields: [adminRoleId], references: [id])
+  adminRoleId String
+  createdAt   DateTime  @default(now())
+
+  @@id([adminUserId, adminRoleId])
+}
+
+model AdminRole {
+  id           String                 @id @default(cuid())
+  order        Int                    @default(100)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  users        AdminUserRole[]
+  routes       AdminRoleRoute[]
+  translations AdminRoleTranslation[]
+}
+
+model AdminRoleTranslation {
+  adminRole   AdminRole @relation(fields: [adminRoleId], references: [id])
+  adminRoleId String
+  langs       Language  @relation(fields: [langKey], references: [key])
+  langKey     String
+  roleName    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([adminRoleId, langKey])
+}
+
+model AdminRoute {
+  id           String                  @id @default(cuid())
+  icon         String                  @default("") @db.VarChar(20)
+  redirect     String                  @default("") @db.VarChar(50)
+  hidden       Boolean                 @default(false)
+  component    String                  @default("") @db.VarChar(50) // vue component file path
+  type         RouteType               @default(GROUP)
+  key          String                  @default("") @db.VarChar(20) // the permission identifier of the button
+  status       Boolean                 @default(true)
+  path         String                  @default("-") @db.VarChar(100) // route path
+  parentId     String                  @default("0") @db.VarChar(30)
+  order        Int                     @default(100)
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  roles        AdminRoleRoute[]
+  apis         AdminRouteApi[]
+  translations AdminRouteTranslation[]
+}
+
+model AdminRouteTranslation {
+  route     AdminRoute @relation(fields: [routeId], references: [id])
+  routeId   String
+  langs     Language   @relation(fields: [langKey], references: [key])
+  langKey   String
+  routeName String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@id([routeId, langKey])
+}
+
+model AdminRoleRoute {
+  role      AdminRole  @relation(fields: [roleId], references: [id])
+  roleId    String
+  route     AdminRoute @relation(fields: [routeId], references: [id])
+  routeId   String
+  createdAt DateTime   @default(now())
+
+  @@id([roleId, routeId])
+}
+
+// TODO: set top level record's parentId to null
+model AdminApi {
+  id           String                @id @default(cuid())
+  url          String                @db.VarChar(100)
+  method       RequestMethod         @default(GET)
+  parentId     String                @default("0") @db.VarChar(30)
+  order        Int                   @default(100)
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  routes       AdminRouteApi[]
+  translations AdminApiTranslation[]
+
+  @@unique([url, method])
+}
+
+model AdminApiTranslation {
+  api       AdminApi @relation(fields: [apiId], references: [id])
+  apiId     String
+  langs     Language @relation(fields: [langKey], references: [key])
+  langKey   String
+  apiName   String   @db.VarChar(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([apiId, langKey])
+}
+
+model AdminRouteApi {
+  route   AdminRoute @relation(fields: [routeId], references: [id])
+  routeId String
+  api     AdminApi   @relation(fields: [apiId], references: [id])
+  apiId   String
+
+  @@id([routeId, apiId])
+}
+
+model Article {
+  id                Int                  @id @default(autoincrement())
+  order             Int                  @default(10)
+  status            Boolean              @default(true)
+  realViewCount     Int                  @default(0)
+  fakeViewCount     Int                  @default(0)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  translations      ArticleTranslation[]
+  category          ArticleCategory      @relation(fields: [articleCategoryId], references: [id])
+  articleCategoryId Int
+}
+
+model ArticleTranslation {
+  articleId Int
+  article   Article  @relation(fields: [articleId], references: [id])
+  langKey   String
+  langs     Language @relation(fields: [langKey], references: [key])
+  title     String   @unique() @db.VarChar(50)
+  content   String   @db.Text
+
+  @@id([articleId, langKey])
+}
+
+model ArticleCategory {
+  id           Int                          @id @default(autoincrement())
+  order        Int                          @default(10)
+  status       Boolean                      @default(true)
+  parentId     Int                          @default(0)
+  createdAt    DateTime                     @default(now())
+  updatedAt    DateTime                     @updatedAt
+  translations ArticleCategoryTranslation[]
+  articles     Article[]
+}
+
+model ArticleCategoryTranslation {
+  articleCategoryId Int
+  articleCategory   ArticleCategory @relation(fields: [articleCategoryId], references: [id])
+  langKey           String
+  langs             Language        @relation(fields: [langKey], references: [key])
+  name              String          @db.VarChar(50)
+
+  @@id([articleCategoryId, langKey])
+}
+
+model WebUser {
+  id            String   @id @default(cuid())
+  userName      String   @unique() @db.VarChar(20)
+  password      String   @db.VarChar(100)
+  tokenVersion  Int      @default(0)
+  lastLoginTime DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique @db.VarChar(20)
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UploadFileGroup {
+  id          String                @id @default(cuid())
+  groupName   String                @db.VarChar(50)
+  parentId    String                @default("0")
+  order       Int                   @default(10)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  ancestors   UploadFileGroupPath[] @relation("PathDescendant")
+  descendants UploadFileGroupPath[] @relation("PathAncestor")
+
+  @@unique([groupName, parentId])
+}
+
+model UploadFileGroupPath {
+  ancestor     UploadFileGroup @relation("PathAncestor", fields: [ancestorId], references: [id])
+  ancestorId   String
+  descendant   UploadFileGroup @relation("PathDescendant", fields: [descendantId], references: [id])
+  descendantId String
+  depth        Int
+
+  @@id([ancestorId, descendantId])
+}
+
+model UploadFile {
+  id           String    @id @default(cuid())
+  channel      Int       @default(10) @db.SmallInt
+  fileName     String    @db.VarChar(50)
+  filePath     String    @db.VarChar(200)
+  fileExt      String    @db.VarChar(10)
+  fileSize     Int
+  mime         String    @db.VarChar(50)
+  originalName String    @db.VarChar(255)
+  order        Int       @default(10)
+  groupId      String    @default("0")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  uploader     AdminUser @relation(fields: [uploaderId], references: [id])
+  uploaderId   String
+
+  @@unique([originalName, groupId])
+}

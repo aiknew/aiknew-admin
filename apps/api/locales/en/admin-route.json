@@ -1,0 +1,45 @@
+{
+  "nonExistenceApis": "A non-existent api",
+  "nonExistenceParentId": "A non-existent superior ID",
+  "alreadyExists": "The same route already exists",
+  "hasRelated": "The route is being used by association",
+  "settings": {
+    "title": "set up"
+  },
+  "adminUsers": {
+    "title": "Admin Users",
+    "adminUserSettings": "Administrator settings"
+  },
+  "common": {
+    "add": "New",
+    "edit": "edit",
+    "delete": "delete"
+  },
+  "roleSettings": {
+    "title": "Character settings"
+  },
+  "authSettings": {
+    "title": "Permission settings",
+    "menuSettings": "Menu settings"
+  },
+  "apiSettings": "API settings",
+  "hasChild": "This project has subordinates and cannot be deleted",
+  "content": {
+    "title": "Content management",
+    "file": {
+      "title": "File management",
+      "uploadFile": "Upload files",
+      "editFile": "Edit file",
+      "deleteFile": "Delete files",
+      "addGroup": "Add file group",
+      "editGroup": "Edit file group",
+      "deleteGroup": "Delete file group"
+    },
+    "articleManagement": {
+      "title": "Article management",
+      "category": "Article category list",
+      "article": "Article list",
+      "articleDetail": "Article details"
+    }
+  }
+}

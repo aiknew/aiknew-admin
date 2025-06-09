@@ -1,0 +1,14 @@
+{
+  "translationsDataTypeErr": "{property} must be of array type",
+  "translationsEmptyErr": "{property} cannot be an empty array",
+  "translationsEachItemType": "Each element in {property} must be an object containing translation data",
+  "translationMissing": "Missing data for {langName} in {property}",
+  "errTypeInLangData": "Inside each multilingual data object in the {property} array, {errMsg}",
+  "translationValidationErr": "{property}property validation failed",
+  "requestSuccess": "Request successful",
+  "postSuccess": "Created successfully",
+  "patchSuccess": "Update successful",
+  "deleteSuccess": "Delete successfully",
+  "authExpired": "Login has expired",
+  "invalidAuth": "Operation without permission"
+}

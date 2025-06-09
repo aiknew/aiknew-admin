@@ -1,0 +1,11 @@
+{
+  "fileGroupNotExists": "不存在的分组",
+  "unsupportedFileType": "不支持的文件类型",
+  "fileSizeInvalid": "文件大小不能超过 {maxSize} mb",
+  "generateFileNameErr": "上传文件生成随机名失败， 文件名:{fileName}",
+  "sameGroup": "该分组下已存在同名文件",
+  "inexistentFile": " 不存在的文件",
+  "uploadSuccess": "上传成功",
+  "deleteSuccess": "删除文件成功",
+  "updateSuccess": "修改文件信息成功"
+}

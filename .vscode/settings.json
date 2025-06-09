@@ -1,0 +1,52 @@
+{
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.editor.customLabels.patterns": {
+    "apps/admin/**/*.*": "admin - ${filename}.${extname}",
+    "apps/api/**/*.*": "api - ${filename}.${extname}"
+  },
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.sourceLanguage": "zh-CN",
+  "i18n-ally.namespace": true,
+  "i18n-ally.enabledFrameworks": ["vue-sfc", "vue", "next-intl"],
+  "i18n-ally.localesPaths": ["apps/api/locales", "apps/admin/src/locales"],
+  "cSpell.words": ["aiknew", "autoincrement", "cuid"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "typescript.tsserver.nodePath": "node",
+  "vue.server.maxOldSpaceSize": 4096,
+  "vue.server.hybridMode": true,
+  "oxc.enable": true
+}

@@ -1,0 +1,8 @@
+{
+  "createSuccess": "创建文件分组成功",
+  "updateSuccess": "更新文件分组成功",
+  "deleteSuccess": "删除文件分组成功",
+  "groupNameExists": "当前分组下已存在同名分组",
+  "groupIsUsing": "该分组下存在文件或子分组,无法删除",
+  "invalidParentGroup": "无效的父级分组"
+}

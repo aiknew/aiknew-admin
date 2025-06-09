@@ -1,0 +1,58 @@
+{
+  "alreadyExists": "已存在相同的請求url",
+  "haveRelated": "該api被關聯使用中",
+  "haveChild": "該api存在子級，無法刪除",
+  "language": {
+    "groupTitle": "多語言設定",
+    "list": "語言列表",
+    "create": "新增語言",
+    "edit": "編輯語言",
+    "delete": "刪除語言"
+  },
+  "adminApi": {
+    "title": "api設定",
+    "list": "api列表",
+    "add": "新增api",
+    "edit": "編輯api",
+    "delete": "刪除api",
+    "all": "所有api"
+  },
+  "adminRoute": {
+    "title": "選單設定",
+    "list": "選單列表",
+    "add": "新增選單",
+    "edit": "編輯選單",
+    "delete": "刪除選單",
+    "all": "所有路由"
+  },
+  "adminRole": {
+    "title": "角色設定",
+    "list": "角色列表",
+    "add": "新增角色",
+    "edit": "編輯角色",
+    "delete": "刪除角色",
+    "all": "所有角色"
+  },
+  "adminUser": {
+    "title": "管理員用戶設定",
+    "list": "管理員使用者列表",
+    "add": "新增管理員用戶",
+    "edit": "編輯管理員用戶",
+    "delete": "刪除管理員用戶"
+  },
+  "updateAccount": "更新帳號資訊",
+  "uploadFile": {
+    "title": "文件管理",
+    "list": "文件和分組列表",
+    "edit": "編輯文件資訊",
+    "add": "上傳文件",
+    "delete": "刪除文件"
+  },
+  "uploadFileGroup": {
+    "children": "取得所有子分組",
+    "add": "新增檔案分組",
+    "title": "文件分組管理",
+    "edit": "編輯文件分組",
+    "delete": "刪除文件分組"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "translationsDataTypeErr": "{property}必須是數組類型",
+  "translationsEmptyErr": "{property}不能為空數組",
+  "translationsEachItemType": "{property} 中的每個元素都必須是包含翻譯資料的對象",
+  "translationMissing": "{property}中缺少{langName}的數據",
+  "errTypeInLangData": "在{property}數組中的每個多語言資料物件裡面，{errMsg}",
+  "translationValidationErr": "{property}屬性驗證失敗",
+  "requestSuccess": "請求成功",
+  "postSuccess": "創建成功",
+  "patchSuccess": "更新成功",
+  "deleteSuccess": "刪除成功",
+  "authExpired": "登陸已失效",
+  "invalidAuth": "無權限操作"
+}

@@ -1,0 +1,7 @@
+{
+  "wrongCaptcha": "验证码错误",
+  "loginSuccess": "登陆成功",
+  "infoUpdated": "权限信息已更新,请刷新页面",
+  "noPermissions": "抱歉,该账号没有权限",
+  "wrongPassword": "原密码错误"
+}

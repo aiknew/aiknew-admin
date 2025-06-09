@@ -1,0 +1,27 @@
+{
+  "name": "@aiknew/utils",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "pnpm tsc"
+  },
+  "dependencies": {
+    "lodash-es": "catalog:"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "catalog:"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

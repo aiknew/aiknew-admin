@@ -1,0 +1,58 @@
+{
+  "alreadyExists": "The same request url already exists",
+  "haveRelated": "The api is being used in association with",
+  "haveChild": "This api has children and cannot be deleted",
+  "language": {
+    "groupTitle": "Multi-language settings",
+    "list": "Language list",
+    "create": "Add new language",
+    "edit": "editing language",
+    "delete": "Delete language"
+  },
+  "adminApi": {
+    "title": "api settings",
+    "list": "api list",
+    "add": "New API",
+    "edit": "Edit API",
+    "delete": "delete api",
+    "all": "All APIs"
+  },
+  "adminRoute": {
+    "title": "Menu settings",
+    "list": "Menu list",
+    "add": "New menu",
+    "edit": "Edit menu",
+    "delete": "delete menu",
+    "all": "All routes"
+  },
+  "adminRole": {
+    "title": "Role settings",
+    "list": "role list",
+    "add": "Add new role",
+    "edit": "Edit role",
+    "delete": "Delete role",
+    "all": "All roles"
+  },
+  "adminUser": {
+    "title": "Administrator user settings",
+    "list": "Administrator user list",
+    "add": "Add new administrator user",
+    "edit": "Edit admin user",
+    "delete": "Delete admin user"
+  },
+  "updateAccount": "Update account information",
+  "uploadFile": {
+    "title": "File management",
+    "list": "File and group lists",
+    "edit": "Edit file information",
+    "add": "Upload files",
+    "delete": "Delete file"
+  },
+  "uploadFileGroup": {
+    "children": "Get all subgroups",
+    "add": "Add new file group",
+    "title": "File group management",
+    "edit": "Edit file group",
+    "delete": "Delete file group"
+  }
+}

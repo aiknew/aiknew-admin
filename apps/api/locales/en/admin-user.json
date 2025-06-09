@@ -1,0 +1,4 @@
+{
+  "userNotExists": "Wrong username or password",
+  "userAlreadyExists": "Username already exists"
+}

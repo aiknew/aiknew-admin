@@ -1,0 +1,7 @@
+{
+  "wrongCaptcha": "Verification code error",
+  "loginSuccess": "Login successful",
+  "infoUpdated": "Permission information has been updated, please refresh the page",
+  "noPermissions": "Sorry, this account does not have permissions",
+  "wrongPassword": "The original password is wrong"
+}

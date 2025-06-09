@@ -1,0 +1,14 @@
+{
+  "translationsDataTypeErr": "{property}必须是数组类型",
+  "translationsEmptyErr": "{property}不能为空数组",
+  "translationsEachItemType": "{property} 中的每个元素都必须是一个包含翻译数据的对象",
+  "translationMissing": "{property}中缺少{langName}的数据",
+  "errTypeInLangData": "在{property}数组中的每个多语言数据对象里面，{errMsg}",
+  "translationValidationErr": "{property}属性验证失败",
+  "requestSuccess": "请求成功",
+  "postSuccess": "创建成功",
+  "patchSuccess": "更新成功",
+  "deleteSuccess": "删除成功",
+  "authExpired": "登陆已失效",
+  "invalidAuth": "无权限操作"
+}

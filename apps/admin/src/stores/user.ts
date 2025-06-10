@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', () => {
     serializer: StorageSerializers.object
   })
 
-  const isLogin = computed(() => Boolean(accessToken))
+  const isLogin = computed(() => Boolean(accessToken.value.trim()))
 
   const userName = computed(() => {
     return userInfo.value?.userName

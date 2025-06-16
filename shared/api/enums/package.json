@@ -1,0 +1,25 @@
+{
+  "name": "@aiknew/shared-api-enums",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace: *"
+  },
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

@@ -1,0 +1,87 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/client"
+  previewFeatures = ["typedSql"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LanguageOrientation {
+  LTR
+  RTL
+}
+
+enum RouteType {
+  GROUP
+  SMALL_GROUP
+  MENU
+  BUTTON
+}
+
+enum RequestMethod {
+  GET
+  POST
+  PATCH
+  PUT
+  DELETE
+}
+
+// TODO: Rename to AdminLanguage
+model Language {
+  key                        String                       @unique @db.VarChar(30)
+  name                       String                       @db.VarChar(50)
+  orientation                LanguageOrientation          @default(LTR)
+  status                     Boolean                      @default(true)
+  order                      Int                          @default(10)
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  ArticleTranslation         ArticleTranslation[]
+  AdminRoleTranslation       AdminRoleTranslation[]
+  AdminRouteTranslation      AdminRouteTranslation[]
+  AdminApiTranslation        AdminApiTranslation[]
+  ArticleCategoryTranslation ArticleCategoryTranslation[]
+}
+
+model WebsiteLanguage {
+  key         String              @unique @db.VarChar(30)
+  name        String              @db.VarChar(50)
+  orientation LanguageOrientation @default(LTR)
+  status      Boolean             @default(true)
+  order       Int                 @default(10)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model AdminUser {
+  id            String          @id @default(cuid())
+  userName      String          @unique() @db.VarChar(20)
+  password      String          @db.VarChar(100)
+  super         Boolean         @default(false)
+  tokenVersion  Int             @default(0)
+  lastLoginTime DateTime        @default(now())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  roles         AdminUserRole[]
+  UploadFile    UploadFile[]
+}
+
+model WebUser {
+  id            String   @id @default(cuid())
+  userName      String   @unique() @db.VarChar(20)
+  password      String   @db.VarChar(100)
+  tokenVersion  Int      @default(0)
+  lastLoginTime DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique @db.VarChar(20)
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

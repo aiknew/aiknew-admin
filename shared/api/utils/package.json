@@ -1,0 +1,32 @@
+{
+  "name": "@aiknew/shared-api-utils",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "catalog:api",
+    "@aiknew/shared-api-dtos": "workspace:*",
+    "@aiknew/shared-api-enums": "workspace:*",
+    "nestjs-i18n": "catalog:api"
+  },
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf ./dist"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace: *",
+    "@aiknew/shared-api-types": "workspace: *",
+    "@types/node": "catalog:common"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

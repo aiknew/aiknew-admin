@@ -4,14 +4,18 @@
   "description": "",
   "keywords": [],
   "scripts": {
-    "build-utils": "pnpm --filter '@aiknew/utils' build",
+    "build": "pnpm -r build",
+    "clean": "pnpm -r clean",
     "api": "pnpm --filter '@aiknew/api' start:dev",
-    "admin": "pnpm --filter '@aiknew/admin' dev"
+    "admin": "pnpm --filter '@aiknew/admin' dev",
+    "cp-schemas": "tsx scripts/copy-prisma-schemas.ts"
   },
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "tsx": "catalog:common",
+    "glob": "catalog:common"
   }
 }

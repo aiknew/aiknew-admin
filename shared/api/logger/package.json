@@ -1,0 +1,30 @@
+{
+  "name": "@aiknew/shared-api-logger",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "nest-winston": "^1.10.2",
+    "@nestjs/common": "catalog:api"
+  },
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf ./dist"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace: *"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

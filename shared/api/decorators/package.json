@@ -1,0 +1,33 @@
+{
+  "name": "@aiknew/shared-api-decorators",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@nestjs/common": "catalog:api",
+    "@nestjs/swagger": "catalog:api",
+    "@nestjs/core": "catalog:api",
+    "@aiknew/shared-api-dtos": "workspace:*"
+  },
+  "devDependencies": {
+    "@aiknew/shared-api-types": "workspace:*",
+    "@aiknew/shared-ts-config": "workspace:*",
+    "@aiknew/shared-api-dtos": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

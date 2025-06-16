@@ -42,7 +42,7 @@
   "i18n-ally.namespace": true,
   "i18n-ally.enabledFrameworks": ["vue-sfc", "vue", "next-intl"],
   "i18n-ally.localesPaths": ["apps/api/locales", "apps/admin/src/locales"],
-  "cSpell.words": ["aiknew", "autoincrement", "cuid"],
+  "cSpell.words": ["aiknew", "autoincrement", "cuid", "dtos", "nodenext"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsserver.maxTsServerMemory": 4096,
   "typescript.tsserver.nodePath": "node",

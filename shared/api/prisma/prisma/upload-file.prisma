@@ -1,0 +1,18 @@
+model UploadFile {
+  id           String    @id @default(cuid())
+  channel      Int       @default(10) @db.SmallInt
+  fileName     String    @db.VarChar(50)
+  filePath     String    @db.VarChar(200)
+  fileExt      String    @db.VarChar(10)
+  fileSize     Int
+  mime         String    @db.VarChar(50)
+  originalName String    @db.VarChar(255)
+  order        Int       @default(10)
+  groupId      String    @default("0")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  uploader     AdminUser @relation(fields: [uploaderId], references: [id])
+  uploaderId   String
+
+  @@unique([originalName, groupId])
+}

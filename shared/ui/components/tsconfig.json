@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "declaration": true,
+    "declarationDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "lib": ["esnext", "dom"],
+    "types": ["vite/client"]
+  },
+  "include": ["src/**/*", "src/**/*.vue"]
+}

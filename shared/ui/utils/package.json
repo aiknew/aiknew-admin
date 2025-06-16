@@ -1,0 +1,22 @@
+{
+  "name": "@aiknew/shared-ui-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace:*",
+    "@types/node": "^24.0.3",
+    "@vue/tsconfig": "^0.7.0",
+    "openapi-typescript": "catalog:ui",
+    "vite": "catalog:ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

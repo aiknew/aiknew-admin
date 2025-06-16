@@ -1,0 +1,32 @@
+{
+  "name": "@aiknew/shared-api-dtos",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "catalog:api",
+    "@nestjs/swagger": "catalog:api",
+    "class-transformer": "catalog:api",
+    "class-validator": "catalog:api",
+    "@aiknew/shared-api-enums": "workspace: *"
+  },
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf ./dist"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "catalog:common",
+    "@aiknew/shared-ts-config": "workspace: *"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

@@ -1,0 +1,7 @@
+{
+  "extends": "@aiknew/shared-ts-config/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "resolveJsonModule": true
+  }
+}

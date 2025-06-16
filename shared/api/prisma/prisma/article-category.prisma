@@ -1,0 +1,20 @@
+model ArticleCategory {
+  id           Int                          @id @default(autoincrement())
+  order        Int                          @default(10)
+  status       Boolean                      @default(true)
+  parentId     Int                          @default(0)
+  createdAt    DateTime                     @default(now())
+  updatedAt    DateTime                     @updatedAt
+  translations ArticleCategoryTranslation[]
+  articles     Article[]
+}
+
+model ArticleCategoryTranslation {
+  articleCategoryId Int
+  articleCategory   ArticleCategory @relation(fields: [articleCategoryId], references: [id])
+  langKey           String
+  langs             Language        @relation(fields: [langKey], references: [key])
+  name              String          @db.VarChar(50)
+
+  @@id([articleCategoryId, langKey])
+}

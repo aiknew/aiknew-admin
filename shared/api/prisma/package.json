@@ -1,0 +1,47 @@
+{
+  "name": "@aiknew/shared-api-prisma",
+  "version": "0.0.1",
+  "dependencies": {
+    "@prisma/client": "6.9.0",
+    "dayjs": "catalog:common",
+    "redis": "catalog:api",
+    "@redis/client": "catalog:api",
+    "@nestjs/common": "catalog:api",
+    "@nestjs/config": "catalog:api",
+    "@aiknew/shared-api-utils": "workspace:*",
+    "@aiknew/shared-api-dtos": "workspace:*"
+  },
+  "devDependencies": {
+    "prisma": "catalog:api",
+    "@aiknew/shared-ts-config": "workspace:*",
+    "tsx": "catalog:common"
+  },
+  "prisma": {
+    "schema": "./prisma",
+    "seed": "tsx ./prisma/seeds/index.ts"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "default": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    },
+    "./runtime": {
+      "import": "./dist/runtime.js",
+      "default": "./dist/runtime.js",
+      "types": "./dist/runtime.d.ts"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc",
+    "db:generate": "pnpm run -w cp-schemas && pnpm prisma generate"
+  }
+}

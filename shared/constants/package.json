@@ -1,0 +1,25 @@
+{
+  "name": "@aiknew/shared-constants",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace:*"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@aiknew/shared-ui-locales",
+  "version": "0.0.1",
+  "dependencies": {
+    "vue-i18n": "catalog:ui"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace:*"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc"
+  }
+}

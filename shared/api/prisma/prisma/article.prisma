@@ -1,0 +1,23 @@
+model Article {
+  id                Int                  @id @default(autoincrement())
+  order             Int                  @default(10)
+  status            Boolean              @default(true)
+  realViewCount     Int                  @default(0)
+  fakeViewCount     Int                  @default(0)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  translations      ArticleTranslation[]
+  category          ArticleCategory      @relation(fields: [articleCategoryId], references: [id])
+  articleCategoryId Int
+}
+
+model ArticleTranslation {
+  articleId Int
+  article   Article  @relation(fields: [articleId], references: [id])
+  langKey   String
+  langs     Language @relation(fields: [langKey], references: [key])
+  title     String   @unique() @db.VarChar(50)
+  content   String   @db.Text
+
+  @@id([articleId, langKey])
+}

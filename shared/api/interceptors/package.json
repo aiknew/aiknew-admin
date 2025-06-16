@@ -1,0 +1,33 @@
+{
+  "name": "@aiknew/shared-api-interceptors",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "catalog:api",
+    "@nestjs/core": "catalog:api",
+    "rxjs": "catalog:api",
+    "nestjs-i18n": "catalog:api",
+    "@aiknew/shared-api-decorators": "workspace:*",
+    "@aiknew/shared-api-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "catalog:api",
+    "@aiknew/shared-ts-config": "workspace:*"
+  },
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf ./dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

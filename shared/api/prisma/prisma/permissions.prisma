@@ -1,0 +1,109 @@
+model AdminUserRole {
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id])
+  adminUserId String
+  adminRole   AdminRole @relation(fields: [adminRoleId], references: [id])
+  adminRoleId String
+  createdAt   DateTime  @default(now())
+
+  @@id([adminUserId, adminRoleId])
+}
+
+model AdminRole {
+  id           String                 @id @default(cuid())
+  order        Int                    @default(100)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  users        AdminUserRole[]
+  routes       AdminRoleRoute[]
+  translations AdminRoleTranslation[]
+}
+
+model AdminRoleTranslation {
+  adminRole   AdminRole @relation(fields: [adminRoleId], references: [id])
+  adminRoleId String
+  langs       Language  @relation(fields: [langKey], references: [key])
+  langKey     String
+  roleName    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([adminRoleId, langKey])
+}
+
+model AdminRoute {
+  id           String                  @id @default(cuid())
+  icon         String                  @default("") @db.VarChar(20)
+  redirect     String                  @default("") @db.VarChar(50)
+  hidden       Boolean                 @default(false)
+  component    String                  @default("") @db.VarChar(50) // vue component file path
+  type         RouteType               @default(GROUP)
+  key          String                  @default("") @db.VarChar(20) // the permission identifier of the button
+  status       Boolean                 @default(true)
+  path         String                  @default("-") @db.VarChar(100) // route path
+  parentId     String                  @default("0") @db.VarChar(30)
+  order        Int                     @default(100)
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  roles        AdminRoleRoute[]
+  apis         AdminRouteApi[]
+  translations AdminRouteTranslation[]
+}
+
+model AdminRouteTranslation {
+  route     AdminRoute @relation(fields: [routeId], references: [id])
+  routeId   String
+  langs     Language   @relation(fields: [langKey], references: [key])
+  langKey   String
+  routeName String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@id([routeId, langKey])
+}
+
+model AdminRoleRoute {
+  role      AdminRole  @relation(fields: [roleId], references: [id])
+  roleId    String
+  route     AdminRoute @relation(fields: [routeId], references: [id])
+  routeId   String
+  createdAt DateTime   @default(now())
+
+  @@id([roleId, routeId])
+}
+
+// TODO: set top level record's parentId to null
+model AdminApi {
+  id           String                @id @default(cuid())
+  url          String                @db.VarChar(100)
+  method       RequestMethod         @default(GET)
+  parentId     String                @default("0") @db.VarChar(30)
+  order        Int                   @default(100)
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  routes       AdminRouteApi[]
+  translations AdminApiTranslation[]
+
+  @@unique([url, method])
+}
+
+model AdminApiTranslation {
+  api       AdminApi @relation(fields: [apiId], references: [id])
+  apiId     String
+  langs     Language @relation(fields: [langKey], references: [key])
+  langKey   String
+  apiName   String   @db.VarChar(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([apiId, langKey])
+}
+
+model AdminRouteApi {
+  route   AdminRoute @relation(fields: [routeId], references: [id])
+  routeId String
+  api     AdminApi   @relation(fields: [apiId], references: [id])
+  apiId   String
+
+  @@id([routeId, apiId])
+}

@@ -1,6 +1,0 @@
-export * from './app-bad-request.exception'
-export * from './app-http-exception'
-export * from './app-unauthorized.exception'
-export * from './app-conflict.exception'
-export * from './app-not-found.exception'
-export * from './app-forbidden.exception'

@@ -1,0 +1,29 @@
+{
+  "name": "@aiknew/shared-utils",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "pnpm tsc",
+    "clean": "rm -rf ./dist"
+  },
+  "dependencies": {
+    "lodash-es": "catalog:common"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "catalog:common",
+    "@aiknew/shared-ts-config": "workspace: *"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0"
+}

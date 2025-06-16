@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@aiknew/shared-api-redis": ["../../shared/api/redis/src"],
+      "@aiknew/shared-api-prisma": ["../../shared/api/prisma/src"],
+
+      "@aiknew/shared-constants": ["../../shared/constants/src"],
+      "@aiknew/shared-api-decorators": ["../../shared/api/decorators/src"],
+      "@aiknew/shared-api-dtos": ["../../shared/api/dtos/src"],
+      "@aiknew/shared-api-enums": ["../../shared/api/enums/src"],
+      "@aiknew/shared-api-exceptions": ["../../shared/api/exceptions/src"],
+      "@aiknew/shared-api-filters": ["../../shared/api/filters/src"],
+      "@aiknew/shared-api-interceptors": ["../../shared/api/interceptors/src"],
+      "@aiknew/shared-api-logger": ["../../shared/api/logger/src"],
+      "@aiknew/shared-api-utils": ["../../shared/api/utils/src"]
+    }
+  }
+}

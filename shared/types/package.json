@@ -1,0 +1,10 @@
+{
+  "name": "@aiknew/shared-types",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@aiknew/shared-api-prisma": "workspace:*"
+  },
+  "files": [
+    "route-type.d.ts"
+  ]
+}

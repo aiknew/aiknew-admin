@@ -1,0 +1,7 @@
+{
+  "name": "@aiknew/shared-ts-config",
+  "files": [
+    "base.json",
+    "nest.json"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "extends": "@aiknew/shared-ts-config/nest.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"]
+}

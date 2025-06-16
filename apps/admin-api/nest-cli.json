@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "./src",
+  "monorepo": true,
+  "root": "./",
+  "compilerOptions": {
+    "tsConfigPath": "tsconfig.build.json",
+    "webpack": true,
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "../locales/**/*",
+        "watchAssets": true,
+        "outDir": "./dist/locales"
+      },
+      {
+        "include": "../public/**/*",
+        "watchAssets": true,
+        "outDir": "./dist/public"
+      },
+      {
+        "include": "../views/**/*",
+        "watchAssets": true,
+        "outDir": "./dist/views"
+      }
+    ],
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "introspectComments": true
+        }
+      }
+    ]
+  },
+  "projects": {
+    "admin-api": {
+      "type": "application",
+      "root": ".",
+      "entryFile": "main",
+      "sourceRoot": "./src",
+      "compilerOptions": {
+        "tsConfigPath": "./tsconfig.build.json"
+      }
+    }
+  }
+}

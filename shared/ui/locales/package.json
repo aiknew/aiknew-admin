@@ -1,23 +1,17 @@
 {
   "name": "@aiknew/shared-ui-locales",
-  "version": "0.0.1",
-  "dependencies": {
-    "vue-i18n": "catalog:ui"
-  },
-  "type": "module",
-  "main": "./dist/index.js",
+  "files": [
+    "src/*.json"
+  ],
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+    "./en": {
+      "default": "./src/en.json"
+    },
+    "./zh-TW": {
+      "default": "./src/zh-TW.json"
+    },
+    "./zh-CN": {
+      "default": "./src/zh-CN.json"
     }
-  },
-  "devDependencies": {
-    "@aiknew/shared-ts-config": "workspace:*"
-  },
-  "scripts": {
-    "clean": "rm -rf dist",
-    "build": "pnpm tsc"
   }
 }

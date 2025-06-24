@@ -4,7 +4,7 @@ import { nextTick, h, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppForm, AppFormItemTips, makeFields } from '@/components/common/form'
 import { useLangStore } from '@/stores/lang'
-import { useArticleCategoryI18n } from '../composables/use-article-i18n'
+import { useArticleI18n } from '../composables/use-article-i18n'
 import { useArticleCategoryData } from '../composables/use-article-category-data'
 import { useArticleCreate, useArticleUpdate, type Article } from '@/api/article'
 import type { ArticleCategory } from '@/api/article-category'
@@ -16,7 +16,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = useArticleCategoryI18n()
+const { t } = useArticleI18n()
 const appFormRef = useTemplateRef('appFormRef')
 const modalRef = useTemplateRef('modalRef')
 

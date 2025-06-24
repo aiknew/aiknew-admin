@@ -314,6 +314,9 @@ importers:
 
   apps/admin-ui:
     dependencies:
+      '@aiknew/shared-ui-locales':
+        specifier: workspace:*
+        version: link:../../shared/ui/locales
       '@aiknew/shared-utils':
         specifier: workspace:*
         version: link:../../shared/utils
@@ -788,17 +791,7 @@ importers:
         specifier: catalog:ui
         version: 2.2.10(typescript@5.8.3)
 
-  shared/ui/locales:
-    dependencies:
-      vue-i18n:
-        specifier: catalog:ui
-        version: 11.1.5(vue@3.5.16(typescript@5.8.3))
-    devDependencies:
-      '@aiknew/shared-ts-config':
-        specifier: workspace:*
-        version: link:../../ts-config
-
-  shared/ui/types: {}
+  shared/ui/locales: {}
 
   shared/ui/utils:
     devDependencies:

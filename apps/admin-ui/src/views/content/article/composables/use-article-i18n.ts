@@ -1,6 +1,6 @@
 import { useI18n } from 'vue-i18n'
 
-export const useArticleCategoryI18n = () => {
+export const useArticleI18n = () => {
   const { t } = useI18n({
     messages: {
       en: {

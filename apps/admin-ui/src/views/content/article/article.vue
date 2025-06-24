@@ -6,12 +6,12 @@ import { computed, ref } from 'vue'
 import { useLangStore } from '@/stores/lang'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useArticleCategoryI18n } from './composables/use-article-i18n'
+import { useArticleI18n } from './composables/use-article-i18n'
 import { useTemplateRef } from 'vue'
 import { useArticleDelete, useArticleList, type Article } from '@/api/article'
 import ArticleModal from './components/article-modal.vue'
 
-const { t } = useArticleCategoryI18n()
+const { t } = useArticleI18n()
 const langStore = useLangStore()
 const { getTranslationField } = langStore
 const { currentPage, pageSize } = usePagination()

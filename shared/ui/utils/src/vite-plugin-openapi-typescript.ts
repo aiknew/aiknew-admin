@@ -1,19 +1,22 @@
 import fs from 'node:fs'
 import type Stream from 'node:stream'
 import openapiTS, { astToString, type OpenAPI3 } from 'openapi-typescript'
-import type { PluginOption } from 'vite'
+import type { Plugin, PluginOption } from 'vite'
 
-export default function OpenApiTypeScript(
-  source: string | URL | OpenAPI3 | Buffer | Stream.Readable,
-  desc: string,
-): PluginOption {
+export function openApiToTypeScript({
+  desc,
+  source,
+}: {
+  source: string | URL | OpenAPI3 | Buffer | Stream.Readable
+  desc: string
+}): PluginOption {
   return {
-    name: 'openapi-typescript',
+    name: 'openapi-to-typescript',
     enforce: 'post',
     apply: 'serve',
     async watchChange(id) {
-      // exclude open-api.ts itself
-      if (id.includes('src/types/open-api.ts')) {
+      // exclude the target itself
+      if (id.includes(desc)) {
         return
       }
 

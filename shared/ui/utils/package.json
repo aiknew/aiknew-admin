@@ -1,7 +1,8 @@
 {
   "name": "@aiknew/shared-ui-utils",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -10,7 +11,7 @@
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",
-    "@types/node": "^24.0.3",
+    "@types/node": "^22.15.30",
     "@vue/tsconfig": "^0.7.0",
     "openapi-typescript": "catalog:ui",
     "vite": "catalog:ui"

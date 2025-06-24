@@ -7,7 +7,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 import svgLoader from 'vite-svg-loader'
 import tailwindcss from '@tailwindcss/vite'
-import OpenApiTypeScript from './src/utils/vite-plugin-openapi-typescript'
+import { openApiToTypeScript } from '@aiknew/shared-ui-utils'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -19,12 +19,12 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/files': {
-        target: 'http://localhost:3000',
-      },
-    },
+        target: 'http://localhost:3000'
+      }
+    }
   },
   plugins: [
     vue(),
@@ -36,11 +36,11 @@ export default defineConfig({
     ElementPlus({}),
     svgLoader(),
     tailwindcss(),
-    OpenApiTypeScript(),
+    openApiToTypeScript({ source: '', desc: '' })
   ],
   resolve: {
     alias: {
-      '@': convertPath('./src'),
-    },
-  },
+      '@': convertPath('./src')
+    }
+  }
 })

@@ -1,2 +1,2 @@
-export * from './util-func'
-export * from './vite-plugin-openapi-typescript'
+export * from './util-func.js'
+export * from './vite-plugin-openapi-typescript.js'

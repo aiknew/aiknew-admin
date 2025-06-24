@@ -556,10 +556,10 @@ export interface components {
             msg: string;
         };
         PaginationResponseDto: {
-            list: Record<string, never>;
             current: number;
             pageSize: number;
             total: number;
+            list: Record<string, never>;
         };
         /** @enum {string} */
         RequestMethod: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";

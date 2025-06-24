@@ -15,8 +15,7 @@ import {
   type ComputedRef,
   type InjectionKey,
   type MaybeRefOrGetter,
-  type Ref,
-  type UnwrapRef
+  type Ref
 } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import { z, type ZodTypeAny } from 'zod'
@@ -28,7 +27,7 @@ import 'element-plus/es/components/input/style/index'
 import 'element-plus/es/components/tree-select/style/index'
 import 'element-plus/es/components/switch/style/index'
 import type { ShallowMaybeRef, UnwrapMaybeRefOrGetter } from '@/types/type-utility'
-import type { MaybeRef, ShallowUnwrapRef } from '@vueuse/core'
+import type WangEditor from '@/components/common/wang-editor.vue'
 
 export type ComponentPropsAndSlots<T> = ShallowMaybeRef<ComponentProps<T>> & {
   slots?: ComponentSlots<T>
@@ -63,6 +62,9 @@ export interface ComponentOptionsMap {
   ElSwitch: {
     attrs: ComponentPropsAndSlots<typeof ElSwitch>
   }
+  WangEditor: {
+    attrs: ComponentPropsAndSlots<typeof WangEditor>
+  }
 }
 
 export type Components = keyof ComponentOptionsMap
@@ -91,6 +93,9 @@ export const components: Record<Components, Component> = {
   ),
   ElSwitch: defineAsyncComponent(() =>
     import('element-plus/es/components/switch/index.mjs').then((m) => m.default)
+  ),
+  WangEditor: defineAsyncComponent(() =>
+    import('@/components/common/wang-editor.vue').then((m) => m.default)
   )
 }
 

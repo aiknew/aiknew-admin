@@ -10,8 +10,6 @@ import { useArticleCategoryI18n } from './composables/use-article-i18n'
 import { useTemplateRef } from 'vue'
 import { useArticleDelete, useArticleList, type Article } from '@/api/article'
 import ArticleModal from './components/article-modal.vue'
-import type { ArticleCategory } from '@/api/article-category'
-import AppEditor from '@/components/common/app-editor.vue'
 
 const { t } = useArticleCategoryI18n()
 const langStore = useLangStore()
@@ -51,14 +49,10 @@ const handleDelete = async (row: Article) => {
 const handleSubmit = () => {
   refresh()
 }
-
-const c = ref('<div>test</div>')
 </script>
 
 <template>
-  <AppContentBlock class="mb-6">
-    <AppEditor v-model="c" />
-  </AppContentBlock>
+  <AppContentBlock class="mb-6"> </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">

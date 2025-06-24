@@ -27,6 +27,8 @@
     "@tiptap/vue-3": "^2.13.0",
     "@vee-validate/zod": "catalog:ui",
     "@vueuse/core": "^13.1.0",
+    "@wangeditor-next/editor": "^5.6.34",
+    "@wangeditor-next/editor-for-vue": "^5.1.14",
     "element-plus": "catalog:ui",
     "filesize": "^10.1.6",
     "lodash-es": "catalog:common",

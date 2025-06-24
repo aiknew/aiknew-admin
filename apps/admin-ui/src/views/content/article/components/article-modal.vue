@@ -1,13 +1,10 @@
 <script lang="ts" setup>
-import AppBasicModal, { type ModalMode } from '@/components/common/app-basic-modal.vue'
-import { ref, nextTick, h, computed, useTemplateRef, watch, type Ref } from 'vue'
+import AppBasicModal from '@/components/common/app-basic-modal.vue'
+import { nextTick, h, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppForm, AppFormItemTips, makeFields } from '@/components/common/form'
 import { useLangStore } from '@/stores/lang'
 import { useArticleCategoryI18n } from '../composables/use-article-i18n'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { ElMessage } from 'element-plus'
-import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import { useArticleCategoryData } from '../composables/use-article-category-data'
 import { useArticleCreate, useArticleUpdate, type Article } from '@/api/article'
 import type { ArticleCategory } from '@/api/article-category'
@@ -73,7 +70,7 @@ const fields = makeFields(
     }
   },
   {
-    as: 'ElInput',
+    as: 'WangEditor',
     label: 'content',
     name: 'content',
     translation: true,

@@ -28,7 +28,7 @@ import {
 import { object, z, ZodObject, ZodOptional, type AnyZodObject, type ZodTypeAny } from 'zod'
 import { t as globalT } from '@/locales'
 import { useLangStore } from '@/stores/lang'
-import { splitByLastFlag } from '@/utils/util'
+import { splitByLastFlag } from '@aiknew/shared-ui-utils'
 import type { Prettify } from '@/types/type-utility'
 import { pick } from 'lodash-es'
 

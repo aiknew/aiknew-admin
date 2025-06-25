@@ -1,5 +1,0 @@
-export * from './app-form-utils'
-export * from './app-form-cmp.vue'
-export * from './app-form-item-tips.vue'
-export * from './app-form.vue'
-export * from './app-translation-cmp.vue'

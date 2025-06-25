@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AppBasicModal from '@/components/common/app-basic-modal.vue'
+import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, nextTick, h, computed, useTemplateRef, type ComputedRef } from 'vue'
 import { z } from 'zod'
 import { AppForm, AppFormItemTips, makeFields, type Field } from '@/components/common/form'

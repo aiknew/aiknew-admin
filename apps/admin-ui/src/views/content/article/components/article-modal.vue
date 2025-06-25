@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AppBasicModal from '@/components/common/app-basic-modal.vue'
+import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { nextTick, h, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppForm, AppFormItemTips, makeFields } from '@/components/common/form'
@@ -18,7 +18,7 @@ const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useArticleI18n()
 const appFormRef = useTemplateRef('appFormRef')
-const modalRef = useTemplateRef('modalRef')
+const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modalRef')
 
 const { mutateAsync: createArticle } = useArticleCreate()
 const { mutateAsync: updateArticle } = useArticleUpdate()

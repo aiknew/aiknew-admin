@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import AppContentBlock from '@/components/common/app-content-block.vue'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
+import { AppContentBlock } from '@aiknew/shared-ui-components'
+import { ElTableColumn, ElButton, ElPopconfirm } from 'element-plus'
 import AppTable from '@/components/common/app-table.vue'
 import { computed, ref } from 'vue'
 import { useLangStore } from '@/stores/lang'

@@ -6,6 +6,11 @@ import type { LanguageData } from '@/api/language'
 import { z, ZodObject, ZodString, type AnyZodObject, type ZodTypeAny } from 'zod'
 
 export const useLangStore = defineStore('lang', () => {
+  const languages = {
+    'zh-CN': '简体中文',
+    'zh-TW': '繁体中文',
+    en: 'English'
+  }
   const currentLang = useStorage<I18nKeys>('currentLang', 'zh-CN')
   const enabledLangs = ref<LanguageData[]>([])
 
@@ -14,7 +19,7 @@ export const useLangStore = defineStore('lang', () => {
     (val) => {
       i18n.global.locale.value = val
     },
-    { immediate: true },
+    { immediate: true }
   )
 
   const switchLang = (langKey: I18nKeys) => {
@@ -29,7 +34,7 @@ export const useLangStore = defineStore('lang', () => {
 
   const getTranslationField = <T extends { langKey: string }>(
     translations: T[],
-    field: keyof T,
+    field: keyof T
   ) => {
     return computed(() => {
       for (let i = 0; i < translations.length; i++) {
@@ -44,7 +49,7 @@ export const useLangStore = defineStore('lang', () => {
 
   const buildTranslationSchema = <T extends z.ZodTypeAny>(
     defaultSchema: T,
-    defaultVal?: z.infer<T>,
+    defaultVal?: z.infer<T>
   ) => {
     const defaultVals: Record<string, z.infer<T>> = {}
     const o: Record<string, z.ZodTypeAny> = {}
@@ -63,11 +68,12 @@ export const useLangStore = defineStore('lang', () => {
   }
 
   return {
+    languages,
     currentLang,
     enabledLangs,
     switchLang,
     getTranslationField,
     getNameByKey,
-    buildTranslationSchema,
+    buildTranslationSchema
   }
 })

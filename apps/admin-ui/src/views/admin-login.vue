@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useAdminLogin, useLoginCaptcha, type AdminLoginBody } from '@/api/admin-auth'
-import AppLanguageSwitcher from '@/components/common/app-language-switcher.vue'
+import { AppLanguageSwitcher } from '@aiknew/shared-ui-components'
 import { useUserStore } from '@/stores/user'
 import {
   type FormInstance,
@@ -13,9 +13,11 @@ import {
 import { computed } from 'vue'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLangStore } from '@/stores/lang'
 
 const { t } = useI18n()
 const userStore = useUserStore()
+const langStore = useLangStore()
 const { mutate: loginApi, isPending } = useAdminLogin()
 const {
   data: captchaData,
@@ -80,7 +82,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
       <div class="flex grow flex-col">
         <!-- Language Switcher -->
-        <AppLanguageSwitcher class="ml-auto" />
+        <AppLanguageSwitcher
+          :languages="langStore.languages"
+          :current-language="langStore.currentLang"
+          @switch-lang="langStore.switchLang"
+          class="ml-auto"
+        />
         <!-- Admin Logo And Name -->
         <div class="my-3 w-full text-center text-2xl text-(--el-text-color-regular)">
           AIKNEW ADMIN

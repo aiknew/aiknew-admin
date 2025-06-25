@@ -11,10 +11,13 @@
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",
-    "@types/node": "^22.15.30",
+    "@types/node": "catalog:common",
     "@vue/tsconfig": "^0.7.0",
     "openapi-typescript": "catalog:ui",
     "vite": "catalog:ui"
+  },
+  "peerDependencies": {
+    "vue": "catalog:ui"
   },
   "keywords": [],
   "author": "",

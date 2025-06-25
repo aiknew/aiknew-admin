@@ -19,8 +19,9 @@
   "dependencies": {
     "@aiknew/shared-ui-locales": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
+    "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
-    "@element-plus/icons-vue": "^2.3.1",
+    "@element-plus/icons-vue": "catalog:ui",
     "@tailwindcss/vite": "^4.1.10",
     "@tanstack/vue-query": "^5.81.2",
     "@tanstack/vue-query-devtools": "^5.81.2",
@@ -28,7 +29,7 @@
     "@tiptap/starter-kit": "^2.22.3",
     "@tiptap/vue-3": "^2.22.3",
     "@vee-validate/zod": "catalog:ui",
-    "@vueuse/core": "^13.4.0",
+    "@vueuse/core": "catalog:ui",
     "@wangeditor-next/editor": "^5.6.34",
     "@wangeditor-next/editor-for-vue": "^5.1.14",
     "element-plus": "catalog:ui",
@@ -37,11 +38,11 @@
     "mime": "^4.0.7",
     "openapi-fetch": "^0.13.8",
     "pinia": "^3.0.3",
-    "tailwindcss": "^4.1.10",
+    "tailwindcss": "catalog:ui",
     "vee-validate": "catalog:ui",
     "vue": "catalog:ui",
     "vue-i18n": "catalog:ui",
-    "vue-router": "^4.5.1",
+    "vue-router": "catalog:ui",
     "zod": "catalog:ui"
   },
   "devDependencies": {

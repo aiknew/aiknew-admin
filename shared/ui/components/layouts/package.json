@@ -1,0 +1,30 @@
+{
+  "name": "@aiknew/shared-ui-layouts",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "vue": "catalog:ui",
+    "element-plus": "catalog:ui"
+  },
+  "dependencies": {
+    "lodash-es": "catalog:common",
+    "zod": "catalog:ui",
+    "vee-validate": "catalog:ui",
+    "@vee-validate/zod": "catalog:ui"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:ui",
+    "vite": "catalog:ui",
+    "vue-tsc": "catalog:ui",
+    "@types/lodash-es": "catalog:common",
+    "vue-component-type-helpers": "catalog:ui"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  }
+}

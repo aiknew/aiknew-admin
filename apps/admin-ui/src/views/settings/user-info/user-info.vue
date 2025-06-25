@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AppContentBlock from '@/components/common/app-content-block.vue'
+import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { AppForm, AppFormItemTips, makeFields, type Field } from '@/components/common/form'
 import { useUserInfoI18n } from './composables/use-user-info-i18n'
 import { useUserInfoUpdate } from '@/api/admin-auth'

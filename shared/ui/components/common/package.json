@@ -1,0 +1,38 @@
+{
+  "name": "@aiknew/shared-ui-components",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/shared-ui-components.es.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "@aiknew/shared-ui-utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@element-plus/icons-vue": "catalog:ui",
+    "@vueuse/core": "catalog:ui",
+    "element-plus": "catalog:ui",
+    "tailwindcss": "catalog:ui",
+    "vue": "catalog:ui",
+    "vue-i18n": "catalog:ui",
+    "vue-router": "catalog:ui"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace:*",
+    "@aiknew/shared-ui-types": "workspace:*",
+    "@microsoft/api-extractor": "^7.52.8",
+    "@types/node": "catalog:common",
+    "@vitejs/plugin-vue": "catalog:ui",
+    "unplugin-dts": "1.0.0-beta.0",
+    "vite": "catalog:ui",
+    "vue-component-type-helpers": "catalog:ui",
+    "vue-tsc": "catalog:ui"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  }
+}

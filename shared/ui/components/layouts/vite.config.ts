@@ -1,14 +1,13 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  plugins: [vue()],
   build: {
     lib: {
-      entry: resolve('src/index.ts'),
-      name: '@aiknew/shared-ui-components',
-      fileName: (format) => `share-ui-components.${format}.js`,
+      entry: 'src/index.ts',
+      name: 'layouts',
+      fileName: (format) => `layouts.${format}.js`,
     },
     rollupOptions: {
       external: ['vue'],
@@ -19,4 +18,5 @@ export default defineConfig({
       },
     },
   },
+  plugins: [vue(), dts()],
 })

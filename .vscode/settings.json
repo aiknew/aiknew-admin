@@ -50,7 +50,7 @@
     "nodenext",
     "vueuse"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsdk": "node_modules/.pnpm/typescript@5.8.2/node_modules/typescript/lib",
   "typescript.tsserver.maxTsServerMemory": 4096,
   "typescript.tsserver.nodePath": "node",
   "vue.server.maxOldSpaceSize": 4096,

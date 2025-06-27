@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useAdminLogin, useLoginCaptcha, type AdminLoginBody } from '@/api/admin-auth'
-import { AppLanguageSwitcher } from '@aiknew/shared-ui-components'
+import { AppBasicModal, AppLanguageSwitcher } from '@aiknew/shared-ui-components'
 import { useUserStore } from '@/stores/user'
 import {
   type FormInstance,

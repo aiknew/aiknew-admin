@@ -1,22 +1,13 @@
 <script lang="ts" setup generic="LANG extends string">
 import localeSVG from './icons/locale.svg'
-// import { useLangStore } from '@/stores/lang'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
-
-// const langStore = useLangStore()
-
-// const languages = {
-//   'zh-CN': '简体中文',
-//   'zh-TW': '繁体中文',
-//   en: 'English',
-// }
 
 export interface Props<LANG extends string> {
   languages: Record<LANG, string>
   currentLanguage: LANG
 }
 
-export interface Emits<LANG> {
+export interface Emits<LANG extends string> {
   (e: 'switchLang', key: LANG): void
 }
 
@@ -26,7 +17,7 @@ defineEmits<Emits<LANG>>()
 
 <template>
   <div class="language-switcher">
-    <el-dropdown @command="$emit('switchLang', $event as LANG)">
+    <el-dropdown @command="$emit('switchLang', $event)">
       <span class="el-dropdown-link">
         <localeSVG width="22" height="22" />
       </span>
@@ -45,7 +36,7 @@ defineEmits<Emits<LANG>>()
   </div>
 </template>
 
-<style scoped>
+<style>
 .language-switcher {
   margin-left: auto;
 }

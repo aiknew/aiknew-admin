@@ -36,7 +36,10 @@ export default defineConfig({
     ElementPlus({}),
     svgLoader(),
     tailwindcss(),
-    openApiToTypeScript({ source: '', desc: '' })
+    openApiToTypeScript({
+      source: 'http://localhost:3000/api-doc-json',
+      desc: './src/types/open-api.ts'
+    })
   ],
   resolve: {
     alias: {

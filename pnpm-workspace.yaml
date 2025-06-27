@@ -10,15 +10,19 @@ catalogs:
     'tsx': '^4.19.3'
     'glob': '^11.0.3'
     'dayjs': '^1.11.13'
+    'typescript': '^5.8.3'
 
   ui:
     'vue': '^3.5.17'
     'vue-tsc': '^2.2.8'
-    '@vitejs/plugin-vue': '^5.2.3'
+    'vite': '^7.0.0'
+    '@vitejs/plugin-vue': '^6.0.0'
+    '@vitejs/plugin-vue-jsx': '^5.0.0'
+    '@vitest/eslint-plugin': '^1.2.7'
+    'vite-plugin-dts': '^4.5.4'
     'element-plus': '~2.10.0'
     '@element-plus/icons-vue': '^2.3.1'
     'openapi-typescript': '^7.6.1'
-    'vite': '^6.2.4'
     'zod': '^3.25.34'
     'vee-validate': '^4.15.0'
     '@vee-validate/zod': '^4.15.0'
@@ -28,6 +32,7 @@ catalogs:
     'tailwindcss': '^4.1.10'
     '@vueuse/core': '^13.4.0'
     'vue-router': '^4.5.1'
+    'vite-svg-loader': '^5.1.0'
 
   api:
     '@nestjs/common': '^11.0.1'

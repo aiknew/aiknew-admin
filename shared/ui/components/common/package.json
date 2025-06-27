@@ -7,6 +7,13 @@
   "type": "module",
   "main": "./dist/shared-ui-components.es.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/shared-ui-components.es.js"
+    },
+    "./style.css": "./dist/shared-ui-components.css"
+  },
   "dependencies": {
     "@aiknew/shared-ui-utils": "workspace:*"
   },
@@ -22,17 +29,18 @@
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",
     "@aiknew/shared-ui-types": "workspace:*",
-    "@microsoft/api-extractor": "^7.52.8",
     "@types/node": "catalog:common",
-    "@vitejs/plugin-vue": "catalog:ui",
-    "unplugin-dts": "1.0.0-beta.0",
     "vite": "catalog:ui",
+    "@vitejs/plugin-vue": "catalog:ui",
+    "vite-plugin-dts": "catalog:ui",
+    "vite-svg-loader": "catalog:ui",
+    "typescript": "catalog:common",
     "vue-component-type-helpers": "catalog:ui",
     "vue-tsc": "catalog:ui"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
     "preview": "vite preview"
   }
 }

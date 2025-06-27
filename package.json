@@ -12,11 +12,5 @@
   },
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.10.0",
-  "devDependencies": {
-    "glob": "catalog:common",
-    "rimraf": "^6.0.1",
-    "tsx": "catalog:common",
-    "typescript": "^5.8.3"
-  }
+  "packageManager": "pnpm@10.10.0"
 }

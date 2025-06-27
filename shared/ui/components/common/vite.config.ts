@@ -1,20 +1,15 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import dts from 'unplugin-dts/vite'
+import svgLoader from 'vite-svg-loader'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    dts({
-      bundleTypes: true,
-    }),
-  ],
+  plugins: [vue(), dts(), svgLoader()],
   build: {
     sourcemap: true,
     lib: {
       entry: resolve('src/index.ts'),
-      name: '@aiknew/shared-ui-components',
       formats: ['es', 'cjs'],
       fileName: (format) => `shared-ui-components.${format}.js`,
     },
@@ -27,7 +22,9 @@ export default defineConfig({
         'element-plus',
         '@element-plus/icons-vue',
         '@vueuse/core',
-        /node_modules/,
+        'node:stream',
+        'node:url',
+        'node:perf_hooks',
       ],
     },
   },

@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import type Stream from 'node:stream'
 import openapiTS, { astToString, type OpenAPI3 } from 'openapi-typescript'
 import type { Plugin, PluginOption } from 'vite'
@@ -17,7 +18,7 @@ export function openApiToTypeScript({
     async watchChange(id) {
       console.log('id: ', id, source, desc)
       // exclude the target itself
-      if (id.includes(desc)) {
+      if (id.includes(path.normalize(desc))) {
         return
       }
 

@@ -16,7 +16,6 @@ export function openApiToTypeScript({
     enforce: 'post',
     apply: 'serve',
     async watchChange(id) {
-      console.log('id: ', id, source, desc)
       // exclude the target itself
       if (id.includes(path.normalize(desc))) {
         return

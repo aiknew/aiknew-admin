@@ -833,6 +833,13 @@ importers:
         version: 2.2.10(typescript@5.8.3)
 
   shared/ui/components/layouts:
+    dependencies:
+      '@aiknew/shared-ui-components':
+        specifier: workspace:*
+        version: link:../common
+      vue-router:
+        specifier: catalog:ui
+        version: 4.5.1(vue@3.5.17(typescript@5.8.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0

@@ -1,12 +1,23 @@
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue'
+import { inject, Ref, ref, useTemplateRef } from 'vue'
 // import { useLangStore } from '@/stores/lang'
-import { useRoute } from 'vue-router'
+import {
+  routeLocationKey,
+  RouteLocationNormalizedLoadedGeneric,
+  routerKey,
+  useRoute,
+} from 'vue-router'
 import { ElBreadcrumbItem, ElScrollbar, ElBreadcrumb } from 'element-plus'
 import { getTranslationField } from '@aiknew/shared-ui-utils'
 
+interface Props {
+  currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
+}
+
+defineProps<Props>()
+
 // const { getTranslationField } = useLangStore()
-const route = useRoute()
+// const route = useRoute()
 const scrollbar = useTemplateRef<InstanceType<typeof ElScrollbar>>('scrollbar')
 const moreLeftRef = ref<HTMLElement>()
 const moreRightRef = ref<HTMLElement>()
@@ -32,7 +43,10 @@ const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
   <div>
     <el-scrollbar @scroll="handleScroll" ref="scrollbar">
       <el-breadcrumb class="p-3" separator="/">
-        <template v-for="(item, index) in route.matched" :key="item.path">
+        <template
+          v-for="(item, index) in currentRoute.value.matched"
+          :key="item.path"
+        >
           <el-breadcrumb-item
             :to="{ path: item.path }"
             v-if="item.meta.translations && index !== 0"

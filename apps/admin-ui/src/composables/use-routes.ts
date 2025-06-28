@@ -2,6 +2,7 @@ import type { UserInfo } from '@/api/admin-auth'
 import { markRaw } from 'vue'
 import { RouterView, type Router, type RouteRecordRaw } from 'vue-router'
 import { buildTree } from '@aiknew/shared-utils'
+import AppLayout from '@/components/common/app-layout.vue'
 
 export const views = import.meta.glob('@/views/**/*.vue')
 
@@ -44,7 +45,7 @@ export const useRoutes = (router: Router) => {
     router.addRoute({
       path: '/',
       name: 'Index',
-      component: () => import('../components/layout/app-basic-layout.vue'),
+      component: AppLayout,
       redirect: children[0].path,
       children
     })

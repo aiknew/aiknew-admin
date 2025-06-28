@@ -2,15 +2,17 @@
 import { ElIcon } from 'element-plus'
 import { Expand, Fold } from '@element-plus/icons-vue'
 import AppRoutePath from './app-route-path.vue'
+import { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import { Ref } from 'vue'
 // import AppLanguageSwitcher from './language-switcher/app-language-switcher.vue'
 // import AppUserSetting from './app-user-setting.vue'
 
-defineProps({
-  expandMenu: {
-    type: Boolean,
-    default: true,
-  },
-})
+interface Props {
+  currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
+  expandMenu: boolean
+}
+
+const { expandMenu = true, currentRoute } = defineProps<Props>()
 
 defineEmits(['update:expandMenu'])
 </script>
@@ -36,7 +38,7 @@ defineEmits(['update:expandMenu'])
     </div>
 
     <!-- route path -->
-    <AppRoutePath />
+    <AppRoutePath :current-route />
 
     <!-- operations -->
     <div class="ml-auto flex grow items-center space-x-2">

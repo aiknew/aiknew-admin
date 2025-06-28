@@ -8,7 +8,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "vue": "catalog:ui"
+    "vue": "catalog:ui",
+    "vue-router": "catalog:ui"
+  },
+  "dependencies": {
+    "@aiknew/shared-ui-components": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",

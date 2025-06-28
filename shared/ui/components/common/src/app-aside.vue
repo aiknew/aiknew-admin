@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
 import AppRecursiveMenu from './app-recursive-menu.vue'
 import { ElMenu } from 'element-plus'
-import { useRoute } from 'vue-router'
+import { inject, Ref, watch } from 'vue'
+import {
+  RouteLocationNormalizedLoadedGeneric,
+  RouteRecordRaw,
+  useRoute,
+} from 'vue-router'
 
 interface Props {
+  routes: RouteRecordRaw[]
+  currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expand?: boolean
 }
 
@@ -12,13 +18,15 @@ interface Emits {
   (e: 'update:expand', expand: boolean): void
 }
 
-const { expand = true } = defineProps<Props>()
+const { expand = true, routes, currentRoute } = defineProps<Props>()
 defineEmits<Emits>()
-const route = useRoute()
-const router = useRouter()
 
-const rootRoute = router.getRoutes().find((item) => item.name === 'Index')
-const routes = rootRoute ? rootRoute.children : []
+// const route = useRoute()
+// const router = useRouter()
+
+// const route = router.currentRoute
+// const rootRoute = router?.getRoutes().find((item) => item.name === 'Index')
+// const routes = rootRoute ? rootRoute.children : []
 </script>
 
 <template>
@@ -28,7 +36,7 @@ const routes = rootRoute ? rootRoute.children : []
   >
     <ElMenu
       class="w-[220px] border-r-0!"
-      :default-active="route.fullPath"
+      :default-active="currentRoute.value.fullPath"
       :collapse="!expand"
       router
     >

@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { AppForm, AppFormItemTips, makeFields, type Field } from '@/components/common/form'
+import { AppForm, AppFormItemTips, makeFields, type Field } from '@aiknew/shared-ui-form'
 import { useUserInfoI18n } from './composables/use-user-info-i18n'
 import { useUserInfoUpdate } from '@/api/admin-auth'
 import z from 'zod'
 import { computed, h, useTemplateRef, type ComputedRef } from 'vue'
 import { ElButton, ElFormItem } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import { useLangStore } from '@/stores/lang'
 
 const { t } = useUserInfoI18n()
 const userStore = useUserStore()
+const langStore = useLangStore()
 const { mutateAsync: updateUserInfo, isPending: isUpdating } = useUserInfoUpdate()
 const appFormRef = useTemplateRef('appFormRef')
 const newPassword = computed(() => {
@@ -97,6 +99,6 @@ const fields = makeFields(
 
 <template>
   <AppContentBlock v-loading="isUpdating">
-    <AppForm ref="appFormRef" :t :fields />
+    <AppForm ref="appFormRef" :t :fields :languages="langStore.enabledLangs" />
   </AppContentBlock>
 </template>

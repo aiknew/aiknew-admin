@@ -1,5 +1,5 @@
 {
-  "name": "@aiknew/api",
+  "name": "@aiknew/admin-api",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@aiknew/shared-api-types": "workspace:*",
+    "@aiknew/shared-types": "workspace:*",
     "@aiknew/shared-ts-config": "workspace:*",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",

@@ -4,6 +4,10 @@
     "src/*.json"
   ],
   "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
     "./en": {
       "default": "./src/en.json"
     },
@@ -13,5 +17,9 @@
     "./zh-CN": {
       "default": "./src/zh-CN.json"
     }
+  },
+  "peerDependencies": {
+    "vue": "catalog:ui",
+    "vue-i18n": "catalog:ui"
   }
 }

@@ -15,11 +15,10 @@
     "@aiknew/shared-ui-components": "workspace:*"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.0",
-    "vite-plugin-dts": "catalog:ui",
-    "vue": "^3.3.0"
+    "@vitejs/plugin-vue": "catalog:ui",
+    "typescript": "catalog:common",
+    "vite": "catalog:ui",
+    "vite-plugin-dts": "catalog:ui"
   },
   "scripts": {
     "dev": "vite",

@@ -1,6 +1,6 @@
 import { t } from '@/locales'
 import type { ResponseJson } from '@/types/request'
-import { isResponseJson } from '@/types/type-utility'
+import { isResponseJson } from '@aiknew/shared-ui-utils'
 import { HttpError } from '@/utils/openapi-fetch-client'
 import { ElMessage } from 'element-plus'
 
@@ -16,7 +16,7 @@ export const useApi = <Data extends ResponseJson>(apiFn: ApiFn<Data>) => {
       let errJson: ResponseJson = {
         code: -1,
         data: {},
-        msg: t('requestError'),
+        msg: t('requestError')
       }
 
       if (typeof error === 'string') {
@@ -29,7 +29,7 @@ export const useApi = <Data extends ResponseJson>(apiFn: ApiFn<Data>) => {
 
       ElMessage({
         type: 'error',
-        message: errJson.msg,
+        message: errJson.msg
       })
       throw new HttpError(errJson)
     }

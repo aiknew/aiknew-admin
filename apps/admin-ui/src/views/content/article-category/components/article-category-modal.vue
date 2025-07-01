@@ -2,7 +2,7 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, nextTick, h, computed, useTemplateRef, watch, type Ref } from 'vue'
 import { z } from 'zod'
-import { AppForm, makeFields } from '@/components/common/form'
+import { AppForm, makeFields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useArticleCategoryI18n } from '../composables/use-article-category-i18n'
 import type Node from 'element-plus/es/components/tree/src/model/node'
@@ -140,6 +140,6 @@ defineExpose({
 
 <template>
   <AppBasicModal ref="modalRef" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appFormRef" :t :fields />
+    <AppForm ref="appFormRef" :t :fields :languages="langStore.enabledLangs" />
   </AppBasicModal>
 </template>

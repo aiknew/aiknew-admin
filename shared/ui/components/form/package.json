@@ -1,0 +1,42 @@
+{
+  "name": "@aiknew/shared-ui-form",
+  "version": "0.0.1",
+  "main": "dist/form.es.js",
+  "module": "dist/form.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/form.es.js",
+      "types": "./dist/form.es.js"
+    },
+    "./style.css": "./dist/shared-ui-form.css"
+  },
+  "peerDependencies": {
+    "vue": "catalog:ui",
+    "element-plus": "catalog:ui"
+  },
+  "dependencies": {
+    "vee-validate": "catalog:ui",
+    "@vee-validate/zod": "catalog:ui",
+    "zod": "catalog:ui",
+    "lodash-es": "catalog:common",
+    "@aiknew/shared-ui-components": "workspace:*",
+    "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/shared-ui-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ui-types": "workspace:*",
+    "@aiknew/shared-types": "workspace:*",
+    "vue-component-type-helpers": "catalog:ui",
+    "@vitejs/plugin-vue": "catalog:ui",
+    "typescript": "catalog:common",
+    "@types/lodash-es": "catalog:common",
+    "vite": "catalog:ui",
+    "vite-plugin-dts": "catalog:ui"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}

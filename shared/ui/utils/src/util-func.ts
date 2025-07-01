@@ -1,4 +1,5 @@
 import { computed, inject, ref, type Ref } from 'vue'
+import type { IResponseJson } from '@aiknew/shared-types'
 
 export const resolveQueryStr = (url: string) => {
   const queryString = url.split('?')[1]
@@ -37,4 +38,10 @@ export const getTranslationField = <T extends { langKey: string }>(
 
     return ''
   })
+}
+
+export const isResponseJson = (v: unknown): v is IResponseJson => {
+  return (
+    typeof v === 'object' && !!v && 'code' in v && 'data' in v && 'msg' in v
+  )
 }

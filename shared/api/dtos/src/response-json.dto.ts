@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { type Type } from '@nestjs/common'
 import { ResponseStatusCode } from '@aiknew/shared-api-enums'
+import { IResponseJson } from '@aiknew/shared-types'
 
 export class ResponseJson<
   Data extends Record<string, unknown> | Type<any> = Record<string, unknown>,
-> {
+> implements IResponseJson
+{
   @ApiProperty({
     enumName: 'ResponseStatusCode',
     enum: ResponseStatusCode,

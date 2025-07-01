@@ -6,7 +6,7 @@ import type {
   ElRadioButton,
   ElSelectV2,
   ElSwitch,
-  ElTreeSelect
+  ElTreeSelect,
 } from 'element-plus'
 import {
   defineAsyncComponent,
@@ -15,7 +15,7 @@ import {
   type ComputedRef,
   type InjectionKey,
   type MaybeRefOrGetter,
-  type Ref
+  type Ref,
 } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import { z, type ZodTypeAny } from 'zod'
@@ -26,8 +26,11 @@ import 'element-plus/es/components/input-number/style/index'
 import 'element-plus/es/components/input/style/index'
 import 'element-plus/es/components/tree-select/style/index'
 import 'element-plus/es/components/switch/style/index'
-import type { ShallowMaybeRef, UnwrapMaybeRefOrGetter } from '@/types/type-utility'
-import type WangEditor from '@/components/common/wang-editor.vue'
+import type {
+  ShallowMaybeRef,
+  UnwrapMaybeRefOrGetter,
+} from '@aiknew/shared-ui-types'
+import type WangEditor from '@aiknew/shared-ui-components'
 
 export type ComponentPropsAndSlots<T> = ShallowMaybeRef<ComponentProps<T>> & {
   slots?: ComponentSlots<T>
@@ -71,35 +74,44 @@ export type Components = keyof ComponentOptionsMap
 
 export const components: Record<Components, Component> = {
   ElCheckbox: defineAsyncComponent(() =>
-    import('element-plus/es/components/checkbox/index.mjs').then((m) => m.default)
+    import('element-plus/es/components/checkbox/index').then((m) => m.default),
   ),
   ElRadio: defineAsyncComponent(() =>
-    import('element-plus/es/components/radio/index').then((m) => m.default)
+    import('element-plus/es/components/radio/index').then((m) => m.default),
   ),
   ElFormItem: defineAsyncComponent(() =>
-    import('element-plus/es/components/form/src/form-item').then((m) => m.default)
+    import('element-plus/es/components/form/src/form-item').then(
+      (m) => m.default,
+    ),
   ),
   ElInput: defineAsyncComponent(() =>
-    import('element-plus/es/components/input/index.mjs').then((m) => m.default)
+    import('element-plus/es/components/input/index').then((m) => m.default),
   ),
   ElSelectV2: defineAsyncComponent(() =>
-    import('element-plus/es/components/select-v2/index.mjs').then((m) => m.default)
+    import('element-plus/es/components/select-v2/index').then((m) => m.default),
   ),
   ElTreeSelect: defineAsyncComponent(() =>
-    import('element-plus/es/components/tree-select/index.mjs').then((m) => m.default)
+    import('element-plus/es/components/tree-select/index').then(
+      (m) => m.default,
+    ),
   ),
   ElInputNumber: defineAsyncComponent(() =>
-    import('element-plus/es/components/input-number/index.mjs').then((m) => m.default)
+    import('element-plus/es/components/input-number/index').then(
+      (m) => m.default,
+    ),
   ),
   ElSwitch: defineAsyncComponent(() =>
-    import('element-plus/es/components/switch/index.mjs').then((m) => m.default)
+    import('element-plus/es/components/switch/index').then((m) => m.default),
   ),
   WangEditor: defineAsyncComponent(() =>
-    import('@/components/common/wang-editor.vue').then((m) => m.default)
-  )
+    import('@aiknew/shared-ui-components').then((m) => m.WangEditor),
+  ),
 }
 
-export type ComponentOptionsObject<K extends keyof ComponentOptionsMap, N extends string> = {
+export type ComponentOptionsObject<
+  K extends keyof ComponentOptionsMap,
+  N extends string,
+> = {
   as: K
   label: string
   name: N
@@ -121,10 +133,12 @@ export const errorTabKeysInjectionKey = Symbol() as InjectionKey<
   ComputedRef<Record<string, string[] | undefined>>
 >
 
-export const fieldsTabKeysInjectionKey = Symbol() as InjectionKey<Ref<Record<string, string>>>
+export const fieldsTabKeysInjectionKey = Symbol() as InjectionKey<
+  Ref<Record<string, string>>
+>
 
 export type FormValues<
-  F extends Readonly<{ name: string; rules?: MaybeRefOrGetter<ZodTypeAny> }[]>
+  F extends Readonly<{ name: string; rules?: MaybeRefOrGetter<ZodTypeAny> }[]>,
 > = {
   [S in F[number] as S['name']]: S['rules'] extends MaybeRefOrGetter<ZodTypeAny>
     ? z.infer<UnwrapMaybeRefOrGetter<S['rules']>>

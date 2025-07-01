@@ -1,9 +1,11 @@
 <script
   setup
   lang="ts"
-  generic="F extends Field<string>[], R extends AnyZodObject | undefined = undefined"
+  generic="F extends Field<string>[], R extends AnyZodObject | undefined = undefined, "
 >
 import { ElFormItem, ElForm } from 'element-plus'
+import 'element-plus/es/components/form/style/index'
+import 'element-plus/es/components/form-item/style/index'
 import { useForm, type GenericObject, type TypedSchema } from 'vee-validate'
 import AppFormCmp from './app-form-cmp.vue'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -13,7 +15,7 @@ import {
   type SpecialOptions,
   errorTabKeysInjectionKey,
   fieldsTabKeysInjectionKey,
-  type FormValues
+  type FormValues,
 } from './app-form-utils'
 import {
   computed,
@@ -23,24 +25,39 @@ import {
   type ComputedRef,
   type Ref,
   type MaybeRefOrGetter,
-  toValue
+  toValue,
 } from 'vue'
-import { object, z, ZodObject, ZodOptional, type AnyZodObject, type ZodTypeAny } from 'zod'
-import { t as globalT } from '@/locales'
-import { useLangStore } from '@/stores/lang'
+import {
+  object,
+  z,
+  ZodObject,
+  ZodOptional,
+  type AnyZodObject,
+  type ZodTypeAny,
+} from 'zod'
+import { t as globalT } from '@aiknew/shared-ui-locales'
 import { splitByLastFlag } from '@aiknew/shared-ui-utils'
-import type { Prettify } from '@/types/type-utility'
+import type { Prettify } from '@aiknew/shared-ui-types'
 import { pick } from 'lodash-es'
+import type { ILanguage } from '@aiknew/shared-types'
 
 // The priority of the attribute rules is higher than that set separately in each field
-interface Props<R extends AnyZodObject | undefined, F extends Field<string>[]> {
-  t?: typeof globalT
+export interface Props<
+  R extends AnyZodObject | undefined,
+  F extends Field<string>[],
+> {
   fields: F
+  languages: ILanguage[]
+  t?: typeof globalT
   rules?: R
 }
 
-const { fields, rules = undefined, t = globalT } = defineProps<Props<R, F>>()
-const langStore = useLangStore()
+const {
+  fields,
+  languages,
+  rules = undefined,
+  t = globalT,
+} = defineProps<Props<R, F>>()
 
 const isEnabled = (enabled?: MaybeRefOrGetter<boolean>): boolean => {
   if (typeof enabled === 'undefined') {
@@ -48,6 +65,11 @@ const isEnabled = (enabled?: MaybeRefOrGetter<boolean>): boolean => {
   } else {
     return toValue(enabled)
   }
+}
+
+const getLangNameByKey = (key: string | undefined) => {
+  if (!key) return ''
+  return languages.find((lang) => lang.key === key)?.name ?? ''
 }
 
 const validationSchema = computed<AnyZodObject>(() => {
@@ -58,7 +80,8 @@ const validationSchema = computed<AnyZodObject>(() => {
     const o: Record<string, ZodTypeAny> = {}
     for (const field of fields) {
       // && isEnabled(field.enabled)
-      if (field.rules && isEnabled(field.enabled)) o[field.name] = toValue(field.rules)
+      if (field.rules && isEnabled(field.enabled))
+        o[field.name] = toValue(field.rules)
     }
     mergeRules = z.object(o)
   }
@@ -79,9 +102,9 @@ const {
   setErrors,
   destroyPath,
   resetForm,
-  setFieldError
+  setFieldError,
 } = useForm({
-  validationSchema: computed(() => toTypedSchema(validationSchema.value))
+  validationSchema: computed(() => toTypedSchema(validationSchema.value)),
 })
 
 const fieldsCurrentTabKeys: Ref<Record<string, string>> = ref({})
@@ -90,30 +113,29 @@ provide(
   fields
     .filter((item) => item.translation)
     .reduce((o, field) => {
-      o.value[field.name] = langStore.enabledLangs[0].key
+      o.value[field.name] = languages[0].key
       return o
-    }, fieldsCurrentTabKeys)
+    }, fieldsCurrentTabKeys),
 )
 
 const fieldsErrorTabKeys = computed(() => {
-  const translationFields = fields.filter((item) => item.translation).map((field) => field.name)
+  const translationFields = fields
+    .filter((item) => item.translation)
+    .map((field) => field.name)
   const keyArr = Object.keys(errors.value).filter((err) => {
     return translationFields.some((item) => err.startsWith(item))
   })
 
-  return keyArr.reduce(
-    (o, key) => {
-      const [fieldKey, langKey] = splitByLastFlag(key, '.')
-      if (Array.isArray(o[fieldKey])) {
-        o[fieldKey].push(langKey)
-      } else {
-        o[fieldKey] = [langKey]
-      }
+  return keyArr.reduce((o, key) => {
+    const [fieldKey, langKey] = splitByLastFlag(key, '.')
+    if (Array.isArray(o[fieldKey])) {
+      o[fieldKey].push(langKey)
+    } else {
+      o[fieldKey] = [langKey]
+    }
 
-      return o
-    },
-    {} as Record<string, string[] | undefined>
-  )
+    return o
+  }, {} as Record<string, string[] | undefined>)
 })
 
 provide(errorTabKeysInjectionKey, fieldsErrorTabKeys)
@@ -142,7 +164,7 @@ const isSpecialOpts = (opts?: unknown[]): opts is SpecialOptions => {
         'label' in item &&
         'value' in item &&
         typeof item.label === 'string' &&
-        typeof item.value === 'string'
+        typeof item.value === 'string',
     )
   }
 
@@ -152,13 +174,16 @@ const isSpecialOpts = (opts?: unknown[]): opts is SpecialOptions => {
 const findErrMsg = (
   errors: Partial<Record<string, string | undefined>>,
   fieldName: string,
-  translation?: boolean
+  translation?: boolean,
 ) => {
   if (translation) {
-    const keys = Object.keys(errors).filter((err) => err.startsWith(`${fieldName}.`))
+    const keys = Object.keys(errors).filter((err) =>
+      err.startsWith(`${fieldName}.`),
+    )
 
     const currentTabKeyErr = keys.find(
-      (item) => item === `${fieldName}.${fieldsCurrentTabKeys.value[fieldName]}`
+      (item) =>
+        item === `${fieldName}.${fieldsCurrentTabKeys.value[fieldName]}`,
     )
     return errors[currentTabKeyErr ?? keys[0] ?? 0]
   }
@@ -171,7 +196,9 @@ const handleCheckErrorTap = (name: string) => {
 }
 
 const isCurrentTabKeyErr = (name: string) => {
-  return fieldsErrorTabKeys.value[name]?.includes(fieldsCurrentTabKeys.value[name])
+  return fieldsErrorTabKeys.value[name]?.includes(
+    fieldsCurrentTabKeys.value[name],
+  )
 }
 
 const isOptional = (name: string) => {
@@ -180,15 +207,14 @@ const isOptional = (name: string) => {
 
 type Values = R extends AnyZodObject ? z.infer<R> : Prettify<FormValues<F>>
 
-const constructTranslationArr = <V = Values,>(values: V) => {
+const constructTranslationArr = <V = Values>(values: V) => {
   const ret = {} as V
-  const translations: { langKey: string; [k: string]: unknown }[] = langStore.enabledLangs.map(
-    (item) => {
+  const translations: { langKey: string; [k: string]: unknown }[] =
+    languages.map((item) => {
       return {
-        langKey: item.key
+        langKey: item.key,
       }
-    }
-  )
+    })
 
   for (const field of fields) {
     const name = field.name as keyof V
@@ -207,14 +233,14 @@ const constructTranslationArr = <V = Values,>(values: V) => {
   if (translations.length) {
     return {
       ...ret,
-      translations
+      translations,
     }
   }
 
   return ret
 }
 
-const deconstructTranslationArr = <R,>({
+const deconstructTranslationArr = <R>({
   translations,
   ...rest
 }: R & { translations: { langKey: string; [k: string]: unknown }[] }) => {
@@ -236,7 +262,7 @@ const deconstructTranslationArr = <R,>({
 
   return {
     ...tFields,
-    ...rest
+    ...rest,
   }
 }
 
@@ -253,7 +279,7 @@ const isTranslationField = (field: string) => {
 
 const resolveTranslationFields = (field: string) => {
   if (isTranslationField(field)) {
-    return langStore.enabledLangs.map((lang) => {
+    return languages.map((lang) => {
       return `${field}.${lang.key}`
     })
   }
@@ -265,13 +291,10 @@ const resolveTranslationFields = (field: string) => {
 const resetErrors = () => {
   const errs = fields
     .map((field) => field.name)
-    .reduce(
-      (o, field) => {
-        o[field] = undefined
-        return o
-      },
-      {} as Record<string, undefined>
-    )
+    .reduce((o, field) => {
+      o[field] = undefined
+      return o
+    }, {} as Record<string, undefined>)
   setErrors(errs)
 }
 
@@ -281,9 +304,13 @@ const submit = async () => {
     .filter((field) => isEnabled(field.enabled))
     .map((field) => field.name)
 
-  const resolvedFields = validationFields.map((field) => resolveTranslationFields(field)).flat()
+  const resolvedFields = validationFields
+    .map((field) => resolveTranslationFields(field))
+    .flat()
 
-  return Promise.allSettled(resolvedFields.map((field) => validateField(field))).then((res) => {
+  return Promise.allSettled(
+    resolvedFields.map((field) => validateField(field)),
+  ).then((res) => {
     const validCount = res.reduce((count, info) => {
       if (info.status === 'fulfilled' && info.value.valid) {
         count++
@@ -294,7 +321,9 @@ const submit = async () => {
 
     if (validCount === resolvedFields.length) {
       // TODO: translation types
-      return Promise.resolve(constructTranslationArr(values) as Values & { translations: any[] })
+      return Promise.resolve(
+        constructTranslationArr(values) as Values & { translations: any[] },
+      )
     }
 
     const filteredErrs = computed(() => {
@@ -322,27 +351,46 @@ defineExpose({
   values: values as Values,
   submit,
   reset,
-  setFormVals
+  setFormVals,
 })
 </script>
 
 <template>
   <el-form label-width="auto">
     <template
-      v-for="{ as, label, name, options, attrs, translation, formItemSlots, enabled } in fields"
+      v-for="{
+        as,
+        label,
+        name,
+        options,
+        attrs,
+        translation,
+        formItemSlots,
+        enabled,
+      } in fields"
       :key="name"
     >
       <!-- Custom ElFormItem -->
-      <template v-if="as === 'ElFormItem' && attrs?.slots && isEnabled(enabled)">
+      <template
+        v-if="as === 'ElFormItem' && attrs?.slots && isEnabled(enabled)"
+      >
         <el-form-item
           :label="t(label)"
           :error="findErrMsg(errors, name, translation)"
           :required="!isOptional(name)"
           v-bind="attrs"
         >
-          <template v-for="(slotFn, slotName) in attrs.slots || {}" #[slotName] :key="slotName">
+          <template
+            v-for="(slotFn, slotName) in attrs.slots || {}"
+            #[slotName]
+            :key="slotName"
+          >
             <template v-if="typeof slotFn === 'function'">
-              <component v-for="(slot, index) in slotFn()" :is="slot" :key="index"></component>
+              <component
+                v-for="(slot, index) in slotFn()"
+                :is="slot"
+                :key="index"
+              ></component>
             </template>
           </template>
         </el-form-item>
@@ -373,6 +421,7 @@ defineExpose({
           <!-- Checkbox and Radio -->
           <template v-if="isSpecialCmp(as) && isSpecialOpts(options)">
             <app-form-cmp
+              :languages
               v-for="item in options"
               :key="item.value"
               :field="{
@@ -383,7 +432,7 @@ defineExpose({
                 attrs,
                 slots: attrs?.slots,
                 checkedValue: item.value,
-                label: t(item.label)
+                label: t(item.label),
               }"
             />
 
@@ -406,6 +455,7 @@ defineExpose({
           <!-- Other Form Components -->
           <template v-else>
             <app-form-cmp
+              :languages
               :field="{
                 type: normalizeType(as),
                 as,
@@ -413,7 +463,7 @@ defineExpose({
                 translation,
                 slots: attrs?.slots,
                 label: t(label),
-                attrs: { ...attrs }
+                attrs: { ...attrs },
               }"
             />
 
@@ -439,12 +489,12 @@ defineExpose({
               <span class="validation-error--msg">
                 {{
                   t(error, {
-                    langName: langStore.getNameByKey(
+                    langName: getLangNameByKey(
                       isCurrentTabKeyErr(name)
                         ? fieldsCurrentTabKeys[name]
-                        : fieldsErrorTabKeys[name]?.[0]
+                        : fieldsErrorTabKeys[name]?.[0],
                     ),
-                    label: t(label)
+                    label: t(label),
                   })
                 }}
               </span>
@@ -470,7 +520,8 @@ defineExpose({
 :deep(.is-ok .el-textarea__inner),
 :deep(.is-ok .el-textarea__inner.is-focus),
 :deep(.is-ok .el-textarea__inner:hover) {
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset;
 }
 
 .validation-error {

@@ -1,7 +1,10 @@
 {
   "extends": "@aiknew/shared-ts-config/nest.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
   },
   "include": ["src/**/*"]
 }

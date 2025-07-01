@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { useField, type InputType, type TypedSchema, useFieldValue } from 'vee-validate'
+import {
+  useField,
+  type InputType,
+  type TypedSchema,
+  useFieldValue,
+} from 'vee-validate'
 import { computed, reactive, ref, watch, type Slots, type Ref } from 'vue'
 import { type Components, components } from './app-form-utils'
 import AppTranslationCmp from './app-translation-cmp.vue'
-import { useLangStore } from '@/stores/lang'
+import type { ILanguage } from '@aiknew/shared-types'
 
 type Field = {
   type?: InputType
@@ -18,11 +23,10 @@ type Field = {
 
 interface Props {
   field: Field
+  languages: ILanguage[]
 }
 
-const { field } = defineProps<Props>()
-
-const langStore = useLangStore()
+const { field, languages } = defineProps<Props>()
 
 const fieldOpts = {
   type: field.type,
@@ -36,31 +40,25 @@ const useFormField = () => {
     const translationValues = ref<Record<string, unknown>>({})
 
     // 为每个语言创建独立的 field
-    const fields = langStore.enabledLangs.reduce(
-      (acc, lang) => {
-        const { value, setValue, errors } = useField<any>(
-          `${field.name}.${lang.key}`,
-          undefined,
-          fieldOpts,
-        )
+    const fields = languages.reduce((acc, lang) => {
+      const { value, setValue, errors } = useField<any>(
+        `${field.name}.${lang.key}`,
+        undefined,
+        fieldOpts,
+      )
 
-        // 监听每个语言字段的变化
-        watch(
-          value,
-          (newVal: unknown) => {
-            translationValues.value[lang.key] = newVal
-          },
-          { immediate: true },
-        )
+      // 监听每个语言字段的变化
+      watch(
+        value,
+        (newVal: unknown) => {
+          translationValues.value[lang.key] = newVal
+        },
+        { immediate: true },
+      )
 
-        acc[lang.key] = { value, setValue, errors }
-        return acc
-      },
-      {} as Record<
-        string,
-        { value: Ref<any>; setValue: (val: any) => void; errors: Ref<string[]> }
-      >,
-    )
+      acc[lang.key] = { value, setValue, errors }
+      return acc
+    }, {} as Record<string, { value: Ref<any>; setValue: (val: any) => void; errors: Ref<string[]> }>)
 
     // 创建一个 computed 属性来处理双向绑定
     const computedValue = computed({
@@ -119,6 +117,7 @@ const { value, checked, handleChange } = useFormField()
   <template v-else>
     <template v-if="field.translation">
       <AppTranslationCmp
+        :languages
         :ref="field.name"
         v-model="value"
         :as="field.as"
@@ -128,10 +127,23 @@ const { value, checked, handleChange } = useFormField()
     </template>
 
     <template v-else>
-      <component :is="components[field.as]" :ref="field.name" v-model="value" v-bind="field.attrs">
-        <template v-for="(slotFn, slotName) in field.slots || {}" #[slotName] :key="slotName">
+      <component
+        :is="components[field.as]"
+        :ref="field.name"
+        v-model="value"
+        v-bind="field.attrs"
+      >
+        <template
+          v-for="(slotFn, slotName) in field.slots || {}"
+          #[slotName]
+          :key="slotName"
+        >
           <template v-if="typeof slotFn === 'function'">
-            <component :is="slot" v-for="(slot, index) in slotFn()" :key="index"></component>
+            <component
+              :is="slot"
+              v-for="(slot, index) in slotFn()"
+              :key="index"
+            ></component>
           </template>
         </template>
       </component>

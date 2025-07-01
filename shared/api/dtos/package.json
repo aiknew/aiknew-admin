@@ -2,7 +2,9 @@
   "name": "@aiknew/shared-api-dtos",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -17,13 +19,14 @@
     "class-validator": "catalog:api",
     "@aiknew/shared-api-enums": "workspace: *"
   },
+  "devDependencies": {
+    "@types/lodash-es": "catalog:common",
+    "@aiknew/shared-types": "workspace: *",
+    "@aiknew/shared-ts-config": "workspace: *"
+  },
   "scripts": {
     "build": "pnpm tsc",
     "clean": "rm -rf ./dist"
-  },
-  "devDependencies": {
-    "@types/lodash-es": "catalog:common",
-    "@aiknew/shared-ts-config": "workspace: *"
   },
   "keywords": [],
   "author": "",

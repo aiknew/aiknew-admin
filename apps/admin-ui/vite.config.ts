@@ -8,42 +8,62 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import svgLoader from 'vite-svg-loader'
 import tailwindcss from '@tailwindcss/vite'
 import { openApiToTypeScript } from '@aiknew/shared-ui-utils'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
 }
 
 // https://vite.dev/config/
-export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        rewrite: (path) => path.replace(/^\/api/, '')
-      },
-      '/files': {
-        target: 'http://localhost:3000'
+export default defineConfig(({ command, mode }) => {
+  return {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        '/files': {
+          target: 'http://localhost:3000'
+        }
       }
-    }
-  },
-  plugins: [
-    vue(),
-    vueJsx(),
-    vueDevTools(),
-    VueI18nPlugin({
-      // include: [convertPath('./src/{locales,views,components}/**/*.json')],
-    }),
-    ElementPlus({}),
-    svgLoader(),
-    tailwindcss(),
-    openApiToTypeScript({
-      source: 'http://localhost:3000/api-doc-json',
-      desc: './src/types/open-api.ts'
-    })
-  ],
-  resolve: {
-    alias: {
-      '@': convertPath('./src')
+    },
+    optimizeDeps: {
+      exclude: ['colorette']
+    },
+    build: {
+      target: 'esnext',
+      rollupOptions: {
+        external: ['node:process']
+      }
+    },
+    plugins: [
+      vue(),
+      vueJsx(),
+      vueDevTools(),
+      VueI18nPlugin({
+        // include: [convertPath('./src/{locales,views,components}/**/*.json')],
+      }),
+      ElementPlus({}),
+      svgLoader(),
+      tailwindcss(),
+      nodePolyfills({
+        // Whether to polyfill specific globals. If `true`, the following globals will be polyfilled:
+        globals: {
+          Buffer: true, // can also be 'build', 'dev', 'test', or false
+          global: true,
+          process: true
+        }
+      }),
+      openApiToTypeScript({
+        source: 'http://localhost:3000/api-doc-json',
+        desc: './src/types/open-api.ts'
+      })
+    ],
+    resolve: {
+      alias: {
+        '@': convertPath('./src')
+      }
     }
   }
 })

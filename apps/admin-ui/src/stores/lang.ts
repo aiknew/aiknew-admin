@@ -1,7 +1,8 @@
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { i18n, type I18nKeys } from '@/locales'
+// import { i18n, type I18nKeys } from '@/locales'
+import { i18n, type I18nKeys } from '@aiknew/shared-ui-locales'
 import type { LanguageData } from '@/api/language'
 import { z, ZodObject, ZodString, type AnyZodObject, type ZodTypeAny } from 'zod'
 

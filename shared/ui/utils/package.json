@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",
+    "@aiknew/shared-types": "workspace:*",
     "@types/node": "catalog:common",
     "@vue/tsconfig": "^0.7.0",
     "openapi-typescript": "catalog:ui",

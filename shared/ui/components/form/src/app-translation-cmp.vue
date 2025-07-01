@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { useLangStore } from '@/stores/lang'
 import { ElTabs, ElTabPane } from 'element-plus'
+import 'element-plus/es/components/tabs/style/index'
+import 'element-plus/es/components/tab-pane/style/index'
 import { computed, inject, ref, type Ref } from 'vue'
 import {
   components,
@@ -8,21 +9,22 @@ import {
   fieldsTabKeysInjectionKey,
   type Components,
 } from './app-form-utils'
+import type { ILanguage } from '@aiknew/shared-types'
 
 type ModelVal = { [k: string]: unknown }
 interface Props {
   as: Components
   name: string
   modelValue: ModelVal
+  languages: ILanguage[]
 }
 
 interface Emits {
   (e: 'update:modelValue', val: ModelVal): void
 }
 
-const { modelValue, name } = defineProps<Props>()
+const { modelValue, name, languages } = defineProps<Props>()
 const emit = defineEmits<Emits>()
-const langStore = useLangStore()
 
 const handleUpdateVal = (val: unknown, langKey: string) => {
   emit('update:modelValue', {
@@ -61,7 +63,7 @@ const activeTab = computed({
 <template>
   <el-tabs v-model="activeTab" class="w-full" type="border-card">
     <el-tab-pane
-      v-for="lang in langStore.enabledLangs"
+      v-for="lang in languages"
       :key="lang.key"
       :label="lang.name"
       :name="lang.key"

@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import router from '../router'
 import { i18n } from '@/locales'
+import { installI18n } from '@aiknew/shared-ui-locales'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { HttpError } from './openapi-fetch-client'
 import type { components } from '@/types/open-api'
@@ -12,7 +13,8 @@ import { registerDirectives } from '@/directives'
 
 export const bootstrap = (app: App<Element>) => {
   // install vue-i18n
-  app.use(i18n)
+  // app.use(i18n)
+  installI18n(app)
 
   // install pinia
   app.use(createPinia())

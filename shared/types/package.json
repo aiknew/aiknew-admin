@@ -1,10 +1,13 @@
 {
   "name": "@aiknew/shared-types",
   "version": "0.0.1",
+  "types": "./src/index.d.ts",
   "devDependencies": {
-    "@aiknew/shared-api-prisma": "workspace:*"
+    "@nestjs/common": "catalog:api",
+    "@aiknew/shared-api-prisma": "workspace:*",
+    "@aiknew/shared-api-enums": "workspace:*"
   },
   "files": [
-    "route-type.d.ts"
+    "src/*.ts"
   ]
 }

@@ -23,8 +23,8 @@ interface Emits {
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useArticleCategoryI18n()
-const appFormRef = useTemplateRef('appFormRef')
-const modalRef = useTemplateRef('modalRef')
+const appFormRef = useTemplateRef('appForm')
+const modalRef = useTemplateRef('modal')
 
 const { mutateAsync: createArticleCategory } = useArticleCategoryCreate()
 const { mutateAsync: updateArticleCategory } = useArticleCategoryUpdate()
@@ -139,7 +139,7 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appFormRef" :t :fields :languages="langStore.enabledLangs" />
+  <AppBasicModal ref="modal" @submit="handleSubmit" @close="handleReset">
+    <AppForm ref="appForm" :t :fields :languages="langStore.enabledLangs" />
   </AppBasicModal>
 </template>

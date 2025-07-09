@@ -10,7 +10,7 @@ import {
 import { ElBreadcrumbItem, ElScrollbar, ElBreadcrumb } from 'element-plus'
 import { getTranslationField } from '@aiknew/shared-ui-utils'
 
-interface Props {
+export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
 }
 
@@ -18,17 +18,17 @@ defineProps<Props>()
 
 // const { getTranslationField } = useLangStore()
 // const route = useRoute()
-const scrollbar = useTemplateRef<InstanceType<typeof ElScrollbar>>('scrollbar')
-const moreLeftRef = ref<HTMLElement>()
-const moreRightRef = ref<HTMLElement>()
+const scrollbarRef = useTemplateRef('scrollbar')
+const moreLeftRef = useTemplateRef('moreLeft')
+const moreRightRef = useTemplateRef('moreRight')
 const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
   if (scrollLeft === 0) {
     // Reach the far left
     return moreLeftRef.value?.classList.add('no-more')
   }
 
-  const wrapClientWidth = scrollbar.value?.wrapRef?.clientWidth ?? 0
-  const wrapScrollWidth = scrollbar.value?.wrapRef?.scrollWidth ?? 0
+  const wrapClientWidth = scrollbarRef.value?.wrapRef?.clientWidth ?? 0
+  const wrapScrollWidth = scrollbarRef.value?.wrapRef?.scrollWidth ?? 0
   if (scrollLeft + wrapClientWidth >= wrapScrollWidth) {
     // Reach the far right
     return moreRightRef.value?.classList.add('no-more')
@@ -56,7 +56,7 @@ const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
         </template>
       </el-breadcrumb>
     </el-scrollbar>
-    <div ref="moreLeftRef" class="route-path__more no-more"></div>
-    <div ref="moreRightRef" class="route-path__more more-right"></div>
+    <div ref="moreLeft" class="route-path__more no-more"></div>
+    <div ref="moreRight" class="route-path__more more-right"></div>
   </div>
 </template>

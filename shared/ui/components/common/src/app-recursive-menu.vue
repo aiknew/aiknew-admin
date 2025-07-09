@@ -6,7 +6,7 @@ import { ElMenuItemGroup, ElMenuItem, ElSubMenu, ElIcon } from 'element-plus'
 import { getTranslationField } from '@aiknew/shared-ui-utils'
 import type { AdminRouteTranslations } from '@aiknew/shared-ui-types'
 
-interface Props {
+export interface Props {
   routes: RouteRecordRaw[]
 }
 

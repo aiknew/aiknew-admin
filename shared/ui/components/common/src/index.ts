@@ -7,7 +7,6 @@ import AppRecursiveMenu from './app-recursive-menu.vue'
 import AppRoutePath from './app-route-path.vue'
 import AppLanguageSwitcher from './language-switcher/app-language-switcher.vue'
 import WangEditor from './wang-editor.vue'
-// import AppTable from './app-table.vue'
 
 export {
   AppAside,
@@ -19,5 +18,4 @@ export {
   AppRoutePath,
   AppLanguageSwitcher,
   WangEditor,
-  // AppTable,
 }

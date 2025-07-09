@@ -47,14 +47,14 @@ export interface Props<
   F extends Field<string>[],
 > {
   fields: F
-  languages: ILanguage[]
+  languages?: ILanguage[]
   t?: typeof globalT
   rules?: R
 }
 
 const {
   fields,
-  languages,
+  languages = [],
   rules = undefined,
   t = globalT,
 } = defineProps<Props<R, F>>()

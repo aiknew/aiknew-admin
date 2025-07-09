@@ -10,7 +10,16 @@ export default defineConfig({
       fileName: (format) => `form.${format}.js`,
     },
     rollupOptions: {
-      external: ['vue', 'node:stream', 'node:url', 'node:perf_hooks'],
+      external: [
+        'vue',
+        'node:stream',
+        'node:url',
+        'node:perf_hooks',
+        'element-plus',
+        '@aiknew/shared-ui-components',
+        '@aiknew/shared-ui-locales',
+        '@aiknew/shared-ui-utils',
+      ],
       output: {
         globals: {
           vue: 'Vue',

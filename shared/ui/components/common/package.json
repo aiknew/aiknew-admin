@@ -29,8 +29,10 @@
     "vue-router": "catalog:ui"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue-jsx": "catalog:ui",
     "@aiknew/shared-ts-config": "workspace:*",
     "@aiknew/shared-ui-types": "workspace:*",
+    "@aiknew/shared-types": "workspace:*",
     "@types/node": "catalog:common",
     "vite": "catalog:ui",
     "@vitejs/plugin-vue": "catalog:ui",

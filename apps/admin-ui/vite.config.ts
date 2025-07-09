@@ -15,55 +15,53 @@ const convertPath = (path: string) => {
 }
 
 // https://vite.dev/config/
-export default defineConfig(({ command, mode }) => {
-  return {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3000',
-          rewrite: (path) => path.replace(/^\/api/, '')
-        },
-        '/files': {
-          target: 'http://localhost:3000'
-        }
+export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/files': {
+        target: 'http://localhost:3000'
       }
-    },
-    optimizeDeps: {
-      exclude: ['colorette']
-    },
-    build: {
-      target: 'esnext',
-      rollupOptions: {
-        external: ['node:process']
+    }
+  },
+  optimizeDeps: {
+    exclude: ['colorette']
+  },
+  build: {
+    target: 'esnext',
+    rollupOptions: {
+      external: ['node:process']
+    }
+  },
+  plugins: [
+    vue(),
+    vueJsx(),
+    vueDevTools(),
+    VueI18nPlugin({
+      // include: [convertPath('./src/{locales,views,components}/**/*.json')],
+    }),
+    ElementPlus({}),
+    svgLoader(),
+    tailwindcss(),
+    nodePolyfills({
+      // Whether to polyfill specific globals. If `true`, the following globals will be polyfilled:
+      globals: {
+        Buffer: true, // can also be 'build', 'dev', 'test', or false
+        global: true,
+        process: true
       }
-    },
-    plugins: [
-      vue(),
-      vueJsx(),
-      vueDevTools(),
-      VueI18nPlugin({
-        // include: [convertPath('./src/{locales,views,components}/**/*.json')],
-      }),
-      ElementPlus({}),
-      svgLoader(),
-      tailwindcss(),
-      nodePolyfills({
-        // Whether to polyfill specific globals. If `true`, the following globals will be polyfilled:
-        globals: {
-          Buffer: true, // can also be 'build', 'dev', 'test', or false
-          global: true,
-          process: true
-        }
-      }),
-      openApiToTypeScript({
-        source: 'http://localhost:3000/api-doc-json',
-        desc: './src/types/open-api.ts'
-      })
-    ],
-    resolve: {
-      alias: {
-        '@': convertPath('./src')
-      }
+    }),
+    openApiToTypeScript({
+      source: 'http://localhost:3000/api-doc-json',
+      desc: './src/types/open-api.ts'
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': convertPath('./src')
     }
   }
 })

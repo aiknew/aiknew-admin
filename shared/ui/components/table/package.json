@@ -1,0 +1,34 @@
+{
+  "name": "@aiknew/shared-ui-table",
+  "version": "0.0.1",
+  "main": "dist/table.es.js",
+  "module": "dist/table.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/table.es.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/shared-ui-table.css"
+  },
+  "peerDependencies": {
+    "element-plus": "catalog:ui",
+    "vue": "catalog:ui"
+  },
+  "dependencies": {
+    "@aiknew/shared-ui-components": "workspace:*"
+  },
+  "devDependencies": {
+    "@aiknew/shared-types": "workspace:*",
+    "@types/lodash": "^4.17.20",
+    "@vitejs/plugin-vue": "catalog:ui",
+    "typescript": "catalog:common",
+    "vite": "catalog:ui",
+    "vite-plugin-dts": "catalog:ui"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}

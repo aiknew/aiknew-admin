@@ -67,9 +67,15 @@ catalogs:
     dayjs:
       specifier: ^1.11.13
       version: 1.11.13
+    filesize:
+      specifier: ^10.1.6
+      version: 10.1.6
     lodash-es:
       specifier: ^4.17.21
       version: 4.17.21
+    mime:
+      specifier: ^4.0.7
+      version: 4.0.7
     tsx:
       specifier: ^4.19.3
       version: 4.19.4
@@ -99,14 +105,17 @@ catalogs:
       specifier: ^13.4.0
       version: 13.4.0
     element-plus:
-      specifier: ~2.10.0
-      version: 2.10.2
+      specifier: 2.10.3
+      version: 2.10.3
     openapi-typescript:
       specifier: ^7.6.1
       version: 7.8.0
     tailwindcss:
       specifier: ^4.1.10
       version: 4.1.10
+    unplugin-element-plus:
+      specifier: ^0.9.1
+      version: 0.9.1
     vee-validate:
       specifier: ^4.15.0
       version: 4.15.1
@@ -137,6 +146,11 @@ catalogs:
     zod:
       specifier: ^3.25.34
       version: 3.25.56
+
+patchedDependencies:
+  element-plus:
+    hash: 2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d
+    path: patches/element-plus.patch
 
 importers:
 
@@ -334,6 +348,9 @@ importers:
       '@aiknew/shared-ui-components':
         specifier: workspace:*
         version: link:../../shared/ui/components/common
+      '@aiknew/shared-ui-filer':
+        specifier: workspace:*
+        version: link:../../shared/ui/components/filer
       '@aiknew/shared-ui-form':
         specifier: workspace:*
         version: link:../../shared/ui/components/form
@@ -384,16 +401,10 @@ importers:
         version: 5.1.14(@wangeditor-next/editor@5.6.34)(vue@3.5.17(typescript@5.8.3))
       element-plus:
         specifier: catalog:ui
-        version: 2.10.2(vue@3.5.17(typescript@5.8.3))
-      filesize:
-        specifier: ^10.1.6
-        version: 10.1.6
+        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
       lodash-es:
         specifier: catalog:common
         version: 4.17.21
-      mime:
-        specifier: ^4.0.7
-        version: 4.0.7
       openapi-fetch:
         specifier: ^0.13.8
         version: 0.13.8
@@ -419,6 +430,9 @@ importers:
         specifier: catalog:ui
         version: 3.25.56
     devDependencies:
+      '@aiknew/shared-types':
+        specifier: workspace:*
+        version: link:../../shared/types
       '@aiknew/shared-ui-types':
         specifier: workspace:*
         version: link:../../shared/ui/types
@@ -510,7 +524,7 @@ importers:
         specifier: catalog:common
         version: 5.8.3
       unplugin-element-plus:
-        specifier: ^0.9.1
+        specifier: catalog:ui
         version: 0.9.1
       vite:
         specifier: catalog:ui
@@ -818,7 +832,7 @@ importers:
         version: 5.1.14(@wangeditor-next/editor@5.6.34)(vue@3.5.17(typescript@5.8.3))
       element-plus:
         specifier: catalog:ui
-        version: 2.10.2(vue@3.5.17(typescript@5.8.3))
+        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.10
@@ -835,6 +849,9 @@ importers:
       '@aiknew/shared-ts-config':
         specifier: workspace:*
         version: link:../../../ts-config
+      '@aiknew/shared-types':
+        specifier: workspace:*
+        version: link:../../../types
       '@aiknew/shared-ui-types':
         specifier: workspace:*
         version: link:../../types
@@ -844,6 +861,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: catalog:ui
         version: 6.0.0(vite@7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
+      '@vitejs/plugin-vue-jsx':
+        specifier: catalog:ui
+        version: 5.0.0(vite@7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
       typescript:
         specifier: catalog:common
         version: 5.8.3
@@ -863,6 +883,82 @@ importers:
         specifier: catalog:ui
         version: 2.2.10(typescript@5.8.3)
 
+  shared/ui/components/filer:
+    dependencies:
+      '@aiknew/shared-ui-components':
+        specifier: workspace:*
+        version: link:../common
+      '@aiknew/shared-ui-form':
+        specifier: workspace:*
+        version: link:../form
+      '@aiknew/shared-ui-locales':
+        specifier: workspace:*
+        version: link:../../locales
+      '@aiknew/shared-ui-table':
+        specifier: workspace:*
+        version: link:../table
+      '@aiknew/shared-ui-utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@aiknew/shared-utils':
+        specifier: workspace:*
+        version: link:../../../utils
+      '@element-plus/icons-vue':
+        specifier: catalog:ui
+        version: 2.3.1(vue@3.5.17(typescript@5.8.3))
+      '@vueuse/core':
+        specifier: catalog:ui
+        version: 13.4.0(vue@3.5.17(typescript@5.8.3))
+      element-plus:
+        specifier: catalog:ui
+        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
+      filesize:
+        specifier: catalog:common
+        version: 10.1.6
+      mime:
+        specifier: catalog:common
+        version: 4.0.7
+      vue:
+        specifier: catalog:ui
+        version: 3.5.17(typescript@5.8.3)
+      vue-i18n:
+        specifier: catalog:ui
+        version: 11.1.5(vue@3.5.17(typescript@5.8.3))
+      zod:
+        specifier: catalog:ui
+        version: 3.25.56
+    devDependencies:
+      '@aiknew/shared-types':
+        specifier: workspace:*
+        version: link:../../../types
+      '@intlify/core-base':
+        specifier: ^11.1.9
+        version: 11.1.9
+      '@types/lodash':
+        specifier: ^4.17.20
+        version: 4.17.20
+      '@vitejs/plugin-vue':
+        specifier: catalog:ui
+        version: 6.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
+      '@vitejs/plugin-vue-jsx':
+        specifier: catalog:ui
+        version: 5.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
+      typescript:
+        specifier: catalog:common
+        version: 5.8.3
+      unplugin-element-plus:
+        specifier: catalog:ui
+        version: 0.9.1
+      vite:
+        specifier: catalog:ui
+        version: 7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
+      vite-plugin-dts:
+        specifier: catalog:ui
+        version: 4.5.4(@types/node@24.0.3)(rollup@4.44.0)(typescript@5.8.3)(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))
+      vite-svg-loader:
+        specifier: catalog:ui
+        version: 5.1.0(vue@3.5.17(typescript@5.8.3))
+
   shared/ui/components/form:
     dependencies:
       '@aiknew/shared-ui-components':
@@ -879,7 +975,7 @@ importers:
         version: 4.15.1(vue@3.5.17(typescript@5.8.3))(zod@3.25.56)
       element-plus:
         specifier: catalog:ui
-        version: 2.10.2(vue@3.5.17(typescript@5.8.3))
+        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
       lodash-es:
         specifier: catalog:common
         version: 4.17.21
@@ -930,6 +1026,37 @@ importers:
         specifier: catalog:ui
         version: 4.5.1(vue@3.5.17(typescript@5.8.3))
     devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: catalog:ui
+        version: 6.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
+      typescript:
+        specifier: catalog:common
+        version: 5.8.3
+      vite:
+        specifier: catalog:ui
+        version: 7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
+      vite-plugin-dts:
+        specifier: catalog:ui
+        version: 4.5.4(@types/node@24.0.3)(rollup@4.44.0)(typescript@5.8.3)(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))
+
+  shared/ui/components/table:
+    dependencies:
+      '@aiknew/shared-ui-components':
+        specifier: workspace:*
+        version: link:../common
+      element-plus:
+        specifier: catalog:ui
+        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
+      vue:
+        specifier: catalog:ui
+        version: 3.5.17(typescript@5.8.3)
+    devDependencies:
+      '@aiknew/shared-types':
+        specifier: workspace:*
+        version: link:../../../types
+      '@types/lodash':
+        specifier: ^4.17.20
+        version: 4.17.20
       '@vitejs/plugin-vue':
         specifier: catalog:ui
         version: 6.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
@@ -1507,14 +1634,14 @@ packages:
     resolution: {integrity: sha512-4SaFZCNfJqvk/kenHpI8xvN42DMaoycy4PzKc5otHxRswww1kAt82OlBuwRVLofCACCTZEcla2Ydxv8scMXaTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@floating-ui/core@1.7.1':
-    resolution: {integrity: sha512-azI0DrjMMfIug/ExbBaeDVJXcY0a7EPvPjb2xAJPa4HeimBX+Z18HK8QQR3jb6356SnDDdxx+hinMLcJEDdOjw==}
+  '@floating-ui/core@1.7.2':
+    resolution: {integrity: sha512-wNB5ooIKHQc+Kui96jE/n69rHFWAVoxn5CAzL1Xdd8FG03cgY3MLO+GF9U3W737fYDSgPWA6MReKhBQBop6Pcw==}
 
-  '@floating-ui/dom@1.7.1':
-    resolution: {integrity: sha512-cwsmW/zyw5ltYTUeeYJ60CnQuPqmGwuGVhG9w0PRaRKkAyi38BT5CKrpIbb+jtahSwUl04cWzSx9ZOIxeS6RsQ==}
+  '@floating-ui/dom@1.7.2':
+    resolution: {integrity: sha512-7cfaOQuCS27HD7DX+6ib2OrnW+b4ZBwDNnCcT0uTyidcmyWb03FnQqJybDBoCnpdxwBSfA94UAYlRCt7mV+TbA==}
 
-  '@floating-ui/utils@0.2.9':
-    resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
+  '@floating-ui/utils@0.2.10':
+    resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -1688,6 +1815,10 @@ packages:
     resolution: {integrity: sha512-xGRkISwV/2Trqb8yVQevlHm5roaQqy+75qwUzEQrviaQF0o4c5VDhjBW7WEGEoKFx09HSgq7NkvK/DAyuerTDg==}
     engines: {node: '>= 16'}
 
+  '@intlify/core-base@11.1.9':
+    resolution: {integrity: sha512-Lrdi4wp3XnGhWmB/mMD/XtfGUw1Jt+PGpZI/M63X1ZqhTDjNHRVCs/i8vv8U1cwaj1A9fb0bkCQHLSL0SK+pIQ==}
+    engines: {node: '>= 16'}
+
   '@intlify/message-compiler@11.1.5':
     resolution: {integrity: sha512-YLSBbjD7qUdShe3ZAat9Hnf9E8FRpN6qmNFD/x5Xg5JVXjsks0kJ90Zj6aAuyoppJQA/YJdWZ8/bB7k3dg2TjQ==}
     engines: {node: '>= 16'}
@@ -1696,12 +1827,20 @@ packages:
     resolution: {integrity: sha512-0ezkep1AT30NyuKj8QbRlmvMORCCRlOIIu9v8RNU8SwDjjTiFCZzczCORMns2mCH4HZ1nXgrfkKzYUbfjNRmng==}
     engines: {node: '>= 16'}
 
+  '@intlify/message-compiler@11.1.9':
+    resolution: {integrity: sha512-84SNs3Ikjg0rD1bOuchzb3iK1vR2/8nxrkyccIl5DjFTeMzE/Fxv6X+A7RN5ZXjEWelc1p5D4kHA6HEOhlKL5Q==}
+    engines: {node: '>= 16'}
+
   '@intlify/shared@11.1.5':
     resolution: {integrity: sha512-+I4vRzHm38VjLr/CAciEPJhGYFzWWW4HMTm+6H3WqknXLh0ozNX9oC8ogMUwTSXYR/wGUb1/lTpNziiCH5MybQ==}
     engines: {node: '>= 16'}
 
   '@intlify/shared@11.1.7':
     resolution: {integrity: sha512-4yZeMt2Aa/7n5Ehy4KalUlvt3iRLcg1tq9IBVfOgkyWFArN4oygn6WxgGIFibP3svpaH8DarbNaottq+p0gUZQ==}
+    engines: {node: '>= 16'}
+
+  '@intlify/shared@11.1.9':
+    resolution: {integrity: sha512-H/83xgU1l8ox+qG305p6ucmoy93qyjIPnvxGWRA7YdOoHe1tIiW9IlEu4lTdsOR7cfP1ecrwyflQSqXdXBacXA==}
     engines: {node: '>= 16'}
 
   '@intlify/unplugin-vue-i18n@6.0.8':
@@ -2888,8 +3027,8 @@ packages:
   '@types/lodash-es@4.17.12':
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
 
-  '@types/lodash@4.17.18':
-    resolution: {integrity: sha512-KJ65INaxqxmU6EoCiJmRPZC9H9RVWCRd349tXM2M3O5NA7cY6YL7c0bHAHQ93NOfTObEQ004kd2QVHs/r0+m4g==}
+  '@types/lodash@4.17.20':
+    resolution: {integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -4345,8 +4484,8 @@ packages:
   electron-to-chromium@1.5.165:
     resolution: {integrity: sha512-naiMx1Z6Nb2TxPU6fiFrUrDTjyPMLdTtaOd2oLmG8zVSg2hCWGkhPyxwk+qRmZ1ytwVqUv0u7ZcDA5+ALhaUtw==}
 
-  element-plus@2.10.2:
-    resolution: {integrity: sha512-p2KiAa0jEGXrzdlTAfpiS7HQFAhla4gvx6H7RuDf+OO0uC3DGpolxvdHjFR8gt7+vaWyxQNcHa1sAdBkmjqlgA==}
+  element-plus@2.10.3:
+    resolution: {integrity: sha512-OLpf0iekuvWJrz1+H9ybvem6TYTKSNk6L1QDA3tYq2YWbogKXJnWpHG1UAGKR1B7gx+vUH7M15VIH3EijE9Kgw==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -8497,16 +8636,16 @@ snapshots:
       '@eslint/core': 0.15.0
       levn: 0.4.1
 
-  '@floating-ui/core@1.7.1':
+  '@floating-ui/core@1.7.2':
     dependencies:
-      '@floating-ui/utils': 0.2.9
+      '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/dom@1.7.1':
+  '@floating-ui/dom@1.7.2':
     dependencies:
-      '@floating-ui/core': 1.7.1
-      '@floating-ui/utils': 0.2.9
+      '@floating-ui/core': 1.7.2
+      '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/utils@0.2.9': {}
+  '@floating-ui/utils@0.2.10': {}
 
   '@hapi/hoek@9.3.0': {}
 
@@ -8677,6 +8816,11 @@ snapshots:
       '@intlify/message-compiler': 11.1.5
       '@intlify/shared': 11.1.5
 
+  '@intlify/core-base@11.1.9':
+    dependencies:
+      '@intlify/message-compiler': 11.1.9
+      '@intlify/shared': 11.1.9
+
   '@intlify/message-compiler@11.1.5':
     dependencies:
       '@intlify/shared': 11.1.5
@@ -8687,9 +8831,16 @@ snapshots:
       '@intlify/shared': 11.1.7
       source-map-js: 1.2.1
 
+  '@intlify/message-compiler@11.1.9':
+    dependencies:
+      '@intlify/shared': 11.1.9
+      source-map-js: 1.2.1
+
   '@intlify/shared@11.1.5': {}
 
   '@intlify/shared@11.1.7': {}
+
+  '@intlify/shared@11.1.9': {}
 
   '@intlify/unplugin-vue-i18n@6.0.8(@vue/compiler-dom@3.5.17)(eslint@9.29.0(jiti@2.4.2))(rollup@4.44.0)(typescript@5.8.3)(vue-i18n@11.1.5(vue@3.5.17(typescript@5.8.3)))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
@@ -9989,9 +10140,9 @@ snapshots:
 
   '@types/lodash-es@4.17.12':
     dependencies:
-      '@types/lodash': 4.17.18
+      '@types/lodash': 4.17.20
 
-  '@types/lodash@4.17.18': {}
+  '@types/lodash@4.17.20': {}
 
   '@types/markdown-it@14.1.2':
     dependencies:
@@ -10206,6 +10357,17 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.19
       '@vue/babel-plugin-jsx': 1.4.0(@babel/core@7.27.4)
       vite: 7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
+      vue: 3.5.17(typescript@5.8.3)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@vitejs/plugin-vue-jsx@5.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
+    dependencies:
+      '@babel/core': 7.27.4
+      '@babel/plugin-transform-typescript': 7.27.1(@babel/core@7.27.4)
+      '@rolldown/pluginutils': 1.0.0-beta.19
+      '@vue/babel-plugin-jsx': 1.4.0(@babel/core@7.27.4)
+      vite: 7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
       vue: 3.5.17(typescript@5.8.3)
     transitivePeerDependencies:
       - supports-color
@@ -11766,13 +11928,13 @@ snapshots:
 
   electron-to-chromium@1.5.165: {}
 
-  element-plus@2.10.2(vue@3.5.17(typescript@5.8.3)):
+  element-plus@2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.5.17(typescript@5.8.3))
-      '@floating-ui/dom': 1.7.1
+      '@floating-ui/dom': 1.7.2
       '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash': 4.17.18
+      '@types/lodash': 4.17.20
       '@types/lodash-es': 4.17.12
       '@vueuse/core': 9.13.0(vue@3.5.17(typescript@5.8.3))
       async-validator: 4.2.5

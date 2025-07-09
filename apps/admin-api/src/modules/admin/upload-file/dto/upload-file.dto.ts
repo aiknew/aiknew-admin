@@ -1,4 +1,6 @@
-export class UploadFileDto {
+import type { IUploadFile } from '@aiknew/shared-types'
+
+export class UploadFileDto implements IUploadFile {
   id: string
   channel: number
   fileName: string

@@ -8,13 +8,13 @@ import {
   useRoute,
 } from 'vue-router'
 
-interface Props {
+export interface Props {
   routes: RouteRecordRaw[]
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expand?: boolean
 }
 
-interface Emits {
+export interface Emits {
   (e: 'update:expand', expand: boolean): void
 }
 

@@ -7,22 +7,22 @@
   "exports": {
     ".": {
       "import": "./dist/form.es.js",
-      "types": "./dist/form.es.js"
+      "types": "./dist/index.d.ts"
     },
     "./style.css": "./dist/shared-ui-form.css"
   },
   "peerDependencies": {
     "vue": "catalog:ui",
-    "element-plus": "catalog:ui"
+    "element-plus": "catalog:ui",
+    "@aiknew/shared-ui-components": "workspace:*",
+    "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/shared-ui-utils": "workspace:*"
   },
   "dependencies": {
     "vee-validate": "catalog:ui",
     "@vee-validate/zod": "catalog:ui",
     "zod": "catalog:ui",
-    "lodash-es": "catalog:common",
-    "@aiknew/shared-ui-components": "workspace:*",
-    "@aiknew/shared-ui-locales": "workspace:*",
-    "@aiknew/shared-ui-utils": "workspace:*"
+    "lodash-es": "catalog:common"
   },
   "devDependencies": {
     "@aiknew/shared-ui-types": "workspace:*",

@@ -7,7 +7,7 @@ import { Ref } from 'vue'
 // import AppLanguageSwitcher from './language-switcher/app-language-switcher.vue'
 // import AppUserSetting from './app-user-setting.vue'
 
-interface Props {
+export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expandMenu: boolean
 }

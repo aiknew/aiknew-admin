@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import AppPagination from '@/components/common/app-pagination.vue'
+import { ref, useTemplateRef } from 'vue'
+import { AppPagination } from '@aiknew/shared-ui-components'
 import AppFileListTable from './app-file-list-table.vue'
-import { isFileItem, type FileItem, type GroupItem, type GroupPathItem } from './composables'
+import { isFileItem, type GroupPathItem } from './composables'
+import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 
-export interface FileListContainerProps {
-  filesAndGroups: (FileItem | GroupItem)[]
+export interface Props {
+  filesAndGroups: (IUploadFile | IUploadFileGroup)[]
   currentGroupPath: GroupPathItem[]
 }
 
-export interface FileListContainerEmits {
-  (e: 'edit-group', item: GroupItem): void
-  (e: 'click-group', item: GroupItem): void
-  (e: 'edit-file', item: FileItem): void
-  (e: 'click-file', item: FileItem): void
-  (e: 'delete-group', item: GroupItem): void
-  (e: 'delete-file', item: FileItem): void
-  (e: 'select', items: FileItem[]): void
+export interface Emits {
+  (e: 'edit-group', item: IUploadFileGroup): void
+  (e: 'click-group', item: IUploadFileGroup): void
+  (e: 'edit-file', item: IUploadFile): void
+  (e: 'click-file', item: IUploadFile): void
+  (e: 'delete-group', item: IUploadFileGroup): void
+  (e: 'delete-file', item: IUploadFile): void
+  (e: 'select', items: IUploadFile[]): void
   (e: 'back-to-upper-group'): void
   (e: 'back-to-previous-group'): void
   (e: 'forward-to-next-group'): void
@@ -25,12 +26,12 @@ export interface FileListContainerEmits {
 const currentPage = defineModel<number>('currentPage', { default: 1 })
 const pageSize = defineModel<number>('pageSize', { default: 10 })
 const total = defineModel<number>('total', { default: 0 })
-const emit = defineEmits<FileListContainerEmits>()
-defineProps<FileListContainerProps>()
+const emit = defineEmits<Emits>()
+defineProps<Props>()
 
-const appFileListTableRef = ref<InstanceType<typeof AppFileListTable>>()
+const appFileListTableRef = useTemplateRef('appFileListTable')
 
-const editItem = (item: FileItem | GroupItem) => {
+const editItem = (item: IUploadFile | IUploadFileGroup) => {
   if (isFileItem(item)) {
     emit('edit-file', item)
   } else {
@@ -38,7 +39,7 @@ const editItem = (item: FileItem | GroupItem) => {
   }
 }
 
-const deleteItem = (item: FileItem | GroupItem) => {
+const deleteItem = (item: IUploadFile | IUploadFileGroup) => {
   if (isFileItem(item)) {
     emit('delete-file', item)
   } else {
@@ -46,7 +47,7 @@ const deleteItem = (item: FileItem | GroupItem) => {
   }
 }
 
-const clickItem = (item: FileItem | GroupItem) => {
+const clickItem = (item: IUploadFile | IUploadFileGroup) => {
   if (isFileItem(item)) {
     emit('click-file', item)
   } else {
@@ -59,14 +60,14 @@ const clearSelection = () => {
 }
 
 defineExpose({
-  clearSelection
+  clearSelection,
 })
 </script>
 
 <template>
   <div class="file-list">
     <AppFileListTable
-      ref="appFileListTableRef"
+      ref="appFileListTable"
       row-key="id"
       height="60vh"
       :data="filesAndGroups"

@@ -47,13 +47,14 @@ const handleDelete = async (row: AdminUser) => {
     </div>
 
     <AppTable
+      ref="testTableRef"
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
       :table-data="adminUserData"
       row-key="id"
     >
-      <el-table-column prop="id" label="ID" />
-      <el-table-column prop="userName" :label="t('name')" width="180"> </el-table-column>
+      <el-table-column type="selection" prop="id" label="ID" />
+      <el-table-column prop="userName" :label="t('name')"> </el-table-column>
       <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
       <el-table-column :label="t('operations')" width="150">

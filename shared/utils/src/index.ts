@@ -10,7 +10,7 @@ import { get } from 'lodash-es'
 export const buildTree = <T>(
   list: T[] | undefined,
   idPath: string,
-  parentKeyPath: string
+  parentKeyPath: string,
 ): (T & { children: T[] })[] => {
   if (!list) {
     return []
@@ -33,4 +33,10 @@ export const buildTree = <T>(
   }
 
   return result
+}
+
+export const execute = async (...fnArr: Function[]) => {
+  for (const fn of fnArr) {
+    await fn()
+  }
 }

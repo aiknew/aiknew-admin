@@ -1,4 +1,5 @@
-import { computed, ref } from 'vue'
+import { SearchScopeEnum } from '@/enums'
+import { computed, Ref, ref } from 'vue'
 
 export interface GroupPathItem {
   groupId: string
@@ -7,12 +8,15 @@ export interface GroupPathItem {
 
 const topGroup = { groupId: '0', groupName: 'Top' }
 
-export const useFileGroupPath = () => {
+export const useFileGroupPath = (searchScope: Ref<SearchScopeEnum>) => {
   const forwardStack = ref<GroupPathItem[][]>([])
   const backwardStack = ref<GroupPathItem[][]>([])
   const currentStack = ref<GroupPathItem[]>([topGroup])
 
-  const currentGroupId = computed(() => {
+  const currentGroupId = computed<string | undefined>(() => {
+    if (searchScope.value === SearchScopeEnum.ALL) {
+      return undefined
+    }
     return currentStack.value[currentStack.value.length - 1].groupId
   })
 
@@ -25,7 +29,7 @@ export const useFileGroupPath = () => {
   })
 
   const currentGroupPathIds = computed(() => {
-    return currentStack.value.map(item => item.groupId)
+    return currentStack.value.map((item) => item.groupId)
   })
 
   const enterGroup = (group: GroupPathItem) => {

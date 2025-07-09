@@ -1,22 +1,13 @@
 <script lang="ts" setup>
 import { ElTable } from 'element-plus'
-// import type { TreeProps } from 'element-plus/es/components/table/src/table/defaults'
 import { useTemplateRef } from 'vue'
-import AppPagination from './app-pagination.vue'
+import { AppPagination } from '@aiknew/shared-ui-components'
 import { computed } from 'vue'
+import type { IPaginationData } from '@aiknew/shared-types'
 
-// export type { TreeProps }
-
-type TableData = {
-  current: number
-  pageSize: number
-  total: number
-  list: Array<Record<string, unknown>>
-}
-
-interface Props {
+export interface Props {
   pagination?: boolean
-  tableData?: TableData
+  tableData?: IPaginationData<Record<string, unknown>[]>
   tree?: boolean
 }
 
@@ -26,7 +17,7 @@ const {
   tree = false,
 } = defineProps<Props>()
 
-const elTableRef = useTemplateRef<InstanceType<typeof ElTable>>('elTableRef')
+const elTableRef = useTemplateRef<InstanceType<typeof ElTable>>('elTable')
 const currentPage = defineModel<number>('currentPage', { default: 1 })
 const pageSize = defineModel<number>('pageSize', { default: 10 })
 const list = computed(() => {
@@ -37,15 +28,15 @@ const list = computed(() => {
   return tableData.list
 })
 
-const clearSelection = (): void => {
+const clearSelection = () => {
   elTableRef.value?.clearSelection()
 }
 
-const toggleRowExpansion = (row: any, expanded?: boolean): void => {
+const toggleRowExpansion = (row: any, expanded?: boolean) => {
   elTableRef.value?.toggleRowExpansion(row, expanded)
 }
 
-const updateKeyChildren = <T>(key: string, data: T[]): void => {
+const updateKeyChildren = <T>(key: string, data: T[]) => {
   elTableRef.value?.updateKeyChildren(key, data)
 }
 
@@ -57,27 +48,36 @@ defineExpose({
 </script>
 
 <template>
-  <div>
-    <el-table
-      ref="elTableRef"
-      :data="list"
-      v-bind="$attrs"
-      class="app-table"
-      size="large"
-    >
-      <slot></slot>
-    </el-table>
-
-    <AppPagination
-      v-if="pagination"
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
-      :total="tableData.total"
-    />
+  <!-- custom table header -->
+  <div class="table-header">
+    <slot name="header"> </slot>
   </div>
+
+  <!-- table -->
+  <el-table
+    ref="elTable"
+    :data="list"
+    v-bind="$attrs"
+    class="app-table"
+    size="large"
+  >
+    <slot name="default"></slot>
+  </el-table>
+
+  <!-- pagination -->
+  <AppPagination
+    v-if="pagination"
+    v-model:current-page="currentPage"
+    v-model:page-size="pageSize"
+    :total="tableData.total"
+  />
 </template>
 
 <style>
+.table-header {
+  margin-bottom: 10px;
+}
+
 .app-table {
   --el-table-header-bg-color: rgba(245, 245, 245, 0.5);
   --el-table-header-text-color: #333;

@@ -1,42 +1,43 @@
 <script setup lang="tsx">
 import { ref, useTemplateRef } from 'vue'
-import FolderSVG from '@/assets/svg/folder.svg'
-import VideoSVG from '@/assets/svg/video.svg'
-import { ElImage, ElSpace, ElButton, ElTableColumn, ElPopconfirm } from 'element-plus'
+import FolderSVG from './icons/folder.svg'
+import VideoSVG from './icons/video.svg'
 import {
-  isFileItem,
-  isGroupItem,
-  type FileItem,
-  type GroupItem,
-  type GroupPathItem
-} from './composables'
+  ElImage,
+  ElSpace,
+  ElButton,
+  ElTableColumn,
+  ElPopconfirm,
+} from 'element-plus'
+import { isFileItem, isGroupItem, type GroupPathItem } from './composables'
 import { useFileI18n } from './composables/use-file-i18n'
-import AppTable from '../common/app-table.vue'
+import { AppTable } from '@aiknew/shared-ui-table'
+import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 
-export interface AppFileListTableProps {
+export interface Props {
   currentGroupPath: GroupPathItem[]
 }
 
-export interface AppFileListTableEmits {
-  (e: 'edit-item', row: FileItem | GroupItem): void
-  (e: 'click-item', row: FileItem | GroupItem): void
-  (e: 'delete-item', row: FileItem | GroupItem): void
+export interface Emits {
+  (e: 'edit-item', row: IUploadFile | IUploadFileGroup): void
+  (e: 'click-item', row: IUploadFile | IUploadFileGroup): void
+  (e: 'delete-item', row: IUploadFile | IUploadFileGroup): void
   (e: 'back-to-upper-group'): void
   (e: 'back-to-previous-group'): void
   (e: 'forward-to-next-group'): void
-  (e: 'select', selection: FileItem[]): void
+  (e: 'select', selection: IUploadFile[]): void
 }
 
-const emit = defineEmits<AppFileListTableEmits>()
-const { currentGroupPath } = defineProps<AppFileListTableProps>()
+const emit = defineEmits<Emits>()
+const { currentGroupPath } = defineProps<Props>()
 const { t } = useFileI18n()
 
 const loading = ref(false)
-const appTableRef = useTemplateRef('appTableRef')
-const selectedFiles = ref<FileItem[]>([])
+const appTableRef = useTemplateRef('appTable')
+const selectedFiles = ref<IUploadFile[]>([])
 const selectedGroups = ref<Set<string>>(new Set())
 
-const getIcon = (row: FileItem | GroupItem) => {
+const getIcon = (row: IUploadFile | IUploadFileGroup) => {
   if (isGroupItem(row)) {
     return FolderSVG
   } else {
@@ -49,36 +50,41 @@ const getIcon = (row: FileItem | GroupItem) => {
   }
 }
 
-const setRowClassName = ({ row }: { row: FileItem | GroupItem }) => {
+const setRowClassName = ({ row }: { row: IUploadFile | IUploadFileGroup }) => {
   if (isGroupItem(row)) {
     const hasSelected = selectedGroups.value.has(row.id)
-    const classNames = [`group-${row.id}`, hasSelected ? `has-file-selected` : ``]
+    const classNames = [
+      `group-${row.id}`,
+      hasSelected ? `has-file-selected` : ``,
+    ]
     return classNames.join(' ')
   }
 }
 
 // Disable group item selection
-const handleSelectable = (row: FileItem | GroupItem) => {
+const handleSelectable = (row: IUploadFile | IUploadFileGroup) => {
   return isFileItem(row)
 }
 
 // Only FileItem is selectable
-const handleSelect = (selection: FileItem[], row: FileItem) => {
+const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
   const isCanceled = selectedFiles.value.length > selection.length
   selectedFiles.value = selection
   if (isCanceled) {
-    currentGroupPath.forEach((item) => selectedGroups.value.delete(item.groupId))
+    currentGroupPath.forEach((item) =>
+      selectedGroups.value.delete(item.groupId),
+    )
   } else {
     selectedGroups.value = new Set([
       ...selectedGroups.value,
       ...selection.map((item) => item.groupId!),
-      ...currentGroupPath.map((item) => item.groupId)
+      ...currentGroupPath.map((item) => item.groupId),
     ])
   }
   emit('select', selection)
 }
 
-const permissionType = (row: FileItem | GroupItem) => {
+const permissionType = (row: IUploadFile | IUploadFileGroup) => {
   if (isGroupItem(row)) {
     return '-group'
   }
@@ -86,11 +92,11 @@ const permissionType = (row: FileItem | GroupItem) => {
   return '-file'
 }
 
-const editPermission = (row: FileItem | GroupItem) => {
+const editPermission = (row: IUploadFile | IUploadFileGroup) => {
   return 'edit' + permissionType(row)
 }
 
-const deletePermission = (row: FileItem | GroupItem) => {
+const deletePermission = (row: IUploadFile | IUploadFileGroup) => {
   return 'delete' + permissionType(row)
 }
 
@@ -100,13 +106,16 @@ const clearSelection = () => {
 }
 
 defineExpose({
-  clearSelection
+  clearSelection,
 })
 </script>
 
 <template>
+  <!-- 
+   
+  -->
   <AppTable
-    ref="appTableRef"
+    ref="appTable"
     :loading
     :pagination="false"
     v-bind="$attrs"
@@ -115,11 +124,21 @@ defineExpose({
     @select="handleSelect"
   >
     <template #header>
-      <el-space warp style="margin-left: auto">
-        <el-button icon="Top" circle @click="$emit('back-to-upper-group')" />
-        <el-button icon="ArrowLeft" circle @click="$emit('back-to-previous-group')" />
-        <el-button icon="ArrowRight" circle @click="$emit('forward-to-next-group')" />
-      </el-space>
+      <div class="file-list-header">
+        <el-space warp>
+          <el-button icon="Top" circle @click="$emit('back-to-upper-group')" />
+          <el-button
+            icon="ArrowLeft"
+            circle
+            @click="$emit('back-to-previous-group')"
+          />
+          <el-button
+            icon="ArrowRight"
+            circle
+            @click="$emit('forward-to-next-group')"
+          />
+        </el-space>
+      </div>
     </template>
 
     <template #default>
@@ -130,7 +149,12 @@ defineExpose({
         reserve-selection
       />
       <!-- <el-table-column prop="id" label="ID" width="120" /> -->
-      <el-table-column prop="name" min-width="210" :label="t('name')" show-overflow-tooltip>
+      <el-table-column
+        prop="name"
+        min-width="210"
+        :label="t('name')"
+        show-overflow-tooltip
+      >
         <template #default="{ row }">
           <div class="item-name" @click.stop="$emit('click-item', row)">
             <component :is="getIcon(row)" />
@@ -153,8 +177,12 @@ defineExpose({
             @click.stop="$emit('edit-item', row)"
           />
 
-          <el-popconfirm :title="t('deleteConfirm')" @confirm="$emit('delete-item', row)">
+          <el-popconfirm
+            :title="t('deleteConfirm')"
+            @confirm="$emit('delete-item', row)"
+          >
             <template #reference>
+              <!-- TODO: permission control remove -->
               <el-button
                 v-permission:[deletePermission(row)]="'/content/file'"
                 type="danger"
@@ -170,6 +198,11 @@ defineExpose({
 </template>
 
 <style>
+.file-list-header {
+  display: flex;
+  justify-content: end;
+}
+
 .el-table__body tr[class*='group'] .el-table-column--selection .cell {
   display: none;
 }

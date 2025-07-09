@@ -4,6 +4,7 @@ import { bootstrap } from './utils/bootstrap'
 import '@/assets/css/main.css'
 import '@aiknew/shared-ui-components/style.css'
 import '@aiknew/shared-ui-form/style.css'
+import '@aiknew/shared-ui-filer/style.css'
 
 const app = createApp(App)
 

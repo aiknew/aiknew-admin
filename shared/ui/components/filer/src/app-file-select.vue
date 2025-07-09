@@ -1,14 +1,19 @@
 <script lang="ts" setup>
 import { computed, ref, useTemplateRef } from 'vue'
-import AppFileModal from './app-file-modal.vue'
-import type { FileItem } from './composables'
+import AppFileModal, {
+  type Props as FileModalProps,
+} from './app-file-modal.vue'
 import { ElImage, ElButton, ElIcon } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
+import type { IUploadFile } from '@aiknew/shared-types'
 
-const fileModalRef = useTemplateRef('fileModalRef')
+export interface Props extends FileModalProps {}
+
+defineProps<Props>()
+const fileModalRef = useTemplateRef('fileModal')
 const imgRefs = ref<Set<InstanceType<typeof ElImage>>>(new Set())
-const selectedFiles = defineModel<FileItem[]>({
-  default: []
+const selectedFiles = defineModel<IUploadFile[]>({
+  default: [],
 })
 const previewList = computed(() => {
   return selectedFiles.value.map((item) => `/${item.filePath}`) ?? []
@@ -39,9 +44,11 @@ const handleDelete = (index: number) => {
   selectedFiles.value.splice(index, 1)
 }
 
-const handleFileModalSubmit = (data: FileItem[]) => {
+const handleFileModalSubmit = (data: IUploadFile[]) => {
   data.forEach((item) => {
-    const exists = selectedFiles.value.some((selected) => selected.id === item.id)
+    const exists = selectedFiles.value.some(
+      (selected) => selected.id === item.id,
+    )
     if (!exists) {
       selectedFiles.value.push(item)
     }
@@ -52,10 +59,19 @@ const handleFileModalSubmit = (data: FileItem[]) => {
 <template>
   <div class="app-file-select">
     <!-- selected file list -->
-    <div class="image-container" v-for="(item, index) in selectedFiles" :key="index">
+    <div
+      class="image-container"
+      v-for="(item, index) in selectedFiles"
+      :key="index"
+    >
       <div class="image-mask">
         <el-button icon="Search" circle @click="handleClickPreview(index)" />
-        <el-button type="danger" icon="Delete" circle @click="handleDelete(index)" />
+        <el-button
+          type="danger"
+          icon="Delete"
+          circle
+          @click="handleDelete(index)"
+        />
       </div>
       <el-image
         :ref="(instance: any) => setImgRef(instance, index)"
@@ -74,7 +90,11 @@ const handleFileModalSubmit = (data: FileItem[]) => {
       </el-icon>
     </div>
 
-    <AppFileModal ref="fileModalRef" @submit="handleFileModalSubmit" />
+    <AppFileModal
+      ref="fileModal"
+      v-bind="$props"
+      @submit="handleFileModalSubmit"
+    />
   </div>
 </template>
 

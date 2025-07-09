@@ -1,8 +1,9 @@
-import type {
+import {
   ElCheckbox,
   ElFormItem,
   ElInput,
   ElInputNumber,
+  ElRadio,
   ElRadioButton,
   ElSelectV2,
   ElSwitch,
@@ -11,6 +12,7 @@ import type {
 import {
   defineAsyncComponent,
   reactive,
+  shallowReactive,
   type Component,
   type ComputedRef,
   type InjectionKey,
@@ -19,18 +21,18 @@ import {
 } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import { z, type ZodTypeAny } from 'zod'
-import 'element-plus/es/components/radio/style/index'
-import 'element-plus/es/components/select-v2/style/index'
-import 'element-plus/es/components/segmented/style/index'
-import 'element-plus/es/components/input-number/style/index'
-import 'element-plus/es/components/input/style/index'
-import 'element-plus/es/components/tree-select/style/index'
-import 'element-plus/es/components/switch/style/index'
+// import 'element-plus/es/components/radio/style/index'
+// import 'element-plus/es/components/select-v2/style/index'
+// import 'element-plus/es/components/segmented/style/index'
+// import 'element-plus/es/components/input-number/style/index'
+// import 'element-plus/es/components/input/style/index'
+// import 'element-plus/es/components/tree-select/style/index'
+// import 'element-plus/es/components/switch/style/index'
 import type {
   ShallowMaybeRef,
   UnwrapMaybeRefOrGetter,
 } from '@aiknew/shared-ui-types'
-import type WangEditor from '@aiknew/shared-ui-components'
+import { WangEditor } from '@aiknew/shared-ui-components'
 
 export type ComponentPropsAndSlots<T> = ShallowMaybeRef<ComponentProps<T>> & {
   slots?: ComponentSlots<T>
@@ -73,39 +75,15 @@ export interface ComponentOptionsMap {
 export type Components = keyof ComponentOptionsMap
 
 export const components: Record<Components, Component> = {
-  ElCheckbox: defineAsyncComponent(() =>
-    import('element-plus/es/components/checkbox/index').then((m) => m.default),
-  ),
-  ElRadio: defineAsyncComponent(() =>
-    import('element-plus/es/components/radio/index').then((m) => m.default),
-  ),
-  ElFormItem: defineAsyncComponent(() =>
-    import('element-plus/es/components/form/src/form-item').then(
-      (m) => m.default,
-    ),
-  ),
-  ElInput: defineAsyncComponent(() =>
-    import('element-plus/es/components/input/index').then((m) => m.default),
-  ),
-  ElSelectV2: defineAsyncComponent(() =>
-    import('element-plus/es/components/select-v2/index').then((m) => m.default),
-  ),
-  ElTreeSelect: defineAsyncComponent(() =>
-    import('element-plus/es/components/tree-select/index').then(
-      (m) => m.default,
-    ),
-  ),
-  ElInputNumber: defineAsyncComponent(() =>
-    import('element-plus/es/components/input-number/index').then(
-      (m) => m.default,
-    ),
-  ),
-  ElSwitch: defineAsyncComponent(() =>
-    import('element-plus/es/components/switch/index').then((m) => m.default),
-  ),
-  WangEditor: defineAsyncComponent(() =>
-    import('@aiknew/shared-ui-components').then((m) => m.WangEditor),
-  ),
+  ElCheckbox,
+  ElRadio,
+  ElFormItem,
+  ElInput,
+  ElSelectV2,
+  ElTreeSelect,
+  ElInputNumber,
+  ElSwitch,
+  WangEditor,
 }
 
 export type ComponentOptionsObject<
@@ -124,6 +102,7 @@ export type ComponentOptionsObject<
   rules?: MaybeRefOrGetter<ZodTypeAny>
   formItemSlots?: ComponentSlots<typeof ElFormItem>
 }
+// & (K extends 'ElFormItem' ? {} : { name: N })
 
 export type Field<N extends string> = {
   [K in keyof ComponentOptionsMap]: ComponentOptionsObject<K, N>
@@ -146,5 +125,5 @@ export type FormValues<
 }
 
 export const makeFields = <const T extends Field<string>[]>(...items: T) => {
-  return reactive(items)
+  return items
 }

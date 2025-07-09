@@ -2,7 +2,7 @@ import { useApiData } from '@/composables'
 import type { components, paths } from '@/types/open-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import type { Reactive, Ref } from 'vue'
+import { computed, ref, type Reactive, type Ref } from 'vue'
 
 export type UploadFilesAndGroupsDto = components['schemas']['UploadFilesAndGroupsDto']
 
@@ -63,19 +63,21 @@ export const useUploadFileDelete = () => {
   })
 }
 
-export const useUploadFilesAndGroups = (query: Ref<UploadFilesAndGroupsQuery>) => {
+export const useUploadFilesAndGroups = (query: Ref<UploadFilesAndGroupsQuery | undefined>) => {
   return useQuery({
     queryKey: ['upload-files-and-groups', query],
-    enabled: false,
+    enabled: !!query.value,
     queryFn: () => {
-      return useApiData(() =>
-        fetchClient.GET('/admin/upload-file/filesAndGroups', {
+      if (query.value) {
+        const api = fetchClient.GET('/admin/upload-file/filesAndGroups', {
           params: {
             query: query.value
           },
           showMsg: false
         })
-      )
+
+        return useApiData(() => api)
+      }
     }
   })
 }

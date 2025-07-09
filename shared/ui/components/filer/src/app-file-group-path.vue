@@ -5,17 +5,17 @@ import { ElIcon } from 'element-plus'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useFileI18n } from './composables/use-file-i18n'
 
-export interface AppFileGroupPathProps {
+export interface Props {
   groupPath: GroupPathItem[]
   searchScope: SearchScopeEnum
 }
 
-export interface AppFileGroupPathEmits {
+export interface Emits {
   (e: 'jump', value: number): void
 }
 
-defineProps<AppFileGroupPathProps>()
-const emit = defineEmits<AppFileGroupPathEmits>()
+defineProps<Props>()
+const emit = defineEmits<Emits>()
 const { t } = useFileI18n()
 
 const handleClickPath = (index: number) => {
@@ -25,10 +25,23 @@ const handleClickPath = (index: number) => {
 
 <template>
   <div class="path-info">
-    <div v-show="searchScope === SearchScopeEnum.CURRENT_GROUP" class="path-list">
-      <div class="path-item" v-for="(item, index) in groupPath" :key="item.groupId">
-        <span class="path-name" @click="handleClickPath(index)"> {{ item.groupName }} </span>
-        <el-icon v-if="index !== groupPath.length - 1" class="path-separator" size="13">
+    <div
+      v-show="searchScope === SearchScopeEnum.CURRENT_GROUP"
+      class="path-list"
+    >
+      <div
+        class="path-item"
+        v-for="(item, index) in groupPath"
+        :key="item.groupId"
+      >
+        <span class="path-name" @click="handleClickPath(index)">
+          {{ item.groupName }}
+        </span>
+        <el-icon
+          v-if="index !== groupPath.length - 1"
+          class="path-separator"
+          size="13"
+        >
           <ArrowRight />
         </el-icon>
       </div>

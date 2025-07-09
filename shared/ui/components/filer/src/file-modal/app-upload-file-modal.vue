@@ -1,51 +1,41 @@
 <script setup lang="ts">
 import { ref, useTemplateRef } from 'vue'
-import { useUserStore } from '@/stores/user'
-import { useLangStore } from '@/stores/lang'
-import AppBasicModal from '@/components/common/app-basic-modal.vue'
+import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ElMessage, ElUpload, ElIcon } from 'element-plus'
-import { uploadFileUrl } from '@/api/upload-file'
 import { useFileI18n } from '../composables/use-file-i18n'
 
-export interface UploadFileModalProps {
-  currentGroupId: string
+export interface Props {
+  currentGroupId: string | undefined
+  uploadUrl: string
+  uploadHeaders: Record<string, string>
 }
 
-export interface UploadFileModalEmits {
+export interface Emits {
   (e: 'close'): void
 }
 
-defineEmits<UploadFileModalEmits>()
-const { currentGroupId } = defineProps<UploadFileModalProps>()
+defineEmits<Emits>()
+const { currentGroupId, uploadHeaders, uploadUrl } = defineProps<Props>()
 const { t } = useFileI18n()
 
-const userStore = useUserStore()
-const langStore = useLangStore()
-const modalRef = useTemplateRef('modalRef')
-const uploadHeaders = ref({})
+const modalRef = useTemplateRef('modal')
 const extraData = ref({})
-const actionUrl = import.meta.env.VITE_API_BASE_URL + uploadFileUrl
 
 const onBeforeUpload = () => {
   extraData.value = {
-    groupId: currentGroupId
-  }
-
-  uploadHeaders.value = {
-    Authorization: `Bearer ${userStore.accessToken}`,
-    'x-lang': langStore.currentLang
+    groupId: currentGroupId,
   }
 }
 
 const onSuccess = (response: { msg: string }) => {
   ElMessage.success({
-    message: response.msg
+    message: response.msg,
   })
 }
 
 const onError = (err: Error) => {
   ElMessage.error({
-    message: JSON.parse(err.message).msg
+    message: JSON.parse(err.message).msg,
   })
 }
 
@@ -55,16 +45,21 @@ const show = () => {
 }
 
 defineExpose({
-  show
+  show,
 })
 </script>
 
 <template>
-  <AppBasicModal append-to-body ref="modalRef" :show-footer="false" @close="$emit('close')">
+  <AppBasicModal
+    append-to-body
+    ref="modal"
+    :show-footer="false"
+    @close="$emit('close')"
+  >
     <el-upload
       drag
       multiple
-      :action="actionUrl"
+      :action="uploadUrl"
       :headers="uploadHeaders"
       :data="extraData"
       :before-upload="onBeforeUpload"
@@ -82,5 +77,3 @@ defineExpose({
     </el-upload>
   </AppBasicModal>
 </template>
-
-<style scoped></style>

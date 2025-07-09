@@ -1,0 +1,49 @@
+{
+  "name": "@aiknew/shared-ui-filer",
+  "version": "0.0.1",
+  "main": "dist/filer.es.js",
+  "module": "dist/filer.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/filer.es.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/shared-ui-filer.css"
+  },
+  "peerDependencies": {
+    "@element-plus/icons-vue": "catalog:ui",
+    "@vueuse/core": "catalog:ui",
+    "@aiknew/shared-ui-form": "workspace:*",
+    "@aiknew/shared-ui-components": "workspace:*",
+    "element-plus": "catalog:ui",
+    "vue": "catalog:ui",
+    "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/shared-ui-table": "workspace:*",
+    "@aiknew/shared-ui-utils": "workspace:*",
+    "@aiknew/shared-utils": "workspace:*",
+    "zod": "catalog:ui",
+    "vue-i18n": "catalog:ui"
+  },
+  "dependencies": {
+    "filesize": "catalog:common",
+    "mime": "catalog:common"
+  },
+  "devDependencies": {
+    "@aiknew/shared-types": "workspace:*",
+    "@intlify/core-base": "^11.1.9",
+    "@types/lodash": "^4.17.20",
+    "@vitejs/plugin-vue": "catalog:ui",
+    "typescript": "catalog:common",
+    "vite": "catalog:ui",
+    "vite-svg-loader": "catalog:ui",
+    "@vitejs/plugin-vue-jsx": "catalog:ui",
+    "unplugin-element-plus": "catalog:ui",
+    "vite-plugin-dts": "catalog:ui"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}

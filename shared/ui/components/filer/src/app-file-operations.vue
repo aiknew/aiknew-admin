@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import { ElRow, ElCol, ElSpace, ElInput, ElButton, ElSelect, ElOption } from 'element-plus'
-import { SearchScopeEnum } from '@/enums'
+import {
+  ElRow,
+  ElCol,
+  ElSpace,
+  ElInput,
+  ElButton,
+  ElSelect,
+  ElOption,
+} from 'element-plus'
+import { SearchScopeEnum } from './enums'
 import { useFileI18n } from './composables/use-file-i18n'
 
-export interface FileOperationsProps {
+export interface Props {
   searchKeyword: string
   searchScope: SearchScopeEnum
   selectedCount: number
+  currentGroupId: string | undefined
 }
 
-export interface FileOperationsEmits {
+export interface Emits {
   (e: 'add-group'): void
   (e: 'upload'): void
   (e: 'search'): void
@@ -21,8 +30,8 @@ export interface FileOperationsEmits {
   (e: 'update:searchScope', value: SearchScopeEnum): void
 }
 
-const { selectedCount } = defineProps<FileOperationsProps>()
-const emit = defineEmits<FileOperationsEmits>()
+const { selectedCount } = defineProps<Props>()
+const emit = defineEmits<Emits>()
 const { t } = useFileI18n()
 
 const hasSelected = computed(() => selectedCount > 0)
@@ -49,8 +58,15 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
         class="search-file"
       >
         <template #prepend>
-          <el-select :model-value="searchScope" @change="handleChangeSearchScope">
-            <el-option key="all" :label="t('all')" :value="SearchScopeEnum.ALL"></el-option>
+          <el-select
+            :model-value="searchScope"
+            @change="handleChangeSearchScope"
+          >
+            <el-option
+              key="all"
+              :label="t('all')"
+              :value="SearchScopeEnum.ALL"
+            ></el-option>
             <el-option
               key="group"
               :label="t('currentGroup')"
@@ -79,17 +95,27 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
         >
           {{ t('deleteSelected') }}
         </el-button>
-        <el-button type="primary" v-show="hasSelected" plain @click="$emit('clear-selected')">
+        <el-button
+          type="primary"
+          v-show="hasSelected"
+          plain
+          @click="$emit('clear-selected')"
+        >
           {{ t('clearSelected') }}
         </el-button>
         <el-button
+          v-show="currentGroupId"
           type="primary"
           @click="$emit('upload')"
           v-permission:upload-file="'/content/file'"
         >
           {{ t('uploadFile') }}
         </el-button>
-        <el-button @click="$emit('add-group')" v-permission:add-group="'/content/file'">
+        <el-button
+          v-show="currentGroupId"
+          @click="$emit('add-group')"
+          v-permission:add-group="'/content/file'"
+        >
           {{ t('createGroup') }}
         </el-button>
       </el-space>

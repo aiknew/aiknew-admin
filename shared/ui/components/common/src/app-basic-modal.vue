@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { ElLoading, ElDialog, ElButton } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 
 export type ModalMode = 'add' | 'edit' | 'show'
 
-interface Props {
+export interface Props {
   maxWidth?: number
   showCancelBtn?: boolean
   showFooter?: boolean
 }
 
-interface Emits {
+export interface Emits {
   (e: 'submit'): void
   (e: 'opened'): void
   (e: 'closed'): void
@@ -19,19 +19,20 @@ interface Emits {
 
 withDefaults(defineProps<Props>(), {
   maxWidth: 600,
-  showFooter: true
+  showFooter: true,
 })
 
 defineEmits<Emits>()
 const { t } = useI18n()
-const dialogRef = ref<InstanceType<typeof ElDialog>>()
+const dialogRef = useTemplateRef<InstanceType<typeof ElDialog>>('dialog')
 
 const loadingInsArr: { close: () => void }[] = []
 const showLoading = () => {
   loadingInsArr.push(
     ElLoading.service({
-      target: dialogRef.value?.$el.nextElementSibling.querySelector('.el-dialog')
-    })
+      target:
+        dialogRef.value?.$el.nextElementSibling.querySelector('.el-dialog'),
+    }),
   )
 }
 
@@ -51,7 +52,7 @@ const useTitle = () => {
 
   return {
     title,
-    setTitle
+    setTitle,
   }
 }
 
@@ -64,7 +65,7 @@ const useModalMode = () => {
 
   return {
     modalMode,
-    setModalMode
+    setModalMode,
   }
 }
 
@@ -82,7 +83,7 @@ const useModalVisible = () => {
   return {
     visible,
     show,
-    close
+    close,
   }
 }
 
@@ -98,13 +99,13 @@ defineExpose({
   showLoading,
   hideLoading,
   show,
-  close
+  close,
 })
 </script>
 
 <template>
   <el-dialog
-    ref="dialogRef"
+    ref="dialog"
     :style="{ maxWidth: `${maxWidth}px` }"
     :title
     width="calc(100vw - 30px)"

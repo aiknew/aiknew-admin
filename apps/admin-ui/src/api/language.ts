@@ -1,6 +1,6 @@
 import { useApiData } from '@/composables'
 import type { components } from '@/types/open-api'
-import type { PaginationDto } from '@/types/request'
+import type { IPaginationQuery } from '@aiknew/shared-types'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { useQuery } from '@tanstack/vue-query'
 import type { Reactive } from 'vue'
@@ -13,26 +13,26 @@ export const useEnabledLangList = () => {
     queryFn: () => {
       return useApiData(() =>
         fetchClient.GET('/admin/language/enabled', {
-          showMsg: false,
-        }),
+          showMsg: false
+        })
       )
-    },
+    }
   })
 }
 
-export const useLangList = (query: Reactive<PaginationDto>) => {
+export const useLangList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['lang-list'],
     queryFn: () => {
       return useApiData(() =>
         fetchClient.GET('/admin/language', {
           params: {
-            query,
+            query
           },
 
-          showMsg: false,
-        }),
+          showMsg: false
+        })
       )
-    },
+    }
   })
 }

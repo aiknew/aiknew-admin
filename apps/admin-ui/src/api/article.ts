@@ -1,7 +1,7 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { PaginationDto } from '@/types/request'
+import type { IPaginationQuery } from '@aiknew/shared-types'
 import { ref, toValue, type Reactive } from 'vue'
 import type { paths } from '@/types/open-api'
 
@@ -14,7 +14,7 @@ export type CreateArticleDto =
 export type UpdateArticleDto =
   paths['/admin/article/{id}']['patch']['requestBody']['content']['application/json']
 
-export const useArticleList = (query: Reactive<PaginationDto>) => {
+export const useArticleList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['article-list', query],
     placeholderData: keepPreviousData,

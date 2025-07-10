@@ -1,7 +1,7 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { PaginationDto } from '@/types/request'
+import type { IPaginationQuery } from '@aiknew/shared-types'
 import type { Reactive } from 'vue'
 import type { paths } from '@/types/open-api'
 
@@ -14,7 +14,7 @@ export type CreateAdminRoleDto =
 export type UpdateAdminRoleDto =
   paths['/admin/admin-role/{id}']['patch']['requestBody']['content']['application/json']
 
-export const useAdminRoleList = (query: Reactive<PaginationDto>) => {
+export const useAdminRoleList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['admin-role', query],
     placeholderData: keepPreviousData,
@@ -22,12 +22,12 @@ export const useAdminRoleList = (query: Reactive<PaginationDto>) => {
       return useApiData(() =>
         fetchClient.GET('/admin/admin-role', {
           params: {
-            query,
+            query
           },
-          showMsg: false,
-        }),
+          showMsg: false
+        })
       )
-    },
+    }
   })
 }
 
@@ -37,10 +37,10 @@ export const useAdminRoleAll = () => {
     queryFn: async () => {
       return useApiData(() =>
         fetchClient.GET('/admin/admin-role/all', {
-          showMsg: false,
-        }),
+          showMsg: false
+        })
       )
-    },
+    }
   })
 }
 
@@ -50,10 +50,10 @@ export const useAdminRoleCreate = () => {
     mutationFn: (body: CreateAdminRoleDto) => {
       return useApiData(() =>
         fetchClient.POST('/admin/admin-role', {
-          body,
-        }),
+          body
+        })
       )
-    },
+    }
   })
 }
 
@@ -65,13 +65,13 @@ export const useAdminRoleUpdate = () => {
         fetchClient.PATCH('/admin/admin-role/{id}', {
           params: {
             path: {
-              id,
-            },
+              id
+            }
           },
-          body,
-        }),
+          body
+        })
       )
-    },
+    }
   })
 }
 
@@ -83,11 +83,11 @@ export const useAdminRoleDelete = () => {
         fetchClient.DELETE('/admin/admin-role/{id}', {
           params: {
             path: {
-              id,
-            },
-          },
-        }),
+              id
+            }
+          }
+        })
       )
-    },
+    }
   })
 }

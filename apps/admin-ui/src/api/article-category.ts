@@ -1,8 +1,8 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { PaginationDto } from '@/types/request'
-import { ref, toValue, type MaybeRef, type Reactive, type Ref } from 'vue'
+import type { IPaginationQuery } from '@aiknew/shared-types'
+import { ref, toValue, type Reactive, type Ref } from 'vue'
 import type { paths } from '@/types/open-api'
 
 export type ArticleCategory =
@@ -17,7 +17,7 @@ export type CreateArticleCategoryDto =
 export type UpdateArticleCategoryDto =
   paths['/admin/article-category/{id}']['patch']['requestBody']['content']['application/json']
 
-export const useArticleCategoryList = (query: Reactive<PaginationDto>) => {
+export const useArticleCategoryList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['article-category-list', query],
     placeholderData: keepPreviousData,

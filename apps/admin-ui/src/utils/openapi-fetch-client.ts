@@ -2,7 +2,7 @@ import { t } from '@/locales'
 import { useLangStore } from '@/stores/lang'
 import { useUserStore } from '@/stores/user'
 import { type paths } from '@/types/open-api'
-import type { ResponseJson } from '@/types/request'
+import type { IResponseJson } from '@aiknew/shared-types'
 import { ElMessage, ElNotification } from 'element-plus'
 import createClient, { type Middleware } from 'openapi-fetch'
 
@@ -10,16 +10,16 @@ import createClient, { type Middleware } from 'openapi-fetch'
  * A custom Error with extra information
  */
 export class HttpError extends Error {
-  data: ResponseJson
+  data: IResponseJson
 
-  constructor(data: ResponseJson, message?: string) {
+  constructor(data: IResponseJson, message?: string) {
     super(data.msg || message)
     this.data = data
   }
 }
 
 const fetchClient = createClient<paths>({
-  baseUrl: import.meta.env.VITE_API_BASE_URL,
+  baseUrl: import.meta.env.VITE_API_BASE_URL
 })
 
 const middleware: Middleware = {
@@ -51,12 +51,12 @@ const middleware: Middleware = {
       }
     } else {
       // 200~299 response
-      const body: ResponseJson = await response.clone().json()
+      const body: IResponseJson = await response.clone().json()
       const showMsg = request.showMsg ?? true
       if (showMsg) {
         ElMessage({
           message: body.msg,
-          type: 'success',
+          type: 'success'
         })
       }
     }
@@ -68,9 +68,9 @@ const middleware: Middleware = {
     ElNotification({
       title: t('networkError'),
       message: String(error),
-      type: 'error',
+      type: 'error'
     })
-  },
+  }
 }
 
 fetchClient.use(middleware)

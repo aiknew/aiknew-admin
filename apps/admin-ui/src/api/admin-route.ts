@@ -1,7 +1,7 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { PaginationDto } from '@/types/request'
+import type { IPaginationQuery } from '@aiknew/shared-types'
 import { toValue, type MaybeRef, type Reactive, type Ref } from 'vue'
 import type { components, paths } from '@/types/open-api'
 
@@ -19,7 +19,7 @@ export type CreateAdminRouteDto =
 export type UpdateAdminRouteDto =
   paths['/admin/admin-route/{id}']['patch']['requestBody']['content']['application/json']
 
-export const useAdminRouteList = (query: Reactive<PaginationDto>) => {
+export const useAdminRouteList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['admin-route', query],
     placeholderData: keepPreviousData,

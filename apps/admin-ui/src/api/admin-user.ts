@@ -1,6 +1,6 @@
 import { useApiData } from '@/composables'
 import type { paths } from '@/types/open-api'
-import type { PaginationDto } from '@/types/request'
+import type { IPaginationQuery } from '@aiknew/shared-types'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import type { Reactive } from 'vue'
@@ -14,7 +14,7 @@ export type CreateAdminUserDto =
 export type UpdateAdminUserDto =
   paths['/admin/admin-user/{id}']['patch']['requestBody']['content']['application/json']
 
-export const useAdminUserList = (query: Reactive<PaginationDto>) => {
+export const useAdminUserList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['admin-user', query],
     placeholderData: keepPreviousData,

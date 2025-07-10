@@ -89,6 +89,9 @@ catalogs:
     '@intlify/unplugin-vue-i18n':
       specifier: ^6.0.5
       version: 6.0.8
+    '@tailwindcss/vite':
+      specifier: ^4.1.10
+      version: 4.1.10
     '@vee-validate/zod':
       specifier: ^4.15.0
       version: 4.15.1
@@ -360,6 +363,9 @@ importers:
       '@aiknew/shared-ui-locales':
         specifier: workspace:*
         version: link:../../shared/ui/locales
+      '@aiknew/shared-ui-table':
+        specifier: workspace:*
+        version: link:../../shared/ui/components/table
       '@aiknew/shared-ui-utils':
         specifier: workspace:*
         version: link:../../shared/ui/utils
@@ -370,7 +376,7 @@ importers:
         specifier: catalog:ui
         version: 2.3.1(vue@3.5.17(typescript@5.8.3))
       '@tailwindcss/vite':
-        specifier: ^4.1.10
+        specifier: catalog:ui
         version: 4.1.10(vite@7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))
       '@tanstack/vue-query':
         specifier: ^5.81.2
@@ -918,6 +924,9 @@ importers:
       mime:
         specifier: catalog:common
         version: 4.0.7
+      tailwindcss:
+        specifier: catalog:ui
+        version: 4.1.10
       vue:
         specifier: catalog:ui
         version: 3.5.17(typescript@5.8.3)
@@ -979,6 +988,9 @@ importers:
       lodash-es:
         specifier: catalog:common
         version: 4.17.21
+      tailwindcss:
+        specifier: catalog:ui
+        version: 4.1.10
       vee-validate:
         specifier: catalog:ui
         version: 4.15.1(vue@3.5.17(typescript@5.8.3))
@@ -1019,6 +1031,9 @@ importers:
       '@aiknew/shared-ui-components':
         specifier: workspace:*
         version: link:../common
+      tailwindcss:
+        specifier: catalog:ui
+        version: 4.1.10
       vue:
         specifier: catalog:ui
         version: 3.5.17(typescript@5.8.3)
@@ -1047,6 +1062,9 @@ importers:
       element-plus:
         specifier: catalog:ui
         version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
+      tailwindcss:
+        specifier: catalog:ui
+        version: 4.1.10
       vue:
         specifier: catalog:ui
         version: 3.5.17(typescript@5.8.3)

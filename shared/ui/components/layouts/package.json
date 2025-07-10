@@ -9,11 +9,11 @@
   ],
   "peerDependencies": {
     "vue": "catalog:ui",
-    "vue-router": "catalog:ui"
-  },
-  "dependencies": {
+    "vue-router": "catalog:ui",
+    "tailwindcss": "catalog:ui",
     "@aiknew/shared-ui-components": "workspace:*"
   },
+  "dependencies": {},
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:ui",
     "typescript": "catalog:common",

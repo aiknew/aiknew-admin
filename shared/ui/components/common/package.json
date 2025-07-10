@@ -15,16 +15,16 @@
     "./style.css": "./dist/shared-ui-components.css"
   },
   "dependencies": {
-    "@aiknew/shared-ui-utils": "workspace:*",
     "@wangeditor-next/editor": "^5.6.34",
     "@wangeditor-next/editor-for-vue": "^5.1.14"
   },
   "peerDependencies": {
+    "@aiknew/shared-ui-utils": "workspace:*",
     "@element-plus/icons-vue": "catalog:ui",
     "@vueuse/core": "catalog:ui",
     "element-plus": "catalog:ui",
-    "tailwindcss": "catalog:ui",
     "vue": "catalog:ui",
+    "tailwindcss": "catalog:ui",
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui"
   },

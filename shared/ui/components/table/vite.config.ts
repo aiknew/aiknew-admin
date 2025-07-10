@@ -11,7 +11,7 @@ export default defineConfig({
       fileName: (format) => `table.${format}.js`,
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'element-plus', '@aiknew/shared-ui-components'],
       output: {
         globals: {
           vue: 'Vue',

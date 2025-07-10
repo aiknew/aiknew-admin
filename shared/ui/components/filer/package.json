@@ -23,6 +23,7 @@
     "@aiknew/shared-ui-utils": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
     "zod": "catalog:ui",
+    "tailwindcss": "catalog:ui",
     "vue-i18n": "catalog:ui"
   },
   "dependencies": {

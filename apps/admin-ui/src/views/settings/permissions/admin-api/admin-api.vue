@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
-import AppTable from '@/components/common/app-table.vue'
+import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
 import {
   useAdminApiChildren,

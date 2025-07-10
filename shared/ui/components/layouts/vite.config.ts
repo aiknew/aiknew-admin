@@ -10,7 +10,7 @@ export default defineConfig({
       fileName: (format) => `layouts.${format}.js`,
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'vue-router', '@aiknew/shared-ui-components'],
       output: {
         globals: {
           vue: 'Vue',

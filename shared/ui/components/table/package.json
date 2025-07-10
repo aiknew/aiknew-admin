@@ -13,11 +13,11 @@
   },
   "peerDependencies": {
     "element-plus": "catalog:ui",
-    "vue": "catalog:ui"
-  },
-  "dependencies": {
+    "vue": "catalog:ui",
+    "tailwindcss": "catalog:ui",
     "@aiknew/shared-ui-components": "workspace:*"
   },
+  "dependencies": {},
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",
     "@types/lodash": "^4.17.20",

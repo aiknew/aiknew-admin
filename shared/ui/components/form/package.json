@@ -16,6 +16,7 @@
     "element-plus": "catalog:ui",
     "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
+    "tailwindcss": "catalog:ui",
     "@aiknew/shared-ui-utils": "workspace:*"
   },
   "dependencies": {

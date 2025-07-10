@@ -40,9 +40,7 @@ export default defineConfig({
     vue(),
     vueJsx(),
     vueDevTools(),
-    VueI18nPlugin({
-      // include: [convertPath('./src/{locales,views,components}/**/*.json')],
-    }),
+    VueI18nPlugin({}),
     ElementPlus({}),
     svgLoader(),
     tailwindcss(),

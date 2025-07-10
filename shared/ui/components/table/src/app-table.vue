@@ -78,7 +78,7 @@ defineExpose({
   margin-bottom: 10px;
 }
 
-.app-table {
+.app-table.el-table {
   --el-table-header-bg-color: rgba(245, 245, 245, 0.5);
   --el-table-header-text-color: #333;
   width: 100%;
@@ -86,11 +86,11 @@ defineExpose({
   border-radius: 8px;
 }
 
-.el-table__inner-wrapper::before {
+.app-table .el-table__inner-wrapper::before {
   background-color: transparent;
 }
 
-.el-table tr:last-child > td {
+.app-table .el-table tr:last-child > td {
   border-bottom: none;
 }
 </style>

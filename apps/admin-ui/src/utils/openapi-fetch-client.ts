@@ -1,4 +1,4 @@
-import { t } from '@/locales'
+import { t } from '@aiknew/shared-ui-locales'
 import { useLangStore } from '@/stores/lang'
 import { useUserStore } from '@/stores/user'
 import { type paths } from '@/types/open-api'

@@ -1,4 +1,4 @@
-import { t } from '@/locales'
+import { t } from '@aiknew/shared-ui-locales'
 import type { IResponseJson } from '@aiknew/shared-types'
 import { isResponseJson } from '@aiknew/shared-ui-utils'
 import { HttpError } from '@/utils/openapi-fetch-client'

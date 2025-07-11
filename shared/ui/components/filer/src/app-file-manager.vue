@@ -131,7 +131,13 @@ defineExpose({
         @upload="handleUpload"
         @add-group="handleAddGroup"
         @clear-selected="handleClearSelected"
-        @delete-selected="execute(deleteSelected, refresh)"
+        @delete-selected="
+          execute(
+            deleteSelected.bind(null, selectedFiles),
+            handleClearSelected,
+            refresh,
+          )
+        "
         @search="refresh"
       />
     </el-space>

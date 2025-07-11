@@ -10,7 +10,7 @@ import type Node from 'element-plus/es/components/tree/src/model/node'
 export interface SharedProps {
   uploadUrl: string
   uploadHeaders: Record<string, string>
-  deleteSelected: (selectedFiles: IUploadFile[]) => void
+  deleteSelected: (selectedFiles: IUploadFile[]) => Promise<unknown>
   createFileGroup: (data: ICreateUploadFileGroup) => Promise<unknown>
   updateFileGroup: (data: {
     id: string

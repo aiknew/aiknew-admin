@@ -3,8 +3,8 @@ import { useUserStore } from '@/stores/user'
 import { useLangStore } from '@/stores/lang'
 import { useDebounceFn } from '@vueuse/core'
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { AppFileManager, type SharedProps as FileProps } from '@aiknew/shared-ui-filer'
-import { computed, ref, toRef, useTemplateRef, type Ref } from 'vue'
+import { AppFileManager } from '@aiknew/shared-ui-filer'
+import { computed, useTemplateRef, type Ref } from 'vue'
 import { uploadFileUrl, useUploadFileDelete } from '@/api/upload-file'
 import { useUploadFilesAndGroups, useUploadFileUpdate } from '@/api/upload-file'
 import {
@@ -13,7 +13,7 @@ import {
   useUploadFileGroupDelete,
   useUploadFileGroupUpdate
 } from '@/api/upload-file-group'
-import type { IUploadFile, IUploadFileGroup, IUploadFileQuery } from '@aiknew/shared-types'
+import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 const fileManagerRef = useTemplateRef('fileManager')
@@ -22,8 +22,8 @@ const langStore = useLangStore()
 const { mutateAsync: deleteFile } = useUploadFileDelete()
 const { mutateAsync: updateFile } = useUploadFileUpdate()
 const { mutateAsync: deleteGroup } = useUploadFileGroupDelete()
-const { mutateAsync: createFileGroup, error: createError } = useUploadFileGroupCreate()
-const { mutateAsync: updateFileGroup, error: updateError } = useUploadFileGroupUpdate()
+const { mutateAsync: createFileGroup } = useUploadFileGroupCreate()
+const { mutateAsync: updateFileGroup } = useUploadFileGroupUpdate()
 const { data: filesAndGroupsData, refetch: fetchFilesAndGroups } = useUploadFilesAndGroups(
   computed(() => fileManagerRef.value?.query)
 )
@@ -43,7 +43,14 @@ const handleDeleteFile = useDebounceFn(async (item: IUploadFile) => {
 const handleDeleteGroup = useDebounceFn(async (item: IUploadFileGroup) => {
   await deleteGroup(item.id)
 }, 300)
-const deleteSelected = () => {}
+const deleteSelected = (items: IUploadFile[]) => {
+  const promises: Promise<unknown>[] = []
+  items.forEach((item) => {
+    promises.push(deleteFile(item.id))
+  })
+
+  return Promise.allSettled(promises)
+}
 
 const fetchChildren = async (groupId: string) => {
   parentGroupId.value = groupId

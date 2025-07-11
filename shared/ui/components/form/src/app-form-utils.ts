@@ -10,9 +10,7 @@ import {
   ElTreeSelect,
 } from 'element-plus'
 import {
-  defineAsyncComponent,
   reactive,
-  shallowReactive,
   type Component,
   type ComputedRef,
   type InjectionKey,
@@ -21,13 +19,6 @@ import {
 } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import { z, type ZodTypeAny } from 'zod'
-// import 'element-plus/es/components/radio/style/index'
-// import 'element-plus/es/components/select-v2/style/index'
-// import 'element-plus/es/components/segmented/style/index'
-// import 'element-plus/es/components/input-number/style/index'
-// import 'element-plus/es/components/input/style/index'
-// import 'element-plus/es/components/tree-select/style/index'
-// import 'element-plus/es/components/switch/style/index'
 import type {
   ShallowMaybeRef,
   UnwrapMaybeRefOrGetter,
@@ -125,5 +116,5 @@ export type FormValues<
 }
 
 export const makeFields = <const T extends Field<string>[]>(...items: T) => {
-  return items
+  return reactive(items)
 }

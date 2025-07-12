@@ -25,6 +25,7 @@ export interface Emits {
   (e: 'back-to-upper-group'): void
   (e: 'back-to-previous-group'): void
   (e: 'forward-to-next-group'): void
+  (e: 'refresh'): void
   (e: 'select', selection: IUploadFile[]): void
 }
 
@@ -111,9 +112,6 @@ defineExpose({
 </script>
 
 <template>
-  <!-- 
-   
-  -->
   <AppTable
     ref="appTable"
     :loading
@@ -137,6 +135,7 @@ defineExpose({
             circle
             @click="$emit('forward-to-next-group')"
           />
+          <el-button icon="Refresh" circle @click="$emit('refresh')" />
         </el-space>
       </div>
     </template>

@@ -21,6 +21,7 @@ export interface Emits {
   (e: 'back-to-upper-group'): void
   (e: 'back-to-previous-group'): void
   (e: 'forward-to-next-group'): void
+  (e: 'refresh'): void
 }
 
 const currentPage = defineModel<number>('currentPage', { default: 1 })
@@ -79,6 +80,7 @@ defineExpose({
       @back-to-previous-group="$emit('back-to-previous-group')"
       @back-to-upper-group="$emit('back-to-upper-group')"
       @forward-to-next-group="$emit('forward-to-next-group')"
+      @refresh="$emit('refresh')"
     />
     <AppPagination
       class="file-pagination"

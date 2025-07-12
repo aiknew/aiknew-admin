@@ -160,6 +160,7 @@ defineExpose({
     @back-to-previous-group="execute(backToGroup, refresh)"
     @back-to-upper-group="execute(backToUpper, refresh)"
     @forward-to-next-group="execute(forwardToGroup, refresh)"
+    @refresh="refresh"
   />
 
   <!-- Modals -->

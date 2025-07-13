@@ -111,7 +111,7 @@ catalogs:
       specifier: 2.10.3
       version: 2.10.3
     openapi-typescript:
-      specifier: ^7.6.1
+      specifier: ^7.8.0
       version: 7.8.0
     tailwindcss:
       specifier: ^4.1.10
@@ -609,6 +609,9 @@ importers:
       '@aiknew/shared-ts-config':
         specifier: 'workspace: *'
         version: link:../../ts-config
+      typescript:
+        specifier: catalog:common
+        version: 5.8.3
 
   shared/api/exceptions:
     dependencies:
@@ -743,8 +746,6 @@ importers:
       tsx:
         specifier: catalog:common
         version: 4.19.4
-
-  shared/api/prisma/generated/client: {}
 
   shared/api/redis:
     dependencies:

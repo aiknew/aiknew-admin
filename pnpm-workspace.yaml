@@ -24,7 +24,7 @@ catalogs:
     element-plus: 2.10.3
     'unplugin-element-plus': '^0.9.1'
     '@element-plus/icons-vue': ^2.3.1
-    openapi-typescript: ^7.6.1
+    openapi-typescript: ^7.8.0
     zod: ^3.25.34
     vee-validate: ^4.15.0
     '@vee-validate/zod': ^4.15.0

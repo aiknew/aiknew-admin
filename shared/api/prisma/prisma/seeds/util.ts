@@ -1,10 +1,9 @@
 import { join, extname, resolve } from 'node:path'
 import { readdir } from 'node:fs/promises'
-import { prisma } from './prisma'
-import { type Language } from '@prisma/client'
+import { prisma, type Language } from './prisma'
 import { readFileSync } from 'node:fs'
 
-const localesDir = join(__dirname, '../../locales')
+const localesDir = join(__dirname, '../../../locales')
 
 const cached = <R>(fn: (str: string) => R): ((str: string) => R) => {
   const cache: Record<string, R> = Object.create(null)
@@ -146,32 +145,29 @@ export async function mergeArraysFromModules<T>(
   })
 
   // Merge arrays from all modules
-  const mergedArray = await validFiles.reduce(
-    async (promisedResult, file) => {
-      const result = await promisedResult
-      const filePath = resolve(process.cwd(), folderPath, file)
+  const mergedArray = await validFiles.reduce(async (promisedResult, file) => {
+    const result = await promisedResult
+    const filePath = resolve(process.cwd(), folderPath, file)
 
-      try {
-        // Dynamic import
-        const moduleExport = await import(filePath)
+    try {
+      // Dynamic import
+      const moduleExport = await import(filePath)
 
-        // Check if the default export is an array
-        if (Array.isArray(moduleExport.default)) {
-          return [...result, ...moduleExport.default] as T[]
-        } else {
-          console.warn(`Warning: Default export from ${file} is not an array`)
-          return result
-        }
-      } catch (error) {
-        console.error(
-          `Error processing file ${file}:`,
-          error instanceof Error ? error.message : String(error),
-        )
+      // Check if the default export is an array
+      if (Array.isArray(moduleExport.default)) {
+        return [...result, ...moduleExport.default] as T[]
+      } else {
+        console.warn(`Warning: Default export from ${file} is not an array`)
         return result
       }
-    },
-    Promise.resolve([] as T[]),
-  )
+    } catch (error) {
+      console.error(
+        `Error processing file ${file}:`,
+        error instanceof Error ? error.message : String(error),
+      )
+      return result
+    }
+  }, Promise.resolve([] as T[]))
 
   return mergedArray
 }

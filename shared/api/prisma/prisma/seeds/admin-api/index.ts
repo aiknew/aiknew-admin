@@ -1,6 +1,5 @@
-import { prisma } from '../prisma'
+import { prisma, type Prisma } from '../prisma'
 import { generateTranslationData, mergeArraysFromModules } from '../util'
-import { type Prisma } from '@prisma/client'
 import { join } from 'path'
 import { ApiItem } from './types'
 

@@ -1,4 +1,4 @@
-import { Prisma, RouteType } from '@prisma/client'
+import { Prisma, RouteType } from '../prisma'
 
 export type RouteItem = {
   routeName: Promise<Record<string, any>>

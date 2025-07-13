@@ -1,5 +1,4 @@
-import { RouteType } from '@prisma/client'
-import { RequestMethod } from '@prisma/client'
+import { RouteType, RequestMethod } from '../../prisma'
 import { t } from '../../util'
 import { RouteItem } from '../types'
 

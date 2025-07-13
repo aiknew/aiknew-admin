@@ -1,4 +1,4 @@
-import { RequestMethod } from '@prisma/client'
+import { RequestMethod } from '../../prisma'
 import { t } from '../../util'
 import { ApiItem } from '../types'
 

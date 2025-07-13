@@ -1,4 +1,4 @@
-import { RequestMethod } from '@prisma/client'
+import { RequestMethod } from '../prisma'
 
 export type ApiItem = {
   apiName: Promise<Record<string, any>>

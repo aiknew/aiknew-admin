@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { RouteType, type Prisma } from '@prisma/client'
+import { RouteType, type Prisma } from '../prisma'
 import { generateTranslationData, mergeArraysFromModules } from '../util'
 import { prisma } from '../prisma'
-import { join } from 'path'
+import { join } from 'node:path'
 import { RouteItem } from './types'
 
 const isForbidDuplicateRouteType = (type: RouteType) => {

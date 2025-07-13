@@ -58,7 +58,11 @@ export class SystemSettingService {
   }
 
   async setSystemSetting(systemSettingDto: SystemSettingDto) {
-    const keys = Object.keys(systemSettingDto)
+    const keys = Object.entries(systemSettingDto)
+      .filter(([_, val]) => {
+        return Boolean(val)
+      })
+      .map((item) => item[0])
 
     await this.prisma.$transaction(
       keys.map((key) => {

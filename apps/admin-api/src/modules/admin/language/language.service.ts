@@ -88,7 +88,7 @@ export class LanguageService {
       SystemSettingKey.LANGUAGE,
     )
 
-    if (setting.enableMultilingual) {
+    if (setting?.enableMultilingual) {
       return this.prisma.language.findMany({
         where: {
           status: true,
@@ -99,7 +99,7 @@ export class LanguageService {
     // single language
     const lang = await this.prisma.language.findUnique({
       where: {
-        key: setting.mainLanguage,
+        key: setting?.mainLanguage,
       },
     })
 

@@ -7,7 +7,8 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@aiknew/shared-ts-config": "workspace: *"
+    "@aiknew/shared-ts-config": "workspace: *",
+    "typescript": "catalog:common"
   },
   "type": "module",
   "main": "index.js",

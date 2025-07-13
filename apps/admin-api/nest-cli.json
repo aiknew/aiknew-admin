@@ -10,7 +10,7 @@
     "deleteOutDir": true,
     "assets": [
       {
-        "include": "../locales/**/*",
+        "include": "../../../shared/api/locales/**/*",
         "watchAssets": true,
         "outDir": "./dist/locales"
       },

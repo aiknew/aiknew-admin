@@ -10,7 +10,10 @@ export default (options: Options) => {
     // The folder where the template file resides
     const viewsFolder = join(options.mainFolder, '../views')
     // Multilingual text folder
-    const localesFolder = join(options.mainFolder, '../locales')
+    const localesFolder = join(
+      options.mainFolder,
+      '../../../shared/api/locales',
+    )
     // Public folders
     const publicFolder = join(options.mainFolder, '../public')
     // Folders that store public uploaded files

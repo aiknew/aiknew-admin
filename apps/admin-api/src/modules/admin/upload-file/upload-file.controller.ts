@@ -65,6 +65,7 @@ export class UploadFileController {
       mime: file.mimetype,
       originalName: file.originalname,
       uploaderId: req.adminUser.userId,
+      fileStorageId: '',
       groupId: createUploadFileDto.groupId,
     })
   }

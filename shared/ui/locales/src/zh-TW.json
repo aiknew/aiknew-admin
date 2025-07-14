@@ -21,5 +21,6 @@
   "updatedAt": "更新時間",
   "operations": "操作",
   "deleteConfirm": "確認刪除嗎？",
-  "cantSelectChildrenAsOwnSuperior": "不能選擇自身的子級作為父級"
+  "cantSelectChildrenAsOwnSuperior": "不能選擇自身的子級作為父級",
+  "type": "類型"
 }

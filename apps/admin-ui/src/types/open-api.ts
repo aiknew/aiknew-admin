@@ -544,6 +544,38 @@ export interface paths {
         patch: operations["ArticleCategoryController_updateOne"];
         trace?: never;
     };
+    "/admin/file-storage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FileStorageController_pagination"];
+        put?: never;
+        post: operations["FileStorageController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/file-storage/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["FileStorageController_deleteOne"];
+        options?: never;
+        head?: never;
+        patch: operations["FileStorageController_updateOne"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -687,11 +719,15 @@ export interface components {
             /** @default en */
             mainLanguage: string;
         };
+        StorageSettingDto: {
+            currentStorage: string;
+        };
         SystemSettingDto: {
-            LANGUAGE: components["schemas"]["LanguageSettingDto"];
+            LANGUAGE?: components["schemas"]["LanguageSettingDto"];
+            STORAGE?: components["schemas"]["StorageSettingDto"];
         };
         /** @enum {string} */
-        SystemSettingKey: "LANGUAGE";
+        SystemSettingKey: "LANGUAGE" | "STORAGE";
         /** @enum {string} */
         RouteType: "GROUP" | "SMALL_GROUP" | "MENU" | "BUTTON";
         AdminRouteTranslationDto: {
@@ -931,6 +967,42 @@ export interface components {
             order?: number;
             parentId?: number;
             translations?: components["schemas"]["ArticleCategoryTranslationDto"][];
+        };
+        /** @enum {string} */
+        StorageType: "LOCAL" | "S3";
+        FileStorageDto: {
+            type: components["schemas"]["StorageType"];
+            id: string;
+            name: string;
+            enable: boolean;
+            accessKey: string | null;
+            secretKey: string | null;
+            endpoint: string | null;
+            bucket: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CreateFileStorageDto: {
+            type: components["schemas"]["StorageType"];
+            name: string;
+            /** @default false */
+            enable: boolean;
+            accessKey?: string;
+            secretKey?: string;
+            endpoint?: string;
+            bucket?: string;
+        };
+        UpdateFileStorageDto: {
+            type?: components["schemas"]["StorageType"];
+            name?: string;
+            /** @default false */
+            enable: boolean;
+            accessKey?: string;
+            secretKey?: string;
+            endpoint?: string;
+            bucket?: string;
         };
         PaginationDto: {
             currentPage: number;
@@ -2701,6 +2773,137 @@ export interface operations {
             };
         };
     };
+    FileStorageController_pagination: {
+        parameters: {
+            query: {
+                currentPage: number;
+                pageSize: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["FileStorageDto"][];
+                        };
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFileStorageDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_deleteOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_updateOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFileStorageDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
 }
 type ReadonlyArray<T> = [
     Exclude<T, undefined>
@@ -2712,5 +2915,6 @@ export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMe
 export const languageOrientationValues: ReadonlyArray<components["schemas"]["LanguageOrientation"]> = ["LTR", "RTL"];
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
-export const systemSettingKeyValues: ReadonlyArray<components["schemas"]["SystemSettingKey"]> = ["LANGUAGE"];
+export const systemSettingKeyValues: ReadonlyArray<components["schemas"]["SystemSettingKey"]> = ["LANGUAGE", "STORAGE"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
+export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];

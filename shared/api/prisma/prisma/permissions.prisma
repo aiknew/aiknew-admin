@@ -36,7 +36,7 @@ model AdminRoute {
   icon         String                  @default("") @db.VarChar(20)
   redirect     String                  @default("") @db.VarChar(50)
   hidden       Boolean                 @default(false)
-  component    String                  @default("") @db.VarChar(50) // vue component file path
+  component    String                  @default("") @db.VarChar(100) // vue component file path
   type         RouteType               @default(GROUP)
   key          String                  @default("") @db.VarChar(20) // the permission identifier of the button
   status       Boolean                 @default(true)

@@ -21,5 +21,6 @@
   "updatedAt": "Updated Time",
   "operations": "operation",
   "deleteConfirm": "Confirm to delete?",
-  "cantSelectChildrenAsOwnSuperior": "Cannot select its own child as a parent"
+  "cantSelectChildrenAsOwnSuperior": "Cannot select its own child as a parent",
+  "type": "Type"
 }

@@ -11,6 +11,7 @@ import { UploadFileGroupModule } from './upload-file-group/upload-file-group.mod
 import { UploadFileModule } from './upload-file/upload-file.module'
 import { ArticleCategoryModule } from './article-category/article-category.module'
 import { RouterModule } from '@nestjs/core'
+import { FileStorageModule } from './file-storage/file-storage.module'
 
 const adminModules = [
   AdminApiModule,
@@ -24,6 +25,7 @@ const adminModules = [
   UploadFileModule,
   UploadFileGroupModule,
   ArticleCategoryModule,
+  FileStorageModule,
 ]
 
 @Module({

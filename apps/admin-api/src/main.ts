@@ -12,9 +12,9 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      skipMissingProperties: true,
-      skipNullProperties: true,
-      skipUndefinedProperties: true,
+      skipMissingProperties: false,
+      skipNullProperties: false,
+      skipUndefinedProperties: false,
     }),
   )
   // app.enableCors()

@@ -14,6 +14,9 @@ export class UploadFileDto implements IUploadFile {
   uploader: {
     userName: string
   }
+  storage: {
+    hostname: string
+  }
   order: number
   createdAt: Date
   updatedAt: Date

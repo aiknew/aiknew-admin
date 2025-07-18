@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
+import { Ref, ref, useTemplateRef } from 'vue'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ElMessage, ElUpload, ElIcon } from 'element-plus'
 import { useFileI18n } from '../composables/use-file-i18n'
@@ -8,6 +8,7 @@ export interface Props {
   currentGroupId: string | undefined
   uploadUrl: string
   uploadHeaders: Record<string, string>
+  beforeUpload?: (extraFormData: Ref<Record<string, unknown>>) => void
 }
 
 export interface Emits {
@@ -15,16 +16,18 @@ export interface Emits {
 }
 
 defineEmits<Emits>()
-const { currentGroupId, uploadHeaders, uploadUrl } = defineProps<Props>()
+const { currentGroupId, uploadHeaders, uploadUrl, beforeUpload } =
+  defineProps<Props>()
 const { t } = useFileI18n()
 
 const modalRef = useTemplateRef('modal')
-const extraData = ref({})
+const extraData = ref<Record<string, unknown>>({})
 
 const onBeforeUpload = () => {
   extraData.value = {
     groupId: currentGroupId,
   }
+  return beforeUpload && beforeUpload(extraData)
 }
 
 const onSuccess = (response: { msg: string }) => {

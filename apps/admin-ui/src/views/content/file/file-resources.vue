@@ -4,8 +4,8 @@ import { useLangStore } from '@/stores/lang'
 import { useDebounceFn } from '@vueuse/core'
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { AppFileManager } from '@aiknew/shared-ui-filer'
-import { computed, useTemplateRef, type Ref } from 'vue'
-import { uploadFileUrl, useUploadFileDelete } from '@/api/upload-file'
+import { computed, ref, useTemplateRef, type Ref } from 'vue'
+import { uploadFileUrl, useUploadFileDelete, useUploadFilePresigned } from '@/api/upload-file'
 import { useUploadFilesAndGroups, useUploadFileUpdate } from '@/api/upload-file'
 import {
   useUploadFileGroupChildren,
@@ -15,10 +15,19 @@ import {
 } from '@/api/upload-file-group'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import type Node from 'element-plus/es/components/tree/src/model/node'
+import { ElMessage } from 'element-plus'
 
 const fileManagerRef = useTemplateRef('fileManager')
 const userStore = useUserStore()
 const langStore = useLangStore()
+const { refetch: fetchPresignedUrl, data: presignedUrlData } = useUploadFilePresigned(
+  computed(() => {
+    const groupId = fileManagerRef.value?.query.parentId
+    const query = groupId ? { groupId } : undefined
+
+    return query
+  })
+)
 const { mutateAsync: deleteFile } = useUploadFileDelete()
 const { mutateAsync: updateFile } = useUploadFileUpdate()
 const { mutateAsync: deleteGroup } = useUploadFileGroupDelete()
@@ -31,10 +40,40 @@ const {
   id: parentGroupId,
   query: { data: childGroups, refetch: fetchChildGroups }
 } = useUploadFileGroupChildren()
-const uploadUrl = import.meta.env.VITE_API_BASE_URL + uploadFileUrl
-const uploadHeaders = {
+const uploadUrl = ref<string>(import.meta.env.VITE_API_BASE_URL + uploadFileUrl)
+const uploadHeaders = ref<Record<string, string>>({
   Authorization: `Bearer ${userStore.accessToken}`,
   'x-lang': langStore.currentLang
+})
+
+const beforeUpload = async (extraFormData: Ref<Record<string, unknown>>) => {
+  const storage = filesAndGroupsData.value?.storage
+  const activeType = storage?.type
+
+  if (storage && activeType) {
+    if (activeType === 'S3') {
+      // clear default extra headers
+      uploadHeaders.value = {}
+
+      // get the presigned url
+      await fetchPresignedUrl()
+
+      if (presignedUrlData.value) {
+        const { fields } = presignedUrlData.value
+        extraFormData.value = fields
+        uploadUrl.value = storage.hostname + storage.bucket
+      }
+
+      return true
+    }
+  } else {
+    ElMessage({
+      type: 'error',
+      message: 'No file storage activated'
+    })
+
+    return false
+  }
 }
 
 const handleDeleteFile = useDebounceFn(async (item: IUploadFile) => {
@@ -105,6 +144,7 @@ const loadGroupNode = (
   <AppContentBlock>
     <AppFileManager
       ref="fileManager"
+      :before-upload
       :delete-group="handleDeleteGroup"
       :delete-file="handleDeleteFile"
       :files-and-groups-data

@@ -3,26 +3,39 @@ import { PrismaPromise, PrismaService } from '@aiknew/shared-api-prisma'
 import { Injectable } from '@nestjs/common'
 import { CreateFileStorageDto } from './dto/create-file-storage.dto'
 import { UpdateFileStorageDto } from './dto/update-file-storage.dto'
+import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
 
 @Injectable()
 export class FileStorageService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getActiveStorage() {
+    const storage = await this.prisma.fileStorage.findFirst({
+      where: { active: true },
+    })
+
+    if (!storage) {
+      throw new AppBadRequestException('No file storage is being used.')
+    }
+
+    return storage
+  }
 
   async pagination(paginationDto: PaginationDto) {
     return this.prisma.fileStorage.paginate(paginationDto)
   }
 
   disableOthers(): PrismaPromise<unknown> {
-    // currently only one file storage option can be enabled at a time
+    // currently only one file storage option can be activated at a time
     return this.prisma.fileStorage.updateMany({
       data: {
-        enable: false,
+        active: false,
       },
     })
   }
 
   async createOne(data: CreateFileStorageDto) {
-    const { enable } = data
+    const { active } = data
 
     const actions: PrismaPromise<unknown>[] = []
 
@@ -30,7 +43,7 @@ export class FileStorageService {
       data,
     })
 
-    if (enable) {
+    if (active) {
       actions.push(this.disableOthers())
     }
 
@@ -40,7 +53,7 @@ export class FileStorageService {
   }
 
   async updateOne(id: string, data: UpdateFileStorageDto) {
-    const { enable } = data
+    const { active } = data
 
     const actions: PrismaPromise<unknown>[] = []
     const update = this.prisma.fileStorage.update({
@@ -48,7 +61,7 @@ export class FileStorageService {
       data,
     })
 
-    if (enable) {
+    if (active) {
       actions.push(this.disableOthers())
     }
 

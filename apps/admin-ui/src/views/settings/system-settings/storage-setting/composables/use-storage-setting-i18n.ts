@@ -6,17 +6,23 @@ export const useStorageSettingI18n = () => {
       en: {
         storageType: 'Storage Type',
         addTitle: 'Add Storage',
-        editTitle: 'Edit Storage'
+        editTitle: 'Edit Storage',
+        hostname: 'hostname',
+        active: 'active'
       },
       'zh-CN': {
         storageType: '存储类型',
         addTitle: '添加存储',
-        editTitle: '编辑存储'
+        editTitle: '编辑存储',
+        hostname: '主机名',
+        active: '啟用'
       },
       'zh-TW': {
         storageType: '存储类型',
         addTitle: '添加存儲',
-        editTitle: '編輯存儲'
+        editTitle: '編輯存儲',
+        hostname: '主機名',
+        active: '启用'
       }
     }
   })

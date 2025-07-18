@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { Prisma, PrismaService } from '@aiknew/shared-api-prisma'
-import * as fs from 'node:fs/promises'
-import * as path from 'node:path'
+import { rm } from 'node:fs/promises'
+import { join, relative } from 'node:path'
 import { ConfigService } from '@nestjs/config'
 import { QueryUploadFileDto } from './dto/query-upload-file.dto'
 import { UploadFileGroupService } from '../upload-file-group/upload-file-group.service'
@@ -11,6 +11,8 @@ import {
   AppConflictException,
   AppNotFoundException,
 } from '@aiknew/shared-api-exceptions'
+import { FileStorageService } from '../file-storage/file-storage.service'
+import { S3Service } from '../s3/s3.service'
 
 @Injectable()
 export class FileService {
@@ -19,6 +21,8 @@ export class FileService {
     private readonly uploadFileGroupService: UploadFileGroupService,
     private readonly configService: ConfigService,
     private readonly i18n: I18nService,
+    private readonly fileStorageService: FileStorageService,
+    private readonly s3Service: S3Service,
   ) {}
 
   async getFilesAndGroups(queryUploadFileDto: QueryUploadFileDto) {
@@ -32,11 +36,14 @@ export class FileService {
       const fileWhereInput = {
         groupId: parentId,
         originalName: { contains: keyword },
+        deletedAt: null,
       }
       const groupWhereInput: Prisma.UploadFileGroupWhereInput = {
         parentId,
         groupName: { contains: keyword },
       }
+
+      const activeStorage = await this.fileStorageService.getActiveStorage()
 
       const groupsPaginationData = await this.uploadFileGroupService.pagination(
         { currentPage: current, pageSize },
@@ -61,6 +68,9 @@ export class FileService {
           uploader: {
             select: { userName: true },
           },
+          storage: {
+            select: { hostname: true },
+          },
         },
       })
 
@@ -70,6 +80,13 @@ export class FileService {
         pageSize,
         groupList: groupsPaginationData.list,
         fileList,
+        storage: {
+          id: activeStorage.id,
+          hostname: activeStorage.hostname,
+          bucket: activeStorage.bucket,
+          type: activeStorage.type,
+          active: activeStorage.active,
+        },
       }
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -88,23 +105,6 @@ export class FileService {
 
   async getCount(args?: Prisma.UploadFileCountArgs) {
     return this.prisma.uploadFile.count(args)
-  }
-
-  async paginate(
-    current: number,
-    pageSize: number,
-    where: Prisma.UploadFileWhereInput = {},
-  ) {
-    if (current <= 0) {
-      return { total: 0, list: [] }
-    }
-
-    return await this.prisma.uploadFile.paginate(
-      { currentPage: current, pageSize },
-      {
-        where,
-      },
-    )
   }
 
   async updateOne(id: string, updateFileDto: UpdateUploadFileDto) {
@@ -127,15 +127,25 @@ export class FileService {
     }
   }
 
-  async createOne(fileData: Prisma.UploadFileCreateArgs['data']) {
+  async createOne(
+    fileData: Omit<Prisma.UploadFileCreateArgs['data'], 'fileStorageId'>,
+  ) {
     try {
-      await this.prisma.uploadFile.create({
-        data: fileData,
-      })
+      const storage = await this.fileStorageService.getActiveStorage()
+      if (storage.type === 'LOCAL') {
+        const data = {
+          ...fileData,
+          fileStorageId: storage.id,
+        } as Prisma.UploadFileCreateArgs['data']
+
+        await this.prisma.uploadFile.create({
+          data,
+        })
+      }
     } catch (err) {
       // delete the file asset
-      await fs.rm(
-        path.join(
+      await rm(
+        join(
           this.configService.get<string>('common.publicFolder') ?? '',
           fileData.filePath,
         ),
@@ -155,25 +165,48 @@ export class FileService {
 
   async deleteOne(id: string) {
     try {
-      await this.prisma.$transaction(async (prisma) => {
-        // delete the file record in database
-        const deletedFile = await prisma.uploadFile.delete({
-          where: {
-            id,
-          },
-        })
-
-        // delete the file
-        await fs.rm(
-          path.join(
-            this.configService.get<string>('common.publicFolder') ?? '',
-            deletedFile.filePath,
-          ),
-          {
-            force: true,
-          },
-        )
+      const file = await this.prisma.uploadFile.findUniqueOrThrow({
+        where: { id },
       })
+
+      const fileStorage = await this.prisma.fileStorage.findUniqueOrThrow({
+        where: {
+          id: file.fileStorageId,
+        },
+      })
+
+      if (fileStorage.type === 'S3') {
+        const bucket = fileStorage.bucket
+        if (bucket) {
+          await this.s3Service.deleteS3File({
+            groupId: file.groupId,
+            originalName: file.originalName,
+            bucket,
+            // key: relative(bucket, file.filePath),
+            key: file.filePath,
+          })
+        }
+      } else if (fileStorage.type === 'LOCAL') {
+        await this.prisma.$transaction(async (prisma) => {
+          // delete the file record in database
+          const deletedFile = await prisma.uploadFile.delete({
+            where: {
+              id,
+            },
+          })
+
+          // delete the file
+          await rm(
+            join(
+              this.configService.get<string>('common.publicFolder') ?? '',
+              deletedFile.filePath,
+            ),
+            {
+              force: true,
+            },
+          )
+        })
+      }
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {

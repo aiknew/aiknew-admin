@@ -16,6 +16,7 @@ export interface Props extends SharedProps {
   filesAndGroupsData: IUploadFilesAndGroupsData | undefined
   deleteFile: (item: IUploadFile) => void
   deleteGroup: (item: IUploadFileGroup) => void
+  beforeUpload?: (extraFormData: Ref<Record<string, unknown>>) => void
 }
 
 export interface Emits {
@@ -26,20 +27,22 @@ export interface Emits {
 const {
   uploadUrl,
   uploadHeaders,
+  filesAndGroupsData,
   deleteSelected,
   deleteFile,
   loadGroupNode,
   updateFile,
-  filesAndGroupsData,
+  beforeUpload,
 } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const defaultData = {
+const defaultData: IUploadFilesAndGroupsData = {
   current: 1,
   fileList: [],
   groupList: [],
   pageSize: 10,
   total: 0,
+  storages: [],
 }
 
 const refresh = () => {
@@ -167,6 +170,7 @@ defineExpose({
   <AppUploadFileModal
     :upload-url
     :upload-headers
+    :before-upload
     ref="appUploadFileModal"
     :current-group-id
     @close="refresh"

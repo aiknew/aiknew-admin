@@ -20,12 +20,15 @@ export class CreateFileStorageDto {
   @IsString()
   name: string
 
+  @IsString()
+  hostname: string
+
   @IsBoolean()
   @IsOptional()
-  enable?: boolean = false
+  active?: boolean = false
 
-  @IsEnum(StorageType)
   @ApiProperty({ enumName: 'StorageType', enum: StorageType })
+  @IsEnum(StorageType)
   type: StorageType
 
   @IsString()

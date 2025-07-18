@@ -78,7 +78,7 @@ const previewField: Field<string> = {
             h('img', {
               class: ['preview'],
               alt: 'preview',
-              src: '/' + filePath,
+              src: filePath,
             }),
           ]
         }
@@ -89,7 +89,7 @@ const previewField: Field<string> = {
               class: ['preview'],
               alt: 'preview',
               controls: true,
-              src: '/' + filePath,
+              src: filePath,
             }),
           ]
         }

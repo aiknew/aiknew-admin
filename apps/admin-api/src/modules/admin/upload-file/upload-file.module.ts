@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { FileService } from './upload-file.service'
 import { MulterModule } from '@nestjs/platform-express'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -10,6 +10,10 @@ import { UploadFileGroupModule } from '../upload-file-group/upload-file-group.mo
 import { UploadFileController } from './upload-file.controller'
 import { UploadFileGroupService } from '../upload-file-group/upload-file-group.service'
 import { type Request } from 'express'
+import { FileStorageModule } from '../file-storage/file-storage.module'
+import { FileStorageService } from '../file-storage/file-storage.service'
+import { S3Module } from '../s3/s3.module'
+import { S3Service } from '../s3/s3.service'
 
 @Module({
   imports: [
@@ -47,8 +51,15 @@ import { type Request } from 'express'
       }),
     }),
     UploadFileGroupModule,
+    FileStorageModule,
+    S3Module,
   ],
   controllers: [UploadFileController],
-  providers: [FileService, UploadFileGroupService],
+  providers: [
+    FileService,
+    UploadFileGroupService,
+    FileStorageService,
+    S3Service,
+  ],
 })
 export class UploadFileModule {}

@@ -8,7 +8,8 @@ model FileStorage {
   name       String       @db.VarChar(20)
   type       StorageType
   UploadFile UploadFile[]
-  enable     Boolean      @default(false)
+  active     Boolean      @default(false)
+  hostname   String       @db.VarChar(100)
   accessKey  String?      @db.VarChar(50) // only s3 type
   secretKey  String?      @db.VarChar(50) // only s3 type
   endpoint   String?      @db.VarChar(50) // only s3 type
@@ -30,6 +31,7 @@ model UploadFile {
   groupId       String      @default("0")
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
   uploader      AdminUser   @relation(fields: [uploaderId], references: [id])
   uploaderId    String
   storage       FileStorage @relation(fields: [fileStorageId], references: [id])

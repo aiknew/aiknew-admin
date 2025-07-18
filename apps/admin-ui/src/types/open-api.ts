@@ -480,6 +480,72 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/file-storage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FileStorageController_pagination"];
+        put?: never;
+        post: operations["FileStorageController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/file-storage/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["FileStorageController_deleteOne"];
+        options?: never;
+        head?: never;
+        patch: operations["FileStorageController_updateOne"];
+        trace?: never;
+    };
+    "/admin/s3/webhook": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** S3 webhook */
+        post: operations["S3Controller_s3WebhookPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/s3/presigned": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** S3 presigned url */
+        get: operations["S3Controller_uploadToS3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/article-category": {
         parameters: {
             query?: never;
@@ -542,38 +608,6 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["ArticleCategoryController_updateOne"];
-        trace?: never;
-    };
-    "/admin/file-storage": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["FileStorageController_pagination"];
-        put?: never;
-        post: operations["FileStorageController_createOne"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/file-storage/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["FileStorageController_deleteOne"];
-        options?: never;
-        head?: never;
-        patch: operations["FileStorageController_updateOne"];
         trace?: never;
     };
 }
@@ -904,11 +938,23 @@ export interface components {
             uploader: {
                 userName: string;
             };
+            storage: {
+                hostname: string;
+            };
             order: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
+        };
+        /** @enum {string} */
+        StorageType: "LOCAL" | "S3";
+        FileStorage: {
+            type: components["schemas"]["StorageType"];
+            id: string;
+            hostname: string;
+            active: boolean;
+            bucket: string | null;
         };
         UploadFilesAndGroupsDto: {
             total: number;
@@ -916,6 +962,7 @@ export interface components {
             pageSize: number;
             groupList: components["schemas"]["UploadFileGroupDto"][];
             fileList: components["schemas"]["UploadFileDto"][];
+            storage: components["schemas"]["FileStorage"];
         };
         CreateUploadFileDto: {
             groupId?: string;
@@ -934,6 +981,46 @@ export interface components {
             groupName?: string;
             parentId?: string;
             order?: number;
+        };
+        FileStorageDto: {
+            type: components["schemas"]["StorageType"];
+            id: string;
+            name: string;
+            active: boolean;
+            accessKey: string | null;
+            secretKey: string | null;
+            endpoint: string | null;
+            bucket: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CreateFileStorageDto: {
+            type: components["schemas"]["StorageType"];
+            name: string;
+            hostname: string;
+            /** @default false */
+            active: boolean;
+            accessKey?: string;
+            secretKey?: string;
+            endpoint?: string;
+            bucket?: string;
+        };
+        UpdateFileStorageDto: {
+            type?: components["schemas"]["StorageType"];
+            name?: string;
+            hostname?: string;
+            /** @default false */
+            active: boolean;
+            accessKey?: string;
+            secretKey?: string;
+            endpoint?: string;
+            bucket?: string;
+        };
+        PresignedDataDto: {
+            url: string;
+            fields: Record<string, never>;
         };
         ArticleCategoryTranslationDto: {
             langKey: string;
@@ -967,42 +1054,6 @@ export interface components {
             order?: number;
             parentId?: number;
             translations?: components["schemas"]["ArticleCategoryTranslationDto"][];
-        };
-        /** @enum {string} */
-        StorageType: "LOCAL" | "S3";
-        FileStorageDto: {
-            type: components["schemas"]["StorageType"];
-            id: string;
-            name: string;
-            enable: boolean;
-            accessKey: string | null;
-            secretKey: string | null;
-            endpoint: string | null;
-            bucket: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        CreateFileStorageDto: {
-            type: components["schemas"]["StorageType"];
-            name: string;
-            /** @default false */
-            enable: boolean;
-            accessKey?: string;
-            secretKey?: string;
-            endpoint?: string;
-            bucket?: string;
-        };
-        UpdateFileStorageDto: {
-            type?: components["schemas"]["StorageType"];
-            name?: string;
-            /** @default false */
-            enable: boolean;
-            accessKey?: string;
-            secretKey?: string;
-            endpoint?: string;
-            bucket?: string;
         };
         PaginationDto: {
             currentPage: number;
@@ -2546,6 +2597,197 @@ export interface operations {
             };
         };
     };
+    FileStorageController_pagination: {
+        parameters: {
+            query: {
+                currentPage: number;
+                pageSize: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["FileStorageDto"][];
+                        };
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFileStorageDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_deleteOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_updateOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFileStorageDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    S3Controller_s3WebhookPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    S3Controller_uploadToS3: {
+        parameters: {
+            query: {
+                groupId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PresignedDataDto"];
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
     ArticleCategoryController_pagination: {
         parameters: {
             query: {
@@ -2751,137 +2993,6 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateArticleCategoryDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    FileStorageController_pagination: {
-        parameters: {
-            query: {
-                currentPage: number;
-                pageSize: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["FileStorageDto"][];
-                        };
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    FileStorageController_createOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateFileStorageDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    FileStorageController_deleteOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    FileStorageController_updateOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateFileStorageDto"];
             };
         };
         responses: {

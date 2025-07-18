@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Redirect,
   Req,
   UploadedFile,
   UseFilters,
@@ -35,12 +36,14 @@ import type { AuthAdminRequest } from '@aiknew/shared-api-types'
 export class UploadFileController {
   constructor(
     private readonly uploadFileService: UploadFileService,
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
   ) {}
 
   @AppApiOkResponse(UploadFilesAndGroupsDto)
   @Get('filesAndGroups')
-  async filesAndGroups(@Query() queryFileDto: QueryUploadFileDto) {
+  async filesAndGroups(
+    @Query() queryFileDto: QueryUploadFileDto,
+  ): Promise<UploadFilesAndGroupsDto> {
     return this.uploadFileService.getFilesAndGroups(queryFileDto)
   }
 
@@ -65,7 +68,6 @@ export class UploadFileController {
       mime: file.mimetype,
       originalName: file.originalname,
       uploaderId: req.adminUser.userId,
-      fileStorageId: '',
       groupId: createUploadFileDto.groupId,
     })
   }

@@ -37,14 +37,20 @@ const fields = makeFields(
   },
   {
     as: 'ElSwitch',
-    label: 'enable',
-    name: 'enable',
+    label: 'active',
+    name: 'active',
     rules: z.boolean().default(false)
   },
   {
     as: 'ElInput',
     label: 'name',
     name: 'name',
+    rules: z.string().nonempty()
+  },
+  {
+    as: 'ElInput',
+    label: 'hostname',
+    name: 'hostname',
     rules: z.string().nonempty()
   },
   {

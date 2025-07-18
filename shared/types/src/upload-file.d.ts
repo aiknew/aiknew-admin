@@ -1,3 +1,5 @@
+import type { StorageType } from '@aiknew/shared-api-prisma'
+
 export interface IUploadFile {
   id: string
   channel: number
@@ -11,6 +13,9 @@ export interface IUploadFile {
   uploaderId: string
   uploader: {
     userName: string
+  }
+  storage: {
+    hostname: string
   }
   order: number
   createdAt: Date | string
@@ -50,6 +55,14 @@ export interface IUploadFilesAndGroupsData {
   groupList: IUploadFileGroup[]
 
   fileList: IUploadFile[]
+
+  storage: {
+    id: string
+    hostname: string
+    type: StorageType
+    active: boolean
+    bucket: string | null
+  }
 }
 
 export interface IUpdateUploadFile {

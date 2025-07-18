@@ -30,15 +30,20 @@ export const useFileData = (
   const currentPage = computed<number>(() => filesAndGroupsData.value.current)
   const pageSize = computed<number>(() => filesAndGroupsData.value.pageSize)
   const total = computed<number>(() => filesAndGroupsData.value.total)
-  const fileList = computed<IUploadFile[]>(
-    () => filesAndGroupsData.value.fileList,
+  const fileList = computed<IUploadFile[]>(() =>
+    filesAndGroupsData.value.fileList.map((file) => {
+      return {
+        ...file,
+        filePath: file.storage.hostname + file.filePath,
+      }
+    }),
   )
   const groupList = computed<IUploadFileGroup[]>(
     () => filesAndGroupsData.value.groupList,
   )
   const filesAndGroups = computed<(IUploadFile | IUploadFileGroup)[]>(() => [
     ...filesAndGroupsData.value.groupList,
-    ...filesAndGroupsData.value.fileList,
+    ...fileList.value,
   ])
   const selectedCount = computed(() => selectedFiles.value.length)
 

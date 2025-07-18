@@ -13,6 +13,8 @@ export type CreateUploadFileDto = components['schemas']['UploadFileDto']
 
 export type UpdateUploadFileDto = components['schemas']['UpdateUploadFileDto']
 
+export type UploadFilePresignedQuery = paths['/admin/s3/presigned']['get']['parameters']['query']
+
 export const uploadFileUrl = '/admin/upload-file'
 
 export const useUploadFileCreate = () => {
@@ -70,6 +72,25 @@ export const useUploadFilesAndGroups = (query: Ref<UploadFilesAndGroupsQuery | u
     queryFn: () => {
       if (query.value) {
         const api = fetchClient.GET('/admin/upload-file/filesAndGroups', {
+          params: {
+            query: query.value
+          },
+          showMsg: false
+        })
+
+        return useApiData(() => api)
+      }
+    }
+  })
+}
+
+export const useUploadFilePresigned = (query: Ref<UploadFilePresignedQuery | undefined>) => {
+  return useQuery({
+    queryKey: ['upload-file-presigned'],
+    enabled: false,
+    queryFn: () => {
+      if (query.value) {
+        const api = fetchClient.GET('/admin/s3/presigned', {
           params: {
             query: query.value
           },

@@ -43,7 +43,7 @@ const getIcon = (row: IUploadFile | IUploadFileGroup) => {
     return FolderSVG
   } else {
     if (row.mime.startsWith('image/')) {
-      return <ElImage src={`/${row.filePath}`} fit="cover" loading="lazy" />
+      return <ElImage src={`${row.filePath}`} fit="cover" loading="lazy" />
     }
     if (row.mime.startsWith('video/')) {
       return VideoSVG

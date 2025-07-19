@@ -67,12 +67,17 @@ const getRouteName = (translations?: AdminRouteTranslations) => {
       :index="route.path"
       :key="route.name"
     >
-      <el-icon v-if="route.meta?.icon">
-        <component :is="route.meta.icon" />
-      </el-icon>
-      <span class="menu-title">{{
-        getRouteName(route.meta?.translations)
-      }}</span>
+      <router-link
+        :to="route.path"
+        class="flex w-full h-full items-center content-start"
+      >
+        <el-icon v-if="route.meta?.icon">
+          <component :is="route.meta.icon" />
+        </el-icon>
+        <span class="menu-title">
+          {{ getRouteName(route.meta?.translations) }}
+        </span>
+      </router-link>
     </el-menu-item>
   </template>
 </template>

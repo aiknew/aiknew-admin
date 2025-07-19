@@ -2,18 +2,20 @@
   "name": "@aiknew/shared-api-prisma",
   "version": "0.0.1",
   "dependencies": {
-    "@prisma/client": "6.9.0",
-    "dayjs": "catalog:common",
-    "redis": "catalog:api",
-    "@redis/client": "catalog:api",
+    "@aiknew/shared-api-dtos": "workspace:*",
+    "@aiknew/shared-api-utils": "workspace:*",
     "@nestjs/common": "catalog:api",
     "@nestjs/config": "catalog:api",
-    "@aiknew/shared-api-utils": "workspace:*",
-    "@aiknew/shared-api-dtos": "workspace:*"
+    "@prisma/client": "6.9.0",
+    "@redis/client": "catalog:api",
+    "dayjs": "catalog:common",
+    "redis": "catalog:api"
   },
   "devDependencies": {
-    "prisma": "catalog:api",
     "@aiknew/shared-ts-config": "workspace:*",
+    "@types/node": "catalog:common",
+    "postgres": "^3.4.7",
+    "prisma": "catalog:api",
     "tsx": "catalog:common"
   },
   "prisma": {

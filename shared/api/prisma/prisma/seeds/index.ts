@@ -1,14 +1,12 @@
 import { prisma } from './prisma'
 import { createSuperAdmin } from './admin-user'
 import { createDefaultLangs } from './languages'
-import { createAdminApis } from './admin-api'
-import { createAdminRoutes } from './admin-route'
+import { createInitialData } from './initial-data'
 
 async function main() {
+  await createInitialData()
   await createSuperAdmin()
   await createDefaultLangs()
-  await createAdminApis()
-  await createAdminRoutes()
 }
 
 main()

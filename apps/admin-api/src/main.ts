@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { useContainer } from 'class-validator'
 import { PaginationDto, ResponseJson } from '@aiknew/shared-api-dtos'
-import { API_PORT } from '@aiknew/shared-constants'
+import { ADMIN_API_PORT } from '@aiknew/shared-constants'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -38,6 +38,6 @@ async function bootstrap() {
   // class-validator
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
-  await app.listen(API_PORT)
+  await app.listen(ADMIN_API_PORT)
 }
 bootstrap()

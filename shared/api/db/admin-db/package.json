@@ -43,7 +43,6 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "pnpm tsc",
-    "db:generate": "pnpm run -w cp-schemas && pnpm prisma generate"
+    "build": "pnpm tsc"
   }
 }

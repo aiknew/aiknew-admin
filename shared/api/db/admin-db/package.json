@@ -2,6 +2,7 @@
   "name": "@aiknew/shared-admin-db",
   "version": "0.0.2",
   "dependencies": {
+    "@dotenvx/dotenvx": "catalog:common",
     "@aiknew/shared-api-dtos": "workspace:*",
     "@aiknew/shared-api-utils": "workspace:*",
     "@nestjs/common": "catalog:api",
@@ -43,6 +44,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "pnpm tsc"
+    "build": "pnpm tsc",
+    "db:reset": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma migrate reset"
   }
 }

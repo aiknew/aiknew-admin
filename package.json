@@ -7,8 +7,7 @@
     "build": "pnpm -r build",
     "clean": "pnpm -r clean",
     "api": "pnpm --filter '@aiknew/api' start:dev",
-    "admin": "pnpm --filter '@aiknew/admin' dev",
-    "cp-schemas": "tsx scripts/copy-prisma-schemas.ts"
+    "admin": "pnpm --filter '@aiknew/admin' dev"
   },
   "author": "",
   "license": "ISC",

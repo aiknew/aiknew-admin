@@ -24,7 +24,7 @@ import { AdminUserService } from './modules/admin/admin-user/admin-user.service'
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-      envFilePath: '.env',
+      ignoreEnvFile: true,
       load: [commonConfig({ mainFolder: __dirname })],
     }),
     GlobalModule,

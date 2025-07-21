@@ -10,6 +10,7 @@
     "build": "pnpm tsc"
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@aiknew/shared-ts-config": "workspace:*",
     "@aiknew/shared-types": "workspace:*",
     "@types/node": "catalog:common",

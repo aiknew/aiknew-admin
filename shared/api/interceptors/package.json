@@ -19,6 +19,7 @@
     "@aiknew/shared-api-utils": "workspace:*"
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@types/express": "catalog:api",
     "@aiknew/shared-ts-config": "workspace:*"
   },

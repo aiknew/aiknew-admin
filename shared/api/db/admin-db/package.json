@@ -12,6 +12,7 @@
     "redis": "catalog:api"
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@aiknew/shared-ts-config": "workspace:*",
     "@types/node": "catalog:common",
     "postgres": "^3.4.7",

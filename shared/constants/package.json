@@ -12,6 +12,7 @@
     }
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@aiknew/shared-ts-config": "workspace:*"
   },
   "scripts": {

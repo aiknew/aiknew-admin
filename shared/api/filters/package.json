@@ -20,6 +20,7 @@
     "@aiknew/shared-api-enums": "workspace:*"
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@types/express": "catalog:api",
     "@aiknew/shared-ts-config": "workspace: *",
     "@types/jest": "catalog:api"

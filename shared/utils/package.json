@@ -19,6 +19,7 @@
     "lodash-es": "catalog:common"
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@types/lodash-es": "catalog:common",
     "@aiknew/shared-ts-config": "workspace: *"
   },

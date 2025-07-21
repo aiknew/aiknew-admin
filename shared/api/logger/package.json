@@ -21,6 +21,7 @@
     "clean": "rm -rf ./dist"
   },
   "devDependencies": {
+    "typescript": "catalog:common",
     "@aiknew/shared-ts-config": "workspace: *"
   },
   "keywords": [],

@@ -15,10 +15,9 @@ import { toReactive } from '@vueuse/core'
 import { useAdminApiI18n } from './composables/use-admin-api-i18n'
 import AdminApiModal from './components/admin-api-modal.vue'
 import { useTemplateRef } from 'vue'
+import { tField } from '@aiknew/shared-ui-locales'
 
 const { t } = useAdminApiI18n()
-const langStore = useLangStore()
-const { getTranslationField } = langStore
 const { currentPage, pageSize } = usePagination()
 
 const {
@@ -112,7 +111,7 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180">
         <template #default="{ row }: { row: AdminApi }">
-          <span>{{ getTranslationField(row.translations, 'apiName').value }}</span>
+          <span>{{ tField(row.translations, 'apiName').value }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="method" :label="t('requestMethod')" width="120">

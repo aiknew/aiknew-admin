@@ -1,17 +1,14 @@
 <script setup lang="ts">
-// import { useLangStore } from '@/stores/lang'
-// import { type AdminRouteTranslations } from '@/types/router'
 import type { RouteRecordRaw } from 'vue-router'
 import { ElMenuItemGroup, ElMenuItem, ElSubMenu, ElIcon } from 'element-plus'
-import { getTranslationField } from '@aiknew/shared-ui-utils'
 import type { AdminRouteTranslations } from '@aiknew/shared-ui-types'
+import { tField } from '@aiknew/shared-ui-locales'
 
 export interface Props {
   routes: RouteRecordRaw[]
 }
 
 const { routes } = defineProps<Props>()
-// const { getTranslationField } = useLangStore()
 
 const hasChildren = (children: Array<RouteRecordRaw> | undefined) =>
   Array.isArray(children) && children.length !== 0
@@ -25,7 +22,7 @@ const isMenuItem = (route: RouteRecordRaw) =>
   !route?.meta?.hidden
 const getRouteName = (translations?: AdminRouteTranslations) => {
   if (translations) {
-    return getTranslationField(translations, 'routeName').value
+    return tField(translations, 'routeName').value
   }
 
   return ''

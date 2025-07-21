@@ -1,4 +1,3 @@
-import { computed, inject, ref, type Ref } from 'vue'
 import type { IResponseJson } from '@aiknew/shared-types'
 
 export const resolveQueryStr = (url: string) => {
@@ -22,22 +21,6 @@ export const splitByLastFlag = (str: string, flag: string) => {
   const lastPart = str.slice(index + 1, str.length)
 
   return [firstPart, lastPart]
-}
-
-export const getTranslationField = <T extends { langKey: string }>(
-  translations: T[],
-  field: keyof T,
-) => {
-  const currentLang = inject<Ref<string>>('currentLang', ref('en'))
-  return computed(() => {
-    for (let i = 0; i < translations.length; i++) {
-      if (translations[i].langKey === currentLang.value) {
-        return translations[i][field]
-      }
-    }
-
-    return ''
-  })
 }
 
 export const isResponseJson = (v: unknown): v is IResponseJson => {

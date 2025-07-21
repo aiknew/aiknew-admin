@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { inject, Ref, ref, useTemplateRef } from 'vue'
-// import { useLangStore } from '@/stores/lang'
 import {
   routeLocationKey,
   RouteLocationNormalizedLoadedGeneric,
@@ -8,7 +7,7 @@ import {
   useRoute,
 } from 'vue-router'
 import { ElBreadcrumbItem, ElScrollbar, ElBreadcrumb } from 'element-plus'
-import { getTranslationField } from '@aiknew/shared-ui-utils'
+import { tField } from '@aiknew/shared-ui-locales'
 
 export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
@@ -16,8 +15,6 @@ export interface Props {
 
 defineProps<Props>()
 
-// const { getTranslationField } = useLangStore()
-// const route = useRoute()
 const scrollbarRef = useTemplateRef('scrollbar')
 const moreLeftRef = useTemplateRef('moreLeft')
 const moreRightRef = useTemplateRef('moreRight')
@@ -51,7 +48,7 @@ const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
             :to="{ path: item.path }"
             v-if="item.meta.translations && index !== 0"
           >
-            {{ getTranslationField(item.meta.translations, 'routeName').value }}
+            {{ tField(item.meta.translations, 'routeName').value }}
           </el-breadcrumb-item>
         </template>
       </el-breadcrumb>

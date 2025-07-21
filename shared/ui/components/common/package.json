@@ -20,6 +20,7 @@
   },
   "peerDependencies": {
     "@aiknew/shared-ui-utils": "workspace:*",
+    "@aiknew/shared-ui-locales": "workspace:*",
     "@element-plus/icons-vue": "catalog:ui",
     "@vueuse/core": "catalog:ui",
     "element-plus": "catalog:ui",

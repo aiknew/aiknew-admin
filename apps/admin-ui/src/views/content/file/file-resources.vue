@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import { useLangStore } from '@/stores/lang'
 import { useDebounceFn } from '@vueuse/core'
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { AppFileManager } from '@aiknew/shared-ui-filer'
@@ -16,10 +15,10 @@ import {
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { ElMessage } from 'element-plus'
+import { currentLang } from '@aiknew/shared-ui-locales'
 
 const fileManagerRef = useTemplateRef('fileManager')
 const userStore = useUserStore()
-const langStore = useLangStore()
 const { refetch: fetchPresignedUrl, data: presignedUrlData } = useUploadFilePresigned(
   computed(() => {
     const groupId = fileManagerRef.value?.query.parentId
@@ -43,7 +42,7 @@ const {
 const uploadUrl = ref<string>(import.meta.env.VITE_API_BASE_URL + uploadFileUrl)
 const uploadHeaders = ref<Record<string, string>>({
   Authorization: `Bearer ${userStore.accessToken}`,
-  'x-lang': langStore.currentLang
+  'x-lang': currentLang
 })
 
 const beforeUpload = async (extraFormData: Ref<Record<string, unknown>>) => {

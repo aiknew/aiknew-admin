@@ -1,5 +1,4 @@
-import { t } from '@aiknew/shared-ui-locales'
-import { useLangStore } from '@/stores/lang'
+import { currentLang, t } from '@aiknew/shared-ui-locales'
 import { useUserStore } from '@/stores/user'
 import { type paths } from '@/types/open-api'
 import type { IResponseJson } from '@aiknew/shared-types'
@@ -25,8 +24,7 @@ const fetchClient = createClient<paths>({
 const middleware: Middleware = {
   async onRequest({ request }) {
     // set current language
-    const langStore = useLangStore()
-    request.headers.set('accept-language', langStore.currentLang)
+    request.headers.set('accept-language', currentLang.value)
     // set user access token
     const userStore = useUserStore()
     if (userStore.accessToken) {

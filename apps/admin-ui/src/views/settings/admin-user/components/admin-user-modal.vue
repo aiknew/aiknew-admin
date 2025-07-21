@@ -7,6 +7,7 @@ import { useLangStore } from '@/stores/lang'
 import { useAdminUserI18n } from '../composables/use-admin-user-i18n'
 import { useAdminUserCreate, useAdminUserUpdate, type AdminUser } from '@/api/admin-user'
 import { useAdminRoleAll, type AdminRole } from '@/api/admin-role'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit'): void
@@ -89,7 +90,7 @@ const fields = makeFields(
       nodeKey: 'id',
       props: {
         label: (data: AdminRole) => {
-          return langStore.getTranslationField(data.translations, 'roleName').value
+          return tField(data.translations, 'roleName').value
         }
       },
       data: computed(() => adminRoles.value)

@@ -14,6 +14,7 @@ import {
   type ArticleCategory
 } from '@/api/article-category'
 import { useArticleCategoryData } from '../composables/use-article-category-data'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit', info: { updatedParentIds: number[] }): void
@@ -63,8 +64,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys,
       props: {
-        label: (data: ArticleCategory) =>
-          langStore.getTranslationField(data.translations, 'name').value,
+        label: (data: ArticleCategory) => tField(data.translations, 'name').value,
         disabled: (data: ArticleCategory) => {
           if (editId.value === 0) {
             return false

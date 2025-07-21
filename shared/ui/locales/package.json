@@ -1,5 +1,9 @@
 {
   "name": "@aiknew/shared-ui-locales",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc"
+  },
   "files": [
     "src/*.json"
   ],

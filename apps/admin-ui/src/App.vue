@@ -9,16 +9,17 @@ import { computed } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import { useEnabledLangList } from './api/language'
 import { watch } from 'vue'
+import { currentLang } from '@aiknew/shared-ui-locales'
 
 const langStore = useLangStore()
 
 const locales: Record<string, Language> = {
   'zh-CN': zhCn,
-  en: en,
+  en: en
 }
 
 const locale = computed(() => {
-  return locales[langStore.currentLang]
+  return locales[currentLang.value]
 })
 
 const { data } = useEnabledLangList()

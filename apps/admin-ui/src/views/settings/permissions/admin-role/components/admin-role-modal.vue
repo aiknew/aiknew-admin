@@ -13,6 +13,7 @@ import {
 } from '@/api/admin-route'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useAdminRoleRouteData } from '../composables/use-admin-role-route-data'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit'): void
@@ -55,8 +56,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys,
       props: {
-        label: (data: AdminRoute) =>
-          langStore.getTranslationField(data.translations, 'routeName').value
+        label: (data: AdminRoute) => tField(data.translations, 'routeName').value
       },
       load: loadNode
     }

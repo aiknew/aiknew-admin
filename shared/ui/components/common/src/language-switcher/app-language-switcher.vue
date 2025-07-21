@@ -23,12 +23,8 @@ defineEmits<Emits<LANG>>()
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item
-            v-for="(val, key) in languages"
-            :key="key"
-            :command="key"
-          >
-            <span :class="{ active: key === currentLanguage }">{{ val }}</span>
+          <el-dropdown-item v-for="val in languages" :key="val" :command="val">
+            <span :class="{ active: val === currentLanguage }">{{ val }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>

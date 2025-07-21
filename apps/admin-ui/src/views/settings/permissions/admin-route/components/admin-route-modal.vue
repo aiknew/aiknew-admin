@@ -19,6 +19,7 @@ import { useAdminApiChildren, useAdminApisAncestors, type AdminApi } from '@/api
 import { useAdminRouteApiData } from '../composables/use-admin-route-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import { useAdminRouteData } from '../composables/use-admin-route-data'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit', info: { updatedParentIds: string[] }): void
@@ -82,8 +83,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys: defaultExpandedRouteKeys,
       props: {
-        label: (data: AdminRoute) =>
-          langStore.getTranslationField(data.translations, 'routeName').value,
+        label: (data: AdminRoute) => tField(data.translations, 'routeName').value,
         disabled: (data: AdminRoute) => {
           return data.id === editRouteId.value && data.id !== '0'
         },
@@ -188,7 +188,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys: defaultExpandedApiKeys,
       props: {
-        label: (data: AdminApi) => langStore.getTranslationField(data.translations, 'apiName').value
+        label: (data: AdminApi) => tField(data.translations, 'apiName').value
       },
       load: loadApiNode
     }

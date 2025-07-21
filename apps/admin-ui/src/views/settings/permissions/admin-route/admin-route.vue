@@ -3,7 +3,6 @@ import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
-import { useLangStore } from '@/stores/lang'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import { useAdminRouteI18n } from './composables/use-admin-route-i18n'
@@ -16,10 +15,9 @@ import {
   type RouteType
 } from '@/api/admin-route'
 import AdminRouteModal from './components/admin-route-modal.vue'
+import { tField } from '@aiknew/shared-ui-locales'
 
 const { t } = useAdminRouteI18n()
-const langStore = useLangStore()
-const { getTranslationField } = langStore
 const { currentPage, pageSize } = usePagination()
 
 const {
@@ -142,7 +140,7 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180">
         <template #default="{ row }: { row: AdminRoute }">
-          <span>{{ getTranslationField(row.translations, 'routeName').value }}</span>
+          <span>{{ tField(row.translations, 'routeName').value }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="type" :label="t('routeType')" width="120">

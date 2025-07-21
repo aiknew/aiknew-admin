@@ -13,11 +13,10 @@ import {
 import { computed } from 'vue'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useLangStore } from '@/stores/lang'
+import { setCurrentLang, languages, currentLang } from '@aiknew/shared-ui-locales'
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const langStore = useLangStore()
 const { mutate: loginApi, isPending } = useAdminLogin()
 const {
   data: captchaData,
@@ -83,9 +82,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <div class="flex grow flex-col">
         <!-- Language Switcher -->
         <AppLanguageSwitcher
-          :languages="langStore.languages"
-          :current-language="langStore.currentLang"
-          @switch-lang="langStore.switchLang"
+          :languages
+          :current-language="currentLang"
+          @switch-lang="setCurrentLang"
           class="ml-auto"
         />
         <!-- Admin Logo And Name -->

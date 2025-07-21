@@ -20,6 +20,7 @@ export default defineConfig({
         'vue-i18n',
         'element-plus',
         '@aiknew/shared-ui-utils',
+        '@aiknew/shared-ui-locales',
         '@element-plus/icons-vue',
         '@vueuse/core',
         'node:stream',

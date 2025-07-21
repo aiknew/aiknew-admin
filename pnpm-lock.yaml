@@ -836,6 +836,9 @@ importers:
 
   shared/ui/components/common:
     dependencies:
+      '@aiknew/shared-ui-locales':
+        specifier: workspace:*
+        version: link:../../locales
       '@aiknew/shared-ui-utils':
         specifier: workspace:*
         version: link:../../utils

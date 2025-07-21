@@ -16,6 +16,7 @@ import type Node from 'element-plus/es/components/tree/src/model/node'
 import { ElMessage } from 'element-plus'
 import { useAdminApiData } from '../composables/use-admin-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit', info: { updatedParentIds: string[] }): void
@@ -70,8 +71,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys,
       props: {
-        label: (data: AdminApi) =>
-          langStore.getTranslationField(data.translations, 'apiName').value,
+        label: (data: AdminApi) => tField(data.translations, 'apiName').value,
         disabled: (data: AdminApi) => {
           if (editId.value === '0') {
             return false

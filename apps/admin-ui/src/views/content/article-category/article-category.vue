@@ -3,7 +3,6 @@ import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
-import { useLangStore } from '@/stores/lang'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import { useArticleCategoryI18n } from './composables/use-article-category-i18n'
@@ -15,10 +14,9 @@ import {
   type ArticleCategory
 } from '@/api/article-category'
 import ArticleCategoryModal from './components/article-category-modal.vue'
+import { tField } from '@aiknew/shared-ui-locales'
 
 const { t } = useArticleCategoryI18n()
-const langStore = useLangStore()
-const { getTranslationField } = langStore
 const { currentPage, pageSize } = usePagination()
 
 const appTableRef = useTemplateRef('appTableRef')
@@ -118,7 +116,7 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: number[] }) => {
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180">
         <template #default="{ row }: { row: ArticleCategory }">
-          <span>{{ getTranslationField(row.translations, 'name').value }}</span>
+          <span>{{ tField(row.translations, 'name').value }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="order" :label="t('order')" width="100" />

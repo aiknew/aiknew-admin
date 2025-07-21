@@ -8,6 +8,7 @@ import { useArticleI18n } from '../composables/use-article-i18n'
 import { useArticleCategoryData } from '../composables/use-article-category-data'
 import { useArticleCreate, useArticleUpdate, type Article } from '@/api/article'
 import type { ArticleCategory } from '@/api/article-category'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit'): void
@@ -56,8 +57,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys,
       props: {
-        label: (data: ArticleCategory) =>
-          langStore.getTranslationField(data.translations, 'name').value,
+        label: (data: ArticleCategory) => tField(data.translations, 'name').value,
         disabled: (data: ArticleCategory) => {
           if (editId.value === 0) {
             return false

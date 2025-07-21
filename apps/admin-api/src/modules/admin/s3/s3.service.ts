@@ -1,4 +1,4 @@
-import { PrismaService, StorageType } from '@aiknew/shared-api-prisma'
+import { PrismaService, StorageType } from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
 import { FileStorageService } from '../file-storage/file-storage.service'
 import { S3WebhookBodyDto, UploadS3FileDto } from './dto'

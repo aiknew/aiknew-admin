@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { CreateLanguageDto } from './dto/create-language.dto'
-import { Prisma, PrismaService } from '@aiknew/shared-api-prisma'
+import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { UpdateLanguageDto } from './dto/update-language.dto'
 import {
   AppBadRequestException,

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
-import { Prisma, PrismaService } from '@aiknew/shared-api-prisma'
+import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import {
   AppBadRequestException,
   AppNotFoundException,

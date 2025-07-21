@@ -27,7 +27,7 @@
     "@aiknew/shared-api-filters": "workspace:*",
     "@aiknew/shared-api-interceptors": "workspace:*",
     "@aiknew/shared-api-logger": "workspace:*",
-    "@aiknew/shared-api-prisma": "workspace:*",
+    "@aiknew/shared-admin-db": "workspace:*",
     "@aiknew/shared-api-redis": "workspace:*",
     "@aiknew/shared-api-utils": "workspace:*",
     "@aiknew/shared-constants": "workspace:*",

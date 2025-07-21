@@ -3,7 +3,7 @@ import { RedisService } from '@aiknew/shared-api-redis'
 import { REDIS_CLIENT } from '@aiknew/shared-api-utils'
 import { createClient } from 'redis'
 import { ConfigService } from '@nestjs/config'
-import { PrismaModule } from '@aiknew/shared-api-prisma'
+import { PrismaModule } from '@aiknew/shared-admin-db'
 
 @Global()
 @Module({

@@ -161,6 +161,9 @@ importers:
 
   apps/admin-api:
     dependencies:
+      '@aiknew/shared-admin-db':
+        specifier: workspace:*
+        version: link:../../shared/api/db/admin-db
       '@aiknew/shared-api-decorators':
         specifier: workspace:*
         version: link:../../shared/api/decorators
@@ -182,9 +185,6 @@ importers:
       '@aiknew/shared-api-logger':
         specifier: workspace:*
         version: link:../../shared/api/logger
-      '@aiknew/shared-api-prisma':
-        specifier: workspace:*
-        version: link:../../shared/api/prisma
       '@aiknew/shared-api-redis':
         specifier: workspace:*
         version: link:../../shared/api/redis
@@ -560,6 +560,51 @@ importers:
         specifier: catalog:ui
         version: 2.2.10(typescript@5.8.3)
 
+  shared/api/db/admin-db:
+    dependencies:
+      '@aiknew/shared-api-dtos':
+        specifier: workspace:*
+        version: link:../../dtos
+      '@aiknew/shared-api-utils':
+        specifier: workspace:*
+        version: link:../../utils
+      '@nestjs/common':
+        specifier: catalog:api
+        version: 11.1.3(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/config':
+        specifier: catalog:api
+        version: 4.0.2(@nestjs/common@11.1.3(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@prisma/client':
+        specifier: 6.9.0
+        version: 6.9.0(prisma@6.10.1(typescript@5.8.3))(typescript@5.8.3)
+      '@redis/client':
+        specifier: catalog:api
+        version: 1.6.1
+      dayjs:
+        specifier: catalog:common
+        version: 1.11.13
+      redis:
+        specifier: catalog:api
+        version: 4.7.1
+    devDependencies:
+      '@aiknew/shared-ts-config':
+        specifier: workspace:*
+        version: link:../../../ts-config
+      '@types/node':
+        specifier: catalog:common
+        version: 22.15.30
+      postgres:
+        specifier: ^3.4.7
+        version: 3.4.7
+      prisma:
+        specifier: catalog:api
+        version: 6.10.1(typescript@5.8.3)
+      tsx:
+        specifier: catalog:common
+        version: 4.19.4
+
+  shared/api/db/admin-db/generated/client: {}
+
   shared/api/decorators:
     dependencies:
       '@aiknew/shared-api-dtos':
@@ -716,51 +761,6 @@ importers:
         specifier: 'workspace: *'
         version: link:../../ts-config
 
-  shared/api/prisma:
-    dependencies:
-      '@aiknew/shared-api-dtos':
-        specifier: workspace:*
-        version: link:../dtos
-      '@aiknew/shared-api-utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@nestjs/common':
-        specifier: catalog:api
-        version: 11.1.3(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/config':
-        specifier: catalog:api
-        version: 4.0.2(@nestjs/common@11.1.3(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
-      '@prisma/client':
-        specifier: 6.9.0
-        version: 6.9.0(prisma@6.10.1(typescript@5.8.3))(typescript@5.8.3)
-      '@redis/client':
-        specifier: catalog:api
-        version: 1.6.1
-      dayjs:
-        specifier: catalog:common
-        version: 1.11.13
-      redis:
-        specifier: catalog:api
-        version: 4.7.1
-    devDependencies:
-      '@aiknew/shared-ts-config':
-        specifier: workspace:*
-        version: link:../../ts-config
-      '@types/node':
-        specifier: catalog:common
-        version: 22.15.30
-      postgres:
-        specifier: ^3.4.7
-        version: 3.4.7
-      prisma:
-        specifier: catalog:api
-        version: 6.10.1(typescript@5.8.3)
-      tsx:
-        specifier: catalog:common
-        version: 4.19.4
-
-  shared/api/prisma/generated/client: {}
-
   shared/api/redis:
     dependencies:
       '@aiknew/shared-api-utils':
@@ -824,12 +824,12 @@ importers:
 
   shared/types:
     devDependencies:
+      '@aiknew/shared-admin-db':
+        specifier: workspace:*
+        version: link:../api/db/admin-db
       '@aiknew/shared-api-enums':
         specifier: workspace:*
         version: link:../api/enums
-      '@aiknew/shared-api-prisma':
-        specifier: workspace:*
-        version: link:../api/prisma
       '@nestjs/common':
         specifier: catalog:api
         version: 11.1.3(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -11358,7 +11358,7 @@ snapshots:
 
   '@types/jsdom@21.1.7':
     dependencies:
-      '@types/node': 22.15.30
+      '@types/node': 24.0.3
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
 

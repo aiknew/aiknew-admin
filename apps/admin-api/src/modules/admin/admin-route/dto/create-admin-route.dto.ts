@@ -1,4 +1,4 @@
-import { RouteType } from '@aiknew/shared-api-prisma'
+import { RouteType } from '@aiknew/shared-admin-db'
 import {
   IsArray,
   IsBoolean,

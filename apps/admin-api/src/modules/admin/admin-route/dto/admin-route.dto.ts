@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { RouteType } from '@aiknew/shared-api-prisma'
+import { RouteType } from '@aiknew/shared-admin-db'
 import { AdminRouteTranslationDto } from './admin-route-translation.dto'
 
 export class AdminRouteDto {

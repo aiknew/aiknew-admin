@@ -1,6 +1,6 @@
 {
-  "name": "@aiknew/shared-api-prisma",
-  "version": "0.0.1",
+  "name": "@aiknew/shared-admin-db",
+  "version": "0.0.2",
   "dependencies": {
     "@aiknew/shared-api-dtos": "workspace:*",
     "@aiknew/shared-api-utils": "workspace:*",

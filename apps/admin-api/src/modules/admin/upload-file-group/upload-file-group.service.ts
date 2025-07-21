@@ -3,7 +3,7 @@ import {
   Prisma,
   ExtendedPrismaTransactionClient,
   PrismaService,
-} from '@aiknew/shared-api-prisma'
+} from '@aiknew/shared-admin-db'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { CreateUploadFileGroupDto } from './dto/create-upload-file-group.dto'
 import {

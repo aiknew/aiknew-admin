@@ -5,7 +5,7 @@ import { AppUnauthorizedException } from '@aiknew/shared-api-exceptions'
 import { createHMAC } from '@aiknew/shared-api-utils'
 import { CreateAdminUserDto } from './dto/create-admin-user.dto'
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
-import { AdminApi, Prisma, PrismaService } from '@aiknew/shared-api-prisma'
+import { AdminApi, Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AdminRouteDto } from '../admin-route/dto/admin-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
 

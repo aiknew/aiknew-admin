@@ -1,4 +1,4 @@
-import { StorageType } from '@aiknew/shared-api-prisma'
+import { StorageType } from '@aiknew/shared-admin-db'
 import { ApiProperty } from '@nestjs/swagger'
 import {
   IsBoolean,

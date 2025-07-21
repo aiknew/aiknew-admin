@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { CreateAdminRoleDto } from './dto/create-admin-role.dto'
 import { UpdateAdminRoleDto } from './dto/update-admin-role.dto'
-import { Prisma, PrismaService } from '@aiknew/shared-api-prisma'
+import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { PaginationDto } from '@aiknew/shared-api-dtos'

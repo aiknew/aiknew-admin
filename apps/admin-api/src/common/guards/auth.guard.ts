@@ -15,7 +15,7 @@ import {
 } from '@aiknew/shared-api-exceptions'
 import { t } from '@aiknew/shared-api-utils'
 import { AdminUserService } from 'src/modules/admin/admin-user/admin-user.service'
-import { AdminApi } from '@aiknew/shared-api-prisma'
+import { AdminApi } from '@aiknew/shared-admin-db'
 import { IS_NO_PERMISSION_KEY } from '@aiknew/shared-api-decorators'
 
 @Injectable()

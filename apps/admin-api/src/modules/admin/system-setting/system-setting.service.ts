@@ -4,7 +4,7 @@ import { instanceToPlain } from 'class-transformer'
 import { RedisService } from '@aiknew/shared-api-redis'
 import { isObject } from '@aiknew/shared-api-utils'
 import { SystemSettingDto } from './dto/system-setting.dto'
-import { PrismaService } from '@aiknew/shared-api-prisma'
+import { PrismaService } from '@aiknew/shared-admin-db'
 
 @Injectable()
 export class SystemSettingService {

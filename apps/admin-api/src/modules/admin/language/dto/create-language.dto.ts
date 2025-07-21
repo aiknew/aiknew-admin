@@ -6,7 +6,7 @@ import {
   IsString,
 } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
-import { LanguageOrientation } from '@aiknew/shared-api-prisma'
+import { LanguageOrientation } from '@aiknew/shared-admin-db'
 
 export class CreateLanguageDto {
   @IsString()

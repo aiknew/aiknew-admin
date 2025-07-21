@@ -1,5 +1,5 @@
 import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { PrismaPromise, PrismaService } from '@aiknew/shared-api-prisma'
+import { PrismaPromise, PrismaService } from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
 import { CreateFileStorageDto } from './dto/create-file-storage.dto'
 import { UpdateFileStorageDto } from './dto/update-file-storage.dto'

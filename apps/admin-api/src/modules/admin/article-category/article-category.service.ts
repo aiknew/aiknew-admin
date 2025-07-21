@@ -7,7 +7,7 @@ import {
   Prisma,
   PrismaService,
   getArticleCateAncestors,
-} from '@aiknew/shared-api-prisma'
+} from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
 import { ArticleCategoryDto } from './dto/article-category.dto'
 import { ArticleCategoryTranslationDto } from './dto/article-category-translation.dto'

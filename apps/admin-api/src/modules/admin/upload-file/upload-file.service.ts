@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { I18nContext, I18nService } from 'nestjs-i18n'
-import { Prisma, PrismaService } from '@aiknew/shared-api-prisma'
+import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { rm } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 import { ConfigService } from '@nestjs/config'

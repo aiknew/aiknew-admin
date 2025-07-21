@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { RequestMethod } from '@aiknew/shared-api-prisma'
+import { RequestMethod } from '@aiknew/shared-admin-db'
 import { AdminApiTranslationDto } from './admin-api-translation.dto'
 
 export class AdminApiDto {

@@ -4,7 +4,7 @@
   "types": "./src/index.d.ts",
   "devDependencies": {
     "@nestjs/common": "catalog:api",
-    "@aiknew/shared-api-prisma": "workspace:*",
+    "@aiknew/shared-admin-db": "workspace:*",
     "@aiknew/shared-api-enums": "workspace:*"
   },
   "files": [

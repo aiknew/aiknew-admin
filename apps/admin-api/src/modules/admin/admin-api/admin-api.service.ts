@@ -5,7 +5,7 @@ import {
   Prisma,
   PrismaService,
   getAdminApiAncestors,
-} from '@aiknew/shared-api-prisma'
+} from '@aiknew/shared-admin-db'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { UpdateApiDto } from './dto/update-api.dto'

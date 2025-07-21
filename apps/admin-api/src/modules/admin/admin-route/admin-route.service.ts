@@ -9,7 +9,7 @@ import {
   Prisma,
   PrismaService,
   getAdminRouteAncestors,
-} from '@aiknew/shared-api-prisma'
+} from '@aiknew/shared-admin-db'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AdminUserService } from '../admin-user/admin-user.service'
 import { PaginationDto } from '@aiknew/shared-api-dtos'

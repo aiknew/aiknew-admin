@@ -1,3 +1,3 @@
-import { type RouteType } from '@aiknew/shared-api-prisma'
+import { type RouteType } from '@aiknew/shared-admin-db'
 
 export { type RouteType }

@@ -1,4 +1,4 @@
-import { LanguageOrientation } from '@aiknew/shared-api-prisma'
+import { LanguageOrientation } from '@aiknew/shared-admin-db'
 
 export interface ILanguage {
   name: string

@@ -17,24 +17,103 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE IF EXISTS ONLY public."UploadFile" DROP CONSTRAINT IF EXISTS "UploadFile_uploaderId_fkey";
+ALTER TABLE IF EXISTS ONLY public."UploadFile" DROP CONSTRAINT IF EXISTS "UploadFile_fileStorageId_fkey";
+ALTER TABLE IF EXISTS ONLY public."UploadFileGroupPath" DROP CONSTRAINT IF EXISTS "UploadFileGroupPath_descendantId_fkey";
+ALTER TABLE IF EXISTS ONLY public."UploadFileGroupPath" DROP CONSTRAINT IF EXISTS "UploadFileGroupPath_ancestorId_fkey";
+ALTER TABLE IF EXISTS ONLY public."Article" DROP CONSTRAINT IF EXISTS "Article_articleCategoryId_fkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleTranslation" DROP CONSTRAINT IF EXISTS "ArticleTranslation_langKey_fkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleTranslation" DROP CONSTRAINT IF EXISTS "ArticleTranslation_articleId_fkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleCategoryTranslation" DROP CONSTRAINT IF EXISTS "ArticleCategoryTranslation_langKey_fkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleCategoryTranslation" DROP CONSTRAINT IF EXISTS "ArticleCategoryTranslation_articleCategoryId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminUserRole" DROP CONSTRAINT IF EXISTS "AdminUserRole_adminUserId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminUserRole" DROP CONSTRAINT IF EXISTS "AdminUserRole_adminRoleId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRouteTranslation" DROP CONSTRAINT IF EXISTS "AdminRouteTranslation_routeId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRouteTranslation" DROP CONSTRAINT IF EXISTS "AdminRouteTranslation_langKey_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRouteApi" DROP CONSTRAINT IF EXISTS "AdminRouteApi_routeId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRouteApi" DROP CONSTRAINT IF EXISTS "AdminRouteApi_apiId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoleTranslation" DROP CONSTRAINT IF EXISTS "AdminRoleTranslation_langKey_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoleTranslation" DROP CONSTRAINT IF EXISTS "AdminRoleTranslation_adminRoleId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoleRoute" DROP CONSTRAINT IF EXISTS "AdminRoleRoute_routeId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoleRoute" DROP CONSTRAINT IF EXISTS "AdminRoleRoute_roleId_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminApiTranslation" DROP CONSTRAINT IF EXISTS "AdminApiTranslation_langKey_fkey";
+ALTER TABLE IF EXISTS ONLY public."AdminApiTranslation" DROP CONSTRAINT IF EXISTS "AdminApiTranslation_apiId_fkey";
+DROP INDEX IF EXISTS public."WebsiteLanguage_key_key";
+DROP INDEX IF EXISTS public."WebUser_userName_key";
+DROP INDEX IF EXISTS public."UploadFile_originalName_groupId_key";
+DROP INDEX IF EXISTS public."UploadFileGroup_groupName_parentId_key";
+DROP INDEX IF EXISTS public."SystemSetting_key_key";
+DROP INDEX IF EXISTS public."Language_key_key";
+DROP INDEX IF EXISTS public."ArticleTranslation_title_key";
+DROP INDEX IF EXISTS public."AdminUser_userName_key";
+DROP INDEX IF EXISTS public."AdminApi_url_method_key";
+ALTER TABLE IF EXISTS ONLY public."WebUser" DROP CONSTRAINT IF EXISTS "WebUser_pkey";
+ALTER TABLE IF EXISTS ONLY public."UploadFile" DROP CONSTRAINT IF EXISTS "UploadFile_pkey";
+ALTER TABLE IF EXISTS ONLY public."UploadFileGroup" DROP CONSTRAINT IF EXISTS "UploadFileGroup_pkey";
+ALTER TABLE IF EXISTS ONLY public."UploadFileGroupPath" DROP CONSTRAINT IF EXISTS "UploadFileGroupPath_pkey";
+ALTER TABLE IF EXISTS ONLY public."SystemSetting" DROP CONSTRAINT IF EXISTS "SystemSetting_pkey";
+ALTER TABLE IF EXISTS ONLY public."FileStorage" DROP CONSTRAINT IF EXISTS "FileStorage_pkey";
+ALTER TABLE IF EXISTS ONLY public."Article" DROP CONSTRAINT IF EXISTS "Article_pkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleTranslation" DROP CONSTRAINT IF EXISTS "ArticleTranslation_pkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleCategory" DROP CONSTRAINT IF EXISTS "ArticleCategory_pkey";
+ALTER TABLE IF EXISTS ONLY public."ArticleCategoryTranslation" DROP CONSTRAINT IF EXISTS "ArticleCategoryTranslation_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminUser" DROP CONSTRAINT IF EXISTS "AdminUser_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminUserRole" DROP CONSTRAINT IF EXISTS "AdminUserRole_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoute" DROP CONSTRAINT IF EXISTS "AdminRoute_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRouteTranslation" DROP CONSTRAINT IF EXISTS "AdminRouteTranslation_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRouteApi" DROP CONSTRAINT IF EXISTS "AdminRouteApi_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRole" DROP CONSTRAINT IF EXISTS "AdminRole_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoleTranslation" DROP CONSTRAINT IF EXISTS "AdminRoleTranslation_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminRoleRoute" DROP CONSTRAINT IF EXISTS "AdminRoleRoute_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminApi" DROP CONSTRAINT IF EXISTS "AdminApi_pkey";
+ALTER TABLE IF EXISTS ONLY public."AdminApiTranslation" DROP CONSTRAINT IF EXISTS "AdminApiTranslation_pkey";
+ALTER TABLE IF EXISTS public."ArticleCategory" ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE IF EXISTS public."Article" ALTER COLUMN id DROP DEFAULT;
+DROP TABLE IF EXISTS public."WebsiteLanguage";
+DROP TABLE IF EXISTS public."WebUser";
+DROP TABLE IF EXISTS public."UploadFileGroupPath";
+DROP TABLE IF EXISTS public."UploadFileGroup";
+DROP TABLE IF EXISTS public."UploadFile";
+DROP TABLE IF EXISTS public."SystemSetting";
+DROP TABLE IF EXISTS public."Language";
+DROP TABLE IF EXISTS public."FileStorage";
+DROP SEQUENCE IF EXISTS public."Article_id_seq";
+DROP TABLE IF EXISTS public."ArticleTranslation";
+DROP SEQUENCE IF EXISTS public."ArticleCategory_id_seq";
+DROP TABLE IF EXISTS public."ArticleCategoryTranslation";
+DROP TABLE IF EXISTS public."ArticleCategory";
+DROP TABLE IF EXISTS public."Article";
+DROP TABLE IF EXISTS public."AdminUserRole";
+DROP TABLE IF EXISTS public."AdminUser";
+DROP TABLE IF EXISTS public."AdminRouteTranslation";
+DROP TABLE IF EXISTS public."AdminRouteApi";
+DROP TABLE IF EXISTS public."AdminRoute";
+DROP TABLE IF EXISTS public."AdminRoleTranslation";
+DROP TABLE IF EXISTS public."AdminRoleRoute";
+DROP TABLE IF EXISTS public."AdminRole";
+DROP TABLE IF EXISTS public."AdminApiTranslation";
+DROP TABLE IF EXISTS public."AdminApi";
+DROP TYPE IF EXISTS public."StorageType";
+DROP TYPE IF EXISTS public."RouteType";
+DROP TYPE IF EXISTS public."RequestMethod";
+DROP TYPE IF EXISTS public."LanguageOrientation";
+-- *not* dropping schema, since initdb creates it
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
 --
 
 -- *not* creating schema, since initdb creates it
 
 
-ALTER SCHEMA public OWNER TO postgres;
-
 --
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
 --
 
 COMMENT ON SCHEMA public IS '';
 
 
 --
--- Name: LanguageOrientation; Type: TYPE; Schema: public; Owner: postgres
+-- Name: LanguageOrientation; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public."LanguageOrientation" AS ENUM (
@@ -43,10 +122,8 @@ CREATE TYPE public."LanguageOrientation" AS ENUM (
 );
 
 
-ALTER TYPE public."LanguageOrientation" OWNER TO postgres;
-
 --
--- Name: RequestMethod; Type: TYPE; Schema: public; Owner: postgres
+-- Name: RequestMethod; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public."RequestMethod" AS ENUM (
@@ -58,10 +135,8 @@ CREATE TYPE public."RequestMethod" AS ENUM (
 );
 
 
-ALTER TYPE public."RequestMethod" OWNER TO postgres;
-
 --
--- Name: RouteType; Type: TYPE; Schema: public; Owner: postgres
+-- Name: RouteType; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public."RouteType" AS ENUM (
@@ -72,10 +147,8 @@ CREATE TYPE public."RouteType" AS ENUM (
 );
 
 
-ALTER TYPE public."RouteType" OWNER TO postgres;
-
 --
--- Name: StorageType; Type: TYPE; Schema: public; Owner: postgres
+-- Name: StorageType; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public."StorageType" AS ENUM (
@@ -84,14 +157,12 @@ CREATE TYPE public."StorageType" AS ENUM (
 );
 
 
-ALTER TYPE public."StorageType" OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: AdminApi; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminApi; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminApi" (
@@ -105,10 +176,8 @@ CREATE TABLE public."AdminApi" (
 );
 
 
-ALTER TABLE public."AdminApi" OWNER TO postgres;
-
 --
--- Name: AdminApiTranslation; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminApiTranslation; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminApiTranslation" (
@@ -120,10 +189,8 @@ CREATE TABLE public."AdminApiTranslation" (
 );
 
 
-ALTER TABLE public."AdminApiTranslation" OWNER TO postgres;
-
 --
--- Name: AdminRole; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminRole; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminRole" (
@@ -134,10 +201,8 @@ CREATE TABLE public."AdminRole" (
 );
 
 
-ALTER TABLE public."AdminRole" OWNER TO postgres;
-
 --
--- Name: AdminRoleRoute; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminRoleRoute; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminRoleRoute" (
@@ -147,10 +212,8 @@ CREATE TABLE public."AdminRoleRoute" (
 );
 
 
-ALTER TABLE public."AdminRoleRoute" OWNER TO postgres;
-
 --
--- Name: AdminRoleTranslation; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminRoleTranslation; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminRoleTranslation" (
@@ -162,10 +225,8 @@ CREATE TABLE public."AdminRoleTranslation" (
 );
 
 
-ALTER TABLE public."AdminRoleTranslation" OWNER TO postgres;
-
 --
--- Name: AdminRoute; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminRoute; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminRoute" (
@@ -185,10 +246,8 @@ CREATE TABLE public."AdminRoute" (
 );
 
 
-ALTER TABLE public."AdminRoute" OWNER TO postgres;
-
 --
--- Name: AdminRouteApi; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminRouteApi; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminRouteApi" (
@@ -197,10 +256,8 @@ CREATE TABLE public."AdminRouteApi" (
 );
 
 
-ALTER TABLE public."AdminRouteApi" OWNER TO postgres;
-
 --
--- Name: AdminRouteTranslation; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminRouteTranslation; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminRouteTranslation" (
@@ -212,10 +269,8 @@ CREATE TABLE public."AdminRouteTranslation" (
 );
 
 
-ALTER TABLE public."AdminRouteTranslation" OWNER TO postgres;
-
 --
--- Name: AdminUser; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminUser; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminUser" (
@@ -230,10 +285,8 @@ CREATE TABLE public."AdminUser" (
 );
 
 
-ALTER TABLE public."AdminUser" OWNER TO postgres;
-
 --
--- Name: AdminUserRole; Type: TABLE; Schema: public; Owner: postgres
+-- Name: AdminUserRole; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."AdminUserRole" (
@@ -243,10 +296,8 @@ CREATE TABLE public."AdminUserRole" (
 );
 
 
-ALTER TABLE public."AdminUserRole" OWNER TO postgres;
-
 --
--- Name: Article; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Article; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."Article" (
@@ -261,10 +312,8 @@ CREATE TABLE public."Article" (
 );
 
 
-ALTER TABLE public."Article" OWNER TO postgres;
-
 --
--- Name: ArticleCategory; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ArticleCategory; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."ArticleCategory" (
@@ -277,10 +326,8 @@ CREATE TABLE public."ArticleCategory" (
 );
 
 
-ALTER TABLE public."ArticleCategory" OWNER TO postgres;
-
 --
--- Name: ArticleCategoryTranslation; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ArticleCategoryTranslation; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."ArticleCategoryTranslation" (
@@ -290,10 +337,8 @@ CREATE TABLE public."ArticleCategoryTranslation" (
 );
 
 
-ALTER TABLE public."ArticleCategoryTranslation" OWNER TO postgres;
-
 --
--- Name: ArticleCategory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ArticleCategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public."ArticleCategory_id_seq"
@@ -305,17 +350,15 @@ CREATE SEQUENCE public."ArticleCategory_id_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."ArticleCategory_id_seq" OWNER TO postgres;
-
 --
--- Name: ArticleCategory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ArticleCategory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public."ArticleCategory_id_seq" OWNED BY public."ArticleCategory".id;
 
 
 --
--- Name: ArticleTranslation; Type: TABLE; Schema: public; Owner: postgres
+-- Name: ArticleTranslation; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."ArticleTranslation" (
@@ -326,10 +369,8 @@ CREATE TABLE public."ArticleTranslation" (
 );
 
 
-ALTER TABLE public."ArticleTranslation" OWNER TO postgres;
-
 --
--- Name: Article_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: Article_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public."Article_id_seq"
@@ -341,17 +382,15 @@ CREATE SEQUENCE public."Article_id_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."Article_id_seq" OWNER TO postgres;
-
 --
--- Name: Article_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: Article_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public."Article_id_seq" OWNED BY public."Article".id;
 
 
 --
--- Name: FileStorage; Type: TABLE; Schema: public; Owner: postgres
+-- Name: FileStorage; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."FileStorage" (
@@ -369,10 +408,8 @@ CREATE TABLE public."FileStorage" (
 );
 
 
-ALTER TABLE public."FileStorage" OWNER TO postgres;
-
 --
--- Name: Language; Type: TABLE; Schema: public; Owner: postgres
+-- Name: Language; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."Language" (
@@ -386,10 +423,8 @@ CREATE TABLE public."Language" (
 );
 
 
-ALTER TABLE public."Language" OWNER TO postgres;
-
 --
--- Name: SystemSetting; Type: TABLE; Schema: public; Owner: postgres
+-- Name: SystemSetting; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."SystemSetting" (
@@ -401,10 +436,8 @@ CREATE TABLE public."SystemSetting" (
 );
 
 
-ALTER TABLE public."SystemSetting" OWNER TO postgres;
-
 --
--- Name: UploadFile; Type: TABLE; Schema: public; Owner: postgres
+-- Name: UploadFile; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."UploadFile" (
@@ -426,10 +459,8 @@ CREATE TABLE public."UploadFile" (
 );
 
 
-ALTER TABLE public."UploadFile" OWNER TO postgres;
-
 --
--- Name: UploadFileGroup; Type: TABLE; Schema: public; Owner: postgres
+-- Name: UploadFileGroup; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."UploadFileGroup" (
@@ -442,10 +473,8 @@ CREATE TABLE public."UploadFileGroup" (
 );
 
 
-ALTER TABLE public."UploadFileGroup" OWNER TO postgres;
-
 --
--- Name: UploadFileGroupPath; Type: TABLE; Schema: public; Owner: postgres
+-- Name: UploadFileGroupPath; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."UploadFileGroupPath" (
@@ -455,10 +484,8 @@ CREATE TABLE public."UploadFileGroupPath" (
 );
 
 
-ALTER TABLE public."UploadFileGroupPath" OWNER TO postgres;
-
 --
--- Name: WebUser; Type: TABLE; Schema: public; Owner: postgres
+-- Name: WebUser; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."WebUser" (
@@ -472,10 +499,8 @@ CREATE TABLE public."WebUser" (
 );
 
 
-ALTER TABLE public."WebUser" OWNER TO postgres;
-
 --
--- Name: WebsiteLanguage; Type: TABLE; Schema: public; Owner: postgres
+-- Name: WebsiteLanguage; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."WebsiteLanguage" (
@@ -489,24 +514,22 @@ CREATE TABLE public."WebsiteLanguage" (
 );
 
 
-ALTER TABLE public."WebsiteLanguage" OWNER TO postgres;
-
 --
--- Name: Article id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: Article id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Article" ALTER COLUMN id SET DEFAULT nextval('public."Article_id_seq"'::regclass);
 
 
 --
--- Name: ArticleCategory id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: ArticleCategory id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleCategory" ALTER COLUMN id SET DEFAULT nextval('public."ArticleCategory_id_seq"'::regclass);
 
 
 --
--- Data for Name: AdminApi; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminApi; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO public."AdminApi" VALUES ('cmda1g6lm00016xeugd7laa8q', '[/admin/admin-user]', 'GET', '0', 100, '2025-07-19 09:21:16.906', '2025-07-19 09:21:16.906');
@@ -563,7 +586,7 @@ INSERT INTO public."AdminApi" VALUES ('cmda1g6sy001f6xeujz6386ng', '/admin/uploa
 
 
 --
--- Data for Name: AdminApiTranslation; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminApiTranslation; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO public."AdminApiTranslation" VALUES ('cmda1g6lm00016xeugd7laa8q', 'zh-TW', '管理員用戶設定', '2025-07-19 09:21:16.906', '2025-07-19 09:21:16.906');
@@ -722,25 +745,25 @@ INSERT INTO public."AdminApiTranslation" VALUES ('cmda1g6sy001f6xeujz6386ng', 'z
 
 
 --
--- Data for Name: AdminRole; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminRole; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: AdminRoleRoute; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminRoleRoute; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: AdminRoleTranslation; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminRoleTranslation; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: AdminRoute; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminRoute; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO public."AdminRoute" VALUES ('cmda1g6tg001g6xeujpci107l', 'Collection', '/content/file', false, '', 'GROUP', '', true, '/content', '0', 100, '2025-07-19 09:21:17.188', '2025-07-19 09:21:17.188');
@@ -786,7 +809,7 @@ INSERT INTO public."AdminRoute" VALUES ('cmda35czy00016xd1pxacsazj', 'Setting', 
 
 
 --
--- Data for Name: AdminRouteApi; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminRouteApi; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6tq001h6xeuae8b2r3q', 'cmda1g6sk001c6xeu6vfif4to');
@@ -832,7 +855,7 @@ INSERT INTO public."AdminRouteApi" VALUES ('cmda35czy00016xd1pxacsazj', 'cmda1g6
 
 
 --
--- Data for Name: AdminRouteTranslation; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminRouteTranslation; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6tg001g6xeujpci107l', 'zh-TW', '內容管理', '2025-07-19 09:21:17.188', '2025-07-19 09:21:17.188');
@@ -958,44 +981,44 @@ INSERT INTO public."AdminRouteTranslation" VALUES ('cmda35czy00016xd1pxacsazj', 
 
 
 --
--- Data for Name: AdminUser; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminUser; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public."AdminUser" VALUES ('cmda1g6jj00006xeuh5jwfnp3', 'super', 'c818a83915c41d0bf2b49121a52a3dbee0e66b5b6fe404cad1ad431a2bb82881', true, 0, '2025-07-19 09:21:16.831', '2025-07-19 09:21:16.831', '2025-07-19 09:21:16.831');
-
-
---
--- Data for Name: AdminUserRole; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
+INSERT INTO public."AdminUser" VALUES ('cmda1g6jj00006xeuh5jwfnp3', 'super', 'c818a83915c41d0bf2b49121a52a3dbee0e66b5b6fe404cad1ad431a2bb82881', true, 0, '2025-07-19 09:21:16.831', '2025-07-19 09:21:16.831', '2025-07-23 15:52:50.505');
 
 
 --
--- Data for Name: Article; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: AdminUserRole; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: ArticleCategory; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Article; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: ArticleCategoryTranslation; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ArticleCategory; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: ArticleTranslation; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ArticleCategoryTranslation; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: FileStorage; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ArticleTranslation; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
+-- Data for Name: FileStorage; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO public."FileStorage" VALUES ('o5byjox79oc9gho3jtfrp3ju', 'local', 'LOCAL', true, '/', NULL, NULL, NULL, NULL, '2025-07-19 10:10:07.095', '2025-07-19 10:10:07.095');
@@ -1003,66 +1026,66 @@ INSERT INTO public."FileStorage" VALUES ('z8l969ewcx8felqd2czmqeog', 'minio', 'S
 
 
 --
--- Data for Name: Language; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: Language; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public."Language" VALUES ('zh-TW', '中文繁体', 'LTR', true, 10, '2025-07-19 09:21:16.84', '2025-07-19 09:21:16.84');
-INSERT INTO public."Language" VALUES ('en', 'English', 'LTR', true, 10, '2025-07-19 09:21:16.84', '2025-07-19 09:21:16.84');
-INSERT INTO public."Language" VALUES ('zh-CN', '中文简体', 'LTR', true, 10, '2025-07-19 09:21:16.84', '2025-07-19 09:21:16.84');
-
-
---
--- Data for Name: SystemSetting; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
+INSERT INTO public."Language" VALUES ('en', 'English', 'LTR', true, 10, '2025-07-19 09:21:16.84', '2025-07-23 15:52:50.515');
+INSERT INTO public."Language" VALUES ('zh-TW', '中文繁体', 'LTR', true, 10, '2025-07-19 09:21:16.84', '2025-07-23 15:52:50.515');
+INSERT INTO public."Language" VALUES ('zh-CN', '中文简体', 'LTR', true, 10, '2025-07-19 09:21:16.84', '2025-07-23 15:52:50.515');
 
 
 --
--- Data for Name: UploadFile; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: SystemSetting; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: UploadFileGroup; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: UploadFile; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: UploadFileGroupPath; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: UploadFileGroup; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: WebUser; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: UploadFileGroupPath; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Data for Name: WebsiteLanguage; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: WebUser; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- Name: ArticleCategory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Data for Name: WebsiteLanguage; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+
+
+--
+-- Name: ArticleCategory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public."ArticleCategory_id_seq"', 1, false);
 
 
 --
--- Name: Article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: Article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public."Article_id_seq"', 1, false);
 
 
 --
--- Name: AdminApiTranslation AdminApiTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminApiTranslation AdminApiTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminApiTranslation"
@@ -1070,7 +1093,7 @@ ALTER TABLE ONLY public."AdminApiTranslation"
 
 
 --
--- Name: AdminApi AdminApi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminApi AdminApi_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminApi"
@@ -1078,7 +1101,7 @@ ALTER TABLE ONLY public."AdminApi"
 
 
 --
--- Name: AdminRoleRoute AdminRoleRoute_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoleRoute AdminRoleRoute_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoleRoute"
@@ -1086,7 +1109,7 @@ ALTER TABLE ONLY public."AdminRoleRoute"
 
 
 --
--- Name: AdminRoleTranslation AdminRoleTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoleTranslation AdminRoleTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoleTranslation"
@@ -1094,7 +1117,7 @@ ALTER TABLE ONLY public."AdminRoleTranslation"
 
 
 --
--- Name: AdminRole AdminRole_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRole AdminRole_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRole"
@@ -1102,7 +1125,7 @@ ALTER TABLE ONLY public."AdminRole"
 
 
 --
--- Name: AdminRouteApi AdminRouteApi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRouteApi AdminRouteApi_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRouteApi"
@@ -1110,7 +1133,7 @@ ALTER TABLE ONLY public."AdminRouteApi"
 
 
 --
--- Name: AdminRouteTranslation AdminRouteTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRouteTranslation AdminRouteTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRouteTranslation"
@@ -1118,7 +1141,7 @@ ALTER TABLE ONLY public."AdminRouteTranslation"
 
 
 --
--- Name: AdminRoute AdminRoute_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoute AdminRoute_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoute"
@@ -1126,7 +1149,7 @@ ALTER TABLE ONLY public."AdminRoute"
 
 
 --
--- Name: AdminUserRole AdminUserRole_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminUserRole AdminUserRole_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminUserRole"
@@ -1134,7 +1157,7 @@ ALTER TABLE ONLY public."AdminUserRole"
 
 
 --
--- Name: AdminUser AdminUser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminUser AdminUser_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminUser"
@@ -1142,7 +1165,7 @@ ALTER TABLE ONLY public."AdminUser"
 
 
 --
--- Name: ArticleCategoryTranslation ArticleCategoryTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleCategoryTranslation ArticleCategoryTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleCategoryTranslation"
@@ -1150,7 +1173,7 @@ ALTER TABLE ONLY public."ArticleCategoryTranslation"
 
 
 --
--- Name: ArticleCategory ArticleCategory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleCategory ArticleCategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleCategory"
@@ -1158,7 +1181,7 @@ ALTER TABLE ONLY public."ArticleCategory"
 
 
 --
--- Name: ArticleTranslation ArticleTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleTranslation ArticleTranslation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleTranslation"
@@ -1166,7 +1189,7 @@ ALTER TABLE ONLY public."ArticleTranslation"
 
 
 --
--- Name: Article Article_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Article Article_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Article"
@@ -1174,7 +1197,7 @@ ALTER TABLE ONLY public."Article"
 
 
 --
--- Name: FileStorage FileStorage_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: FileStorage FileStorage_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."FileStorage"
@@ -1182,7 +1205,7 @@ ALTER TABLE ONLY public."FileStorage"
 
 
 --
--- Name: SystemSetting SystemSetting_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: SystemSetting SystemSetting_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."SystemSetting"
@@ -1190,7 +1213,7 @@ ALTER TABLE ONLY public."SystemSetting"
 
 
 --
--- Name: UploadFileGroupPath UploadFileGroupPath_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFileGroupPath UploadFileGroupPath_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFileGroupPath"
@@ -1198,7 +1221,7 @@ ALTER TABLE ONLY public."UploadFileGroupPath"
 
 
 --
--- Name: UploadFileGroup UploadFileGroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFileGroup UploadFileGroup_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFileGroup"
@@ -1206,7 +1229,7 @@ ALTER TABLE ONLY public."UploadFileGroup"
 
 
 --
--- Name: UploadFile UploadFile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFile UploadFile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFile"
@@ -1214,7 +1237,7 @@ ALTER TABLE ONLY public."UploadFile"
 
 
 --
--- Name: WebUser WebUser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: WebUser WebUser_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."WebUser"
@@ -1222,70 +1245,70 @@ ALTER TABLE ONLY public."WebUser"
 
 
 --
--- Name: AdminApi_url_method_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: AdminApi_url_method_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "AdminApi_url_method_key" ON public."AdminApi" USING btree (url, method);
 
 
 --
--- Name: AdminUser_userName_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: AdminUser_userName_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "AdminUser_userName_key" ON public."AdminUser" USING btree ("userName");
 
 
 --
--- Name: ArticleTranslation_title_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: ArticleTranslation_title_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "ArticleTranslation_title_key" ON public."ArticleTranslation" USING btree (title);
 
 
 --
--- Name: Language_key_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: Language_key_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "Language_key_key" ON public."Language" USING btree (key);
 
 
 --
--- Name: SystemSetting_key_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: SystemSetting_key_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "SystemSetting_key_key" ON public."SystemSetting" USING btree (key);
 
 
 --
--- Name: UploadFileGroup_groupName_parentId_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: UploadFileGroup_groupName_parentId_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "UploadFileGroup_groupName_parentId_key" ON public."UploadFileGroup" USING btree ("groupName", "parentId");
 
 
 --
--- Name: UploadFile_originalName_groupId_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: UploadFile_originalName_groupId_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "UploadFile_originalName_groupId_key" ON public."UploadFile" USING btree ("originalName", "groupId");
 
 
 --
--- Name: WebUser_userName_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: WebUser_userName_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "WebUser_userName_key" ON public."WebUser" USING btree ("userName");
 
 
 --
--- Name: WebsiteLanguage_key_key; Type: INDEX; Schema: public; Owner: postgres
+-- Name: WebsiteLanguage_key_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "WebsiteLanguage_key_key" ON public."WebsiteLanguage" USING btree (key);
 
 
 --
--- Name: AdminApiTranslation AdminApiTranslation_apiId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminApiTranslation AdminApiTranslation_apiId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminApiTranslation"
@@ -1293,7 +1316,7 @@ ALTER TABLE ONLY public."AdminApiTranslation"
 
 
 --
--- Name: AdminApiTranslation AdminApiTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminApiTranslation AdminApiTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminApiTranslation"
@@ -1301,7 +1324,7 @@ ALTER TABLE ONLY public."AdminApiTranslation"
 
 
 --
--- Name: AdminRoleRoute AdminRoleRoute_roleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoleRoute AdminRoleRoute_roleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoleRoute"
@@ -1309,7 +1332,7 @@ ALTER TABLE ONLY public."AdminRoleRoute"
 
 
 --
--- Name: AdminRoleRoute AdminRoleRoute_routeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoleRoute AdminRoleRoute_routeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoleRoute"
@@ -1317,7 +1340,7 @@ ALTER TABLE ONLY public."AdminRoleRoute"
 
 
 --
--- Name: AdminRoleTranslation AdminRoleTranslation_adminRoleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoleTranslation AdminRoleTranslation_adminRoleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoleTranslation"
@@ -1325,7 +1348,7 @@ ALTER TABLE ONLY public."AdminRoleTranslation"
 
 
 --
--- Name: AdminRoleTranslation AdminRoleTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRoleTranslation AdminRoleTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRoleTranslation"
@@ -1333,7 +1356,7 @@ ALTER TABLE ONLY public."AdminRoleTranslation"
 
 
 --
--- Name: AdminRouteApi AdminRouteApi_apiId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRouteApi AdminRouteApi_apiId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRouteApi"
@@ -1341,7 +1364,7 @@ ALTER TABLE ONLY public."AdminRouteApi"
 
 
 --
--- Name: AdminRouteApi AdminRouteApi_routeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRouteApi AdminRouteApi_routeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRouteApi"
@@ -1349,7 +1372,7 @@ ALTER TABLE ONLY public."AdminRouteApi"
 
 
 --
--- Name: AdminRouteTranslation AdminRouteTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRouteTranslation AdminRouteTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRouteTranslation"
@@ -1357,7 +1380,7 @@ ALTER TABLE ONLY public."AdminRouteTranslation"
 
 
 --
--- Name: AdminRouteTranslation AdminRouteTranslation_routeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminRouteTranslation AdminRouteTranslation_routeId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminRouteTranslation"
@@ -1365,7 +1388,7 @@ ALTER TABLE ONLY public."AdminRouteTranslation"
 
 
 --
--- Name: AdminUserRole AdminUserRole_adminRoleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminUserRole AdminUserRole_adminRoleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminUserRole"
@@ -1373,7 +1396,7 @@ ALTER TABLE ONLY public."AdminUserRole"
 
 
 --
--- Name: AdminUserRole AdminUserRole_adminUserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: AdminUserRole AdminUserRole_adminUserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."AdminUserRole"
@@ -1381,7 +1404,7 @@ ALTER TABLE ONLY public."AdminUserRole"
 
 
 --
--- Name: ArticleCategoryTranslation ArticleCategoryTranslation_articleCategoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleCategoryTranslation ArticleCategoryTranslation_articleCategoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleCategoryTranslation"
@@ -1389,7 +1412,7 @@ ALTER TABLE ONLY public."ArticleCategoryTranslation"
 
 
 --
--- Name: ArticleCategoryTranslation ArticleCategoryTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleCategoryTranslation ArticleCategoryTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleCategoryTranslation"
@@ -1397,7 +1420,7 @@ ALTER TABLE ONLY public."ArticleCategoryTranslation"
 
 
 --
--- Name: ArticleTranslation ArticleTranslation_articleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleTranslation ArticleTranslation_articleId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleTranslation"
@@ -1405,7 +1428,7 @@ ALTER TABLE ONLY public."ArticleTranslation"
 
 
 --
--- Name: ArticleTranslation ArticleTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ArticleTranslation ArticleTranslation_langKey_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."ArticleTranslation"
@@ -1413,7 +1436,7 @@ ALTER TABLE ONLY public."ArticleTranslation"
 
 
 --
--- Name: Article Article_articleCategoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: Article Article_articleCategoryId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Article"
@@ -1421,7 +1444,7 @@ ALTER TABLE ONLY public."Article"
 
 
 --
--- Name: UploadFileGroupPath UploadFileGroupPath_ancestorId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFileGroupPath UploadFileGroupPath_ancestorId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFileGroupPath"
@@ -1429,7 +1452,7 @@ ALTER TABLE ONLY public."UploadFileGroupPath"
 
 
 --
--- Name: UploadFileGroupPath UploadFileGroupPath_descendantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFileGroupPath UploadFileGroupPath_descendantId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFileGroupPath"
@@ -1437,7 +1460,7 @@ ALTER TABLE ONLY public."UploadFileGroupPath"
 
 
 --
--- Name: UploadFile UploadFile_fileStorageId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFile UploadFile_fileStorageId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFile"
@@ -1445,7 +1468,7 @@ ALTER TABLE ONLY public."UploadFile"
 
 
 --
--- Name: UploadFile UploadFile_uploaderId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: UploadFile UploadFile_uploaderId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."UploadFile"
@@ -1453,7 +1476,7 @@ ALTER TABLE ONLY public."UploadFile"
 
 
 --
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: -
 --
 
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;

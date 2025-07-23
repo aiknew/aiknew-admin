@@ -1,4 +1,4 @@
-import type { StorageType } from '@aiknew/shared-api-prisma'
+import type { StorageType } from '@aiknew/shared-admin-db'
 
 export interface IUploadFile {
   id: string

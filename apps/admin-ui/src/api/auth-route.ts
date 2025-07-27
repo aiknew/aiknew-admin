@@ -3,18 +3,17 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { toValue, type MaybeRef, type Reactive, type Ref } from 'vue'
-import type { components, paths } from '@/types/open-api'
-import type { GetData, PatchReqBody, PostReqBody } from '@aiknew/shared-ui-types'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type RouteType = components['schemas']['RouteType']
+export type AuthRoute = ApiGetData<'/admin/auth-route'>['list'][number]
 
-export type AuthRoute = GetData<paths, '/admin/auth-route'>['list'][number]
+export type RouteType = AuthRoute['type']
 
-export type AuthRouteAncestorsDto = GetData<paths, '/admin/auth-route/ancestors'>['list']
+export type AuthRouteAncestorsDto = ApiGetData<'/admin/auth-route/ancestors'>['list']
 
-export type CreateAuthRouteDto = PostReqBody<paths, '/admin/auth-route'>
+export type CreateAuthRouteDto = ApiPostReqBody<'/admin/auth-route'>
 
-export type UpdateAuthRouteDto = PatchReqBody<paths, '/admin/auth-route/{id}'>
+export type UpdateAuthRouteDto = ApiPatchReqBody<'/admin/auth-route/{id}'>
 
 export const useAuthRouteList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

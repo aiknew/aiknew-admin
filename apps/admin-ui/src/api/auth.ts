@@ -1,19 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { paths } from '@/types/open-api'
+import type { ApiPatchReqBody, ApiPostReqBody, ApiPostResBody } from '@/types/type-utils'
 
-export type LoginBody =
-  paths['/admin/auth/login']['post']['requestBody']['content']['application/json']
-export type LoginSuccessData =
-  paths['/admin/auth/login']['post']['responses']['201']['content']['application/json']['data']
+export type LoginBody = ApiPostReqBody<'/admin/auth/login'>
 
-export type UpdateUserInfo =
-  paths['/admin/auth/update']['patch']['requestBody']['content']['application/json']
+export type LoginSuccessData = ApiPostResBody<'/admin/auth/login'>['data']
+
+export type UpdateUserInfo = ApiPatchReqBody<'/admin/auth/update'>
 
 export type UserInfo = LoginSuccessData['userInfo']
 
-export const useAdminLogin = () => {
+export const useLogin = () => {
   return useMutation({
     mutationFn: async (body: LoginBody) => {
       return useApiData(() =>

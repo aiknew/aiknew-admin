@@ -1,11 +1,11 @@
 import { useApiData } from '@/composables'
-import type { components } from '@/types/open-api'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { useQuery } from '@tanstack/vue-query'
 import type { Reactive } from 'vue'
+import type { ApiGetData } from '@/types/type-utils'
 
-export type LanguageData = components['schemas']['LanguageItemDto']
+export type LanguageData = ApiGetData<'/admin/language'>['list'][number]
 
 export const useEnabledLangList = () => {
   return useQuery({

@@ -3,16 +3,13 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { type Reactive } from 'vue'
-import type { paths } from '@/types/open-api'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type FileStorage =
-  paths['/admin/file-storage']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+export type FileStorage = ApiGetData<'/admin/file-storage'>
 
-export type CreateFileStorageDto =
-  paths['/admin/file-storage']['post']['requestBody']['content']['application/json']
+export type CreateFileStorageDto = ApiPostReqBody<'/admin/file-storage'>
 
-export type UpdateFileStorageDto =
-  paths['/admin/file-storage/{id}']['patch']['requestBody']['content']['application/json']
+export type UpdateFileStorageDto = ApiPatchReqBody<'/admin/file-storage/{id}'>
 
 export const useFileStorageList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

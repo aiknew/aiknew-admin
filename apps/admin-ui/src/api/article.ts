@@ -3,16 +3,13 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { ref, toValue, type Reactive } from 'vue'
-import type { paths } from '@/types/open-api'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type Article =
-  paths['/admin/article']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+export type Article = ApiGetData<'/admin/article'>['list'][number]
 
-export type CreateArticleDto =
-  paths['/admin/article']['post']['requestBody']['content']['application/json']
+export type CreateArticleDto = ApiPostReqBody<'/admin/article'>
 
-export type UpdateArticleDto =
-  paths['/admin/article/{id}']['patch']['requestBody']['content']['application/json']
+export type UpdateArticleDto = ApiPatchReqBody<'/admin/article/{id}'>
 
 export const useArticleList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

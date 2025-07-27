@@ -3,14 +3,13 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import type { Reactive } from 'vue'
-import type { paths } from '@/types/open-api'
-import type { GetData, PatchReqBody, PostReqBody } from '@aiknew/shared-ui-types'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type AuthRole = GetData<paths, '/admin/auth-role'>['list'][number]
+export type AuthRole = ApiGetData<'/admin/auth-role'>['list'][number]
 
-export type CreateAuthRoleDto = PostReqBody<paths, '/admin/auth-role'>
+export type CreateAuthRoleDto = ApiPostReqBody<'/admin/auth-role'>
 
-export type UpdateAuthRoleDto = PatchReqBody<paths, '/admin/auth-role/{id}'>
+export type UpdateAuthRoleDto = ApiPatchReqBody<'/admin/auth-role/{id}'>
 
 export const useAuthRoleList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

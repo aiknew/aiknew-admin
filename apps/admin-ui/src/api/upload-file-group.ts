@@ -1,14 +1,15 @@
 import { useApiData } from '@/composables'
-import type { components } from '@/types/open-api'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { ref } from 'vue'
 
-export type CreateUploadFileGroupDto = components['schemas']['CreateUploadFileGroupDto']
+export type CreateUploadFileGroupDto = ApiPostReqBody<'/admin/upload-file-group'>
 
-export type UploadFileGroupDto = components['schemas']['UploadFileGroupDto']
+export type UploadFileGroupDto =
+  ApiGetData<'/admin/upload-file/filesAndGroups'>['groupList'][number]
 
-export type UpdateUploadFileGroupDto = components['schemas']['UpdateUploadFileGroupDto']
+export type UpdateUploadFileGroupDto = ApiPatchReqBody<'/admin/upload-file-group/{id}'>
 
 export const useUploadFileGroupCreate = () => {
   return useMutation({

@@ -1,10 +1,9 @@
 import { useApiData } from '@/composables'
-import type { paths } from '@/types/open-api'
+import type { ApiPutReqBody } from '@/types/type-utils'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 
-type SystemSettingUpdateBody =
-  paths['/admin/system-setting']['put']['requestBody']['content']['application/json']
+type SystemSettingUpdateBody = ApiPutReqBody<'/admin/system-setting'>
 
 export const useSystemSettingUpdate = () => {
   return useMutation({

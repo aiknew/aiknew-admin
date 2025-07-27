@@ -1,34 +1,18 @@
 import { useApiData } from '@/composables'
-import type { components, paths } from '@/types/open-api'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody } from '@/types/type-utils'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { computed, ref, type Reactive, type Ref } from 'vue'
+import { type Ref } from 'vue'
 
-export type UploadFilesAndGroupsDto = components['schemas']['UploadFilesAndGroupsDto']
+export type UploadFilesAndGroupsDto = ApiGetData<'/admin/upload-file/filesAndGroups'>
 
-export type UploadFilesAndGroupsQuery =
-  paths['/admin/upload-file/filesAndGroups']['get']['parameters']['query']
+export type UploadFilesAndGroupsQuery = ApiGetQuery<'/admin/upload-file/filesAndGroups'>
 
-export type CreateUploadFileDto = components['schemas']['UploadFileDto']
+export type UpdateUploadFileDto = ApiPatchReqBody<'/admin/upload-file/{id}'>
 
-export type UpdateUploadFileDto = components['schemas']['UpdateUploadFileDto']
-
-export type UploadFilePresignedQuery = paths['/admin/s3/presigned']['get']['parameters']['query']
+export type UploadFilePresignedQuery = ApiGetQuery<'/admin/s3/presigned'>
 
 export const uploadFileUrl = '/admin/upload-file'
-
-export const useUploadFileCreate = () => {
-  return useMutation({
-    mutationKey: ['create-upload-file'],
-    mutationFn: (body: CreateUploadFileDto) => {
-      return useApiData(() =>
-        fetchClient.POST(uploadFileUrl, {
-          body
-        })
-      )
-    }
-  })
-}
 
 export const useUploadFileUpdate = () => {
   return useMutation({

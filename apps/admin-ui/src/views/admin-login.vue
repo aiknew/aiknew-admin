@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAdminLogin, useLoginCaptcha, type LoginBody } from '@/api/auth'
+import { useLogin, useLoginCaptcha, type LoginBody } from '@/api/auth'
 import { AppBasicModal, AppLanguageSwitcher } from '@aiknew/shared-ui-components'
 import { useUserStore } from '@/stores/user'
 import {
@@ -17,7 +17,7 @@ import { setCurrentLang, languages, currentLang } from '@aiknew/shared-ui-locale
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const { mutate: loginApi, isPending } = useAdminLogin()
+const { mutate: loginApi, isPending } = useLogin()
 const {
   data: captchaData,
   isLoading: isLoadingCaptcha,

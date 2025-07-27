@@ -38,6 +38,20 @@ export type GetData<Paths, P extends keyof Paths> = Paths extends {
     : never
   : never
 
+export type GetQuery<Paths, P extends keyof Paths> = Paths extends {
+  [k: string]: any
+}
+  ? Paths[P] extends {
+      get: {
+        parameters: {
+          query: infer Q
+        }
+      }
+    }
+    ? Q
+    : never
+  : never
+
 export type PostReqBody<Paths, P extends keyof Paths> = Paths extends {
   [k: string]: any
 }
@@ -46,6 +60,40 @@ export type PostReqBody<Paths, P extends keyof Paths> = Paths extends {
         requestBody: {
           content: {
             'application/json': infer B
+          }
+        }
+      }
+    }
+    ? B
+    : never
+  : never
+
+export type PutReqBody<Paths, P extends keyof Paths> = Paths extends {
+  [k: string]: any
+}
+  ? Paths[P] extends {
+      put: {
+        requestBody: {
+          content: {
+            'application/json': infer B
+          }
+        }
+      }
+    }
+    ? B
+    : never
+  : never
+
+export type PostResBody<Paths, P extends keyof Paths> = Paths extends {
+  [k: string]: any
+}
+  ? Paths[P] extends {
+      post: {
+        responses: {
+          201: {
+            content: {
+              'application/json': infer B
+            }
           }
         }
       }

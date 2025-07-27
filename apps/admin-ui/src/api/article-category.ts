@@ -3,19 +3,15 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { ref, toValue, type Reactive, type Ref } from 'vue'
-import type { paths } from '@/types/open-api'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type ArticleCategory =
-  paths['/admin/article-category']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+export type ArticleCategory = ApiGetData<'/admin/article-category'>['list'][number]
 
-export type ArticleCategoryAncestorsList =
-  paths['/admin/article-category/ancestors']['get']['responses']['200']['content']['application/json']['data']['list']
+export type ArticleCategoryAncestorsList = ApiGetData<'/admin/article-category/ancestors'>['list']
 
-export type CreateArticleCategoryDto =
-  paths['/admin/article-category']['post']['requestBody']['content']['application/json']
+export type CreateArticleCategoryDto = ApiPostReqBody<'/admin/article-category'>
 
-export type UpdateArticleCategoryDto =
-  paths['/admin/article-category/{id}']['patch']['requestBody']['content']['application/json']
+export type UpdateArticleCategoryDto = ApiPatchReqBody<'/admin/article-category/{id}'>
 
 export const useArticleCategoryList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

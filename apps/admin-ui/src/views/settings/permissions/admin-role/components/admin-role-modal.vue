@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { AppForm, makeFields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminRoleI18n } from '../composables/use-admin-role-i18n'
-import { useAdminRoleCreate, useAdminRoleUpdate, type AdminRole } from '@/api/admin-role'
+import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
 import { useAdminRouteChildren, type AuthRoute, type AuthRouteAncestorsDto } from '@/api/auth-route'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useAdminRoleRouteData } from '../composables/use-admin-role-route-data'
@@ -22,8 +22,8 @@ const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAdminRoleI18n()
 const appFormRef = useTemplateRef('appFormRef')
-const { mutateAsync: createRole } = useAdminRoleCreate()
-const { mutateAsync: updateRole } = useAdminRoleUpdate()
+const { mutateAsync: createRole } = useAuthRoleCreate()
+const { mutateAsync: updateRole } = useAuthRoleUpdate()
 const editId = ref('0')
 const { defaultExpandedKeys, setSelectedKeys, fetchRouteAncestors, loadNode } =
   useAdminRoleRouteData()
@@ -89,7 +89,7 @@ const add = () => {
   modalRef.value?.show()
 }
 
-const edit = (item: AdminRole) => {
+const edit = (item: AuthRole) => {
   editId.value = item.id
 
   setSelectedKeys(item.routes)

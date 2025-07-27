@@ -4,17 +4,15 @@ import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import type { Reactive } from 'vue'
 import type { paths } from '@/types/open-api'
+import type { GetData, PatchReqBody, PostReqBody } from '@aiknew/shared-ui-types'
 
-export type AdminRole =
-  paths['/admin/auth-role']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+export type AuthRole = GetData<paths, '/admin/auth-role'>['list'][number]
 
-export type CreateAdminRoleDto =
-  paths['/admin/auth-role']['post']['requestBody']['content']['application/json']
+export type CreateAuthRoleDto = PostReqBody<paths, '/admin/auth-role'>
 
-export type UpdateAdminRoleDto =
-  paths['/admin/auth-role/{id}']['patch']['requestBody']['content']['application/json']
+export type UpdateAuthRoleDto = PatchReqBody<paths, '/admin/auth-role/{id}'>
 
-export const useAdminRoleList = (query: Reactive<IPaginationQuery>) => {
+export const useAuthRoleList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['auth-role', query],
     placeholderData: keepPreviousData,
@@ -31,7 +29,7 @@ export const useAdminRoleList = (query: Reactive<IPaginationQuery>) => {
   })
 }
 
-export const useAdminRoleAll = () => {
+export const useAuthRoleAll = () => {
   return useQuery({
     queryKey: ['auth-role-all'],
     queryFn: async () => {
@@ -44,10 +42,10 @@ export const useAdminRoleAll = () => {
   })
 }
 
-export const useAdminRoleCreate = () => {
+export const useAuthRoleCreate = () => {
   return useMutation({
     mutationKey: ['create-auth-role'],
-    mutationFn: (body: CreateAdminRoleDto) => {
+    mutationFn: (body: CreateAuthRoleDto) => {
       return useApiData(() =>
         fetchClient.POST('/admin/auth-role', {
           body
@@ -57,10 +55,10 @@ export const useAdminRoleCreate = () => {
   })
 }
 
-export const useAdminRoleUpdate = () => {
+export const useAuthRoleUpdate = () => {
   return useMutation({
     mutationKey: ['update-auth-role'],
-    mutationFn: ({ id, body }: { id: string; body: UpdateAdminRoleDto }) => {
+    mutationFn: ({ id, body }: { id: string; body: UpdateAuthRoleDto }) => {
       return useApiData(() =>
         fetchClient.PATCH('/admin/auth-role/{id}', {
           params: {
@@ -75,7 +73,7 @@ export const useAdminRoleUpdate = () => {
   })
 }
 
-export const useAdminRoleDelete = () => {
+export const useAuthRoleDelete = () => {
   return useMutation({
     mutationKey: ['delete-auth-role'],
     mutationFn: (id: string) => {

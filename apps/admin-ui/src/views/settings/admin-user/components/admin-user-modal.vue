@@ -6,7 +6,7 @@ import { AppForm, makeFields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminUserI18n } from '../composables/use-admin-user-i18n'
 import { useAdminUserCreate, useAdminUserUpdate, type AuthUser } from '@/api/auth-user'
-import { useAdminRoleAll, type AdminRole } from '@/api/admin-role'
+import { useAuthRoleAll, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
@@ -22,7 +22,7 @@ const modalRef = useTemplateRef('modalRef')
 const editId = ref('')
 const { mutateAsync: createUser } = useAdminUserCreate()
 const { mutateAsync: updateUser } = useAdminUserUpdate()
-const { data: adminRoles } = useAdminRoleAll()
+const { data: adminRoles } = useAuthRoleAll()
 const inputPassword = computed(() => {
   return appFormRef.value?.values['password']
 }) as ComputedRef<string>
@@ -89,7 +89,7 @@ const fields = makeFields(
       valueKey: 'id',
       nodeKey: 'id',
       props: {
-        label: (data: AdminRole) => {
+        label: (data: AuthRole) => {
           return tField(data.translations, 'roleName').value
         }
       },

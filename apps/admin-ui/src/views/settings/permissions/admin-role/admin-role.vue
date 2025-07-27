@@ -8,7 +8,7 @@ import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 import { useAdminRoleI18n } from './composables/use-admin-role-i18n'
 import AdminRoleModal from './components/admin-role-modal.vue'
-import { useAdminRoleDelete, useAdminRoleList, type AdminRole } from '@/api/admin-role'
+import { useAuthRoleDelete, useAuthRoleList, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
 
 const modalRef = useTemplateRef('modalRef')
@@ -18,8 +18,8 @@ const {
   data: adminRoleData,
   refetch: refetchAdminRoleData,
   isFetching: isFetchingAdminRoleData
-} = useAdminRoleList(toReactive({ currentPage, pageSize }))
-const { mutateAsync: deleteAdminRole, isPending: isDeleting } = useAdminRoleDelete()
+} = useAuthRoleList(toReactive({ currentPage, pageSize }))
+const { mutateAsync: deleteAdminRole, isPending: isDeleting } = useAuthRoleDelete()
 
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingAdminRoleData.value
@@ -29,7 +29,7 @@ const handleAdd = () => {
   modalRef.value?.add()
 }
 
-const handleEdit = (row: AdminRole) => {
+const handleEdit = (row: AuthRole) => {
   modalRef.value?.edit(row)
 }
 
@@ -37,7 +37,7 @@ const refresh = () => {
   refetchAdminRoleData()
 }
 
-const handleDelete = async (row: AdminRole) => {
+const handleDelete = async (row: AuthRole) => {
   await deleteAdminRole(row.id)
   refresh()
 }
@@ -64,7 +64,7 @@ const handleSubmit = () => {
     >
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" min-width="120">
-        <template #default="{ row }: { row: AdminRole }">
+        <template #default="{ row }: { row: AuthRole }">
           <span>{{ tField(row.translations, 'roleName').value }}</span>
         </template>
       </el-table-column>

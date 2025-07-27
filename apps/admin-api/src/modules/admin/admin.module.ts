@@ -3,7 +3,7 @@ import { ArticleModule } from './article/article.module'
 import { LanguageModule } from './language/language.module'
 import { AdminUserModule } from './admin-user/admin-user.module'
 import { AdminAuthModule } from './admin-auth/admin-auth.module'
-import { AdminApiModule } from './admin-api/admin-api.module'
+import { AuthApiModule } from './auth-api/auth-api.module'
 import { AdminRoleModule } from './admin-role/admin-role.module'
 import { AdminRouteModule } from './admin-route/admin-route.module'
 import { SystemSettingModule } from './system-setting/system-setting.module'
@@ -15,7 +15,7 @@ import { FileStorageModule } from './file-storage/file-storage.module'
 import { S3Module } from './s3/s3.module'
 
 const adminModules = [
-  AdminApiModule,
+  AuthApiModule,
   ArticleModule,
   LanguageModule,
   AdminUserModule,

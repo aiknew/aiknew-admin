@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { RequestMethod } from '@aiknew/shared-admin-db'
-import { AdminApiTranslationDto } from './admin-api-translation.dto'
+import { AuthApiTranslationDto } from './auth-api-translation.dto'
 import { ValidateTranslations } from 'src/common/validators'
 import { IsEnum, IsNumber, IsString, ValidateNested } from 'class-validator'
 import { Type } from 'class-transformer'
 
-export class CreateApiDto {
+export class CreateAuthApiDto {
   @ApiProperty({ enum: RequestMethod, enumName: 'RequestMethod' })
   @IsEnum(RequestMethod)
   method: RequestMethod
@@ -20,7 +20,7 @@ export class CreateApiDto {
   order: number
 
   @ValidateNested()
-  @ValidateTranslations(AdminApiTranslationDto)
-  @Type(() => AdminApiTranslationDto)
-  translations: AdminApiTranslationDto[]
+  @ValidateTranslations(AuthApiTranslationDto)
+  @Type(() => AuthApiTranslationDto)
+  translations: AuthApiTranslationDto[]
 }

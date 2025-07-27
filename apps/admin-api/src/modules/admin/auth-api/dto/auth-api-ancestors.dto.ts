@@ -1,7 +1,7 @@
-import { AdminApiDto } from './admin-api.dto'
+import { AuthApiDto } from './auth-api.dto'
 import { ApiProperty } from '@nestjs/swagger'
 
-export class AdminApiAncestorsDto {
+export class AuthApiAncestorsDto {
   @ApiProperty({
     type: 'object',
     additionalProperties: {
@@ -13,5 +13,5 @@ export class AdminApiAncestorsDto {
   })
   idPath: Record<string, string[]>
 
-  list: AdminApiDto[]
+  list: AuthApiDto[]
 }

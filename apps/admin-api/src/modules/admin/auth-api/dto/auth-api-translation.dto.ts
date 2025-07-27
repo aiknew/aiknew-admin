@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator'
 
-export class AdminApiTranslationDto {
+export class AuthApiTranslationDto {
   @IsString()
   langKey: string
 

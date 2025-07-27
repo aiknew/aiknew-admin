@@ -6,24 +6,24 @@ import { toValue, type MaybeRef, type Reactive, type Ref } from 'vue'
 import type { paths } from '@/types/open-api'
 
 export type AdminApi =
-  paths['/admin/admin-api']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+  paths['/admin/auth-api']['get']['responses']['200']['content']['application/json']['data']['list'][number]
 
 export type AdminApiAncestorsList =
-  paths['/admin/admin-api/ancestors']['get']['responses']['200']['content']['application/json']['data']['list']
+  paths['/admin/auth-api/ancestors']['get']['responses']['200']['content']['application/json']['data']['list']
 
 export type CreateAdminApiDto =
-  paths['/admin/admin-api']['post']['requestBody']['content']['application/json']
+  paths['/admin/auth-api']['post']['requestBody']['content']['application/json']
 
 export type UpdateAdminApiDto =
-  paths['/admin/admin-api/{id}']['patch']['requestBody']['content']['application/json']
+  paths['/admin/auth-api/{id}']['patch']['requestBody']['content']['application/json']
 
 export const useAdminApiList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
-    queryKey: ['admin-api', query],
+    queryKey: ['auth-api', query],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       return useApiData(() =>
-        fetchClient.GET('/admin/admin-api', {
+        fetchClient.GET('/admin/auth-api', {
           params: {
             query
           },
@@ -36,11 +36,11 @@ export const useAdminApiList = (query: Reactive<IPaginationQuery>) => {
 
 export const useAdminApiChildren = (id: MaybeRef<string>) => {
   return useQuery({
-    queryKey: ['admin-api-children', id],
+    queryKey: ['auth-api-children', id],
     enabled: false,
     queryFn: async () => {
       return useApiData(() =>
-        fetchClient.GET('/admin/admin-api/{id}/children', {
+        fetchClient.GET('/admin/auth-api/{id}/children', {
           params: {
             path: {
               id: toValue(id)
@@ -55,10 +55,10 @@ export const useAdminApiChildren = (id: MaybeRef<string>) => {
 
 export const useAdminApiCreate = () => {
   return useMutation({
-    mutationKey: ['create-admin-api'],
+    mutationKey: ['create-auth-api'],
     mutationFn: (body: CreateAdminApiDto) => {
       return useApiData(() =>
-        fetchClient.POST('/admin/admin-api', {
+        fetchClient.POST('/admin/auth-api', {
           body
         })
       )
@@ -68,10 +68,10 @@ export const useAdminApiCreate = () => {
 
 export const useAdminApiUpdate = () => {
   return useMutation({
-    mutationKey: ['update-admin-api'],
+    mutationKey: ['update-auth-api'],
     mutationFn: ({ id, body }: { id: string; body: UpdateAdminApiDto }) => {
       return useApiData(() =>
-        fetchClient.PATCH('/admin/admin-api/{id}', {
+        fetchClient.PATCH('/admin/auth-api/{id}', {
           params: {
             path: {
               id
@@ -86,10 +86,10 @@ export const useAdminApiUpdate = () => {
 
 export const useAdminApiDelete = () => {
   return useMutation({
-    mutationKey: ['delete-admin-api'],
+    mutationKey: ['delete-auth-api'],
     mutationFn: (id: string) => {
       return useApiData(() =>
-        fetchClient.DELETE('/admin/admin-api/{id}', {
+        fetchClient.DELETE('/admin/auth-api/{id}', {
           params: {
             path: {
               id
@@ -103,11 +103,11 @@ export const useAdminApiDelete = () => {
 
 export const useAdminApisAncestors = (ids: Ref<string[]>) => {
   return useQuery({
-    queryKey: ['admin-apis-ancestors', ids],
+    queryKey: ['auth-apis-ancestors', ids],
     enabled: false,
     queryFn: () => {
       return useApiData(() =>
-        fetchClient.GET('/admin/admin-api/ancestors', {
+        fetchClient.GET('/admin/auth-api/ancestors', {
           params: {
             query: {
               ids: ids.value

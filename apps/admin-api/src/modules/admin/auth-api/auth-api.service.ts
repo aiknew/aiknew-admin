@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { CreateApiDto } from './dto/create-api.dto'
+import { CreateAuthApiDto } from './dto/create-auth-api.dto'
 import {
   Prisma,
   PrismaService,
@@ -8,23 +8,31 @@ import {
 } from '@aiknew/shared-admin-db'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
-import { UpdateApiDto } from './dto/update-api.dto'
+import { UpdateAuthApiDto } from './dto/update-auth-api.dto'
 import { AdminUserService } from '../admin-user/admin-user.service'
-import { type AdminApiTranslationDto } from './dto/admin-api-translation.dto'
-import { type AdminApiTreeListDto } from './dto/admin-api-tree-list.dto'
-import { type AdminApiDto } from './dto/admin-api.dto'
+import { type AuthApiTranslationDto } from './dto/auth-api-translation.dto'
+import { type AuthApiTreeListDto } from './dto/auth-api-tree-list.dto'
+import { type AuthApiDto } from './dto/auth-api.dto'
 import { isDate } from 'lodash-es'
 
 @Injectable()
-export class AdminApiService {
+export class AuthApiService {
   constructor(
     private prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly adminUserService: AdminUserService,
   ) {}
 
+  get model() {
+    return this.prisma.adminApi
+  }
+
+  get translationModel() {
+    return this.prisma.adminApiTranslation
+  }
+
   async pagination(paginationDto: PaginationDto) {
-    return await this.prisma.adminApi.paginate(paginationDto, {
+    return await this.model.paginate(paginationDto, {
       where: {
         parentId: '0',
       },
@@ -43,7 +51,7 @@ export class AdminApiService {
     const apiList = await this.prisma.$queryRawTyped(
       getAdminApiAncestors([id].flat()),
     )
-    const res: AdminApiDto[] = []
+    const res: AuthApiDto[] = []
     const idPathMap = new Map<string, string[]>()
 
     for (const api of apiList) {
@@ -55,11 +63,11 @@ export class AdminApiService {
         }
       }
 
-      let target: AdminApiDto | undefined = res.find(
+      let target: AuthApiDto | undefined = res.find(
         (item) => item.id === api.id,
       )
 
-      const translation: AdminApiTranslationDto = {
+      const translation: AuthApiTranslationDto = {
         langKey: api.langKey,
         apiName: api.apiName,
       }
@@ -101,7 +109,7 @@ export class AdminApiService {
   }
 
   async getChildren(id: string) {
-    return await this.prisma.adminApi.findMany({
+    return await this.model.findMany({
       where: {
         parentId: id,
       },
@@ -117,10 +125,10 @@ export class AdminApiService {
     })
   }
 
-  async createOne(createApiDto: CreateApiDto) {
+  async createOne(createApiDto: CreateAuthApiDto) {
     const { translations, ...api } = createApiDto
     try {
-      await this.prisma.adminApi.create({
+      await this.model.create({
         data: {
           ...api,
           translations: {
@@ -143,13 +151,13 @@ export class AdminApiService {
     }
   }
 
-  async updateOne(id: string, updateApiDto: UpdateApiDto) {
+  async updateOne(id: string, updateApiDto: UpdateAuthApiDto) {
     this.adminUserService.clearAllUserCache().catch((err) => {
       throw err
     })
 
     const { translations, ...api } = updateApiDto
-    await this.prisma.adminApi.update({
+    await this.model.update({
       where: {
         id,
       },
@@ -164,7 +172,7 @@ export class AdminApiService {
   }
 
   async findChild(parentId: string) {
-    return this.prisma.adminApi.findFirst({
+    return this.model.findFirst({
       where: {
         parentId,
       },
@@ -185,13 +193,13 @@ export class AdminApiService {
         )
       }
 
-      const deleteTranslations = this.prisma.adminApiTranslation.deleteMany({
+      const deleteTranslations = this.translationModel.deleteMany({
         where: {
           apiId: id,
         },
       })
 
-      const deleteApi = this.prisma.adminApi.delete({
+      const deleteApi = this.model.delete({
         where: {
           id,
         },

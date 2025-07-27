@@ -1,44 +1,28 @@
 export interface paths {
-    "/admin/admin-api": {
+    "/admin/auth-api": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminApiController_pagination"];
+        get: operations["AuthApiController_pagination"];
         put?: never;
-        post: operations["AdminApiController_createOne"];
+        post: operations["AuthApiController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-api/ancestors": {
+    "/admin/auth-api/ancestors": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminApiController_findAllAncestors"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/admin-api/{id}/children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AdminApiController_getChildren"];
+        get: operations["AuthApiController_findAllAncestors"];
         put?: never;
         post?: never;
         delete?: never;
@@ -47,7 +31,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-api/{id}": {
+    "/admin/auth-api/{id}/children": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AuthApiController_getChildren"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/auth-api/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -57,10 +57,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["AdminApiController_deleteOne"];
+        delete: operations["AuthApiController_deleteOne"];
         options?: never;
         head?: never;
-        patch: operations["AdminApiController_updateOne"];
+        patch: operations["AuthApiController_updateOne"];
         trace?: never;
     };
     "/admin/admin-user": {
@@ -629,11 +629,11 @@ export interface components {
         };
         /** @enum {string} */
         RequestMethod: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
-        AdminApiTranslationDto: {
+        AuthApiTranslationDto: {
             langKey: string;
             apiName: string;
         };
-        AdminApiDto: {
+        AuthApiDto: {
             method: components["schemas"]["RequestMethod"];
             id: string;
             url: string;
@@ -643,27 +643,27 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            translations: components["schemas"]["AdminApiTranslationDto"][];
+            translations: components["schemas"]["AuthApiTranslationDto"][];
         };
-        AdminApiAncestorsDto: {
+        AuthApiAncestorsDto: {
             idPath: {
                 [key: string]: string[];
             };
-            list: components["schemas"]["AdminApiDto"][];
+            list: components["schemas"]["AuthApiDto"][];
         };
         CreateApiDto: {
             method: components["schemas"]["RequestMethod"];
             url: string;
             parentId: string;
             order: number;
-            translations: components["schemas"]["AdminApiTranslationDto"][];
+            translations: components["schemas"]["AuthApiTranslationDto"][];
         };
         UpdateApiDto: {
             method?: components["schemas"]["RequestMethod"];
             url?: string;
             parentId?: string;
             order?: number;
-            translations?: components["schemas"]["AdminApiTranslationDto"][];
+            translations?: components["schemas"]["AuthApiTranslationDto"][];
         };
         AdminUserDto: {
             id: string;
@@ -1068,7 +1068,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    AdminApiController_pagination: {
+    AuthApiController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
@@ -1087,7 +1087,7 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
                         data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["AdminApiDto"][];
+                            list: components["schemas"]["AuthApiDto"][];
                         };
                     };
                 };
@@ -1103,7 +1103,7 @@ export interface operations {
             };
         };
     };
-    AdminApiController_createOne: {
+    AuthApiController_createOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1135,7 +1135,7 @@ export interface operations {
             };
         };
     };
-    AdminApiController_findAllAncestors: {
+    AuthApiController_findAllAncestors: {
         parameters: {
             query: {
                 ids: string[];
@@ -1152,7 +1152,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AdminApiAncestorsDto"];
+                        data: components["schemas"]["AuthApiAncestorsDto"];
                     };
                 };
             };
@@ -1167,7 +1167,7 @@ export interface operations {
             };
         };
     };
-    AdminApiController_getChildren: {
+    AuthApiController_getChildren: {
         parameters: {
             query?: never;
             header?: never;
@@ -1184,7 +1184,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AdminApiDto"][];
+                        data: components["schemas"]["AuthApiDto"][];
                     };
                 };
             };
@@ -1199,7 +1199,7 @@ export interface operations {
             };
         };
     };
-    AdminApiController_deleteOne: {
+    AuthApiController_deleteOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1229,7 +1229,7 @@ export interface operations {
             };
         };
     };
-    AdminApiController_updateOne: {
+    AuthApiController_updateOne: {
         parameters: {
             query?: never;
             header?: never;

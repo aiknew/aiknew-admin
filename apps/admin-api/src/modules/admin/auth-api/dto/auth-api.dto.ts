@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { RequestMethod } from '@aiknew/shared-admin-db'
-import { AdminApiTranslationDto } from './admin-api-translation.dto'
+import { AuthApiTranslationDto } from './auth-api-translation.dto'
 
-export class AdminApiDto {
+export class AuthApiDto {
   id: string
 
   url: string
@@ -18,5 +18,5 @@ export class AdminApiDto {
 
   updatedAt: Date
 
-  translations: AdminApiTranslationDto[]
+  translations: AuthApiTranslationDto[]
 }

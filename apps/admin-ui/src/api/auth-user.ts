@@ -1,20 +1,17 @@
 import { useApiData } from '@/composables'
-import type { paths } from '@/types/open-api'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import type { Reactive } from 'vue'
+import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type AuthUser =
-  paths['/admin/auth-user']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+export type AuthUser = ApiGetData<'/admin/auth-user'>['list'][number]
 
-export type CreateAuthUserDto =
-  paths['/admin/auth-user']['post']['requestBody']['content']['application/json']
+export type CreateAuthUserDto = ApiPostReqBody<'/admin/auth-user'>
 
-export type UpdateAuthUserDto =
-  paths['/admin/auth-user/{id}']['patch']['requestBody']['content']['application/json']
+export type UpdateAuthUserDto = ApiPatchReqBody<'/admin/auth-user/{id}'>
 
-export const useAdminUserList = (query: Reactive<IPaginationQuery>) => {
+export const useAuthUserList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['auth-user', query],
     placeholderData: keepPreviousData,
@@ -31,7 +28,7 @@ export const useAdminUserList = (query: Reactive<IPaginationQuery>) => {
   })
 }
 
-export const useAdminUserCreate = () => {
+export const useAuthUserCreate = () => {
   return useMutation({
     mutationKey: ['create-auth-user'],
     mutationFn: (body: CreateAuthUserDto) => {
@@ -44,7 +41,7 @@ export const useAdminUserCreate = () => {
   })
 }
 
-export const useAdminUserUpdate = () => {
+export const useAuthUserUpdate = () => {
   return useMutation({
     mutationKey: ['update-auth-user'],
     mutationFn: ({ id, body }: { id: string; body: UpdateAuthUserDto }) => {
@@ -62,7 +59,7 @@ export const useAdminUserUpdate = () => {
   })
 }
 
-export const useAdminUserDelete = () => {
+export const useAuthUserDelete = () => {
   return useMutation({
     mutationKey: ['delete-auth-user'],
     mutationFn: (id: string) => {

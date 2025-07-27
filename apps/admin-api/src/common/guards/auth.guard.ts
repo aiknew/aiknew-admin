@@ -14,7 +14,7 @@ import {
   AppUnauthorizedException,
 } from '@aiknew/shared-api-exceptions'
 import { t } from '@aiknew/shared-api-utils'
-import { AdminUserService } from 'src/modules/admin/admin-user/admin-user.service'
+import { AuthUserService } from 'src/modules/admin/auth-user/auth-user.service'
 import { AdminApi } from '@aiknew/shared-admin-db'
 import { IS_NO_PERMISSION_KEY } from '@aiknew/shared-api-decorators'
 
@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     private reflector: Reflector,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly adminUserService: AdminUserService,
+    private readonly adminUserService: AuthUserService,
   ) {}
 
   matchApiPermission(authApis: AdminApi[], request: Request) {

@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { AppForm, makeFields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminUserI18n } from '../composables/use-admin-user-i18n'
-import { useAdminUserCreate, useAdminUserUpdate, type AdminUser } from '@/api/admin-user'
+import { useAdminUserCreate, useAdminUserUpdate, type AuthUser } from '@/api/auth-user'
 import { useAdminRoleAll, type AdminRole } from '@/api/admin-role'
 import { tField } from '@aiknew/shared-ui-locales'
 
@@ -119,7 +119,7 @@ const add = () => {
   modalRef.value?.setTitle(t('addTitle'))
 }
 
-const edit = (item: AdminUser) => {
+const edit = (item: AuthUser) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))

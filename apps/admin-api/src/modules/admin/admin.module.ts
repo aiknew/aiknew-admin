@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ArticleModule } from './article/article.module'
 import { LanguageModule } from './language/language.module'
-import { AdminUserModule } from './admin-user/admin-user.module'
+import { AdminUserModule } from './auth-user/auth-user.module'
 import { AuthModule } from './auth/auth.module'
 import { AuthApiModule } from './auth-api/auth-api.module'
 import { AuthRoleModule } from './auth-role/auth-role.module'

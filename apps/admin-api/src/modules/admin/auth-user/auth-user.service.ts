@@ -3,14 +3,14 @@ import { I18nContext, I18nService } from 'nestjs-i18n'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { AppUnauthorizedException } from '@aiknew/shared-api-exceptions'
 import { createHMAC } from '@aiknew/shared-api-utils'
-import { CreateAdminUserDto } from './dto/create-admin-user.dto'
-import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
+import { CreateAuthUserDto } from './dto/create-auth-user.dto'
+import { UpdateAuthUserDto } from './dto/update-auth-user.dto'
 import { AdminApi, Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
 
 @Injectable()
-export class AdminUserService {
+export class AuthUserService {
   userCacheKey = 'user_'
   userApisCacheKey = this.userCacheKey + 'apis'
   userRoutesCacheKey = this.userCacheKey + 'routes'
@@ -20,6 +20,22 @@ export class AdminUserService {
     private i18n: I18nService,
     private redisService: RedisService,
   ) {}
+
+  get model() {
+    return this.prisma.adminUser
+  }
+
+  get roleRelModel() {
+    return this.prisma.adminUserRole
+  }
+
+  get roleRouteRelModel() {
+    return this.prisma.adminRoleRoute
+  }
+
+  get routeModel() {
+    return this.prisma.adminRoute
+  }
 
   buildUserApisCacheKey(userId: string) {
     return this.userApisCacheKey + ':' + userId
@@ -52,7 +68,7 @@ export class AdminUserService {
     const authApis: AdminApi[] = []
     let authRoutes: Omit<AuthRouteDto, 'apis'>[] = []
 
-    const userRoles = await this.prisma.adminUserRole.findMany({
+    const userRoles = await this.roleRelModel.findMany({
       where: {
         adminUserId: userId,
       },
@@ -61,7 +77,7 @@ export class AdminUserService {
       },
     })
 
-    const roleRoutes = await this.prisma.adminRoleRoute.findMany({
+    const roleRoutes = await this.roleRouteRelModel.findMany({
       where: {
         roleId: {
           in: userRoles.map((role) => role.adminRoleId),
@@ -135,7 +151,7 @@ export class AdminUserService {
 
   // get all routes for super admin user
   async getAllRoutes() {
-    return await this.prisma.adminRoute.findMany({
+    return await this.routeModel.findMany({
       where: { status: true },
 
       include: {
@@ -145,7 +161,7 @@ export class AdminUserService {
   }
 
   async getUserInfo(userId: string) {
-    const user = await this.prisma.adminUser.findFirstOrThrow({
+    const user = await this.model.findFirstOrThrow({
       where: {
         id: userId,
       },
@@ -166,7 +182,7 @@ export class AdminUserService {
   }
 
   async isSuperAdminUser(userId: string) {
-    const user = await this.prisma.adminUser.findUnique({
+    const user = await this.model.findUnique({
       where: { id: userId },
     })
 
@@ -183,7 +199,7 @@ export class AdminUserService {
 
   async findUser(userName: string, password: string) {
     try {
-      const user = await this.prisma.adminUser.findFirstOrThrow({
+      const user = await this.model.findFirstOrThrow({
         where: {
           userName,
           password: createHMAC(password),
@@ -197,7 +213,7 @@ export class AdminUserService {
       let routes: Omit<AuthRouteDto, 'apis'>[] = []
       if (user.super) {
         // get all routes for super admin user
-        routes = await this.prisma.adminRoute.findMany({
+        routes = await this.routeModel.findMany({
           where: { status: true },
 
           include: {
@@ -229,7 +245,7 @@ export class AdminUserService {
   }
 
   async pagination(paginationDto: PaginationDto) {
-    const users = await this.prisma.adminUser.paginate(paginationDto, {
+    const users = await this.model.paginate(paginationDto, {
       where: {
         super: false,
       },
@@ -268,10 +284,10 @@ export class AdminUserService {
     }))
   }
 
-  async createOne(createAdminUserDto: CreateAdminUserDto) {
-    const { password, roles, userName } = createAdminUserDto
+  async createOne(data: CreateAuthUserDto) {
+    const { password, roles, userName } = data
     try {
-      return await this.prisma.adminUser.create({
+      return await this.model.create({
         data: {
           userName,
           password: createHMAC(password),
@@ -292,14 +308,14 @@ export class AdminUserService {
     }
   }
 
-  async updateOne(id: string, updateAdminUserDto: UpdateAdminUserDto) {
-    const { password, roles, userName } = updateAdminUserDto
+  async updateOne(id: string, data: UpdateAuthUserDto) {
+    const { password, roles, userName } = data
     try {
       // clear user caches
       await this.clearUserCache(id)
 
       // update user
-      return await this.prisma.adminUser.update({
+      return await this.model.update({
         data: {
           userName,
           password: password?.trim() ? createHMAC(password) : undefined,
@@ -330,14 +346,14 @@ export class AdminUserService {
     await this.clearUserCache(id)
 
     // delete related roles
-    const deleteRelatedRoles = this.prisma.adminUserRole.deleteMany({
+    const deleteRelatedRoles = this.roleRelModel.deleteMany({
       where: {
         adminUserId: id,
       },
     })
 
     // delete user
-    const deleteUser = this.prisma.adminUser.delete({
+    const deleteUser = this.model.delete({
       where: {
         id,
         super: false,

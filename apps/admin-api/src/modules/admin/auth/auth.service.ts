@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { AdminUserService } from '../admin-user/admin-user.service'
+import { AuthUserService } from '../auth-user/auth-user.service'
 import { JwtService } from '@nestjs/jwt'
 import * as svgCaptcha from 'svg-captcha'
 import { randomUUID } from 'crypto'
@@ -19,7 +19,7 @@ import { createHMAC } from '@aiknew/shared-api-utils'
 export class AuthService {
   constructor(
     private prisma: PrismaService,
-    private adminUserService: AdminUserService,
+    private adminUserService: AuthUserService,
     private jwtService: JwtService,
     private redisService: RedisService,
     private i18n: I18nService,

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { AdminAuthController } from './admin-auth.controller'
-import { AdminAuthService } from './admin-auth.service'
+import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
 import { AdminUserModule } from '../admin-user/admin-user.module'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
@@ -18,8 +18,8 @@ import { ConfigService } from '@nestjs/config'
       inject: [ConfigService],
     }),
   ],
-  controllers: [AdminAuthController],
-  providers: [AdminAuthService],
-  exports: [AdminAuthService],
+  controllers: [AuthController],
+  providers: [AuthService],
+  exports: [AuthService],
 })
-export class AdminAuthModule {}
+export class AuthModule {}

@@ -1,4 +1,4 @@
-import { type LoginSuccessData, type UserInfo } from '@/api/admin-auth'
+import { type LoginSuccessData, type UserInfo } from '@/api/auth'
 import { useRoutes } from '@/composables/use-routes'
 import router from '@/router'
 import { StorageSerializers, useStorage } from '@vueuse/core'

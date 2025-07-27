@@ -207,7 +207,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-auth/login": {
+    "/admin/auth/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -216,21 +216,21 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["AdminAuthController_login"];
+        post: operations["AuthController_login"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-auth/captcha": {
+    "/admin/auth/captcha": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminAuthController_captcha"];
+        get: operations["AuthController_captcha"];
         put?: never;
         post?: never;
         delete?: never;
@@ -239,14 +239,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-auth/info": {
+    "/admin/auth/info": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminAuthController_info"];
+        get: operations["AuthController_info"];
         put?: never;
         post?: never;
         delete?: never;
@@ -255,7 +255,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-auth/update": {
+    "/admin/auth/update": {
         parameters: {
             query?: never;
             header?: never;
@@ -268,7 +268,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["AdminAuthController_updateUserInfo"];
+        patch: operations["AuthController_updateUserInfo"];
         trace?: never;
     };
     "/admin/auth-role": {
@@ -1821,7 +1821,7 @@ export interface operations {
             };
         };
     };
-    AdminAuthController_login: {
+    AuthController_login: {
         parameters: {
             query?: never;
             header?: never;
@@ -1863,7 +1863,7 @@ export interface operations {
             };
         };
     };
-    AdminAuthController_captcha: {
+    AuthController_captcha: {
         parameters: {
             query?: never;
             header?: never;
@@ -1892,7 +1892,7 @@ export interface operations {
             };
         };
     };
-    AdminAuthController_info: {
+    AuthController_info: {
         parameters: {
             query?: never;
             header?: never;
@@ -1922,7 +1922,7 @@ export interface operations {
             };
         };
     };
-    AdminAuthController_updateUserInfo: {
+    AuthController_updateUserInfo: {
         parameters: {
             query?: never;
             header?: never;

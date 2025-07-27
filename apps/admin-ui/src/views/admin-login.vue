@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAdminLogin, useLoginCaptcha, type AdminLoginBody } from '@/api/admin-auth'
+import { useAdminLogin, useLoginCaptcha, type LoginBody } from '@/api/auth'
 import { AppBasicModal, AppLanguageSwitcher } from '@aiknew/shared-ui-components'
 import { useUserStore } from '@/stores/user'
 import {
@@ -25,7 +25,7 @@ const {
 } = useLoginCaptcha()
 
 const loginFormRef = ref<FormInstance>()
-const loginFormData = reactive<AdminLoginBody>({
+const loginFormData = reactive<LoginBody>({
   userName: '',
   password: '',
   captchaKey: '',
@@ -36,7 +36,7 @@ const isLoading = computed(() => {
   return isLoadingCaptcha || isPending
 })
 
-const rules = reactive<FormRules<AdminLoginBody>>({
+const rules = reactive<FormRules<LoginBody>>({
   userName: [{ required: true, message: t('inputUserName'), trigger: 'blur' }],
   password: [{ required: true, message: t('inputPassword'), trigger: 'blur' }],
   captchaCode: [{ required: true, message: t('inputCaptcha'), trigger: 'blur' }]

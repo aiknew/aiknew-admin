@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Patch, Post, Req } from '@nestjs/common'
-import { AdminAuthService } from './admin-auth.service'
+import { AuthService } from './auth.service'
 import {
   Public,
   AppApiCreatedResponse,
@@ -18,9 +18,9 @@ import { UserInfoDto } from './dto/user-info.dto'
 import { type AuthAdminRequest } from '@aiknew/shared-api-types'
 import { UpdateUserInfoDto } from './dto/update-user-info.dto'
 
-@Controller('admin-auth')
-export class AdminAuthController {
-  constructor(private adminAuthService: AdminAuthService) {}
+@Controller('auth')
+export class AuthController {
+  constructor(private service: AuthService) {}
 
   @SuccessMsg(t('admin-auth.loginSuccess'))
   @Public()
@@ -31,7 +31,7 @@ export class AdminAuthController {
   })
   @Post('login')
   login(@Body() loginBodyDto: LoginBodyDto): Promise<LoginSuccessDto> {
-    return this.adminAuthService.userLogin(loginBodyDto)
+    return this.service.userLogin(loginBodyDto)
   }
 
   @Public()
@@ -40,7 +40,7 @@ export class AdminAuthController {
   @AppApiOkResponse(CaptchaDto)
   @AppApiInternalServerErrorResponse()
   captcha(): Promise<CaptchaDto> {
-    return this.adminAuthService.generateCaptcha()
+    return this.service.generateCaptcha()
   }
 
   @SuccessMsg(t('admin-auth.infoUpdated'))
@@ -48,7 +48,7 @@ export class AdminAuthController {
   @AppApiOkResponse(UserInfoDto)
   @Get('info')
   async info(@Req() req: AuthAdminRequest): Promise<UserInfoDto> {
-    return this.adminAuthService.getUserInfo(req.adminUser)
+    return this.service.getUserInfo(req.adminUser)
   }
 
   @Patch('update')
@@ -56,6 +56,6 @@ export class AdminAuthController {
     @Req() req: AuthAdminRequest,
     @Body() data: UpdateUserInfoDto,
   ) {
-    return this.adminAuthService.updateUserInfo(req.adminUser, data)
+    return this.service.updateUserInfo(req.adminUser, data)
   }
 }

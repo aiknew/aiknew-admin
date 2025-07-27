@@ -3,21 +3,21 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { paths } from '@/types/open-api'
 
-export type AdminLoginBody =
-  paths['/admin/admin-auth/login']['post']['requestBody']['content']['application/json']
+export type LoginBody =
+  paths['/admin/auth/login']['post']['requestBody']['content']['application/json']
 export type LoginSuccessData =
-  paths['/admin/admin-auth/login']['post']['responses']['201']['content']['application/json']['data']
+  paths['/admin/auth/login']['post']['responses']['201']['content']['application/json']['data']
 
 export type UpdateUserInfo =
-  paths['/admin/admin-auth/update']['patch']['requestBody']['content']['application/json']
+  paths['/admin/auth/update']['patch']['requestBody']['content']['application/json']
 
 export type UserInfo = LoginSuccessData['userInfo']
 
 export const useAdminLogin = () => {
   return useMutation({
-    mutationFn: async (body: AdminLoginBody) => {
+    mutationFn: async (body: LoginBody) => {
       return useApiData(() =>
-        fetchClient.POST('/admin/admin-auth/login', {
+        fetchClient.POST('/admin/auth/login', {
           body
         })
       )
@@ -30,7 +30,7 @@ export const useLoginCaptcha = () => {
     queryKey: ['login-captcha'],
     queryFn: async () => {
       return await useApiData(() =>
-        fetchClient.GET('/admin/admin-auth/captcha', {
+        fetchClient.GET('/admin/auth/captcha', {
           showMsg: false
         })
       )
@@ -40,10 +40,10 @@ export const useLoginCaptcha = () => {
 
 export const useUserInfoUpdate = () => {
   return useMutation({
-    mutationKey: ['admin-user-update'],
+    mutationKey: ['user-update'],
     mutationFn: async (body: UpdateUserInfo) => {
       return await useApiData(() =>
-        fetchClient.PATCH('/admin/admin-auth/update', {
+        fetchClient.PATCH('/admin/auth/update', {
           body
         })
       )

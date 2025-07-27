@@ -16,7 +16,7 @@ import { UpdateUserInfoDto } from './dto/update-user-info.dto'
 import { createHMAC } from '@aiknew/shared-api-utils'
 
 @Injectable()
-export class AdminAuthService {
+export class AuthService {
   constructor(
     private prisma: PrismaService,
     private adminUserService: AdminUserService,

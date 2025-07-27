@@ -1,4 +1,4 @@
-import type { UserInfo } from '@/api/admin-auth'
+import type { UserInfo } from '@/api/auth'
 import { markRaw } from 'vue'
 import { RouterView, type Router, type RouteRecordRaw } from 'vue-router'
 import { buildTree } from '@aiknew/shared-utils'

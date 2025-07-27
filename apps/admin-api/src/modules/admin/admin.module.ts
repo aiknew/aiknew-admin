@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { ArticleModule } from './article/article.module'
 import { LanguageModule } from './language/language.module'
 import { AdminUserModule } from './admin-user/admin-user.module'
-import { AdminAuthModule } from './admin-auth/admin-auth.module'
+import { AuthModule } from './auth/auth.module'
 import { AuthApiModule } from './auth-api/auth-api.module'
 import { AuthRoleModule } from './auth-role/auth-role.module'
 import { AdminRouteModule } from './auth-route/auth-route.module'
@@ -19,7 +19,7 @@ const adminModules = [
   ArticleModule,
   LanguageModule,
   AdminUserModule,
-  AdminAuthModule,
+  AuthModule,
   AuthRoleModule,
   AdminRouteModule,
   SystemSettingModule,

@@ -2,7 +2,7 @@
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { AppForm, AppFormItemTips, makeFields, type Field } from '@aiknew/shared-ui-form'
 import { useUserInfoI18n } from './composables/use-user-info-i18n'
-import { useUserInfoUpdate } from '@/api/admin-auth'
+import { useUserInfoUpdate } from '@/api/auth'
 import z from 'zod'
 import { computed, h, useTemplateRef, type ComputedRef } from 'vue'
 import { ElButton, ElFormItem } from 'element-plus'

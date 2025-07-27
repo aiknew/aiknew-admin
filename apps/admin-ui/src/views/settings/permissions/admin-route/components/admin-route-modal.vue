@@ -11,10 +11,10 @@ import {
   useAdminRouteChildren,
   useAdminRouteCreate,
   useAdminRouteUpdate,
-  type AdminRoute,
-  type AdminRouteAncestorsDto,
+  type AuthRoute,
+  type AuthRouteAncestorsDto,
   type RouteType
-} from '@/api/admin-route'
+} from '@/api/auth-route'
 import { useAdminApiChildren, useAdminApisAncestors, type AdminApi } from '@/api/admin-api'
 import { useAdminRouteApiData } from '../composables/use-admin-route-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
@@ -83,11 +83,11 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys: defaultExpandedRouteKeys,
       props: {
-        label: (data: AdminRoute) => tField(data.translations, 'routeName').value,
-        disabled: (data: AdminRoute) => {
+        label: (data: AuthRoute) => tField(data.translations, 'routeName').value,
+        disabled: (data: AuthRoute) => {
           return data.id === editRouteId.value && data.id !== '0'
         },
-        isLeaf: (data: AdminRoute) => {
+        isLeaf: (data: AuthRoute) => {
           return data.id === editRouteId.value && data.id !== '0'
         }
       },
@@ -248,7 +248,7 @@ const add = async () => {
   modalRef.value?.show()
 }
 
-const edit = async (item: AdminRoute) => {
+const edit = async (item: AuthRoute) => {
   setEditRouteId(item.id)
   addUpdatedParentId(item.parentId)
 

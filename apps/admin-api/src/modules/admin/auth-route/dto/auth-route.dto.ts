@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { RouteType } from '@aiknew/shared-admin-db'
-import { AdminRouteTranslationDto } from './admin-route-translation.dto'
+import { AuthRouteTranslationDto } from './auth-route-translation.dto'
 
-export class AdminRouteDto {
+export class AuthRouteDto {
   id: string
 
   icon: string
@@ -32,5 +32,5 @@ export class AdminRouteDto {
 
   apis: string[]
 
-  translations: AdminRouteTranslationDto[]
+  translations: AuthRouteTranslationDto[]
 }

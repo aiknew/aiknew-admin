@@ -6,7 +6,7 @@ import { createHMAC } from '@aiknew/shared-api-utils'
 import { CreateAdminUserDto } from './dto/create-admin-user.dto'
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
 import { AdminApi, Prisma, PrismaService } from '@aiknew/shared-admin-db'
-import { AdminRouteDto } from '../admin-route/dto/admin-route.dto'
+import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
 
 @Injectable()
@@ -50,7 +50,7 @@ export class AdminUserService {
 
   async getUserRoutesAndApis(userId: string) {
     const authApis: AdminApi[] = []
-    let authRoutes: Omit<AdminRouteDto, 'apis'>[] = []
+    let authRoutes: Omit<AuthRouteDto, 'apis'>[] = []
 
     const userRoles = await this.prisma.adminUserRole.findMany({
       where: {
@@ -120,12 +120,12 @@ export class AdminUserService {
     return authApis
   }
 
-  async getUserRoutes(userId: string): Promise<Omit<AdminRouteDto, 'apis'>[]> {
+  async getUserRoutes(userId: string): Promise<Omit<AuthRouteDto, 'apis'>[]> {
     const str = await this.redisService.get(
       this.buildUserRoutesCacheKey(userId),
     )
     if (str) {
-      return (JSON.parse(str) as Omit<AdminRouteDto, 'apis'>[]) ?? []
+      return (JSON.parse(str) as Omit<AuthRouteDto, 'apis'>[]) ?? []
     }
 
     const { authRoutes } = await this.getUserRoutesAndApis(userId)
@@ -194,7 +194,7 @@ export class AdminUserService {
         },
       })
 
-      let routes: Omit<AdminRouteDto, 'apis'>[] = []
+      let routes: Omit<AuthRouteDto, 'apis'>[] = []
       if (user.super) {
         // get all routes for super admin user
         routes = await this.prisma.adminRoute.findMany({

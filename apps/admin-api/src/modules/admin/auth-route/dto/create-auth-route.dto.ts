@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator'
 import { ValidateTranslations } from 'src/common/validators'
-import { AdminRouteTranslationDto } from './admin-route-translation.dto'
+import { AuthRouteTranslationDto } from './auth-route-translation.dto'
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 
@@ -22,7 +22,7 @@ const isSpecificTypes = (o: any, types: RouteType[]) => {
   return false
 }
 
-export class CreateAdminRouteDto {
+export class CreateAuthRouteDto {
   @IsArray()
   @ValidateIf((o) => isSpecificTypes(o, ['MENU', 'BUTTON']))
   apis: string[]
@@ -66,7 +66,7 @@ export class CreateAdminRouteDto {
   order: number
 
   @ValidateNested()
-  @ValidateTranslations(AdminRouteTranslationDto)
-  @Type(() => AdminRouteTranslationDto)
-  translations: AdminRouteTranslationDto[]
+  @ValidateTranslations(AuthRouteTranslationDto)
+  @Type(() => AuthRouteTranslationDto)
+  translations: AuthRouteTranslationDto[]
 }

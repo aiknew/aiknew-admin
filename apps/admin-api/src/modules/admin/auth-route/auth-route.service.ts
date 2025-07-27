@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { CreateAdminRouteDto } from './dto/create-admin-route.dto'
-import { UpdateAdminRouteDto } from './dto/update-admin-route.dto'
+import { CreateAuthRouteDto } from './dto/create-auth-route.dto'
+import { UpdateAuthRouteDto } from './dto/update-auth-route.dto'
 import {
   AppBadRequestException,
   AppConflictException,
@@ -13,19 +13,31 @@ import {
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AdminUserService } from '../admin-user/admin-user.service'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { AdminRouteTranslationDto } from './dto/admin-route-translation.dto'
-import { AdminRouteAncestorsDto } from './dto/admin-route-ancestors.dto'
+import { AuthRouteTranslationDto } from './dto/auth-route-translation.dto'
+import { AuthRouteAncestorsDto } from './dto/auth-route-ancestors.dto'
 
 @Injectable()
-export class AdminRouteService {
+export class AuthRouteService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly adminUserService: AdminUserService,
   ) {}
 
+  get model() {
+    return this.prisma.adminRoute
+  }
+
+  get translationModel() {
+    return this.prisma.adminRouteTranslation
+  }
+
+  get apiRelModel() {
+    return this.prisma.adminRouteApi
+  }
+
   async pagination(paginationDto: PaginationDto) {
-    const ret = await this.prisma.adminRoute.paginate(paginationDto, {
+    const ret = await this.model.paginate(paginationDto, {
       where: {
         parentId: '0',
       },
@@ -54,7 +66,7 @@ export class AdminRouteService {
   }
 
   async getChildren(id: string) {
-    const ret = await this.prisma.adminRoute.findMany({
+    const ret = await this.model.findMany({
       where: {
         parentId: id,
       },
@@ -85,7 +97,7 @@ export class AdminRouteService {
       getAdminRouteAncestors([id].flat()),
     )
 
-    const res: AdminRouteAncestorsDto['list'] = []
+    const res: AuthRouteAncestorsDto['list'] = []
     const idPathMap = new Map<string, string[]>()
 
     for (const route of routeList) {
@@ -97,11 +109,11 @@ export class AdminRouteService {
         }
       }
 
-      let target: AdminRouteAncestorsDto['list'][number] | undefined = res.find(
+      let target: AuthRouteAncestorsDto['list'][number] | undefined = res.find(
         (item) => item.id === route.id,
       )
 
-      const translation: AdminRouteTranslationDto = {
+      const translation: AuthRouteTranslationDto = {
         langKey: route.langKey,
         routeName: route.routeName,
       }
@@ -149,7 +161,7 @@ export class AdminRouteService {
   }
 
   findChild(parentId: string) {
-    return this.prisma.adminRoute.findFirst({
+    return this.model.findFirst({
       where: {
         parentId,
       },
@@ -168,7 +180,7 @@ export class AdminRouteService {
   }
 
   async getAll() {
-    const routes = await this.prisma.adminRoute.findMany({
+    const routes = await this.model.findMany({
       include: {
         translations: true,
         apis: {
@@ -184,10 +196,10 @@ export class AdminRouteService {
     }))
   }
 
-  async createOne(createAdminRouteDto: CreateAdminRouteDto) {
-    const { apis, translations, ...route } = createAdminRouteDto
+  async createOne(data: CreateAuthRouteDto) {
+    const { apis, translations, ...route } = data
     try {
-      await this.prisma.adminRoute.create({
+      await this.model.create({
         data: {
           ...route,
           translations: {
@@ -218,10 +230,10 @@ export class AdminRouteService {
     }
   }
 
-  async updateOne(id: string, updateAdminRouteDto: UpdateAdminRouteDto) {
+  async updateOne(id: string, updateAdminRouteDto: UpdateAuthRouteDto) {
     const { apis, translations, ...route } = updateAdminRouteDto
     await this.adminUserService.clearAllUserCache()
-    await this.prisma.adminRoute.update({
+    await this.model.update({
       where: { id },
       data: {
         ...route,
@@ -250,19 +262,19 @@ export class AdminRouteService {
         )
       }
 
-      const deleteTranslations = this.prisma.adminRouteTranslation.deleteMany({
+      const deleteTranslations = this.translationModel.deleteMany({
         where: {
           routeId: id,
         },
       })
 
-      const deleteRelatedApis = this.prisma.adminRouteApi.deleteMany({
+      const deleteRelatedApis = this.apiRelModel.deleteMany({
         where: {
           routeId: id,
         },
       })
 
-      const deleteRoute = this.prisma.adminRoute.delete({
+      const deleteRoute = this.model.delete({
         where: {
           id,
         },

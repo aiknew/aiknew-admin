@@ -1,4 +1,4 @@
-import type { RouteType } from '@/api/admin-route'
+import type { RouteType } from '@/api/auth-route'
 import 'vue-router'
 
 export type AdminRouteTranslations = {

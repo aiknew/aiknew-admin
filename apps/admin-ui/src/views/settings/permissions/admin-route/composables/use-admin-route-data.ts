@@ -1,9 +1,9 @@
 import {
   useAdminRouteAncestors,
   useAdminRouteChildren,
-  type AdminRoute,
-  type AdminRouteAncestorsDto
-} from '@/api/admin-route'
+  type AuthRoute,
+  type AuthRouteAncestorsDto
+} from '@/api/auth-route'
 import { computed, ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useLangStore } from '@/stores/lang'
@@ -45,7 +45,7 @@ export const useAdminRouteData = () => {
     return fetchApiChildren()
   }
 
-  const loadNode = async (node: Node, resolve: (data: AdminRouteAncestorsDto) => void) => {
+  const loadNode = async (node: Node, resolve: (data: AuthRouteAncestorsDto) => void) => {
     await _fetchAdminRoutesPromise
 
     if (node.level === 0) {
@@ -58,7 +58,7 @@ export const useAdminRouteData = () => {
               langKey: lang.key
             }
           })
-        } as AdminRouteAncestorsDto[number]
+        } as AuthRouteAncestorsDto[number]
       ])
     }
 

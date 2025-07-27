@@ -6,11 +6,7 @@ import { AppForm, makeFields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminRoleI18n } from '../composables/use-admin-role-i18n'
 import { useAdminRoleCreate, useAdminRoleUpdate, type AdminRole } from '@/api/admin-role'
-import {
-  useAdminRouteChildren,
-  type AdminRoute,
-  type AdminRouteAncestorsDto
-} from '@/api/admin-route'
+import { useAdminRouteChildren, type AuthRoute, type AuthRouteAncestorsDto } from '@/api/auth-route'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useAdminRoleRouteData } from '../composables/use-admin-role-route-data'
 import { tField } from '@aiknew/shared-ui-locales'
@@ -56,7 +52,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys,
       props: {
-        label: (data: AdminRoute) => tField(data.translations, 'routeName').value
+        label: (data: AuthRoute) => tField(data.translations, 'routeName').value
       },
       load: loadNode
     }

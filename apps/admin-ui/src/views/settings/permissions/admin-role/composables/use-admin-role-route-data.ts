@@ -3,8 +3,8 @@ import type Node from 'element-plus/es/components/tree/src/model/node'
 import {
   useAdminRouteChildren,
   useAdminRouteAncestors,
-  type AdminRouteAncestorsDto
-} from '@/api/admin-route'
+  type AuthRouteAncestorsDto
+} from '@/api/auth-route'
 
 export const useAdminRoleRouteData = () => {
   const _selectedKeys = ref<string[]>([])
@@ -48,7 +48,7 @@ export const useAdminRoleRouteData = () => {
     if (_selectedKeys.value.length) _fetchAncestorsPromise = _fetchAncestorsData()
   }
 
-  const loadNode = async (node: Node, resolve: (data: AdminRouteAncestorsDto) => void) => {
+  const loadNode = async (node: Node, resolve: (data: AuthRouteAncestorsDto) => void) => {
     // Wait for fetch ancestors finish
     await _fetchAncestorsPromise
 

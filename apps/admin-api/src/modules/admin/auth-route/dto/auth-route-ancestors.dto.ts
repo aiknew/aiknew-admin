@@ -1,14 +1,14 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { AdminRouteDto } from './admin-route.dto'
+import { AuthRouteDto } from './auth-route.dto'
 
-class AdminRoute extends OmitType(AdminRouteDto, [
+class AuthRoute extends OmitType(AuthRouteDto, [
   'apis',
   'order',
   'createdAt',
   'updatedAt',
 ]) {}
 
-export class AdminRouteAncestorsDto {
+export class AuthRouteAncestorsDto {
   @ApiProperty({
     type: 'object',
     additionalProperties: {
@@ -20,5 +20,5 @@ export class AdminRouteAncestorsDto {
   })
   idPath: Record<string, string[]>
 
-  list: AdminRoute[]
+  list: AuthRoute[]
 }

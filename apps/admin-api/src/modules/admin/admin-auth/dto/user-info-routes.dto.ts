@@ -1,4 +1,4 @@
 import { OmitType } from '@nestjs/swagger'
-import { AdminRouteDto } from '../../admin-route/dto/admin-route.dto'
+import { AuthRouteDto } from '../../auth-route/dto/auth-route.dto'
 
-export class UserInfoRoutesDto extends OmitType(AdminRouteDto, ['apis']) {}
+export class UserInfoRoutesDto extends OmitType(AuthRouteDto, ['apis']) {}

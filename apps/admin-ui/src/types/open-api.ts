@@ -319,46 +319,30 @@ export interface paths {
         patch: operations["AuthRoleController_updateOne"];
         trace?: never;
     };
-    "/admin/admin-route": {
+    "/admin/auth-route": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminRouteController_pagination"];
+        get: operations["AuthRouteController_pagination"];
         put?: never;
-        post: operations["AdminRouteController_createOne"];
+        post: operations["AuthRouteController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-route/ancestors": {
+    "/admin/auth-route/ancestors": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminRouteController_findAllAncestors"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/admin-route/{id}/children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AdminRouteController_getChildren"];
+        get: operations["AuthRouteController_findAllAncestors"];
         put?: never;
         post?: never;
         delete?: never;
@@ -367,14 +351,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-route/all": {
+    "/admin/auth-route/{id}/children": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminRouteController_getAll"];
+        get: operations["AuthRouteController_getChildren"];
         put?: never;
         post?: never;
         delete?: never;
@@ -383,7 +367,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-route/{id}": {
+    "/admin/auth-route/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AuthRouteController_getAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/auth-route/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -393,10 +393,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["AdminRouteController_deleteOne"];
+        delete: operations["AuthRouteController_deleteOne"];
         options?: never;
         head?: never;
-        patch: operations["AdminRouteController_updateOne"];
+        patch: operations["AuthRouteController_updateOne"];
         trace?: never;
     };
     "/admin/upload-file/filesAndGroups": {
@@ -764,7 +764,7 @@ export interface components {
         SystemSettingKey: "LANGUAGE" | "STORAGE";
         /** @enum {string} */
         RouteType: "GROUP" | "SMALL_GROUP" | "MENU" | "BUTTON";
-        AdminRouteTranslationDto: {
+        AuthRouteTranslationDto: {
             langKey: string;
             routeName: string;
         };
@@ -784,7 +784,7 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            translations: components["schemas"]["AdminRouteTranslationDto"][];
+            translations: components["schemas"]["AuthRouteTranslationDto"][];
         };
         UserInfoDto: {
             routes: components["schemas"]["UserInfoRoutesDto"][];
@@ -839,7 +839,7 @@ export interface components {
             order?: number;
             translations?: components["schemas"]["AuthRoleTranslationDto"][];
         };
-        AdminRouteDto: {
+        AuthRouteDto: {
             type: components["schemas"]["RouteType"];
             id: string;
             icon: string;
@@ -856,9 +856,9 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
             apis: string[];
-            translations: components["schemas"]["AdminRouteTranslationDto"][];
+            translations: components["schemas"]["AuthRouteTranslationDto"][];
         };
-        AdminRoute: {
+        AuthRoute: {
             type: components["schemas"]["RouteType"];
             id: string;
             icon: string;
@@ -869,15 +869,15 @@ export interface components {
             status: boolean;
             path: string;
             parentId: string;
-            translations: components["schemas"]["AdminRouteTranslationDto"][];
+            translations: components["schemas"]["AuthRouteTranslationDto"][];
         };
-        AdminRouteAncestorsDto: {
+        AuthRouteAncestorsDto: {
             idPath: {
                 [key: string]: string[];
             };
-            list: components["schemas"]["AdminRoute"][];
+            list: components["schemas"]["AuthRoute"][];
         };
-        CreateAdminRouteDto: {
+        CreateAuthRouteDto: {
             type: components["schemas"]["RouteType"];
             apis: string[];
             icon?: string;
@@ -889,9 +889,9 @@ export interface components {
             path: string;
             parentId: string;
             order: number;
-            translations: components["schemas"]["AdminRouteTranslationDto"][];
+            translations: components["schemas"]["AuthRouteTranslationDto"][];
         };
-        UpdateAdminRouteDto: {
+        UpdateAuthRouteDto: {
             type?: components["schemas"]["RouteType"];
             apis?: string[];
             icon?: string;
@@ -903,7 +903,7 @@ export interface components {
             path?: string;
             parentId?: string;
             order?: number;
-            translations?: components["schemas"]["AdminRouteTranslationDto"][];
+            translations?: components["schemas"]["AuthRouteTranslationDto"][];
         };
         UploadFileGroupPathDto: {
             ancestorId: string;
@@ -2113,7 +2113,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_pagination: {
+    AuthRouteController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
@@ -2132,7 +2132,7 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
                         data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["AdminRouteDto"][];
+                            list: components["schemas"]["AuthRouteDto"][];
                         };
                     };
                 };
@@ -2148,7 +2148,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_createOne: {
+    AuthRouteController_createOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -2157,7 +2157,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateAdminRouteDto"];
+                "application/json": components["schemas"]["CreateAuthRouteDto"];
             };
         };
         responses: {
@@ -2180,7 +2180,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_findAllAncestors: {
+    AuthRouteController_findAllAncestors: {
         parameters: {
             query: {
                 ids: string[];
@@ -2197,7 +2197,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AdminRouteAncestorsDto"];
+                        data: components["schemas"]["AuthRouteAncestorsDto"];
                     };
                 };
             };
@@ -2212,7 +2212,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_getChildren: {
+    AuthRouteController_getChildren: {
         parameters: {
             query?: never;
             header?: never;
@@ -2229,7 +2229,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AdminRouteDto"][];
+                        data: components["schemas"]["AuthRouteDto"][];
                     };
                 };
             };
@@ -2244,7 +2244,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_getAll: {
+    AuthRouteController_getAll: {
         parameters: {
             query?: never;
             header?: never;
@@ -2259,7 +2259,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AdminRouteDto"][];
+                        data: components["schemas"]["AuthRouteDto"][];
                     };
                 };
             };
@@ -2274,7 +2274,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_deleteOne: {
+    AuthRouteController_deleteOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -2304,7 +2304,7 @@ export interface operations {
             };
         };
     };
-    AdminRouteController_updateOne: {
+    AuthRouteController_updateOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -2315,7 +2315,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateAdminRouteDto"];
+                "application/json": components["schemas"]["UpdateAuthRouteDto"];
             };
         };
         responses: {

@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator'
 
-export class AdminRouteTranslationDto {
+export class AuthRouteTranslationDto {
   @IsString()
   langKey: string
 

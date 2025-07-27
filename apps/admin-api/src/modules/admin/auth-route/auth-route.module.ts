@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
-import { AdminRouteController } from './admin-route.controller'
-import { AdminRouteService } from './admin-route.service'
+import { AuthRouteController } from './auth-route.controller'
+import { AuthRouteService } from './auth-route.service'
 import { AdminUserModule } from '../admin-user/admin-user.module'
 
 @Module({
   imports: [AdminUserModule],
-  controllers: [AdminRouteController],
-  providers: [AdminRouteService],
+  controllers: [AuthRouteController],
+  providers: [AuthRouteService],
   exports: [],
 })
 export class AdminRouteModule {}

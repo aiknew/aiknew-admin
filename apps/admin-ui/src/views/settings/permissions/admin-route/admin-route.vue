@@ -11,9 +11,9 @@ import {
   useAdminRouteChildren,
   useAdminRouteDelete,
   useAdminRouteList,
-  type AdminRoute,
+  type AuthRoute,
   type RouteType
-} from '@/api/admin-route'
+} from '@/api/auth-route'
 import AdminRouteModal from './components/admin-route-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 
@@ -55,11 +55,7 @@ const getTypeColor = (type: RouteType) => {
   }
 }
 
-const loadChildren = (
-  row: AdminRoute,
-  treeNode: unknown,
-  resolve: (data: AdminRoute[]) => void
-) => {
+const loadChildren = (row: AuthRoute, treeNode: unknown, resolve: (data: AuthRoute[]) => void) => {
   parentId.value = row.id
   fetchRouteChildren()
     .then(({ data }) => {
@@ -82,7 +78,7 @@ const handleAdd = () => {
   modalRef.value?.add()
 }
 
-const handleEdit = (row: AdminRoute) => {
+const handleEdit = (row: AuthRoute) => {
   modalRef.value?.edit(row)
 }
 
@@ -108,7 +104,7 @@ const refresh = (updatedParentIds: string[]) => {
   })
 }
 
-const handleDelete = async (row: AdminRoute) => {
+const handleDelete = async (row: AuthRoute) => {
   await deleteAdminRoute(row.id)
   refresh([row.parentId])
 }
@@ -139,7 +135,7 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
     >
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180">
-        <template #default="{ row }: { row: AdminRoute }">
+        <template #default="{ row }: { row: AuthRoute }">
           <span>{{ tField(row.translations, 'routeName').value }}</span>
         </template>
       </el-table-column>

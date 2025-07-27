@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { CreateAdminRoleDto } from './dto/create-admin-role.dto'
-import { UpdateAdminRoleDto } from './dto/update-admin-role.dto'
+import { CreateAuthRoleDto } from './dto/create-auth-role.dto'
+import { UpdateAuthRoleDto } from './dto/update-auth-role.dto'
 import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { I18nContext, I18nService } from 'nestjs-i18n'
@@ -8,12 +8,24 @@ import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { AdminUserService } from '../admin-user/admin-user.service'
 
 @Injectable()
-export class AdminRoleService {
+export class AuthRoleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly adminUserService: AdminUserService,
   ) {}
+
+  get model() {
+    return this.prisma.adminRole
+  }
+
+  get translationModel() {
+    return this.prisma.adminRoleTranslation
+  }
+
+  get routeRelModel() {
+    return this.prisma.adminRoleRoute
+  }
 
   constructRelatedRoutes(idArr: string[]) {
     return idArr.map((id) => ({
@@ -26,7 +38,7 @@ export class AdminRoleService {
   }
 
   async getAll() {
-    return await this.prisma.adminRole.findMany({
+    return await this.model.findMany({
       include: {
         translations: true,
       },
@@ -34,7 +46,7 @@ export class AdminRoleService {
   }
 
   async pagination(paginationDto: PaginationDto) {
-    const roles = await this.prisma.adminRole.paginate(paginationDto, {
+    const roles = await this.model.paginate(paginationDto, {
       include: {
         translations: true,
         routes: true,
@@ -52,9 +64,9 @@ export class AdminRoleService {
     }
   }
 
-  async createOne(createAdminRoleDto: CreateAdminRoleDto) {
-    const { routes, translations, ...role } = createAdminRoleDto
-    await this.prisma.adminRole.create({
+  async createOne(data: CreateAuthRoleDto) {
+    const { routes, translations, ...role } = data
+    await this.model.create({
       data: {
         ...role,
         routes: {
@@ -67,10 +79,10 @@ export class AdminRoleService {
     })
   }
 
-  async updateOne(id: string, updateAdminRoleDto: UpdateAdminRoleDto) {
+  async updateOne(id: string, data: UpdateAuthRoleDto) {
     await this.adminUserService.clearAllUserCache()
-    const { routes, translations, ...role } = updateAdminRoleDto
-    await this.prisma.adminRole.update({
+    const { routes, translations, ...role } = data
+    await this.model.update({
       where: { id },
       data: {
         ...role,
@@ -91,19 +103,19 @@ export class AdminRoleService {
   async deleteOne(id: string) {
     try {
       await this.adminUserService.clearAllUserCache()
-      const deleteRelatedRoutes = this.prisma.adminRoleRoute.deleteMany({
+      const deleteRelatedRoutes = this.routeRelModel.deleteMany({
         where: {
           roleId: id,
         },
       })
 
-      const deleteTranslations = this.prisma.adminRoleTranslation.deleteMany({
+      const deleteTranslations = this.translationModel.deleteMany({
         where: {
           adminRoleId: id,
         },
       })
 
-      const deleteRole = this.prisma.adminRole.delete({
+      const deleteRole = this.model.delete({
         where: { id },
       })
 

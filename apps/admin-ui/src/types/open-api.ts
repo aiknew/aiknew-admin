@@ -271,30 +271,30 @@ export interface paths {
         patch: operations["AdminAuthController_updateUserInfo"];
         trace?: never;
     };
-    "/admin/admin-role": {
+    "/admin/auth-role": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminRoleController_pagination"];
+        get: operations["AuthRoleController_pagination"];
         put?: never;
-        post: operations["AdminRoleController_createOne"];
+        post: operations["AuthRoleController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-role/all": {
+    "/admin/auth-role/all": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AdminRoleController_getAll"];
+        get: operations["AuthRoleController_getAll"];
         put?: never;
         post?: never;
         delete?: never;
@@ -303,7 +303,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/admin-role/{id}": {
+    "/admin/auth-role/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -313,10 +313,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["AdminRoleController_deleteOne"];
+        delete: operations["AuthRoleController_deleteOne"];
         options?: never;
         head?: never;
-        patch: operations["AdminRoleController_updateOne"];
+        patch: operations["AuthRoleController_updateOne"];
         trace?: never;
     };
     "/admin/admin-route": {
@@ -651,14 +651,14 @@ export interface components {
             };
             list: components["schemas"]["AuthApiDto"][];
         };
-        CreateApiDto: {
+        CreateAuthApiDto: {
             method: components["schemas"]["RequestMethod"];
             url: string;
             parentId: string;
             order: number;
             translations: components["schemas"]["AuthApiTranslationDto"][];
         };
-        UpdateApiDto: {
+        UpdateAuthApiDto: {
             method?: components["schemas"]["RequestMethod"];
             url?: string;
             parentId?: string;
@@ -815,29 +815,29 @@ export interface components {
             password: string;
             newPassword: string;
         };
-        AdminRoleTranslationDto: {
+        AuthRoleTranslationDto: {
             langKey: string;
             roleName: string;
         };
-        AdminRoleDto: {
+        AuthRoleDto: {
             id: string;
             order: number;
-            translations: components["schemas"]["AdminRoleTranslationDto"][];
+            translations: components["schemas"]["AuthRoleTranslationDto"][];
             routes: string[];
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
         };
-        CreateAdminRoleDto: {
+        CreateAuthRoleDto: {
             routes: string[];
             order: number;
-            translations: components["schemas"]["AdminRoleTranslationDto"][];
+            translations: components["schemas"]["AuthRoleTranslationDto"][];
         };
-        UpdateAdminRoleDto: {
+        UpdateAuthRoleDto: {
             routes?: string[];
             order?: number;
-            translations?: components["schemas"]["AdminRoleTranslationDto"][];
+            translations?: components["schemas"]["AuthRoleTranslationDto"][];
         };
         AdminRouteDto: {
             type: components["schemas"]["RouteType"];
@@ -1112,7 +1112,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateApiDto"];
+                "application/json": components["schemas"]["CreateAuthApiDto"];
             };
         };
         responses: {
@@ -1240,7 +1240,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateApiDto"];
+                "application/json": components["schemas"]["UpdateAuthApiDto"];
             };
         };
         responses: {
@@ -1952,7 +1952,7 @@ export interface operations {
             };
         };
     };
-    AdminRoleController_pagination: {
+    AuthRoleController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
@@ -1971,7 +1971,7 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
                         data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["AdminRoleDto"][];
+                            list: components["schemas"]["AuthRoleDto"][];
                         };
                     };
                 };
@@ -1987,7 +1987,7 @@ export interface operations {
             };
         };
     };
-    AdminRoleController_createOne: {
+    AuthRoleController_createOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1996,7 +1996,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateAdminRoleDto"];
+                "application/json": components["schemas"]["CreateAuthRoleDto"];
             };
         };
         responses: {
@@ -2019,7 +2019,7 @@ export interface operations {
             };
         };
     };
-    AdminRoleController_getAll: {
+    AuthRoleController_getAll: {
         parameters: {
             query?: never;
             header?: never;
@@ -2034,7 +2034,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AdminRoleDto"][];
+                        data: components["schemas"]["AuthRoleDto"][];
                     };
                 };
             };
@@ -2049,7 +2049,7 @@ export interface operations {
             };
         };
     };
-    AdminRoleController_deleteOne: {
+    AuthRoleController_deleteOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -2079,7 +2079,7 @@ export interface operations {
             };
         };
     };
-    AdminRoleController_updateOne: {
+    AuthRoleController_updateOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -2090,7 +2090,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateAdminRoleDto"];
+                "application/json": components["schemas"]["UpdateAuthRoleDto"];
             };
         };
         responses: {

@@ -4,7 +4,7 @@ import { LanguageModule } from './language/language.module'
 import { AdminUserModule } from './admin-user/admin-user.module'
 import { AdminAuthModule } from './admin-auth/admin-auth.module'
 import { AuthApiModule } from './auth-api/auth-api.module'
-import { AdminRoleModule } from './admin-role/admin-role.module'
+import { AuthRoleModule } from './auth-role/auth-role.module'
 import { AdminRouteModule } from './admin-route/admin-route.module'
 import { SystemSettingModule } from './system-setting/system-setting.module'
 import { UploadFileGroupModule } from './upload-file-group/upload-file-group.module'
@@ -20,7 +20,7 @@ const adminModules = [
   LanguageModule,
   AdminUserModule,
   AdminAuthModule,
-  AdminRoleModule,
+  AuthRoleModule,
   AdminRouteModule,
   SystemSettingModule,
   UploadFileModule,

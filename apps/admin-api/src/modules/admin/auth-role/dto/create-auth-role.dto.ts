@@ -1,9 +1,9 @@
 import { IsArray, IsNumber, ValidateNested } from 'class-validator'
-import { AdminRoleTranslationDto } from './admin-role-translation.dto'
+import { AuthRoleTranslationDto } from './auth-role-translation.dto'
 import { ValidateTranslations } from 'src/common/validators'
 import { Type } from 'class-transformer'
 
-export class CreateAdminRoleDto {
+export class CreateAuthRoleDto {
   @IsArray()
   routes: string[]
 
@@ -11,7 +11,7 @@ export class CreateAdminRoleDto {
   order: number
 
   @ValidateNested()
-  @ValidateTranslations(AdminRoleTranslationDto)
-  @Type(() => AdminRoleTranslationDto)
-  translations: AdminRoleTranslationDto[]
+  @ValidateTranslations(AuthRoleTranslationDto)
+  @Type(() => AuthRoleTranslationDto)
+  translations: AuthRoleTranslationDto[]
 }

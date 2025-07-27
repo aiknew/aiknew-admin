@@ -1,6 +1,6 @@
 import {
-  useAdminRouteAncestors,
-  useAdminRouteChildren,
+  useAuthRouteAncestors,
+  useAuthRouteChildren,
   type AuthRoute,
   type AuthRouteAncestorsDto
 } from '@/api/auth-route'
@@ -15,8 +15,8 @@ export const useAdminRouteData = () => {
   const editRouteId = ref('0')
   const parentRouteId = ref('')
   const expandParentId = ref('0')
-  const { refetch: fetchApiChildren } = useAdminRouteChildren(expandParentId)
-  const { data: adminRouteAncestors, refetch: _fetchAdminRoutesAncestors } = useAdminRouteAncestors(
+  const { refetch: fetchApiChildren } = useAuthRouteChildren(expandParentId)
+  const { data: adminRouteAncestors, refetch: _fetchAdminRoutesAncestors } = useAuthRouteAncestors(
     computed(() => [editRouteId.value])
   )
 

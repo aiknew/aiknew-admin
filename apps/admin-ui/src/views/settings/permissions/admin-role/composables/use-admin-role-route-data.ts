@@ -1,20 +1,20 @@
 import { computed, ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import {
-  useAdminRouteChildren,
-  useAdminRouteAncestors,
+  useAuthRouteChildren,
+  useAuthRouteAncestors,
   type AuthRouteAncestorsDto
 } from '@/api/auth-route'
 
 export const useAdminRoleRouteData = () => {
   const _selectedKeys = ref<string[]>([])
   const expandId = ref('0')
-  const { refetch: fetchChildren } = useAdminRouteChildren(expandId)
+  const { refetch: fetchChildren } = useAuthRouteChildren(expandId)
   const {
     data: ancestorsData,
     refetch: _fetchAncestorsData,
     isFetched: isFetchedAncestors
-  } = useAdminRouteAncestors(_selectedKeys)
+  } = useAuthRouteAncestors(_selectedKeys)
 
   let _fetchAncestorsPromise: ReturnType<typeof _fetchAncestorsData>
 

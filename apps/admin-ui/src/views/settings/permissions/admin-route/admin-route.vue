@@ -8,9 +8,9 @@ import { toReactive } from '@vueuse/core'
 import { useAdminRouteI18n } from './composables/use-admin-route-i18n'
 import { useTemplateRef } from 'vue'
 import {
-  useAdminRouteChildren,
-  useAdminRouteDelete,
-  useAdminRouteList,
+  useAuthRouteChildren,
+  useAuthRouteDelete,
+  useAuthRouteList,
   type AuthRoute,
   type RouteType
 } from '@/api/auth-route'
@@ -24,9 +24,9 @@ const {
   data: adminRouteData,
   refetch: refetchAdminRouteData,
   isFetching: isFetchingAdminRouteData
-} = useAdminRouteList(toReactive({ currentPage, pageSize }))
+} = useAuthRouteList(toReactive({ currentPage, pageSize }))
 const parentId = ref('0')
-const { refetch: fetchRouteChildren } = useAdminRouteChildren(parentId)
+const { refetch: fetchRouteChildren } = useAuthRouteChildren(parentId)
 
 // Get tag's text
 const getTypeText = (type: RouteType) => {
@@ -68,7 +68,7 @@ const loadChildren = (row: AuthRoute, treeNode: unknown, resolve: (data: AuthRou
     })
 }
 
-const { mutateAsync: deleteAdminRoute, isPending: isDeleting } = useAdminRouteDelete()
+const { mutateAsync: deleteAdminRoute, isPending: isDeleting } = useAuthRouteDelete()
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingAdminRouteData.value
 })

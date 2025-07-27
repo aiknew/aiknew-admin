@@ -4,22 +4,19 @@ import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import { toValue, type MaybeRef, type Reactive, type Ref } from 'vue'
 import type { components, paths } from '@/types/open-api'
+import type { GetData, PatchReqBody, PostReqBody } from '@aiknew/shared-ui-types'
 
 export type RouteType = components['schemas']['RouteType']
 
-export type AuthRoute =
-  paths['/admin/auth-route']['get']['responses']['200']['content']['application/json']['data']['list'][number]
+export type AuthRoute = GetData<paths, '/admin/auth-route'>['list'][number]
 
-export type AuthRouteAncestorsDto =
-  paths['/admin/auth-route/ancestors']['get']['responses']['200']['content']['application/json']['data']['list']
+export type AuthRouteAncestorsDto = GetData<paths, '/admin/auth-route/ancestors'>['list']
 
-export type CreateAuthRouteDto =
-  paths['/admin/auth-route']['post']['requestBody']['content']['application/json']
+export type CreateAuthRouteDto = PostReqBody<paths, '/admin/auth-route'>
 
-export type UpdateAuthRouteDto =
-  paths['/admin/auth-route/{id}']['patch']['requestBody']['content']['application/json']
+export type UpdateAuthRouteDto = PatchReqBody<paths, '/admin/auth-route/{id}'>
 
-export const useAdminRouteList = (query: Reactive<IPaginationQuery>) => {
+export const useAuthRouteList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['auth-route', query],
     placeholderData: keepPreviousData,
@@ -36,7 +33,7 @@ export const useAdminRouteList = (query: Reactive<IPaginationQuery>) => {
   })
 }
 
-export const useAdminRouteChildren = (id: MaybeRef<string>) => {
+export const useAuthRouteChildren = (id: MaybeRef<string>) => {
   return useQuery({
     queryKey: ['auth-route-children', id],
     enabled: false,
@@ -55,7 +52,7 @@ export const useAdminRouteChildren = (id: MaybeRef<string>) => {
   })
 }
 
-export const useAdminRouteDelete = () => {
+export const useAuthRouteDelete = () => {
   return useMutation({
     mutationKey: ['delete-auth-route'],
     mutationFn: (id: string) => {
@@ -72,7 +69,7 @@ export const useAdminRouteDelete = () => {
   })
 }
 
-export const useAdminRouteAncestors = (ids: Ref<string[]>) => {
+export const useAuthRouteAncestors = (ids: Ref<string[]>) => {
   return useQuery({
     queryKey: ['auth-route-ancestors', ids],
     enabled: false,
@@ -91,7 +88,7 @@ export const useAdminRouteAncestors = (ids: Ref<string[]>) => {
   })
 }
 
-export const useAdminRouteCreate = () => {
+export const useAuthRouteCreate = () => {
   return useMutation({
     mutationKey: ['create-auth-route'],
     mutationFn: (body: CreateAuthRouteDto) => {
@@ -104,7 +101,7 @@ export const useAdminRouteCreate = () => {
   })
 }
 
-export const useAdminRouteUpdate = () => {
+export const useAuthRouteUpdate = () => {
   return useMutation({
     mutationKey: ['update-auth-route'],
     mutationFn: ({ id, body }: { id: string; body: UpdateAuthRouteDto }) => {

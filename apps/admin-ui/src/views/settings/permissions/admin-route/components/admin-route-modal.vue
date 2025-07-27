@@ -7,10 +7,10 @@ import { useLangStore } from '@/stores/lang'
 import { useAdminRouteI18n } from '../composables/use-admin-route-i18n'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import {
-  useAdminRouteAncestors,
-  useAdminRouteChildren,
-  useAdminRouteCreate,
-  useAdminRouteUpdate,
+  useAuthRouteAncestors,
+  useAuthRouteChildren,
+  useAuthRouteCreate,
+  useAuthRouteUpdate,
   type AuthRoute,
   type AuthRouteAncestorsDto,
   type RouteType
@@ -216,8 +216,8 @@ const fields = makeFields(
   }
 )
 
-const { mutateAsync: createRoute } = useAdminRouteCreate()
-const { mutateAsync: updateRoute } = useAdminRouteUpdate()
+const { mutateAsync: createRoute } = useAuthRouteCreate()
+const { mutateAsync: updateRoute } = useAuthRouteUpdate()
 
 const handleSubmit = () => {
   appFormRef.value

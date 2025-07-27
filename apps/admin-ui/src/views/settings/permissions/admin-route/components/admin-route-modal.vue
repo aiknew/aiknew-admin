@@ -15,7 +15,7 @@ import {
   type AuthRouteAncestorsDto,
   type RouteType
 } from '@/api/auth-route'
-import { useAdminApiChildren, useAdminApisAncestors, type AdminApi } from '@/api/admin-api'
+import { useAuthApiChildren, useAuthApisAncestors, type AuthApi } from '@/api/auth-api'
 import { useAdminRouteApiData } from '../composables/use-admin-route-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import { useAdminRouteData } from '../composables/use-admin-route-data'
@@ -188,7 +188,7 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys: defaultExpandedApiKeys,
       props: {
-        label: (data: AdminApi) => tField(data.translations, 'apiName').value
+        label: (data: AuthApi) => tField(data.translations, 'apiName').value
       },
       load: loadApiNode
     }

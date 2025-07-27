@@ -1,4 +1,4 @@
-import { useAdminApiChildren, useAdminApisAncestors, type AdminApi } from '@/api/admin-api'
+import { useAuthApiChildren, useAuthApisAncestors, type AuthApi } from '@/api/auth-api'
 import { computed, ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useLangStore } from '@/stores/lang'
@@ -12,8 +12,8 @@ export const useAdminApiData = () => {
   const { t } = useAdminApiI18n()
   const langStore = useLangStore()
   const expandParentId = ref('0')
-  const { refetch: fetchApiChildren } = useAdminApiChildren(expandParentId)
-  const { data: adminApiAncestors, refetch: _fetchAdminApisAncestorsData } = useAdminApisAncestors(
+  const { refetch: fetchApiChildren } = useAuthApiChildren(expandParentId)
+  const { data: adminApiAncestors, refetch: _fetchAdminApisAncestorsData } = useAuthApisAncestors(
     computed(() => [editId.value])
   )
   let _fetchAdminApisPromise: ReturnType<typeof _fetchAdminApisAncestorsData>
@@ -51,7 +51,7 @@ export const useAdminApiData = () => {
 
   const loadNode = async (
     node: Node,
-    resolve: (data: Omit<AdminApi, 'order' | 'createdAt' | 'updatedAt'>[]) => void
+    resolve: (data: Omit<AuthApi, 'order' | 'createdAt' | 'updatedAt'>[]) => void
   ) => {
     // Wait for fetch api ancestors finish
     await _fetchAdminApisPromise
@@ -67,7 +67,7 @@ export const useAdminApiData = () => {
               langKey: lang.key
             }
           })
-        } as AdminApi
+        } as AuthApi
       ])
     }
 

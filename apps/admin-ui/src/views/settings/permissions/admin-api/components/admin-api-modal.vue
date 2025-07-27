@@ -6,12 +6,12 @@ import { AppForm, makeFields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminApiI18n } from '../composables/use-admin-api-i18n'
 import {
-  useAdminApiChildren,
-  useAdminApiCreate,
-  useAdminApisAncestors,
-  useAdminApiUpdate,
-  type AdminApi
-} from '@/api/admin-api'
+  useAuthApiChildren,
+  useAuthApiCreate,
+  useAuthApisAncestors,
+  useAuthApiUpdate,
+  type AuthApi
+} from '@/api/auth-api'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { ElMessage } from 'element-plus'
 import { useAdminApiData } from '../composables/use-admin-api-data'
@@ -29,8 +29,8 @@ const { t } = useAdminApiI18n()
 const appFormRef = useTemplateRef('appFormRef')
 const modalRef = useTemplateRef('modalRef')
 
-const { mutateAsync: createApi } = useAdminApiCreate()
-const { mutateAsync: updateApi } = useAdminApiUpdate()
+const { mutateAsync: createApi } = useAuthApiCreate()
+const { mutateAsync: updateApi } = useAuthApiUpdate()
 const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds()
 const {
   editId,
@@ -71,8 +71,8 @@ const fields = makeFields(
       checkStrictly: true,
       defaultExpandedKeys,
       props: {
-        label: (data: AdminApi) => tField(data.translations, 'apiName').value,
-        disabled: (data: AdminApi) => {
+        label: (data: AuthApi) => tField(data.translations, 'apiName').value,
+        disabled: (data: AuthApi) => {
           if (editId.value === '0') {
             return false
           }
@@ -134,7 +134,7 @@ const add = () => {
   modalRef.value?.setTitle(t('addTitle'))
 }
 
-const edit = (item: AdminApi) => {
+const edit = (item: AuthApi) => {
   editId.value = item.id
   addDisabledIds([item.id])
   addUpdatedParentId(item.parentId)

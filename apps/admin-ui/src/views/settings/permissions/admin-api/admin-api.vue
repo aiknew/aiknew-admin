@@ -3,12 +3,7 @@ import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
-import {
-  useAdminApiChildren,
-  useAdminApiDelete,
-  useAdminApiList,
-  type AdminApi
-} from '@/api/admin-api'
+import { useAuthApiChildren, useAuthApiDelete, useAuthApiList, type AuthApi } from '@/api/auth-api'
 import { useLangStore } from '@/stores/lang'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
@@ -24,11 +19,11 @@ const {
   data: adminApiData,
   refetch: refetchAdminApiData,
   isFetching: isFetchingAdminApiData
-} = useAdminApiList(toReactive({ currentPage, pageSize }))
+} = useAuthApiList(toReactive({ currentPage, pageSize }))
 const expandParentId = ref('0')
-const { refetch: fetchApiChildren } = useAdminApiChildren(expandParentId)
+const { refetch: fetchApiChildren } = useAuthApiChildren(expandParentId)
 
-const loadChildren = (row: AdminApi, treeNode: unknown, resolve: (data: AdminApi[]) => void) => {
+const loadChildren = (row: AuthApi, treeNode: unknown, resolve: (data: AuthApi[]) => void) => {
   expandParentId.value = row.id
   fetchApiChildren()
     .then(({ data }) => {
@@ -41,7 +36,7 @@ const loadChildren = (row: AdminApi, treeNode: unknown, resolve: (data: AdminApi
     })
 }
 
-const { mutateAsync: deleteAdminApi, isPending: isDeleting } = useAdminApiDelete()
+const { mutateAsync: deleteAdminApi, isPending: isDeleting } = useAuthApiDelete()
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingAdminApiData.value
 })
@@ -51,7 +46,7 @@ const handleAdd = () => {
   adminApiModalRef.value?.add()
 }
 
-const handleEdit = (row: AdminApi) => {
+const handleEdit = (row: AuthApi) => {
   adminApiModalRef.value?.edit(row)
 }
 
@@ -79,7 +74,7 @@ const refresh = (updatedParentIds: string[]) => {
   })
 }
 
-const handleDelete = async (row: AdminApi) => {
+const handleDelete = async (row: AuthApi) => {
   await deleteAdminApi(row.id)
   refresh([row.parentId])
 }
@@ -110,7 +105,7 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
     >
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180">
-        <template #default="{ row }: { row: AdminApi }">
+        <template #default="{ row }: { row: AuthApi }">
           <span>{{ tField(row.translations, 'apiName').value }}</span>
         </template>
       </el-table-column>

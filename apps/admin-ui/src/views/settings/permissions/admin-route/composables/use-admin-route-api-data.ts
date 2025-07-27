@@ -1,16 +1,16 @@
-import { useAdminApiChildren, useAdminApisAncestors, type AdminApi } from '@/api/admin-api'
+import { useAuthApiChildren, useAuthApisAncestors, type AuthApi } from '@/api/auth-api'
 import { computed, ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 export const useAdminRouteApiData = () => {
   const _selectedApiKeys = ref<string[]>([])
   const expandApiId = ref('0')
-  const { refetch: fetchApiChildren } = useAdminApiChildren(expandApiId)
+  const { refetch: fetchApiChildren } = useAuthApiChildren(expandApiId)
   const {
     data: _adminApisAncestors,
     refetch: _fetchAdminApisAncestorsData,
     isFetched: isFetchedApisAncestors
-  } = useAdminApisAncestors(_selectedApiKeys)
+  } = useAuthApisAncestors(_selectedApiKeys)
 
   let _fetchAdminApisPromise: ReturnType<typeof _fetchAdminApisAncestorsData>
 
@@ -46,7 +46,7 @@ export const useAdminRouteApiData = () => {
 
   const loadApiNode = async (
     node: Node,
-    resolve: (data: Omit<AdminApi, 'order' | 'createdAt' | 'updatedAt'>[]) => void
+    resolve: (data: Omit<AuthApi, 'order' | 'createdAt' | 'updatedAt'>[]) => void
   ) => {
     // Wait for fetch ancestors finish
     await _fetchAdminApisPromise

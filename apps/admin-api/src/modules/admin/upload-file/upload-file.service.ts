@@ -16,7 +16,7 @@ import { S3Service } from '../s3/s3.service'
 
 @Injectable()
 export class FileService {
-  private static readonly modelName: 'uploadFile'
+  private static readonly modelName = 'uploadFile'
 
   constructor(
     private readonly prisma: PrismaService,

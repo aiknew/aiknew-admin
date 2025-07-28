@@ -21,7 +21,7 @@ export class AuthRouteService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-    private readonly adminUserService: AuthUserService,
+    private readonly authUserService: AuthUserService,
   ) {}
 
   get model() {
@@ -232,7 +232,7 @@ export class AuthRouteService {
 
   async updateOne(id: string, updateAdminRouteDto: UpdateAuthRouteDto) {
     const { apis, translations, ...route } = updateAdminRouteDto
-    await this.adminUserService.clearAllUserCache()
+    await this.authUserService.clearAllUserCache()
     await this.model.update({
       where: { id },
       data: {
@@ -253,7 +253,7 @@ export class AuthRouteService {
 
   async deleteOne(id: string) {
     try {
-      await this.adminUserService.clearAllUserCache()
+      await this.authUserService.clearAllUserCache()
       if (await this.findChild(id)) {
         throw new AppConflictException(
           this.i18n.t('admin-route.hasChild', {

@@ -17,12 +17,16 @@ export class LanguageService {
     private systemSettingService: SystemSettingService,
   ) {}
 
+  get model() {
+    return this.prisma.language
+  }
+
   async pagination(paginationDto: PaginationDto) {
-    return await this.prisma.language.paginate(paginationDto)
+    return await this.model.paginate(paginationDto)
   }
 
   async getEnabledLanguages() {
-    return await this.prisma.language.findMany({
+    return await this.model.findMany({
       where: {
         status: true,
       },
@@ -31,7 +35,7 @@ export class LanguageService {
 
   async createLanguage(data: CreateLanguageDto) {
     try {
-      return await this.prisma.language.create({
+      return await this.model.create({
         data,
       })
     } catch (err) {
@@ -48,7 +52,7 @@ export class LanguageService {
 
   async updateLanguage(key: string, data: UpdateLanguageDto) {
     try {
-      await this.prisma.language.update({
+      await this.model.update({
         where: { key },
         data,
       })
@@ -66,7 +70,7 @@ export class LanguageService {
 
   async removeLanguage(key: string) {
     try {
-      await this.prisma.language.delete({
+      await this.model.delete({
         where: {
           key,
         },
@@ -89,7 +93,7 @@ export class LanguageService {
     )
 
     if (setting?.enableMultilingual) {
-      return this.prisma.language.findMany({
+      return this.model.findMany({
         where: {
           status: true,
         },
@@ -97,7 +101,7 @@ export class LanguageService {
     }
 
     // single language
-    const lang = await this.prisma.language.findUnique({
+    const lang = await this.model.findUnique({
       where: {
         key: setting?.mainLanguage,
       },

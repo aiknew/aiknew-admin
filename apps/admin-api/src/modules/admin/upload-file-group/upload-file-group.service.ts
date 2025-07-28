@@ -15,6 +15,10 @@ import { I18nContext, I18nService } from 'nestjs-i18n'
 
 @Injectable()
 export class UploadFileGroupService {
+  private static readonly modelName = 'uploadFileGroup'
+  private static readonly fileModelName = 'uploadFile'
+  private static readonly fileGroupPathModelName = 'uploadFileGroupPath'
+
   // Maximum groups in the same level
   protected maxGroups = 1000
   // Maximum group depth level
@@ -35,8 +39,12 @@ export class UploadFileGroupService {
     private readonly i18n: I18nService,
   ) {}
 
+  get model() {
+    return this.prisma[UploadFileGroupService.modelName]
+  }
+
   async findChildren(parentId: string) {
-    return await this.prisma.uploadFileGroup.findMany({
+    return await this.model.findMany({
       where: {
         parentId,
       },
@@ -47,7 +55,7 @@ export class UploadFileGroupService {
     paginationDto: PaginationDto,
     where: Prisma.UploadFileGroupWhereInput = {},
   ) {
-    return this.prisma.uploadFileGroup.paginate(paginationDto, {
+    return this.model.paginate(paginationDto, {
       where,
       orderBy: [
         {
@@ -66,11 +74,13 @@ export class UploadFileGroupService {
   }
 
   async getCount(args?: Prisma.UploadFileGroupCountArgs) {
-    return await this.prisma.uploadFileGroup.count(args)
+    return await this.model.count(args)
   }
 
   async deletePaths(descendantId: string, tx: ExtendedPrismaTransactionClient) {
-    const ret = await tx.uploadFileGroupPath.deleteMany({
+    const ret = await tx[
+      UploadFileGroupService.fileGroupPathModelName
+    ].deleteMany({
       where: {
         descendantId,
       },
@@ -84,7 +94,9 @@ export class UploadFileGroupService {
     tx: ExtendedPrismaTransactionClient,
   ) {
     if (group.parentId !== '0') {
-      const ancestors = await tx.uploadFileGroupPath.findMany({
+      const ancestors = await tx[
+        UploadFileGroupService.fileGroupPathModelName
+      ].findMany({
         where: {
           descendantId: group.parentId,
         },
@@ -105,9 +117,11 @@ export class UploadFileGroupService {
         }),
       ]
 
-      return await tx.uploadFileGroupPath.createMany({
-        data: paths,
-      })
+      return await tx[UploadFileGroupService.fileGroupPathModelName].createMany(
+        {
+          data: paths,
+        },
+      )
     }
   }
 
@@ -115,7 +129,7 @@ export class UploadFileGroupService {
     try {
       await this.prisma.$transaction(async (tx) => {
         // await this.clearAllGroupsCache()
-        const group = await tx.uploadFileGroup.create({
+        const group = await tx[UploadFileGroupService.modelName].create({
           data,
         })
 
@@ -146,7 +160,9 @@ export class UploadFileGroupService {
     try {
       return await this.prisma.$transaction(async (tx) => {
         // await this.clearAllGroupsCache()
-        const group = await tx.uploadFileGroup.findUniqueOrThrow({
+        const group = await tx[
+          UploadFileGroupService.modelName
+        ].findUniqueOrThrow({
           where: { id },
         })
 
@@ -159,7 +175,7 @@ export class UploadFileGroupService {
           await this.createPaths({ id, parentId: updateGroupDto.parentId }, tx)
         }
 
-        return await tx.uploadFileGroup.update({
+        return await tx[UploadFileGroupService.modelName].update({
           where: {
             id,
           },
@@ -197,7 +213,7 @@ export class UploadFileGroupService {
       }
 
       await this.deletePaths(groupId, tx)
-      await tx.uploadFileGroup.delete({
+      await tx[UploadFileGroupService.modelName].delete({
         where: {
           id: groupId,
         },
@@ -206,7 +222,7 @@ export class UploadFileGroupService {
   }
 
   async hasChildGroup(groupId: string, tx: ExtendedPrismaTransactionClient) {
-    return await tx.uploadFileGroup.count({
+    return await tx[UploadFileGroupService.modelName].count({
       where: {
         parentId: groupId,
       },
@@ -214,7 +230,7 @@ export class UploadFileGroupService {
   }
 
   async hasFile(groupId: string, tx: ExtendedPrismaTransactionClient) {
-    return await tx.uploadFile.count({
+    return await tx[UploadFileGroupService.fileModelName].count({
       where: {
         groupId,
       },

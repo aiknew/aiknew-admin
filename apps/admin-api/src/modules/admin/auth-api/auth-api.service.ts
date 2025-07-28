@@ -20,7 +20,7 @@ export class AuthApiService {
   constructor(
     private prisma: PrismaService,
     private readonly i18n: I18nService,
-    private readonly adminUserService: AuthUserService,
+    private readonly authUserService: AuthUserService,
   ) {}
 
   get model() {
@@ -152,7 +152,7 @@ export class AuthApiService {
   }
 
   async updateOne(id: string, updateApiDto: UpdateAuthApiDto) {
-    this.adminUserService.clearAllUserCache().catch((err) => {
+    this.authUserService.clearAllUserCache().catch((err) => {
       throw err
     })
 
@@ -181,7 +181,7 @@ export class AuthApiService {
 
   async deleteOne(id: string) {
     try {
-      this.adminUserService.clearAllUserCache().catch((err) => {
+      this.authUserService.clearAllUserCache().catch((err) => {
         throw err
       })
 

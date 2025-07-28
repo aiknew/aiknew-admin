@@ -15,6 +15,10 @@ export class SystemSettingService {
     private redisService: RedisService,
   ) {}
 
+  get model() {
+    return this.prisma.systemSetting
+  }
+
   protected setCacheKeyPrefix(key: string) {
     return this.cacheKeyPrefix + key
   }
@@ -39,7 +43,7 @@ export class SystemSettingService {
   }
 
   async getSystemSetting<T extends keyof typeof SystemSettingKey>(key: T) {
-    const setting = await this.prisma.systemSetting.findUnique({
+    const setting = await this.model.findUnique({
       where: { key },
     })
 
@@ -67,7 +71,7 @@ export class SystemSettingService {
     await this.prisma.$transaction(
       keys.map((key) => {
         const value = instanceToPlain(systemSettingDto[key])
-        return this.prisma.systemSetting.upsert({
+        return this.model.upsert({
           where: { key },
 
           update: {

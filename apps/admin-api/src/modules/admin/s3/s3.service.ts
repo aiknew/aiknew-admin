@@ -22,6 +22,10 @@ export class S3Service {
     private readonly configService: ConfigService,
   ) {}
 
+  get model() {
+    return this.prisma.uploadFile
+  }
+
   async getS3Client() {
     const storage = await this.fileStorageService.getActiveStorage()
     const bucket = storage.bucket
@@ -110,7 +114,7 @@ export class S3Service {
   }
 
   async deleteAllTemporaryDeletedFiles() {
-    return await this.prisma.uploadFile.deleteMany({
+    return await this.model.deleteMany({
       where: {
         deletedAt: {
           not: null,
@@ -124,7 +128,7 @@ export class S3Service {
     originalName: string
   }) {
     const { groupId, originalName } = data
-    await this.prisma.uploadFile.update({
+    await this.model.update({
       where: {
         originalName_groupId: {
           groupId,
@@ -163,7 +167,7 @@ export class S3Service {
 
   async upsertFileRecord(data: UploadS3FileDto) {
     const activeStorage = await this.fileStorageService.getActiveStorage()
-    const existFile = await this.prisma.uploadFile.findUnique({
+    const existFile = await this.model.findUnique({
       where: {
         originalName_groupId: {
           groupId: data.groupId,
@@ -189,7 +193,7 @@ export class S3Service {
       }
     }
 
-    const ret = await this.prisma.uploadFile.upsert({
+    const ret = await this.model.upsert({
       where: {
         originalName_groupId: {
           groupId: data.groupId,

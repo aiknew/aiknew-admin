@@ -19,15 +19,19 @@ import { createHMAC } from '@aiknew/shared-api-utils'
 export class AuthService {
   constructor(
     private prisma: PrismaService,
-    private adminUserService: AuthUserService,
+    private authUserService: AuthUserService,
     private jwtService: JwtService,
     private redisService: RedisService,
     private i18n: I18nService,
   ) {}
 
+  get userModel() {
+    return this.prisma.adminUser
+  }
+
   async validateUser(userName: string, password: string) {
     try {
-      const { super: _, ...user } = await this.adminUserService.findUser(
+      const { super: _, ...user } = await this.authUserService.findUser(
         userName,
         password,
       )
@@ -49,11 +53,11 @@ export class AuthService {
   }
 
   async getUserInfo(user: AuthAdminUser) {
-    return this.adminUserService.getUserInfo(user.userId)
+    return this.authUserService.getUserInfo(user.userId)
   }
 
   async updateUserInfo(requestUser: AuthAdminUser, data: UpdateUserInfoDto) {
-    const user = await this.prisma.adminUser.findUnique({
+    const user = await this.userModel.findUnique({
       where: {
         id: requestUser.userId,
         password: createHMAC(data.password),
@@ -64,7 +68,7 @@ export class AuthService {
       throw new AppBadRequestException(this.i18n.t('admin-auth.wrongPassword'))
     }
 
-    await this.prisma.adminUser.update({
+    await this.userModel.update({
       where: { id: requestUser.userId },
       data: {
         password: createHMAC(data.newPassword),

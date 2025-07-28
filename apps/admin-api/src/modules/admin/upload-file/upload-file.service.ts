@@ -16,6 +16,8 @@ import { S3Service } from '../s3/s3.service'
 
 @Injectable()
 export class FileService {
+  private static readonly modelName: 'uploadFile'
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly uploadFileGroupService: UploadFileGroupService,
@@ -24,6 +26,14 @@ export class FileService {
     private readonly fileStorageService: FileStorageService,
     private readonly s3Service: S3Service,
   ) {}
+
+  get model() {
+    return this.prisma[FileService.modelName]
+  }
+
+  get fileStorageModel() {
+    return this.prisma.fileStorage
+  }
 
   async getFilesAndGroups(queryUploadFileDto: QueryUploadFileDto) {
     try {
@@ -60,7 +70,7 @@ export class FileService {
 
       const skipFilesNum = (current - 1) * pageSize - groupsCount
       const takeFilesNum = pageSize - groupsPaginationData.list.length
-      const fileList = await this.prisma.uploadFile.findMany({
+      const fileList = await this.model.findMany({
         take: takeFilesNum,
         skip: skipFilesNum < 0 ? 0 : skipFilesNum,
         where: fileWhereInput,
@@ -104,12 +114,12 @@ export class FileService {
   }
 
   async getCount(args?: Prisma.UploadFileCountArgs) {
-    return this.prisma.uploadFile.count(args)
+    return this.model.count(args)
   }
 
   async updateOne(id: string, updateFileDto: UpdateUploadFileDto) {
     try {
-      await this.prisma.uploadFile.update({
+      await this.model.update({
         where: {
           id,
         },
@@ -138,7 +148,7 @@ export class FileService {
           fileStorageId: storage.id,
         } as Prisma.UploadFileCreateArgs['data']
 
-        await this.prisma.uploadFile.create({
+        await this.model.create({
           data,
         })
       }
@@ -165,11 +175,11 @@ export class FileService {
 
   async deleteOne(id: string) {
     try {
-      const file = await this.prisma.uploadFile.findUniqueOrThrow({
+      const file = await this.model.findUniqueOrThrow({
         where: { id },
       })
 
-      const fileStorage = await this.prisma.fileStorage.findUniqueOrThrow({
+      const fileStorage = await this.fileStorageModel.findUniqueOrThrow({
         where: {
           id: file.fileStorageId,
         },
@@ -187,9 +197,9 @@ export class FileService {
           })
         }
       } else if (fileStorage.type === 'LOCAL') {
-        await this.prisma.$transaction(async (prisma) => {
+        await this.prisma.$transaction(async (tx) => {
           // delete the file record in database
-          const deletedFile = await prisma.uploadFile.delete({
+          const deletedFile = await tx[FileService.modelName].delete({
             where: {
               id,
             },
@@ -218,7 +228,7 @@ export class FileService {
 
         if (err.code === 'ENOENT') {
           // if file doesn't exists, just delete the record in database
-          await this.prisma.uploadFile.delete({
+          await this.model.delete({
             where: {
               id,
             },

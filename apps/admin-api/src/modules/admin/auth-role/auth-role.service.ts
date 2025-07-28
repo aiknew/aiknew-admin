@@ -12,7 +12,7 @@ export class AuthRoleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-    private readonly adminUserService: AuthUserService,
+    private readonly authUserService: AuthUserService,
   ) {}
 
   get model() {
@@ -80,7 +80,7 @@ export class AuthRoleService {
   }
 
   async updateOne(id: string, data: UpdateAuthRoleDto) {
-    await this.adminUserService.clearAllUserCache()
+    await this.authUserService.clearAllUserCache()
     const { routes, translations, ...role } = data
     await this.model.update({
       where: { id },
@@ -102,7 +102,7 @@ export class AuthRoleService {
 
   async deleteOne(id: string) {
     try {
-      await this.adminUserService.clearAllUserCache()
+      await this.authUserService.clearAllUserCache()
       const deleteRelatedRoutes = this.routeRelModel.deleteMany({
         where: {
           roleId: id,

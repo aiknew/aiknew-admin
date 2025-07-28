@@ -20,8 +20,16 @@ export class ArticleCategoryService {
     private readonly i18n: I18nService,
   ) {}
 
+  get model() {
+    return this.prisma.articleCategory
+  }
+
+  get translationModel() {
+    return this.prisma.articleCategoryTranslation
+  }
+
   async pagination(paginationDto: PaginationDto) {
-    return this.prisma.articleCategory.paginate(paginationDto, {
+    return this.model.paginate(paginationDto, {
       where: {
         parentId: 0,
       },
@@ -32,7 +40,7 @@ export class ArticleCategoryService {
   }
 
   async getChildren(id: number) {
-    return await this.prisma.articleCategory.findMany({
+    return await this.model.findMany({
       where: {
         parentId: id,
       },
@@ -108,7 +116,7 @@ export class ArticleCategoryService {
   }
 
   async getChildrenCategory(parentId: number) {
-    return this.prisma.articleCategory.findMany({
+    return this.model.findMany({
       where: {
         parentId,
       },
@@ -121,7 +129,7 @@ export class ArticleCategoryService {
 
   async createOne(data: CreateArticleCategoryDto) {
     const { translations, ...info } = data
-    await this.prisma.articleCategory.create({
+    await this.model.create({
       data: {
         ...info,
         translations: {
@@ -133,7 +141,7 @@ export class ArticleCategoryService {
 
   async updateOne(id: number, data: UpdateArticleCategoryDto) {
     const { translations, ...info } = data
-    await this.prisma.articleCategory.update({
+    await this.model.update({
       where: { id },
       data: {
         ...info,
@@ -146,7 +154,7 @@ export class ArticleCategoryService {
   }
 
   async countChildren(parentId: number) {
-    return this.prisma.articleCategory.count({
+    return this.model.count({
       where: {
         parentId,
       },
@@ -163,12 +171,11 @@ export class ArticleCategoryService {
         )
       }
 
-      const deleteTranslations =
-        this.prisma.articleCategoryTranslation.deleteMany({
-          where: { articleCategoryId: id },
-        })
+      const deleteTranslations = this.translationModel.deleteMany({
+        where: { articleCategoryId: id },
+      })
 
-      const deleteCategory = this.prisma.articleCategory.delete({
+      const deleteCategory = this.model.delete({
         where: { id },
       })
 

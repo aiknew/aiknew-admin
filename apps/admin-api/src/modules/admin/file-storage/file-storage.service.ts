@@ -9,8 +9,12 @@ import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
 export class FileStorageService {
   constructor(private readonly prisma: PrismaService) {}
 
+  get model() {
+    return this.prisma.fileStorage
+  }
+
   async getActiveStorage() {
-    const storage = await this.prisma.fileStorage.findFirst({
+    const storage = await this.model.findFirst({
       where: { active: true },
     })
 
@@ -22,12 +26,12 @@ export class FileStorageService {
   }
 
   async pagination(paginationDto: PaginationDto) {
-    return this.prisma.fileStorage.paginate(paginationDto)
+    return this.model.paginate(paginationDto)
   }
 
   disableOthers(): PrismaPromise<unknown> {
     // currently only one file storage option can be activated at a time
-    return this.prisma.fileStorage.updateMany({
+    return this.model.updateMany({
       data: {
         active: false,
       },
@@ -39,7 +43,7 @@ export class FileStorageService {
 
     const actions: PrismaPromise<unknown>[] = []
 
-    const create = this.prisma.fileStorage.create({
+    const create = this.model.create({
       data,
     })
 
@@ -56,7 +60,7 @@ export class FileStorageService {
     const { active } = data
 
     const actions: PrismaPromise<unknown>[] = []
-    const update = this.prisma.fileStorage.update({
+    const update = this.model.update({
       where: { id },
       data,
     })
@@ -71,7 +75,7 @@ export class FileStorageService {
   }
 
   async deleteOne(id: string) {
-    return this.prisma.fileStorage.delete({
+    return this.model.delete({
       where: {
         id,
       },

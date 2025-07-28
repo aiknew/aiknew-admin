@@ -16,8 +16,16 @@ export class ArticleService {
     private readonly i18n: I18nService,
   ) {}
 
+  get model() {
+    return this.prisma.article
+  }
+
+  get translationModel() {
+    return this.prisma.articleTranslation
+  }
+
   async pagination(pagination: PaginationDto) {
-    return this.prisma.article.paginate(pagination, {
+    return this.model.paginate(pagination, {
       include: {
         translations: true,
       },
@@ -25,7 +33,7 @@ export class ArticleService {
   }
 
   async getDetail(id: number) {
-    const detail = await this.prisma.article.findUnique({
+    const detail = await this.model.findUnique({
       where: { id },
       include: {
         translations: true,
@@ -42,7 +50,7 @@ export class ArticleService {
   async createOne(data: CreateArticleDto) {
     try {
       const { translations, ...info } = data
-      await this.prisma.article.create({
+      await this.model.create({
         data: {
           ...info,
           translations: {
@@ -78,7 +86,7 @@ export class ArticleService {
 
   async updateOne(id: number, data: UpdateArticleDto) {
     const { translations, ...info } = data
-    await this.prisma.article.update({
+    await this.model.update({
       where: { id },
       data: {
         ...info,
@@ -91,11 +99,11 @@ export class ArticleService {
   }
 
   async deleteOne(articleId: number) {
-    const deleteTranslations = this.prisma.articleTranslation.deleteMany({
+    const deleteTranslations = this.translationModel.deleteMany({
       where: { articleId },
     })
 
-    const deleteArticle = this.prisma.article.delete({
+    const deleteArticle = this.model.delete({
       where: { id: articleId },
     })
 

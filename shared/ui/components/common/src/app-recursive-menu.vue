@@ -84,4 +84,21 @@ const getRouteName = (translations?: AdminRouteTranslations) => {
   user-select: none;
   line-height: 1.5;
 }
+
+.el-menu--collapse
+  > .el-menu-item-group
+  > ul
+  > .el-sub-menu
+  > .el-sub-menu__title
+  > a
+  > span,
+.el-menu--collapse > .el-menu-item > a > span,
+.el-menu--collapse > .el-sub-menu > .el-sub-menu__title > a > span {
+  display: inline-block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+}
+
 </style>

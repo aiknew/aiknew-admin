@@ -42,13 +42,15 @@ export const useRoutes = (router: Router) => {
   const addRoutes = (routes: UserInfo['routes']) => {
     const children = resolveRoutes(routes)
 
-    router.addRoute({
-      path: '/',
-      name: 'Index',
-      component: AppLayout,
-      redirect: children[0].path,
-      children
-    })
+    if (children.length) {
+      router.addRoute({
+        path: '/',
+        name: 'Index',
+        component: AppLayout,
+        redirect: children[0].path,
+        children
+      })
+    }
   }
 
   return {

@@ -3,6 +3,7 @@ import { markRaw } from 'vue'
 import { RouterView, type Router, type RouteRecordRaw } from 'vue-router'
 import { buildTree } from '@aiknew/shared-utils'
 import AppLayout from '@/components/common/app-layout.vue'
+import { staticRoutes } from '@/router/routes'
 
 export const views = import.meta.glob('@/views/**/*.vue')
 
@@ -40,17 +41,17 @@ export const useRoutes = (router: Router) => {
   }
 
   const addRoutes = (routes: UserInfo['routes']) => {
-    const children = resolveRoutes(routes)
+    const dynamicRoutes = resolveRoutes(routes)
+    const children = [...dynamicRoutes, ...staticRoutes]
+    const redirect = children?.[0]?.path
 
-    if (children.length) {
-      router.addRoute({
-        path: '/',
-        name: 'Index',
-        component: AppLayout,
-        redirect: children[0].path,
-        children
-      })
-    }
+    router.addRoute({
+      path: '/',
+      name: 'Index',
+      component: AppLayout,
+      redirect,
+      children
+    })
   }
 
   return {

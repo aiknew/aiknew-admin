@@ -1,18 +1,20 @@
 import 'vue-router'
-
-export type RouteType = 'GROUP' | 'SMALL_GROUP' | 'MENU' | 'BUTTON'
+import type { RouteType } from '@/api/auth-route'
 
 export type AdminRouteTranslations = {
   langKey: string
   routeName: string
 }[]
 
+export interface CustomRouteMeta {
+  hidden?: boolean
+  icon?: string
+  id?: string
+  routeName?: string
+  translations?: AdminRouteTranslations
+  type?: RouteType
+}
+
 declare module 'vue-router' {
-  interface RouteMeta {
-    hidden?: boolean
-    icon?: string
-    id?: string
-    translations: AdminRouteTranslations
-    type?: RouteType
-  }
+  interface RouteMeta extends CustomRouteMeta {}
 }

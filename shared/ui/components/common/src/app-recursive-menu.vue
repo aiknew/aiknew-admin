@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RouteRecordRaw } from 'vue-router'
 import { ElMenuItemGroup, ElMenuItem, ElSubMenu, ElIcon } from 'element-plus'
-import type { AdminRouteTranslations } from '@aiknew/shared-ui-types'
+import type { CustomRouteMeta } from '@aiknew/shared-ui-types'
 import { tField } from '@aiknew/shared-ui-locales'
 
 export interface Props {
@@ -20,12 +20,13 @@ const isMenuItem = (route: RouteRecordRaw) =>
   route?.meta?.type === 'MENU' &&
   !hasChildren(route.children) &&
   !route?.meta?.hidden
-const getRouteName = (translations?: AdminRouteTranslations) => {
+const getRouteName = (meta?: CustomRouteMeta) => {
+  const { routeName, translations } = meta ?? {}
   if (translations) {
     return tField(translations, 'routeName').value
   }
 
-  return ''
+  return routeName ?? ''
 }
 </script>
 
@@ -34,7 +35,7 @@ const getRouteName = (translations?: AdminRouteTranslations) => {
     <!-- small group -->
     <el-menu-item-group
       v-if="route.children && route.children.length && isSmallGroup(route)"
-      :title="getRouteName(route.meta?.translations)"
+      :title="getRouteName(route.meta)"
       :key="route.path"
     >
       <!-- render children menus recursively -->
@@ -48,9 +49,7 @@ const getRouteName = (translations?: AdminRouteTranslations) => {
           <el-icon v-if="route.meta?.icon">
             <component :is="route.meta.icon" />
           </el-icon>
-          <span class="menu-title">{{
-            getRouteName(route.meta?.translations)
-          }}</span>
+          <span class="menu-title">{{ getRouteName(route.meta) }}</span>
         </template>
 
         <!-- render children menus recursively -->
@@ -72,7 +71,7 @@ const getRouteName = (translations?: AdminRouteTranslations) => {
           <component :is="route.meta.icon" />
         </el-icon>
         <span class="menu-title">
-          {{ getRouteName(route.meta?.translations) }}
+          {{ getRouteName(route.meta) }}
         </span>
       </router-link>
     </el-menu-item>
@@ -100,5 +99,4 @@ const getRouteName = (translations?: AdminRouteTranslations) => {
   visibility: hidden;
   width: 0;
 }
-
 </style>

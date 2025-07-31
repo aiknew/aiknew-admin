@@ -7,7 +7,7 @@ import { PrismaModule } from '@aiknew/shared-admin-db'
 
 @Global()
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule.forRoot({ global: true })],
   providers: [
     RedisService,
     {

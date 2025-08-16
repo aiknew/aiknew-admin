@@ -1,8 +1,21 @@
-import { computed, ref, type App } from 'vue'
+import { computed, type App } from 'vue'
 import { createI18n } from 'vue-i18n'
 import en from './en.json'
 import zhCN from './zh-CN.json'
 import zhTW from './zh-TW.json'
+
+const _subscribers: Function[] = []
+
+export const onLangChange = (cb: Function) => {
+  _subscribers.push(cb)
+
+  return () => {
+    const index = _subscribers.findIndex((fn) => fn === cb)
+    if (index !== -1) {
+      _subscribers.splice(index, 1)
+    }
+  }
+}
 
 export const i18n = createI18n({
   legacy: false,
@@ -28,6 +41,8 @@ export const currentLang = computed(() => {
 
 export const setCurrentLang = (lang: I18nKeys) => {
   i18n.global.locale.value = lang
+
+  _subscribers.forEach((fn) => fn())
 }
 
 export const tField = <T extends { langKey: string }>(

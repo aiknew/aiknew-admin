@@ -986,6 +986,7 @@ export interface components {
             type: components["schemas"]["StorageType"];
             id: string;
             name: string;
+            hostname: string;
             active: boolean;
             accessKey: string | null;
             secretKey: string | null;

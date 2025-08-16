@@ -1,0 +1,11 @@
+.isOk {
+  :global(div.el-input__wrapper),
+  :global(div.el-input__wrapper.is-focus),
+  :global(div.el-input__wrapper:hover),
+  :global(div.el-textarea__inner),
+  :global(div.el-textarea__inner.is-focus),
+  :global(div.el-textarea__inner:hover) {
+    box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+      inset !important;
+  }
+}

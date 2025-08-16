@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useLogin, useLoginCaptcha, type LoginBody } from '@/api/auth'
-import { AppBasicModal, AppLanguageSwitcher } from '@aiknew/shared-ui-components'
+import { AppLanguageSwitcher } from '@aiknew/shared-ui-components'
 import { useUserStore } from '@/stores/user'
 import {
   type FormInstance,

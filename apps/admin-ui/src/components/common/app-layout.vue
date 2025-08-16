@@ -2,7 +2,7 @@
 import { AppBasicLayout } from '@aiknew/shared-ui-layouts'
 import { AppLanguageSwitcher } from '@aiknew/shared-ui-components'
 import AppUserSetting from './app-user-setting.vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locales'
 
 const router = useRouter()

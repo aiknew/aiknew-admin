@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, nextTick, useTemplateRef, type ComputedRef, computed } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { AppForm, makeFields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useStorageSettingI18n } from '../composables/use-storage-setting-i18n'
 import { useFileStorageCreate, useFileStorageUpdate, type FileStorage } from '@/api/file-storage'
+import { convertNullToUndefined } from '@aiknew/shared-utils'
 
 interface Emits {
   (e: 'submit'): void
@@ -13,88 +14,94 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const { t } = useStorageSettingI18n()
-const appFormRef = useTemplateRef('appFormRef')
 const modalRef = useTemplateRef('modalRef')
 const editId = ref<string>('')
 
-const isS3 = computed<boolean>(
-  () => appFormRef.value?.values['type'] === 'S3'
-) as ComputedRef<boolean>
+const isS3 = ref<boolean>(false)
 
 const { mutateAsync: createFileStorage } = useFileStorageCreate()
 const { mutateAsync: updateFileStorage } = useFileStorageUpdate()
 
-const fields = makeFields(
-  {
-    as: 'ElRadio',
-    label: 'storageType',
-    name: 'type',
-    rules: z.union([z.literal('LOCAL'), z.literal('S3')]).default('LOCAL'),
-    options: [
-      { label: 'LOCAL', value: 'LOCAL' },
-      { label: 'S3', value: 'S3' }
-    ]
-  },
-  {
-    as: 'ElSwitch',
-    label: 'active',
-    name: 'active',
-    rules: z.boolean().default(false)
-  },
-  {
-    as: 'ElInput',
-    label: 'name',
-    name: 'name',
-    rules: z.string().nonempty()
-  },
-  {
-    as: 'ElInput',
-    label: 'hostname',
-    name: 'hostname',
-    rules: z.string().nonempty()
-  },
-  {
-    enabled: isS3,
-    as: 'ElInput',
-    label: 'accessKey',
-    name: 'accessKey',
-    rules: z.string().optional()
-  },
-  {
-    enabled: isS3,
-    as: 'ElInput',
-    label: 'secretKey',
-    name: 'secretKey',
-    rules: z.string().optional()
-  },
-  {
-    enabled: isS3,
-    as: 'ElInput',
-    label: 'endpoint',
-    name: 'endpoint',
-    rules: z.string().optional()
-  },
-  {
-    enabled: isS3,
-    as: 'ElInput',
-    label: 'bucket',
-    name: 'bucket',
-    rules: z.string().optional()
-  }
-)
-
-const handleSubmit = () => {
-  appFormRef.value?.submit().then(async (values) => {
+const { AppForm, formApi } = useAppForm({
+  fields: () =>
+    [
+      {
+        as: {
+          component: 'ElRadio',
+          props: {
+            options: [
+              { label: 'LOCAL', value: 'LOCAL' },
+              { label: 'S3', value: 'S3' }
+            ]
+          }
+        },
+        label: t('storageType'),
+        name: 'type',
+        schema: z.union([z.literal('LOCAL'), z.literal('S3')]).default('LOCAL')
+      },
+      {
+        as: 'ElSwitch',
+        label: t('active'),
+        name: 'active',
+        schema: z.boolean().default(false)
+      },
+      {
+        as: 'ElInput',
+        label: t('name'),
+        name: 'name',
+        schema: z.string().nonempty().default('')
+      },
+      {
+        as: 'ElInput',
+        label: t('hostname'),
+        name: 'hostname',
+        schema: z.string().nonempty().default('')
+      },
+      {
+        when: isS3,
+        as: 'ElInput',
+        label: t('accessKey'),
+        name: 'accessKey',
+        schema: z.string().default('').optional()
+      },
+      {
+        when: isS3,
+        as: 'ElInput',
+        label: t('secretKey'),
+        name: 'secretKey',
+        schema: z.string().default('').optional()
+      },
+      {
+        when: isS3,
+        as: 'ElInput',
+        label: t('endpoint'),
+        name: 'endpoint',
+        schema: z.string().default('').optional()
+      },
+      {
+        when: isS3,
+        as: 'ElInput',
+        label: t('bucket'),
+        name: 'bucket',
+        schema: z.string().default('').optional()
+      }
+    ] as const satisfies Fields,
+  async onSubmit({ i18nValues }) {
     if (modalRef.value?.modalMode === 'add') {
-      await createFileStorage(values)
+      await createFileStorage(i18nValues)
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateFileStorage({ id: editId.value, body: values })
+      await updateFileStorage({ id: editId.value, body: i18nValues })
     }
 
     emit('submit')
     handleReset()
-  })
-}
+  }
+})
+
+formApi.useStore((state) => {
+  const type = state.values.type
+  isS3.value = type === 'S3'
+})
 
 const add = () => {
   modalRef.value?.setModalMode('add')
@@ -108,14 +115,12 @@ const edit = (item: FileStorage) => {
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
 
-  nextTick(() => {
-    appFormRef.value?.setFormVals(item)
-  })
+  formApi.reset(convertNullToUndefined(item), { keepDefaultValues: true })
 }
 
 const handleReset = () => {
   modalRef.value?.close()
-  appFormRef.value?.reset()
+  formApi.reset()
   emit('close')
 }
 
@@ -126,7 +131,7 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appFormRef" :t :fields />
+  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+    <AppForm />
   </AppBasicModal>
 </template>

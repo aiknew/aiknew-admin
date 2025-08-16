@@ -42,7 +42,7 @@ const {
 const uploadUrl = ref<string>(import.meta.env.VITE_API_BASE_URL + uploadFileUrl)
 const uploadHeaders = ref<Record<string, string>>({
   Authorization: `Bearer ${userStore.accessToken}`,
-  'x-lang': currentLang
+  'x-lang': currentLang.value
 })
 
 const beforeUpload = async (extraFormData: Ref<Record<string, unknown>>) => {

@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, nextTick, h, computed, useTemplateRef, watch, type Ref, type ComputedRef } from 'vue'
+import { ref, computed, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { AppForm, makeFields } from '@aiknew/shared-ui-form'
-import { useLangStore } from '@/stores/lang'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useAdminUserI18n } from '../composables/use-admin-user-i18n'
 import { useAuthUserCreate, useAuthUserUpdate, type AuthUser } from '@/api/auth-user'
 import { useAuthRoleAll, type AuthRole } from '@/api/auth-role'
@@ -15,40 +14,41 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-const langStore = useLangStore()
 const { t } = useAdminUserI18n()
-const appFormRef = useTemplateRef('appFormRef')
 const modalRef = useTemplateRef('modalRef')
 const editId = ref('')
 const { mutateAsync: createUser } = useAuthUserCreate()
 const { mutateAsync: updateUser } = useAuthUserUpdate()
 const { data: adminRoles } = useAuthRoleAll()
-const inputPassword = computed(() => {
-  return appFormRef.value?.values['password']
-}) as ComputedRef<string>
+const inputPassword = ref('')
 
 const passwordRules = computed(() => {
   if (modalRef.value?.modalMode === 'add') {
-    return z.string({ message: 'passwordRequired' })
+    return z.string({ message: 'passwordRequired' }).min(1).default('')
   }
 
-  return z.string({ message: 'passwordRequired' }).optional()
+  return z.string({ message: 'passwordRequired' }).min(1).optional().default('')
 })
 
 const passwordConfirmRules = computed(() => {
   if (modalRef.value?.modalMode === 'add' || inputPassword.value) {
-    return z.string({ message: 'passwordConfirmErr' }).refine(
-      (val) => {
-        return val === inputPassword.value
-      },
-      {
-        message: 'passwordConfirmErr'
-      }
-    )
+    return z
+      .string({ message: 'passwordConfirmErr' })
+      .min(1)
+      .refine(
+        (val) => {
+          return val === inputPassword.value
+        },
+        {
+          message: 'passwordConfirmErr'
+        }
+      )
+      .default('')
   }
 
   return z
     .string({ message: 'passwordConfirmErr' })
+    .min(1)
     .refine(
       (val) => {
         return val === inputPassword.value
@@ -58,60 +58,70 @@ const passwordConfirmRules = computed(() => {
       }
     )
     .optional()
+    .default('')
 })
 
-const fields = makeFields(
-  {
-    as: 'ElInput',
-    label: 'userName',
-    name: 'userName',
-    rules: z.string({ message: 'userNameRequired' }).nonempty({ message: 'userNameRequired' })
-  },
-  {
-    as: 'ElInput',
-    label: 'password',
-    name: 'password',
-    rules: passwordRules
-  },
-  {
-    as: 'ElInput',
-    label: 'passwordConfirm',
-    name: 'passwordConfirm',
-    rules: passwordConfirmRules
-  },
-  {
-    as: 'ElTreeSelect',
-    label: 'roles',
-    name: 'roles',
-    rules: z.array(z.string()),
-    attrs: {
-      multiple: true,
-      valueKey: 'id',
-      nodeKey: 'id',
-      props: {
-        label: (data: AuthRole) => {
-          return tField(data.translations, 'roleName').value
-        }
+const { AppForm, formApi } = useAppForm({
+  fields: () =>
+    [
+      {
+        as: 'ElInput',
+        label: t('userName'),
+        name: 'userName',
+        schema: z
+          .string({ message: t('userNameRequired') })
+          .nonempty({ message: t('userNameRequired') })
+          .default('')
       },
-      data: computed(() => adminRoles.value)
-    }
-  }
-)
-
-const handleSubmit = () => {
-  appFormRef.value?.submit().then(async (values) => {
+      {
+        as: 'ElInput',
+        label: t('password'),
+        name: 'password',
+        schema: passwordRules.value
+      },
+      {
+        as: 'ElInput',
+        label: t('passwordConfirm'),
+        name: 'passwordConfirm',
+        schema: passwordConfirmRules.value
+      },
+      {
+        as: {
+          component: 'ElTreeSelect',
+          props: {
+            multiple: true,
+            valueKey: 'id',
+            nodeKey: 'id',
+            props: {
+              label: (data: AuthRole) => {
+                return tField(data.translations, 'roleName').value
+              }
+            },
+            data: adminRoles.value
+          }
+        },
+        label: t('roles'),
+        name: 'roles',
+        schema: z.array(z.string()).default([])
+      }
+    ] as const satisfies Fields,
+  async onSubmit({ i18nValues }) {
     if (modalRef.value?.modalMode === 'add') {
-      if (typeof values.password === 'string') {
-        await createUser({ ...values, password: values.password })
+      if (typeof i18nValues.password === 'string') {
+        await createUser({ ...i18nValues, password: i18nValues.password })
       }
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateUser({ id: editId.value, body: values })
+      await updateUser({ id: editId.value, body: i18nValues })
     }
 
     emit('submit')
     handleReset()
-  })
-}
+  }
+})
+
+formApi.useStore((state) => {
+  inputPassword.value = state.values.password
+})
 
 const add = () => {
   modalRef.value?.show()
@@ -125,14 +135,20 @@ const edit = (item: AuthUser) => {
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
 
-  nextTick(() => {
-    appFormRef.value?.setFormVals(item)
-  })
+  formApi.resetI18nValues(
+    {
+      ...item,
+      password: '',
+      passwordConfirm: '',
+      translations: []
+    },
+    { keepDefaultValues: true }
+  )
 }
 
 const handleReset = () => {
   modalRef.value?.close()
-  appFormRef.value?.reset()
+  formApi.reset()
   emit('close')
 }
 
@@ -143,7 +159,7 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appFormRef" :t :fields :languages="langStore.enabledLangs" />
+  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+    <AppForm />
   </AppBasicModal>
 </template>

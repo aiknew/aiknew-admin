@@ -95,9 +95,6 @@ catalogs:
     '@tailwindcss/vite':
       specifier: ^4.1.10
       version: 4.1.10
-    '@vee-validate/zod':
-      specifier: ^4.15.0
-      version: 4.15.1
     '@vitejs/plugin-vue':
       specifier: ^6.0.0
       version: 6.0.0
@@ -122,9 +119,6 @@ catalogs:
     unplugin-element-plus:
       specifier: ^0.9.1
       version: 0.9.1
-    vee-validate:
-      specifier: ^4.15.0
-      version: 4.15.1
     vite:
       specifier: ^7.0.0
       version: 7.0.0
@@ -150,8 +144,8 @@ catalogs:
       specifier: ^2.2.8
       version: 2.2.10
     zod:
-      specifier: ^3.25.34
-      version: 3.25.56
+      specifier: ^4.0.14
+      version: 4.0.17
 
 patchedDependencies:
   element-plus:
@@ -405,9 +399,6 @@ importers:
       '@tiptap/vue-3':
         specifier: ^2.22.3
         version: 2.22.3(@tiptap/core@2.22.3(@tiptap/pm@2.22.3))(@tiptap/pm@2.22.3)(vue@3.5.17(typescript@5.8.3))
-      '@vee-validate/zod':
-        specifier: catalog:ui
-        version: 4.15.1(vue@3.5.17(typescript@5.8.3))(zod@3.25.56)
       '@vueuse/core':
         specifier: catalog:ui
         version: 13.4.0(vue@3.5.17(typescript@5.8.3))
@@ -432,9 +423,6 @@ importers:
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.10
-      vee-validate:
-        specifier: catalog:ui
-        version: 4.15.1(vue@3.5.17(typescript@5.8.3))
       vue:
         specifier: catalog:ui
         version: 3.5.17(typescript@5.8.3)
@@ -446,7 +434,7 @@ importers:
         version: 4.5.1(vue@3.5.17(typescript@5.8.3))
       zod:
         specifier: catalog:ui
-        version: 3.25.56
+        version: 4.0.17
     devDependencies:
       '@aiknew/shared-types':
         specifier: workspace:*
@@ -998,7 +986,7 @@ importers:
         version: 11.1.5(vue@3.5.17(typescript@5.8.3))
       zod:
         specifier: catalog:ui
-        version: 3.25.56
+        version: 4.0.17
     devDependencies:
       '@aiknew/shared-types':
         specifier: workspace:*
@@ -1042,9 +1030,12 @@ importers:
       '@aiknew/shared-ui-utils':
         specifier: workspace:*
         version: link:../../utils
-      '@vee-validate/zod':
+      '@tanstack/vue-form':
+        specifier: ^1.19.2
+        version: 1.19.2(vue@3.5.17(typescript@5.8.3))
+      '@vueuse/core':
         specifier: catalog:ui
-        version: 4.15.1(vue@3.5.17(typescript@5.8.3))(zod@3.25.56)
+        version: 13.4.0(vue@3.5.17(typescript@5.8.3))
       element-plus:
         specifier: catalog:ui
         version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
@@ -1054,15 +1045,12 @@ importers:
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.10
-      vee-validate:
-        specifier: catalog:ui
-        version: 4.15.1(vue@3.5.17(typescript@5.8.3))
       vue:
         specifier: catalog:ui
         version: 3.5.17(typescript@5.8.3)
       zod:
         specifier: catalog:ui
-        version: 3.25.56
+        version: 4.0.17
     devDependencies:
       '@aiknew/shared-types':
         specifier: workspace:*
@@ -1076,6 +1064,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: catalog:ui
         version: 6.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
+      '@vitejs/plugin-vue-jsx':
+        specifier: catalog:ui
+        version: 5.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
       typescript:
         specifier: catalog:common
         version: 5.8.3
@@ -3222,6 +3213,9 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6
 
+  '@tanstack/form-core@1.19.2':
+    resolution: {integrity: sha512-g2VkZCHEQUxnPOtF+vNHQDGvmrXfMpvN1T27M+G2R/eeH2vImxEdzVzAVIR71DZ5X3QtC9rm+nR64MJrjI+yXQ==}
+
   '@tanstack/match-sorter-utils@8.19.4':
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
     engines: {node: '>=12'}
@@ -3231,6 +3225,14 @@ packages:
 
   '@tanstack/query-devtools@5.81.2':
     resolution: {integrity: sha512-jCeJcDCwKfoyyBXjXe9+Lo8aTkavygHHsUHAlxQKKaDeyT0qyQNLKl7+UyqYH2dDF6UN/14873IPBHchcsU+Zg==}
+
+  '@tanstack/store@0.7.2':
+    resolution: {integrity: sha512-RP80Z30BYiPX2Pyo0Nyw4s1SJFH2jyM6f9i3HfX4pA+gm5jsnYryscdq2aIQLnL4TaGuQMO+zXmN9nh1Qck+Pg==}
+
+  '@tanstack/vue-form@1.19.2':
+    resolution: {integrity: sha512-URbzwXQ8NlTg6LVLhTQW6Ugn8zwNLk4aF8cckpJoaVS8OdsXoXZ0/vH/DW2BmXTsE/Ac+WiA63Yjx8HHOjfKnA==}
+    peerDependencies:
+      vue: ^3.4.0
 
   '@tanstack/vue-query-devtools@5.81.2':
     resolution: {integrity: sha512-/QA8JirZU1Y7e0ErgfmhGFEiBnE9ux8z2bRAiligQegEW3g7q9xxXfztu7UEbfLmbQANCLBGw/kCXH3DwTXSLw==}
@@ -3243,6 +3245,15 @@ packages:
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
+  '@tanstack/vue-store@0.7.3':
+    resolution: {integrity: sha512-UExSdMWnuMdOLoGO/1djkV0SS82OEr9iKjnwRyoeRy5UhRsLwKdvqWlin949n2K/KlZqLaws+/oYoxLv/CF7Mg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.2.1
+      vue: ^2.5.0 || ^3.0.0
     peerDependenciesMeta:
       '@vue/composition-api':
         optional: true
@@ -3649,11 +3660,6 @@ packages:
     resolution: {integrity: sha512-YWOQ6myBVPs+mhNjfdWsQyMRWUlrDLMoaG7nvf/G6Y3GKZf8AyjFDjvvJ49XWQ+DaZOftGkHmF1uh/DBeGivJQ==}
     peerDependencies:
       '@uppy/core': ^2.3.3
-
-  '@vee-validate/zod@4.15.1':
-    resolution: {integrity: sha512-329Z4TDBE5Vx0FdbA8S4eR9iGCFFUNGbxjpQ20ff5b5wGueScjocUIx9JHPa79LTG06RnlUR4XogQsjN4tecKA==}
-    peerDependencies:
-      zod: ^3.24.0
 
   '@vitejs/plugin-vue-jsx@5.0.0':
     resolution: {integrity: sha512-wsUq9YvXvXNUsyTWUHEPCGrnrF5bsnvQlg/yKJsALfV4MSVXp9IS9uiCfLXRUSpX806+zaDm2Z9yd6tU9Gaz0A==}
@@ -8224,11 +8230,6 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vee-validate@4.15.1:
-    resolution: {integrity: sha512-DkFsiTwEKau8VIxyZBGdO6tOudD+QoUBPuHj3e6QFqmbfCRj1ArmYWue9lEp6jLSWBIw4XPlDLjFIZNLdRAMSg==}
-    peerDependencies:
-      vue: ^3.4.26
-
   verror@1.10.0:
     resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
@@ -8616,6 +8617,9 @@ packages:
 
   zod@3.25.56:
     resolution: {integrity: sha512-rd6eEF3BTNvQnR2e2wwolfTmUTnp70aUTqr0oaGbHifzC3BKJsoV+Gat8vxUMR1hwOKBs6El+qWehrHbCpW6SQ==}
+
+  zod@4.0.17:
+    resolution: {integrity: sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ==}
 
 snapshots:
 
@@ -11160,6 +11164,10 @@ snapshots:
       tailwindcss: 4.1.10
       vite: 7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
 
+  '@tanstack/form-core@1.19.2':
+    dependencies:
+      '@tanstack/store': 0.7.2
+
   '@tanstack/match-sorter-utils@8.19.4':
     dependencies:
       remove-accents: 0.5.0
@@ -11167,6 +11175,16 @@ snapshots:
   '@tanstack/query-core@5.81.2': {}
 
   '@tanstack/query-devtools@5.81.2': {}
+
+  '@tanstack/store@0.7.2': {}
+
+  '@tanstack/vue-form@1.19.2(vue@3.5.17(typescript@5.8.3))':
+    dependencies:
+      '@tanstack/form-core': 1.19.2
+      '@tanstack/vue-store': 0.7.3(vue@3.5.17(typescript@5.8.3))
+      vue: 3.5.17(typescript@5.8.3)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
   '@tanstack/vue-query-devtools@5.81.2(@tanstack/vue-query@5.81.2(vue@3.5.17(typescript@5.8.3)))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
@@ -11179,6 +11197,12 @@ snapshots:
       '@tanstack/match-sorter-utils': 8.19.4
       '@tanstack/query-core': 5.81.2
       '@vue/devtools-api': 6.6.4
+      vue: 3.5.17(typescript@5.8.3)
+      vue-demi: 0.14.10(vue@3.5.17(typescript@5.8.3))
+
+  '@tanstack/vue-store@0.7.3(vue@3.5.17(typescript@5.8.3))':
+    dependencies:
+      '@tanstack/store': 0.7.2
       vue: 3.5.17(typescript@5.8.3)
       vue-demi: 0.14.10(vue@3.5.17(typescript@5.8.3))
 
@@ -11683,14 +11707,6 @@ snapshots:
       '@uppy/core': 2.3.4
       '@uppy/utils': 4.1.3
       nanoid: 3.3.11
-
-  '@vee-validate/zod@4.15.1(vue@3.5.17(typescript@5.8.3))(zod@3.25.56)':
-    dependencies:
-      type-fest: 4.41.0
-      vee-validate: 4.15.1(vue@3.5.17(typescript@5.8.3))
-      zod: 3.25.56
-    transitivePeerDependencies:
-      - vue
 
   '@vitejs/plugin-vue-jsx@5.0.0(vite@7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))':
     dependencies:
@@ -16848,12 +16864,6 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vee-validate@4.15.1(vue@3.5.17(typescript@5.8.3)):
-    dependencies:
-      '@vue/devtools-api': 7.7.7
-      type-fest: 4.41.0
-      vue: 3.5.17(typescript@5.8.3)
-
   verror@1.10.0:
     dependencies:
       assert-plus: 1.0.0
@@ -17337,3 +17347,5 @@ snapshots:
       zod: 3.25.56
 
   zod@3.25.56: {}
+
+  zod@4.0.17: {}

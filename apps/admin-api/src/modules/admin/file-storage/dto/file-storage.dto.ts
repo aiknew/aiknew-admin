@@ -6,6 +6,8 @@ export class FileStorageDto {
 
   name: string
 
+  hostname: string
+
   active: boolean
 
   @ApiProperty({ enumName: 'StorageType', enum: StorageType })

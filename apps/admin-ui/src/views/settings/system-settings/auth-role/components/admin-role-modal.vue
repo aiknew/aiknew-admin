@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, nextTick, h, computed, useTemplateRef } from 'vue'
+import { ref, h, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { AppForm, makeFields } from '@aiknew/shared-ui-form'
+import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminRoleI18n } from '../composables/use-admin-role-i18n'
 import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
-import { useAuthRouteChildren, type AuthRoute, type AuthRouteAncestorsDto } from '@/api/auth-route'
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import { type AuthRoute } from '@/api/auth-route'
 import { useAdminRoleRouteData } from '../composables/use-admin-role-route-data'
 import { tField } from '@aiknew/shared-ui-locales'
 
@@ -21,67 +20,74 @@ const emit = defineEmits<Emits>()
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAdminRoleI18n()
-const appFormRef = useTemplateRef('appFormRef')
 const { mutateAsync: createRole } = useAuthRoleCreate()
 const { mutateAsync: updateRole } = useAuthRoleUpdate()
 const editId = ref('0')
 const { defaultExpandedKeys, setSelectedKeys, fetchRouteAncestors, loadNode } =
   useAdminRoleRouteData()
 
-const fields = makeFields(
-  {
-    as: 'ElInput',
-    label: 'roleNameLabel',
-    name: 'roleName',
-    translation: true,
-    rules: langStore.buildTranslationSchema(
-      z.string().nonempty({ message: 'translationRequired' }),
-      ''
-    )
-  },
-  {
-    as: 'ElTreeSelect',
-    label: 'permissionsLabel',
-    name: 'routes',
-    rules: z.array(z.string()),
-    attrs: {
-      multiple: true,
-      valueKey: 'id',
-      nodeKey: 'id',
-      lazy: true,
-      checkStrictly: true,
-      defaultExpandedKeys,
-      props: {
-        label: (data: AuthRoute) => tField(data.translations, 'routeName').value
+const languages = langStore.enabledLangs
+const { AppForm, formApi } = useAppForm({
+  languages,
+  fields: () =>
+    [
+      {
+        as: 'ElInput',
+        label: t('roleNameLabel'),
+        name: 'roleName',
+        i18n: true,
+        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        // rules: langStore.buildTranslationSchema(
+        //   z.string().nonempty({ message: 'translationRequired' }),
+        //   ''
+        // )
       },
-      load: loadNode
-    }
-  },
-  {
-    as: 'ElInputNumber',
-    label: 'order',
-    name: 'order',
-    formItemSlots: {
-      default() {
-        return [h('div', { class: ['w-full'] }, t('orderTips'))]
+      {
+        as: {
+          component: 'ElTreeSelect',
+          props: {
+            multiple: true,
+            valueKey: 'id',
+            nodeKey: 'id',
+            lazy: true,
+            checkStrictly: true,
+            defaultExpandedKeys: defaultExpandedKeys.value,
+            props: {
+              label: (data: AuthRoute) => tField(data.translations, 'routeName').value
+            },
+            load: loadNode
+          }
+        },
+        label: t('permissionsLabel'),
+        name: 'routes',
+        schema: z.array(z.string()).default([]).optional()
+      },
+      {
+        as: 'ElInputNumber',
+        label: t('order'),
+        name: 'order',
+        container: {
+          bottomSlot() {
+            return h(AppFormItemTips, { text: t('orderTips') })
+          }
+        },
+        schema: z.number().default(10)
       }
-    },
-    rules: z.number().default(10)
-  }
-)
-
-const handleSubmit = () => {
-  appFormRef.value?.submit().then(async (values) => {
+    ] as const satisfies Fields,
+  async onSubmit({ i18nValues }) {
     if (modalRef.value?.modalMode === 'add') {
-      await createRole(values)
+      await createRole({
+        ...i18nValues,
+        routes: i18nValues.routes ?? []
+      })
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateRole({ id: editId.value, body: values })
+      await updateRole({ id: editId.value, body: i18nValues })
     }
 
     emit('submit')
     handleReset()
-  })
-}
+  }
+})
 
 const add = () => {
   modalRef.value?.setModalMode('add')
@@ -99,14 +105,12 @@ const edit = (item: AuthRole) => {
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
 
-  nextTick(() => {
-    appFormRef.value?.setFormVals(item)
-  })
+  formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
   modalRef.value?.close()
-  appFormRef.value?.reset()
+  formApi.reset()
   emit('close')
 }
 
@@ -117,7 +121,7 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appFormRef" :t :fields :languages="langStore.enabledLangs" />
+  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+    <AppForm />
   </AppBasicModal>
 </template>

@@ -5,7 +5,7 @@ import type { IPaginationQuery } from '@aiknew/shared-types'
 import { type Reactive } from 'vue'
 import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type FileStorage = ApiGetData<'/admin/file-storage'>
+export type FileStorage = ApiGetData<'/admin/file-storage'>['list'][number]
 
 export type CreateFileStorageDto = ApiPostReqBody<'/admin/file-storage'>
 

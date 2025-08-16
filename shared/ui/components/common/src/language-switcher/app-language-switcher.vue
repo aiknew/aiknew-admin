@@ -3,7 +3,7 @@ import localeSVG from './icons/locale.svg'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
 
 export interface Props<LANG extends string> {
-  languages: Record<LANG, string>
+  languages: LANG[]
   currentLanguage: LANG
 }
 

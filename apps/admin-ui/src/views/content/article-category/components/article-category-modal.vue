@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, nextTick, h, computed, useTemplateRef, watch, type Ref } from 'vue'
+import { h, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { AppForm, makeFields } from '@aiknew/shared-ui-form'
+import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useArticleCategoryI18n } from '../composables/use-article-category-i18n'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { ElMessage } from 'element-plus'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import {
   useArticleCategoryCreate,
@@ -24,7 +22,6 @@ interface Emits {
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useArticleCategoryI18n()
-const appFormRef = useTemplateRef('appForm')
 const modalRef = useTemplateRef('modal')
 
 const { mutateAsync: createArticleCategory } = useArticleCategoryCreate()
@@ -32,7 +29,7 @@ const { mutateAsync: updateArticleCategory } = useArticleCategoryUpdate()
 const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds<number>()
 const {
   editId,
-  disabledSelectIds,
+  // disabledSelectIds,
   defaultExpandedKeys,
   addDisabledIds,
   fetchArticleCategoryAncestors,
@@ -41,69 +38,82 @@ const {
   resetEditId
 } = useArticleCategoryData()
 
-const fields = makeFields(
-  {
-    as: 'ElInput',
-    label: 'articleCategoryName',
-    name: 'name',
-    translation: true,
-    rules: langStore.buildTranslationSchema(
-      z.string({ message: 'translationRequired' }).nonempty({ message: 'translationRequired' }),
-      ''
-    )
-  },
-  {
-    as: 'ElTreeSelect',
-    label: 'parent',
-    name: 'parentId',
-    rules: z.number().default(0),
-    attrs: {
-      valueKey: 'id',
-      nodeKey: 'id',
-      lazy: true,
-      checkStrictly: true,
-      defaultExpandedKeys,
-      props: {
-        label: (data: ArticleCategory) => tField(data.translations, 'name').value,
-        disabled: (data: ArticleCategory) => {
-          if (editId.value === 0) {
-            return false
+const languages = langStore.enabledLangs
+const { AppForm, formApi } = useAppForm({
+  languages,
+  fields: () =>
+    [
+      {
+        as: {
+          component: 'ElInput',
+          props: {
+            placeholder: t('articleCategoryName')
           }
-
-          return isDisabled(data.id)
-        }
+        },
+        label: t('articleCategoryName'),
+        name: 'name',
+        i18n: true,
+        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        // rules: langStore.buildTranslationSchema(
+        //   z.string({ message: 'translationRequired' }).nonempty({ message: 'translationRequired' }),
+        //   ''
+        // )
       },
-      load: loadNode
-    }
-  },
-  {
-    as: 'ElInputNumber',
-    label: 'order',
-    name: 'order',
-    formItemSlots: {
-      default() {
-        return [h('div', { class: ['w-full'] }, t('orderTips'))]
+      {
+        as: {
+          component: 'ElTreeSelect',
+          props: {
+            valueKey: 'id',
+            nodeKey: 'id',
+            lazy: true,
+            checkStrictly: true,
+            defaultExpandedKeys: defaultExpandedKeys.value,
+            props: {
+              label: (data: ArticleCategory) => tField(data.translations, 'name').value,
+              disabled: (data: ArticleCategory) => {
+                if (editId.value === 0) {
+                  return false
+                }
+
+                return isDisabled(data.id)
+              }
+            },
+            load: loadNode
+          }
+        },
+        label: t('parent'),
+        name: 'parentId',
+        schema: z.number().default(0)
+      },
+      {
+        as: {
+          component: 'ElInputNumber',
+          props: {
+            min: 0
+          }
+        },
+        label: t('order'),
+        name: 'order',
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('orderTips') })
+        },
+        schema: z.number().default(10)
       }
-    },
-    rules: z.number().default(10)
-  }
-)
-
-const handleSubmit = () => {
-  appFormRef.value?.submit().then(async (values) => {
+    ] as const satisfies Fields,
+  onSubmit: async ({ i18nValues }) => {
     if (modalRef.value?.modalMode === 'add') {
-      await createArticleCategory(values)
+      await createArticleCategory(i18nValues)
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateArticleCategory({ id: editId.value, body: values })
+      await updateArticleCategory({ id: editId.value, body: i18nValues })
     }
 
-    addUpdatedParentId(values.parentId)
+    addUpdatedParentId(i18nValues.parentId)
     emit('submit', {
       updatedParentIds: getUpdatedParentIds()
     })
     handleReset()
-  })
-}
+  }
+})
 
 const add = () => {
   modalRef.value?.show()
@@ -120,15 +130,13 @@ const edit = (item: ArticleCategory) => {
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
 
-  nextTick(() => {
-    appFormRef.value?.setFormVals(item)
-  })
+  formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
   resetEditId()
   modalRef.value?.close()
-  appFormRef.value?.reset()
+  formApi.reset()
   emit('close')
 }
 
@@ -139,7 +147,7 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modal" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appForm" :t :fields :languages="langStore.enabledLangs" />
+  <AppBasicModal ref="modal" @submit="formApi.handleSubmit" @close="handleReset">
+    <AppForm />
   </AppBasicModal>
 </template>

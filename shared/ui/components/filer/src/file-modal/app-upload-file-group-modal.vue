@@ -2,7 +2,7 @@
 import { h, nextTick, ref, useTemplateRef } from 'vue'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { AppForm, makeFields } from '@aiknew/shared-ui-form'
+import { AppFormItemTips, Fields, useAppForm } from '@aiknew/shared-ui-form'
 import type {
   IUploadFileGroup,
   ICreateUploadFileGroup,
@@ -50,52 +50,53 @@ const {
 } = defineProps<Props>()
 
 const { t } = useFileI18n()
-const appFormRef = useTemplateRef('appForm')
 const modalRef = useTemplateRef('modal')
 const currentEditGroupID = ref('')
 
-const fields = makeFields(
-  {
-    as: 'ElInput',
-    label: 'fileGroupName',
-    name: 'groupName',
-    rules: z.string(),
-    attrs: {
-      placeholder: t('enterGroupName'),
-    },
-  },
-  {
-    as: 'ElTreeSelect',
-    label: 'parent',
-    name: 'parentId',
-    rules: z.string().default('0'),
-    attrs: {
-      valueKey: 'id',
-      nodeKey: 'id',
-      lazy: true,
-      checkStrictly: true,
-      defaultExpandedKeys: defaultExpandedTreeNodeKeys,
-      props: {
-        label: t('groupName'),
+const { AppForm, formApi } = useAppForm({
+  fields: () =>
+    [
+      {
+        as: {
+          component: 'ElInput',
+          props: {
+            placeholder: t('enterGroupName'),
+          },
+        },
+        label: t('fileGroupName'),
+        name: 'groupName',
+        schema: z.string().default(''),
       },
-      load: loadGroupTreeNode,
-    },
-  },
-  {
-    as: 'ElInputNumber',
-    label: 'order',
-    name: 'order',
-    rules: z.number().default(10),
-    formItemSlots: {
-      default() {
-        return [h('div', { class: ['w-full'] }, t('orderTips'))]
+      {
+        as: {
+          component: 'ElTreeSelect',
+          props: {
+            valueKey: 'id',
+            nodeKey: 'id',
+            lazy: true,
+            checkStrictly: true,
+            defaultExpandedKeys: defaultExpandedTreeNodeKeys,
+            props: {
+              label: t('groupName'),
+            },
+            load: loadGroupTreeNode,
+          },
+        },
+        label: t('parent'),
+        name: 'parentId',
+        schema: z.string().default('0'),
       },
-    },
-  },
-)
-
-const handleSubmit = () => {
-  appFormRef.value?.submit().then(async (values) => {
+      {
+        as: 'ElInputNumber',
+        label: t('order'),
+        name: 'order',
+        schema: z.number().default(10),
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('orderTips') }),
+        },
+      },
+    ] as const satisfies Fields,
+  async onSubmit({ values }) {
     switch (modalRef.value?.modalMode) {
       case 'add':
         await createFileGroup(values)
@@ -109,8 +110,8 @@ const handleSubmit = () => {
     }
     handleReset()
     emit('submit')
-  })
-}
+  },
+})
 
 const add = () => {
   modalRef.value?.setTitle(t('addFileGroup'))
@@ -118,10 +119,10 @@ const add = () => {
   modalRef.value?.show()
 
   nextTick(() => {
-    appFormRef.value?.setFormVals({
+    formApi.reset({
       parentId: currentGroupId ?? '0',
       order: 10,
-      groupName: undefined,
+      groupName: '',
     })
   })
 }
@@ -132,14 +133,12 @@ const edit = (data: IUploadFileGroup) => {
   modalRef.value?.show()
   currentEditGroupID.value = data.id
 
-  nextTick(() => {
-    appFormRef.value?.setFormVals(data)
-  })
+  formApi.reset(data, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
   modalRef.value?.close()
-  appFormRef.value?.reset()
+  formApi.reset()
   emit('close', currentEditGroupID.value)
 }
 
@@ -153,11 +152,11 @@ defineExpose({
   <AppBasicModal
     append-to-body
     ref="modal"
-    @submit="handleSubmit"
+    @submit="formApi.handleSubmit"
     @close="handleReset"
     destroy-on-close
   >
-    <AppForm ref="appForm" :t :fields />
+    <AppForm />
   </AppBasicModal>
 </template>
 

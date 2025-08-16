@@ -12,28 +12,29 @@
     "./style.css": "./dist/shared-ui-form.css"
   },
   "peerDependencies": {
-    "vue": "catalog:ui",
-    "element-plus": "catalog:ui",
     "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/shared-ui-utils": "workspace:*",
+    "@vueuse/core": "catalog:ui",
+    "element-plus": "catalog:ui",
     "tailwindcss": "catalog:ui",
-    "@aiknew/shared-ui-utils": "workspace:*"
+    "vue": "catalog:ui"
   },
   "dependencies": {
-    "vee-validate": "catalog:ui",
-    "@vee-validate/zod": "catalog:ui",
-    "zod": "catalog:ui",
-    "lodash-es": "catalog:common"
+    "@tanstack/vue-form": "^1.19.2",
+    "lodash-es": "catalog:common",
+    "zod": "catalog:ui"
   },
   "devDependencies": {
-    "@aiknew/shared-ui-types": "workspace:*",
     "@aiknew/shared-types": "workspace:*",
-    "vue-component-type-helpers": "catalog:ui",
+    "@aiknew/shared-ui-types": "workspace:*",
+    "@types/lodash-es": "catalog:common",
     "@vitejs/plugin-vue": "catalog:ui",
     "typescript": "catalog:common",
-    "@types/lodash-es": "catalog:common",
     "vite": "catalog:ui",
-    "vite-plugin-dts": "catalog:ui"
+    "vite-plugin-dts": "catalog:ui",
+    "@vitejs/plugin-vue-jsx": "catalog:ui",
+    "vue-component-type-helpers": "catalog:ui"
   },
   "scripts": {
     "dev": "vite",

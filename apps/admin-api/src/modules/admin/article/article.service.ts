@@ -62,22 +62,18 @@ export class ArticleService {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
           case 'P2003':
-            if (err.meta?.field_name === 'articleCategoryId') {
-              throw new AppBadRequestException(
-                this.i18n.t('article.invalidCategoryId', {
-                  lang: I18nContext.current()?.lang,
-                }),
-              )
-            }
-            break
+            throw new AppBadRequestException(
+              this.i18n.t('article.invalidCategoryId', {
+                lang: I18nContext.current()?.lang,
+              }),
+            )
+
           case 'P2002':
-            if (err.meta?.target === 'ArticleTranslation_title_key') {
-              throw new AppBadRequestException(
-                this.i18n.t('article.invalidTitle', {
-                  lang: I18nContext.current()?.lang,
-                }),
-              )
-            }
+            throw new AppBadRequestException(
+              this.i18n.t('article.invalidTitle', {
+                lang: I18nContext.current()?.lang,
+              }),
+            )
         }
       }
       throw err

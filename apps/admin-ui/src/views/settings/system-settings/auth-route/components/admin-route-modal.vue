@@ -1,21 +1,12 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, nextTick, h, computed, useTemplateRef, type ComputedRef } from 'vue'
+import { h, computed, useTemplateRef, ref } from 'vue'
 import { z } from 'zod'
-import { AppForm, AppFormItemTips, makeFields, type Field } from '@aiknew/shared-ui-form'
+import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAdminRouteI18n } from '../composables/use-admin-route-i18n'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import {
-  useAuthRouteAncestors,
-  useAuthRouteChildren,
-  useAuthRouteCreate,
-  useAuthRouteUpdate,
-  type AuthRoute,
-  type AuthRouteAncestorsDto,
-  type RouteType
-} from '@/api/auth-route'
-import { useAuthApiChildren, useAuthApisAncestors, type AuthApi } from '@/api/auth-api'
+import { useAuthRouteCreate, useAuthRouteUpdate, type AuthRoute } from '@/api/auth-route'
+import { type AuthApi } from '@/api/auth-api'
 import { useAdminRouteApiData } from '../composables/use-admin-route-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import { useAdminRouteData } from '../composables/use-admin-route-data'
@@ -28,7 +19,6 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-const appFormRef = useTemplateRef('appFormRef')
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAdminRouteI18n()
@@ -37,210 +27,208 @@ const { defaultExpandedApiKeys, setSelectedApiKeys, fetchApiAncestors, loadApiNo
   useAdminRouteApiData()
 const {
   editRouteId,
-  parentRouteId,
+  // parentRouteId,
   defaultExpandedRouteKeys,
   setEditRouteId,
   fetchRouteAncestors,
   loadNode
 } = useAdminRouteData()
 
-const isMenu = computed<boolean>(
-  () => appFormRef.value?.values['type'] === 'MENU'
-) as ComputedRef<boolean>
-
-const isButton = computed<boolean>(
-  () => appFormRef.value?.values['type'] === 'BUTTON'
-) as ComputedRef<boolean>
-
-const isSmallGroup = computed<boolean>(
-  () => appFormRef.value?.values['type'] === 'SMALL_GROUP'
-) as ComputedRef<boolean>
-
-const fields = makeFields(
-  {
-    as: 'ElRadio',
-    label: 'routeType',
-    name: 'type',
-    rules: z
-      .union([z.literal('MENU'), z.literal('BUTTON'), z.literal('GROUP'), z.literal('SMALL_GROUP')])
-      .default('MENU'),
-    options: [
-      { label: 'routeTypeMenu', value: 'MENU' },
-      { label: 'routeTypeButton', value: 'BUTTON' },
-      { label: 'routeTypeGroup', value: 'GROUP' },
-      { label: 'routeTypeSmallGroup', value: 'SMALL_GROUP' }
-    ]
-  },
-  {
-    as: 'ElTreeSelect',
-    label: 'parent',
-    name: 'parentId',
-    rules: z.string().default('0'),
-    attrs: {
-      valueKey: 'id',
-      nodeKey: 'id',
-      lazy: true,
-      checkStrictly: true,
-      defaultExpandedKeys: defaultExpandedRouteKeys,
-      props: {
-        label: (data: AuthRoute) => tField(data.translations, 'routeName').value,
-        disabled: (data: AuthRoute) => {
-          return data.id === editRouteId.value && data.id !== '0'
-        },
-        isLeaf: (data: AuthRoute) => {
-          return data.id === editRouteId.value && data.id !== '0'
-        }
-      },
-      load: loadNode
-    }
-  },
-  {
-    enabled: computed(() => !(isButton.value || isSmallGroup.value)),
-    as: 'ElInput',
-    label: 'iconLabel',
-    name: 'icon',
-    rules: z.string().nonempty()
-  },
-  {
-    enabled: isMenu,
-    as: 'ElInput',
-    label: 'redirectLabel',
-    name: 'redirect',
-    rules: z.string().optional()
-  },
-  {
-    enabled: () => !isButton.value,
-    as: 'ElSwitch',
-    label: 'hiddenLabel',
-    name: 'hidden',
-    rules: z.boolean().default(false),
-    formItemSlots: {
-      default() {
-        return [h(AppFormItemTips, { text: t('hiddenTips') })]
-      }
-    }
-  },
-  {
-    enabled: isMenu,
-    as: 'ElInput',
-    label: 'componentLabel',
-    name: 'component',
-    rules: z.string().nonempty(),
-    attrs: {
-      slots: {
-        prepend() {
-          return [h('div', '@/views/')]
-        },
-        append() {
-          return [h('div', '.vue')]
-        }
-      }
-    },
-    formItemSlots: {
-      default() {
-        return [h(AppFormItemTips, { text: t('componentTips') })]
-      }
-    }
-  },
-  {
-    enabled: isMenu,
-    as: 'ElSwitch',
-    label: 'statusLabel',
-    name: 'status',
-    rules: z.boolean().default(false),
-    formItemSlots: {
-      default() {
-        return [h(AppFormItemTips, { text: t('statusTips') })]
-      }
-    }
-  },
-  {
-    enabled: isMenu,
-    as: 'ElInput',
-    label: 'pathLabel',
-    name: 'path',
-    rules: z.string().nonempty()
-  },
-  {
-    enabled: isButton,
-    as: 'ElInput',
-    label: 'keyLabel',
-    name: 'key',
-    rules: z.string().nonempty(),
-    formItemSlots: {
-      default() {
-        return [h('div', { class: ['w-full'] }, t('keyTips'))]
-      }
-    }
-  },
-
-  {
-    enabled: () => isMenu.value || isButton.value,
-    as: 'ElTreeSelect',
-    label: 'apiLabel',
-    name: 'apis',
-    rules: z.array(z.string()).nonempty(),
-    attrs: {
-      multiple: true,
-      valueKey: 'id',
-      nodeKey: 'id',
-      lazy: true,
-      checkStrictly: true,
-      defaultExpandedKeys: defaultExpandedApiKeys,
-      props: {
-        label: (data: AuthApi) => tField(data.translations, 'apiName').value
-      },
-      load: loadApiNode
-    }
-  },
-
-  {
-    as: 'ElInput',
-    label: 'routeNameLabel',
-    name: 'routeName',
-    translation: true,
-    rules: langStore.buildTranslationSchema(
-      z.string({ message: 'translationRequired' }).nonempty({ message: 'translationRequired' })
-    )
-  },
-  {
-    as: 'ElInputNumber',
-    label: 'order',
-    name: 'order',
-    formItemSlots: {
-      default() {
-        return [h('div', { class: ['w-full'] }, t('orderTips'))]
-      }
-    },
-    rules: z.number().default(10)
-  }
-)
+const isMenu = ref(true)
+const isButton = ref(false)
+const isSmallGroup = ref(false)
 
 const { mutateAsync: createRoute } = useAuthRouteCreate()
 const { mutateAsync: updateRoute } = useAuthRouteUpdate()
 
-const handleSubmit = () => {
-  appFormRef.value
-    ?.submit()
-    .then(async (values) => {
-      console.log('submit: ', values)
-      if (modalRef.value?.modalMode === 'add') {
-        await createRoute(values)
-      } else if (modalRef.value?.modalMode === 'edit') {
-        await updateRoute({ id: editRouteId.value, body: values })
+const languages = langStore.enabledLangs
+const { AppForm, formApi } = useAppForm({
+  languages,
+  fields: () =>
+    [
+      {
+        as: {
+          component: 'ElRadio',
+          props: {
+            options: [
+              { label: t('routeTypeMenu'), value: 'MENU' },
+              { label: t('routeTypeButton'), value: 'BUTTON' },
+              { label: t('routeTypeGroup'), value: 'GROUP' },
+              { label: t('routeTypeSmallGroup'), value: 'SMALL_GROUP' }
+            ]
+          }
+        },
+        label: t('routeType'),
+        name: 'type',
+        schema: z
+          .union([
+            z.literal('MENU'),
+            z.literal('BUTTON'),
+            z.literal('GROUP'),
+            z.literal('SMALL_GROUP')
+          ])
+          .default('MENU')
+      },
+      {
+        as: {
+          component: 'ElTreeSelect',
+          props: {
+            valueKey: 'id',
+            nodeKey: 'id',
+            lazy: true,
+            checkStrictly: true,
+            defaultExpandedKeys: defaultExpandedRouteKeys.value,
+            props: {
+              label: (data: AuthRoute) => tField(data.translations, 'routeName').value,
+              disabled: (data: AuthRoute) => {
+                return data.id === editRouteId.value && data.id !== '0'
+              },
+              isLeaf: (data: AuthRoute) => {
+                return data.id === editRouteId.value && data.id !== '0'
+              }
+            },
+            load: loadNode
+          }
+        },
+        label: t('parent'),
+        name: 'parentId',
+        schema: z.string().default('0')
+      },
+      {
+        when: computed(() => !(isButton.value || isSmallGroup.value)),
+        as: 'ElInput',
+        label: t('iconLabel'),
+        name: 'icon',
+        schema: z.string().default('').optional()
+      },
+      {
+        when: isMenu,
+        as: 'ElInput',
+        label: t('redirectLabel'),
+        name: 'redirect',
+        schema: z.string().default('').optional()
+      },
+      {
+        when: () => !isButton.value,
+        as: 'ElSwitch',
+        label: t('hiddenLabel'),
+        name: 'hidden',
+        schema: z.boolean().default(false),
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('hiddenTips') })
+        }
+      },
+      {
+        when: isMenu,
+        as: {
+          component: 'ElInput',
+          slots: {
+            prepend() {
+              return [h('div', '@/views/')]
+            },
+            append() {
+              return [h('div', '.vue')]
+            }
+          }
+        },
+        label: t('componentLabel'),
+        name: 'component',
+        schema: z.string().nonempty().default(''),
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('componentTips') })
+        }
+      },
+      {
+        when: isMenu,
+        as: 'ElSwitch',
+        label: t('statusLabel'),
+        name: 'status',
+        schema: z.boolean().default(false),
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('statusTips') })
+        }
+      },
+      {
+        when: isMenu,
+        as: 'ElInput',
+        label: t('pathLabel'),
+        name: 'path',
+        schema: z.string().nonempty().default('')
+      },
+      {
+        when: isButton,
+        as: 'ElInput',
+        label: t('keyLabel'),
+        name: 'key',
+        schema: z.string().nonempty().default(''),
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('keyTips') })
+        }
+      },
+
+      {
+        when: () => isMenu.value || isButton.value,
+        as: {
+          component: 'ElTreeSelect',
+          props: {
+            multiple: true,
+            valueKey: 'id',
+            nodeKey: 'id',
+            lazy: true,
+            checkStrictly: true,
+            defaultExpandedKeys: defaultExpandedApiKeys.value,
+            props: {
+              label: (data: AuthApi) => tField(data.translations, 'apiName').value
+            },
+            load: loadApiNode
+          }
+        },
+        label: t('apiLabel'),
+        name: 'apis',
+        schema: z.array(z.string()).nonempty().default([])
+      },
+
+      {
+        as: 'ElInput',
+        label: t('routeNameLabel'),
+        name: 'routeName',
+        i18n: true,
+        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        // rules: langStore.buildTranslationSchema(
+        //   z.string({ message: 'translationRequired' }).nonempty({ message: 'translationRequired' })
+        // )
+      },
+      {
+        as: 'ElInputNumber',
+        label: t('order'),
+        name: 'order',
+        container: {
+          bottomSlot: h(AppFormItemTips, { text: t('orderTips') })
+        },
+        schema: z.number().default(10)
       }
+    ] as const satisfies Fields,
+  async onSubmit({ i18nValues }) {
+    if (modalRef.value?.modalMode === 'add') {
+      await createRoute(i18nValues)
+    } else if (modalRef.value?.modalMode === 'edit') {
+      await updateRoute({ id: editRouteId.value, body: i18nValues })
+    }
 
-      addUpdatedParentId(values.parentId)
+    addUpdatedParentId(i18nValues.parentId)
 
-      emit('submit', {
-        updatedParentIds: getUpdatedParentIds()
-      })
-      handleReset()
+    emit('submit', {
+      updatedParentIds: getUpdatedParentIds()
     })
-    .catch((err) => {
-      console.log('err: ', err)
-    })
-}
+    handleReset()
+  }
+})
+
+formApi.useStore((state) => {
+  isButton.value = state.values.type === 'BUTTON'
+  isMenu.value = state.values.type === 'MENU'
+  isSmallGroup.value = state.values.type === 'SMALL_GROUP'
+})
 
 const add = async () => {
   modalRef.value?.setModalMode('add')
@@ -259,14 +247,12 @@ const edit = async (item: AuthRoute) => {
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
-  nextTick(() => {
-    appFormRef.value?.setFormVals(item)
-  })
+  formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
   modalRef.value?.close()
-  appFormRef.value?.reset()
+  formApi.reset()
   emit('close')
 }
 
@@ -277,8 +263,8 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="handleSubmit" @close="handleReset">
-    <AppForm ref="appFormRef" :t :fields :languages="langStore.enabledLangs" />
+  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+    <AppForm />
   </AppBasicModal>
 </template>
 

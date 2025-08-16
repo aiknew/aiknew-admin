@@ -42,7 +42,13 @@ const defaultData: IUploadFilesAndGroupsData = {
   groupList: [],
   pageSize: 10,
   total: 0,
-  storages: [],
+  storage: {
+    active: false,
+    bucket: '',
+    hostname: '',
+    id: '',
+    type: 'LOCAL',
+  },
 }
 
 const refresh = () => {

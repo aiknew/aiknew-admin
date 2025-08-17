@@ -43,6 +43,7 @@
     "cuid",
     "dtos",
     "nodenext",
+    "popconfirm",
     "vueuse"
   ],
   "typescript.tsdk": "node_modules/.pnpm/typescript@5.8.2/node_modules/typescript/lib",

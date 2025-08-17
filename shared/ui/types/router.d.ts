@@ -19,7 +19,7 @@ export interface CustomRouteMeta {
 export type RouteHistory = {
   path: string
   meta: {
-    name: string
+    name: ComputedRef<string> | string
     icon?: string
   }
 }

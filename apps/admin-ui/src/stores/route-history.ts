@@ -2,11 +2,11 @@ import router from '@/router'
 import { tField } from '@aiknew/shared-ui-locales'
 import type { RouteHistory } from '@aiknew/shared-ui-types'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 import { isNavigationFailure, NavigationFailureType, type RouteRecordNormalized } from 'vue-router'
 
 export const useRouteHistoryStore = defineStore('route-history', () => {
-  const routeHistory = ref<RouteHistory[]>([])
+  const routeHistory = shallowRef<RouteHistory[]>([])
 
   const _getRedirectedLocation = (
     path: string,
@@ -35,7 +35,7 @@ export const useRouteHistoryStore = defineStore('route-history', () => {
             path: redirectedRoute.path,
             meta: {
               name: redirectedRoute.meta.translations
-                ? tField(redirectedRoute.meta.translations, 'routeName').value
+                ? tField(redirectedRoute.meta.translations, 'routeName')
                 : '',
               icon: redirectedRoute.meta.icon
             }
@@ -50,9 +50,10 @@ export const useRouteHistoryStore = defineStore('route-history', () => {
     if (!exists) {
       if (type === 'replace') {
         // delete last route from the route history
-        routeHistory.value.pop()
+        routeHistory.value = routeHistory.value.slice(0, routeHistory.value.length - 2)
       }
-      return routeHistory.value.push(route)
+
+      routeHistory.value = [...routeHistory.value, route]
     }
   }
 

@@ -39,7 +39,7 @@ router.beforeResolve((to) => {
       {
         path: to.fullPath,
         meta: {
-          name: to.meta.translations ? tField(to.meta.translations, 'routeName').value : '',
+          name: to.meta.translations ? tField(to.meta.translations, 'routeName') : '',
           icon: to.meta.icon
         }
       },

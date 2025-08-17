@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, toValue } from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { resolveQueryStr } from '@aiknew/shared-ui-utils'
 import { RouteHistory } from '@aiknew/shared-ui-types'
@@ -51,7 +51,7 @@ const handleClick = ({
       <el-tab-pane
         v-for="item in history"
         :key="item.path"
-        :label="item.meta.name"
+        :label="toValue(item.meta.name)"
         :name="item.path"
       >
         <template #label>
@@ -59,7 +59,7 @@ const handleClick = ({
             <el-icon size="16" v-if="item.meta.icon">
               <component :is="item.meta.icon" />
             </el-icon>
-            <span class="tab-item-name">{{ item.meta.name }}</span>
+            <span class="tab-item-name">{{ toValue(item.meta.name) }}</span>
           </div>
         </template>
       </el-tab-pane>

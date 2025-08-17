@@ -1,8 +1,8 @@
 import { ApiExtraModels, OmitType } from '@nestjs/swagger'
-import { AuthUserDto } from '../../auth-user/dto/auth-user.dto'
+import { AdminUserDto } from '../../admin-user/dto/admin-user.dto'
 import { UserInfoRoutesDto } from './user-info-routes.dto'
 
 @ApiExtraModels(UserInfoRoutesDto)
-export class UserInfoDto extends OmitType(AuthUserDto, ['roles']) {
+export class UserInfoDto extends OmitType(AdminUserDto, ['roles']) {
   routes: UserInfoRoutesDto[]
 }

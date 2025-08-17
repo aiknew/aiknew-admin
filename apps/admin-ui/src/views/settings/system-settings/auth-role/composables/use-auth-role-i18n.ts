@@ -23,7 +23,7 @@ const messages = {
 
 let instance: Composer<typeof messages>
 
-export const useAdminRoleI18n = () => {
+export const useAuthRoleI18n = () => {
   if (!instance) {
     instance = useI18n({ messages })
   }

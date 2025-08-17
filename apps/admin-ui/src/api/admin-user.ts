@@ -5,19 +5,19 @@ import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import type { Reactive } from 'vue'
 import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type AuthUser = ApiGetData<'/admin/auth-user'>['list'][number]
+export type AdminUser = ApiGetData<'/admin/admin-user'>['list'][number]
 
-export type CreateAuthUserDto = ApiPostReqBody<'/admin/auth-user'>
+export type CreateAdminUserDto = ApiPostReqBody<'/admin/admin-user'>
 
-export type UpdateAuthUserDto = ApiPatchReqBody<'/admin/auth-user/{id}'>
+export type UpdateAdminUserDto = ApiPatchReqBody<'/admin/admin-user/{id}'>
 
-export const useAuthUserList = (query: Reactive<IPaginationQuery>) => {
+export const useAdminUserList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
-    queryKey: ['auth-user', query],
+    queryKey: ['admin-user', query],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       return useApiData(() =>
-        fetchClient.GET('/admin/auth-user', {
+        fetchClient.GET('/admin/admin-user', {
           params: {
             query
           },
@@ -28,12 +28,12 @@ export const useAuthUserList = (query: Reactive<IPaginationQuery>) => {
   })
 }
 
-export const useAuthUserCreate = () => {
+export const useAdminUserCreate = () => {
   return useMutation({
-    mutationKey: ['create-auth-user'],
-    mutationFn: (body: CreateAuthUserDto) => {
+    mutationKey: ['create-admin-user'],
+    mutationFn: (body: CreateAdminUserDto) => {
       return useApiData(() =>
-        fetchClient.POST('/admin/auth-user', {
+        fetchClient.POST('/admin/admin-user', {
           body
         })
       )
@@ -41,12 +41,12 @@ export const useAuthUserCreate = () => {
   })
 }
 
-export const useAuthUserUpdate = () => {
+export const useAdminUserUpdate = () => {
   return useMutation({
-    mutationKey: ['update-auth-user'],
-    mutationFn: ({ id, body }: { id: string; body: UpdateAuthUserDto }) => {
+    mutationKey: ['update-admin-user'],
+    mutationFn: ({ id, body }: { id: string; body: UpdateAdminUserDto }) => {
       return useApiData(() =>
-        fetchClient.PATCH('/admin/auth-user/{id}', {
+        fetchClient.PATCH('/admin/admin-user/{id}', {
           params: {
             path: {
               id
@@ -59,12 +59,12 @@ export const useAuthUserUpdate = () => {
   })
 }
 
-export const useAuthUserDelete = () => {
+export const useAdminUserDelete = () => {
   return useMutation({
-    mutationKey: ['delete-auth-user'],
+    mutationKey: ['delete-admin-user'],
     mutationFn: (id: string) => {
       return useApiData(() =>
-        fetchClient.DELETE('/admin/auth-user/{id}', {
+        fetchClient.DELETE('/admin/admin-user/{id}', {
           params: {
             path: {
               id

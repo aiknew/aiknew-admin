@@ -1,4 +1,4 @@
-export class AuthUserDto {
+export class AdminUserDto {
   id: string
 
   userName: string

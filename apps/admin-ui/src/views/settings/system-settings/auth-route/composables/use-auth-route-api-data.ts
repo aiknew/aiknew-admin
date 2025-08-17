@@ -2,21 +2,21 @@ import { useAuthApiChildren, useAuthApisAncestors, type AuthApi } from '@/api/au
 import { computed, ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
-export const useAdminRouteApiData = () => {
+export const useAuthRouteApiData = () => {
   const _selectedApiKeys = ref<string[]>([])
   const expandApiId = ref('0')
   const { refetch: fetchApiChildren } = useAuthApiChildren(expandApiId)
   const {
-    data: _adminApisAncestors,
-    refetch: _fetchAdminApisAncestorsData,
+    data: _authApisAncestors,
+    refetch: _fetchAuthApisAncestorsData,
     isFetched: isFetchedApisAncestors
   } = useAuthApisAncestors(_selectedApiKeys)
 
-  let _fetchAdminApisPromise: ReturnType<typeof _fetchAdminApisAncestorsData>
+  let _fetchAuthApisPromise: ReturnType<typeof _fetchAuthApisAncestorsData>
 
   const defaultExpandedApiKeys = computed(() => {
-    if (_adminApisAncestors.value) {
-      const arr = Object.values(_adminApisAncestors.value.idPath).flat()
+    if (_authApisAncestors.value) {
+      const arr = Object.values(_authApisAncestors.value.idPath).flat()
       const keys = new Set(arr)
 
       _selectedApiKeys.value.forEach((key) => {
@@ -35,13 +35,13 @@ export const useAdminRouteApiData = () => {
     _selectedApiKeys.value = keys
   }
 
-  const _fetchAdminApiChildren = (id: string) => {
+  const _fetchAuthApiChildren = (id: string) => {
     expandApiId.value = id
     return fetchApiChildren()
   }
 
   const fetchApiAncestors = () => {
-    if (_selectedApiKeys.value.length) _fetchAdminApisPromise = _fetchAdminApisAncestorsData()
+    if (_selectedApiKeys.value.length) _fetchAuthApisPromise = _fetchAuthApisAncestorsData()
   }
 
   const loadApiNode = async (
@@ -49,18 +49,18 @@ export const useAdminRouteApiData = () => {
     resolve: (data: Omit<AuthApi, 'order' | 'createdAt' | 'updatedAt'>[]) => void
   ) => {
     // Wait for fetch ancestors finish
-    await _fetchAdminApisPromise
+    await _fetchAuthApisPromise
 
     const id = node.data.id ?? '0'
     if (
       (isFetchedApisAncestors.value && node.level === 0) ||
       defaultExpandedApiKeys.value.includes(node.data.id)
     ) {
-      const data = _adminApisAncestors.value?.list.filter((api) => api.parentId === id) ?? []
+      const data = _authApisAncestors.value?.list.filter((api) => api.parentId === id) ?? []
       return resolve(data)
     }
 
-    _fetchAdminApiChildren(id)
+    _fetchAuthApiChildren(id)
       .then(({ data }) => {
         resolve(data ?? [])
       })

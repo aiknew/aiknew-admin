@@ -16,7 +16,7 @@ import { TranslationsConstraint } from './common/validators'
 import commonConfig from './common/config/common.config'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { JwtService } from '@nestjs/jwt'
-import { AuthUserService } from './modules/admin/auth-user/auth-user.service'
+import { AdminUserService } from './modules/admin/admin-user/admin-user.service'
 
 @Module({
   imports: [
@@ -65,7 +65,7 @@ import { AuthUserService } from './modules/admin/auth-user/auth-user.service'
   ],
   controllers: [],
   providers: [
-    AuthUserService,
+    AdminUserService,
     ConfigService,
     JwtService,
     {

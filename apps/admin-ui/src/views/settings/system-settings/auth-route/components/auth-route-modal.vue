@@ -4,12 +4,12 @@ import { h, computed, useTemplateRef, ref } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useAdminRouteI18n } from '../composables/use-admin-route-i18n'
+import { useAuthRouteI18n } from '../composables/use-auth-route-i18n'
 import { useAuthRouteCreate, useAuthRouteUpdate, type AuthRoute } from '@/api/auth-route'
 import { type AuthApi } from '@/api/auth-api'
-import { useAdminRouteApiData } from '../composables/use-admin-route-api-data'
+import { useAuthRouteApiData } from '../composables/use-auth-route-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
-import { useAdminRouteData } from '../composables/use-admin-route-data'
+import { useAuthRouteData } from '../composables/use-auth-route-data'
 import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
@@ -21,10 +21,10 @@ const emit = defineEmits<Emits>()
 
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
-const { t } = useAdminRouteI18n()
+const { t } = useAuthRouteI18n()
 const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds()
 const { defaultExpandedApiKeys, setSelectedApiKeys, fetchApiAncestors, loadApiNode } =
-  useAdminRouteApiData()
+  useAuthRouteApiData()
 const {
   editRouteId,
   // parentRouteId,
@@ -32,7 +32,7 @@ const {
   setEditRouteId,
   fetchRouteAncestors,
   loadNode
-} = useAdminRouteData()
+} = useAuthRouteData()
 
 const isMenu = ref(true)
 const isButton = ref(false)

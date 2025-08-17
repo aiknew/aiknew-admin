@@ -11,7 +11,7 @@ import {
   getAdminRouteAncestors,
 } from '@aiknew/shared-admin-db'
 import { I18nContext, I18nService } from 'nestjs-i18n'
-import { AuthUserService } from '../auth-user/auth-user.service'
+import { AdminUserService } from '../admin-user/admin-user.service'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { AuthRouteTranslationDto } from './dto/auth-route-translation.dto'
 import { AuthRouteAncestorsDto } from './dto/auth-route-ancestors.dto'
@@ -21,7 +21,7 @@ export class AuthRouteService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-    private readonly authUserService: AuthUserService,
+    private readonly authUserService: AdminUserService,
   ) {}
 
   get model() {

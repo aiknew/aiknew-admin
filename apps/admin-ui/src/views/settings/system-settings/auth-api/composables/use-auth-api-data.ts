@@ -2,14 +2,14 @@ import { useAuthApiChildren, useAuthApisAncestors, type AuthApi } from '@/api/au
 import { computed, ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { useLangStore } from '@/stores/lang'
-import { useAdminApiI18n } from './use-admin-api-i18n'
+import { useAuthApiI18n } from './use-auth-api-i18n'
 import { ElMessage } from 'element-plus'
 
 export const useAdminApiData = () => {
   const editId = ref('0')
   const disabledSelectIds = ref<string[]>([])
 
-  const { t } = useAdminApiI18n()
+  const { t } = useAuthApiI18n()
   const langStore = useLangStore()
   const expandParentId = ref('0')
   const { refetch: fetchApiChildren } = useAuthApiChildren(expandParentId)

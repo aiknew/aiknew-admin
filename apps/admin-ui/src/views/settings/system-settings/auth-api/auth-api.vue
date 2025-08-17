@@ -6,12 +6,12 @@ import { computed, ref } from 'vue'
 import { useAuthApiChildren, useAuthApiDelete, useAuthApiList, type AuthApi } from '@/api/auth-api'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useAdminApiI18n } from './composables/use-admin-api-i18n'
-import AdminApiModal from './components/admin-api-modal.vue'
+import { useAuthApiI18n } from './composables/use-auth-api-i18n'
+import AuthApiModal from './components/auth-api-modal.vue'
 import { useTemplateRef } from 'vue'
 import { tField } from '@aiknew/shared-ui-locales'
 
-const { t } = useAdminApiI18n()
+const { t } = useAuthApiI18n()
 const { currentPage, pageSize } = usePagination()
 
 const {
@@ -40,13 +40,13 @@ const isLoading = computed(() => {
   return isDeleting.value || isFetchingAdminApiData.value
 })
 
-const adminApiModalRef = useTemplateRef('adminApiModalRef')
+const authApiModalRef = useTemplateRef('authApiModalRef')
 const handleAdd = () => {
-  adminApiModalRef.value?.add()
+  authApiModalRef.value?.add()
 }
 
 const handleEdit = (row: AuthApi) => {
-  adminApiModalRef.value?.edit(row)
+  authApiModalRef.value?.edit(row)
 }
 
 const refresh = (updatedParentIds: string[]) => {
@@ -139,5 +139,5 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
     </AppTable>
   </AppContentBlock>
 
-  <AdminApiModal ref="adminApiModalRef" @submit="handleSubmit" />
+  <AuthApiModal ref="authApiModalRef" @submit="handleSubmit" />
 </template>

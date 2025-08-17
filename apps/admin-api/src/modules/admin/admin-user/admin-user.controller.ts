@@ -8,32 +8,32 @@ import {
   Post,
   Query,
 } from '@nestjs/common'
-import { AuthUserService } from './auth-user.service'
+import { AdminUserService } from './admin-user.service'
 import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import {
   AppApiPaginationResponse,
   AppApiCreatedResponse,
   AppApiOkResponse,
 } from '@aiknew/shared-api-decorators'
-import { AuthUserDto } from './dto/auth-user.dto'
-import { CreateAuthUserDto } from './dto/create-auth-user.dto'
-import { UpdateAuthUserDto } from './dto/update-auth-user.dto'
+import { AdminUserDto } from './dto/admin-user.dto'
+import { CreateAdminUserDto } from './dto/create-admin-user.dto'
+import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
 
-@Controller('auth-user')
-export class AuthUserController {
-  constructor(private readonly service: AuthUserService) {}
+@Controller('admin-user')
+export class AdminUserController {
+  constructor(private readonly service: AdminUserService) {}
 
-  @AppApiPaginationResponse(AuthUserDto)
+  @AppApiPaginationResponse(AdminUserDto)
   @Get()
   pagination(
     @Query() paginationDto: PaginationDto,
-  ): Promise<PaginationResponseDto<AuthUserDto[]>> {
+  ): Promise<PaginationResponseDto<AdminUserDto[]>> {
     return this.service.pagination(paginationDto)
   }
 
   @AppApiCreatedResponse()
   @Post()
-  async createOne(@Body() createAdminUserDto: CreateAuthUserDto) {
+  async createOne(@Body() createAdminUserDto: CreateAdminUserDto) {
     return this.service.createOne(createAdminUserDto)
   }
 
@@ -41,7 +41,7 @@ export class AuthUserController {
   @Patch(':id')
   async updateOne(
     @Param('id') id: string,
-    @Body() updateAdminUserDto: UpdateAuthUserDto,
+    @Body() updateAdminUserDto: UpdateAdminUserDto,
   ) {
     return this.service.updateOne(id, updateAdminUserDto)
   }

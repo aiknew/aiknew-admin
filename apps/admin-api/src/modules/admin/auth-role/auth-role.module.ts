@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { AuthRoleController } from './auth-role.controller'
 import { AuthRoleService } from './auth-role.service'
-import { AdminUserModule } from '../auth-user/auth-user.module'
+import { AdminUserModule } from '../admin-user/admin-user.module'
 
 @Module({
   imports: [AdminUserModule],

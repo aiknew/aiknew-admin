@@ -5,7 +5,7 @@ import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useAdminRouteI18n } from './composables/use-admin-route-i18n'
+import { useAuthRouteI18n } from './composables/use-auth-route-i18n'
 import { useTemplateRef } from 'vue'
 import {
   useAuthRouteChildren,
@@ -14,16 +14,16 @@ import {
   type AuthRoute,
   type RouteType
 } from '@/api/auth-route'
-import AdminRouteModal from './components/admin-route-modal.vue'
+import AuthRouteModal from './components/auth-route-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 
-const { t } = useAdminRouteI18n()
+const { t } = useAuthRouteI18n()
 const { currentPage, pageSize } = usePagination()
 
 const {
-  data: adminRouteData,
-  refetch: refetchAdminRouteData,
-  isFetching: isFetchingAdminRouteData
+  data: authRouteData,
+  refetch: refetchAuthRouteData,
+  isFetching: isFetchingAuthRouteData
 } = useAuthRouteList(toReactive({ currentPage, pageSize }))
 const parentId = ref('0')
 const { refetch: fetchRouteChildren } = useAuthRouteChildren(parentId)
@@ -68,9 +68,9 @@ const loadChildren = (row: AuthRoute, treeNode: unknown, resolve: (data: AuthRou
     })
 }
 
-const { mutateAsync: deleteAdminRoute, isPending: isDeleting } = useAuthRouteDelete()
+const { mutateAsync: deleteAuthRoute, isPending: isDeleting } = useAuthRouteDelete()
 const isLoading = computed(() => {
-  return isDeleting.value || isFetchingAdminRouteData.value
+  return isDeleting.value || isFetchingAuthRouteData.value
 })
 
 const modalRef = useTemplateRef('modalRef')
@@ -83,7 +83,7 @@ const handleEdit = (row: AuthRoute) => {
 }
 
 const refresh = (updatedParentIds: string[]) => {
-  refetchAdminRouteData().then(({ isSuccess }) => {
+  refetchAuthRouteData().then(({ isSuccess }) => {
     if (isSuccess) {
       updatedParentIds.forEach((id) => {
         fetchRouteChildren().then(({ data }) => {
@@ -105,7 +105,7 @@ const refresh = (updatedParentIds: string[]) => {
 }
 
 const handleDelete = async (row: AuthRoute) => {
-  await deleteAdminRoute(row.id)
+  await deleteAuthRoute(row.id)
   refresh([row.parentId])
 }
 
@@ -127,7 +127,7 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
       ref="appTableRef"
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
-      :table-data="adminRouteData"
+      :table-data="authRouteData"
       row-key="id"
       tree
       lazy
@@ -169,5 +169,5 @@ const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
     </AppTable>
   </AppContentBlock>
 
-  <AdminRouteModal ref="modalRef" @submit="handleSubmit" />
+  <AuthRouteModal ref="modalRef" @submit="handleSubmit" />
 </template>

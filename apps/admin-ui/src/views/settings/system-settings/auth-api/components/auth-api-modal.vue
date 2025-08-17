@@ -4,9 +4,9 @@ import { h, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useAdminApiI18n } from '../composables/use-admin-api-i18n'
+import { useAuthApiI18n } from '../composables/use-auth-api-i18n'
 import { useAuthApiCreate, useAuthApiUpdate, type AuthApi } from '@/api/auth-api'
-import { useAdminApiData } from '../composables/use-admin-api-data'
+import { useAdminApiData } from '../composables/use-auth-api-data'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import { tField } from '@aiknew/shared-ui-locales'
 
@@ -17,7 +17,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = useAdminApiI18n()
+const { t } = useAuthApiI18n()
 const modalRef = useTemplateRef('modalRef')
 
 const { mutateAsync: createApi } = useAuthApiCreate()

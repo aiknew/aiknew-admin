@@ -71,7 +71,7 @@ const messages = {
 
 let instance: Composer<typeof messages>
 
-export const useAdminRouteI18n = () => {
+export const useAuthRouteI18n = () => {
   if (!instance) {
     instance = useI18n({ messages })
   }

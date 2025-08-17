@@ -1,28 +1,28 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
+import { ElTableColumn, ElButton, ElPopconfirm } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
-import { useAdminRoleI18n } from './composables/use-admin-role-i18n'
-import AdminRoleModal from './components/admin-role-modal.vue'
+import { useAuthRoleI18n } from './composables/use-auth-role-i18n'
+import AuthRoleModal from './components/auth-role-modal.vue'
 import { useAuthRoleDelete, useAuthRoleList, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
 
 const modalRef = useTemplateRef('modalRef')
-const { t } = useAdminRoleI18n()
+const { t } = useAuthRoleI18n()
 const { currentPage, pageSize } = usePagination()
 const {
-  data: adminRoleData,
-  refetch: refetchAdminRoleData,
-  isFetching: isFetchingAdminRoleData
+  data: authRoleData,
+  refetch: refetchAuthRoleData,
+  isFetching: isFetchingAuthRoleData
 } = useAuthRoleList(toReactive({ currentPage, pageSize }))
-const { mutateAsync: deleteAdminRole, isPending: isDeleting } = useAuthRoleDelete()
+const { mutateAsync: deleteAuthRole, isPending: isDeleting } = useAuthRoleDelete()
 
 const isLoading = computed(() => {
-  return isDeleting.value || isFetchingAdminRoleData.value
+  return isDeleting.value || isFetchingAuthRoleData.value
 })
 
 const handleAdd = () => {
@@ -34,11 +34,11 @@ const handleEdit = (row: AuthRole) => {
 }
 
 const refresh = () => {
-  refetchAdminRoleData()
+  refetchAuthRoleData()
 }
 
 const handleDelete = async (row: AuthRole) => {
-  await deleteAdminRole(row.id)
+  await deleteAuthRole(row.id)
   refresh()
 }
 
@@ -59,7 +59,7 @@ const handleSubmit = () => {
       ref="appTableRef"
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
-      :table-data="adminRoleData"
+      :table-data="authRoleData"
       row-key="id"
     >
       <el-table-column prop="id" label="ID" />
@@ -91,5 +91,5 @@ const handleSubmit = () => {
     </AppTable>
   </AppContentBlock>
 
-  <AdminRoleModal ref="modalRef" @submit="handleSubmit" />
+  <AuthRoleModal ref="modalRef" @submit="handleSubmit" />
 </template>

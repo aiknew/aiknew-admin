@@ -4,7 +4,7 @@ import { ref, computed, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useAdminUserI18n } from '../composables/use-admin-user-i18n'
-import { useAuthUserCreate, useAuthUserUpdate, type AuthUser } from '@/api/auth-user'
+import { useAdminUserCreate, useAdminUserUpdate, type AdminUser } from '@/api/admin-user'
 import { useAuthRoleAll, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
 
@@ -17,8 +17,8 @@ const emit = defineEmits<Emits>()
 const { t } = useAdminUserI18n()
 const modalRef = useTemplateRef('modalRef')
 const editId = ref('')
-const { mutateAsync: createUser } = useAuthUserCreate()
-const { mutateAsync: updateUser } = useAuthUserUpdate()
+const { mutateAsync: createUser } = useAdminUserCreate()
+const { mutateAsync: updateUser } = useAdminUserUpdate()
 const { data: adminRoles } = useAuthRoleAll()
 const inputPassword = ref('')
 
@@ -129,7 +129,7 @@ const add = () => {
   modalRef.value?.setTitle(t('addTitle'))
 }
 
-const edit = (item: AuthUser) => {
+const edit = (item: AdminUser) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))

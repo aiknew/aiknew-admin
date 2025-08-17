@@ -5,14 +5,14 @@ import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { AuthUserService } from '../auth-user/auth-user.service'
+import { AdminUserService } from '../admin-user/admin-user.service'
 
 @Injectable()
 export class AuthRoleService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-    private readonly authUserService: AuthUserService,
+    private readonly authUserService: AdminUserService,
   ) {}
 
   get model() {

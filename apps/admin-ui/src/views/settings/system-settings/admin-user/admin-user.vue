@@ -7,7 +7,7 @@ import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import { useAdminUserI18n } from './composables/use-admin-user-i18n'
 import { useTemplateRef } from 'vue'
-import { useAuthUserDelete, useAuthUserList, type AuthUser } from '@/api/auth-user'
+import { useAdminUserDelete, useAdminUserList, type AdminUser } from '@/api/admin-user'
 import AdminUserModal from './components/admin-user-modal.vue'
 
 const modalRef = useTemplateRef('modalRef')
@@ -18,8 +18,8 @@ const {
   data: adminUserData,
   refetch: refetchAdminUserData,
   isFetching: isFetchingAdminUserData
-} = useAuthUserList(toReactive({ currentPage, pageSize }))
-const { mutateAsync: deleteAdminUser, isPending: isDeleting } = useAuthUserDelete()
+} = useAdminUserList(toReactive({ currentPage, pageSize }))
+const { mutateAsync: deleteAdminUser, isPending: isDeleting } = useAdminUserDelete()
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingAdminUserData.value
 })
@@ -28,11 +28,11 @@ const handleAdd = () => {
   modalRef.value?.add()
 }
 
-const handleEdit = (row: AuthUser) => {
+const handleEdit = (row: AdminUser) => {
   modalRef.value?.edit(row)
 }
 
-const handleDelete = async (row: AuthUser) => {
+const handleDelete = async (row: AdminUser) => {
   await deleteAdminUser(row.id)
   refetchAdminUserData()
 }

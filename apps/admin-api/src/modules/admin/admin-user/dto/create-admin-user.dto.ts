@@ -1,6 +1,6 @@
 import { IsArray, IsString } from 'class-validator'
 
-export class CreateAuthUserDto {
+export class CreateAdminUserDto {
   @IsString()
   userName: string
 

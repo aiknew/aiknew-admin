@@ -6,7 +6,7 @@ import {
   type AuthRouteAncestorsDto
 } from '@/api/auth-route'
 
-export const useAdminRoleRouteData = () => {
+export const useAuthRoleRouteData = () => {
   const _selectedKeys = ref<string[]>([])
   const expandId = ref('0')
   const { refetch: fetchChildren } = useAuthRouteChildren(expandId)

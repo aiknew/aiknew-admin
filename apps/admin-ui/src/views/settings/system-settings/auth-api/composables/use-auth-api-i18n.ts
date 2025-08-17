@@ -32,7 +32,7 @@ const messages = {
 
 let instance: Composer<typeof messages>
 
-export const useAdminApiI18n = () => {
+export const useAuthApiI18n = () => {
   if (!instance) {
     instance = useI18n({ messages })
   }

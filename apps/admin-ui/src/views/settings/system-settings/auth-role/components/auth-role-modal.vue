@@ -4,10 +4,10 @@ import { ref, h, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useAdminRoleI18n } from '../composables/use-admin-role-i18n'
+import { useAuthRoleI18n } from '../composables/use-auth-role-i18n'
 import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
 import { type AuthRoute } from '@/api/auth-route'
-import { useAdminRoleRouteData } from '../composables/use-admin-role-route-data'
+import { useAuthRoleRouteData } from '../composables/use-auth-role-route-data'
 import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
@@ -19,12 +19,12 @@ const emit = defineEmits<Emits>()
 
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
-const { t } = useAdminRoleI18n()
+const { t } = useAuthRoleI18n()
 const { mutateAsync: createRole } = useAuthRoleCreate()
 const { mutateAsync: updateRole } = useAuthRoleUpdate()
 const editId = ref('0')
 const { defaultExpandedKeys, setSelectedKeys, fetchRouteAncestors, loadNode } =
-  useAdminRoleRouteData()
+  useAuthRoleRouteData()
 
 const languages = langStore.enabledLangs
 const { AppForm, formApi } = useAppForm({

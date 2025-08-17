@@ -63,23 +63,23 @@ export interface paths {
         patch: operations["AuthApiController_updateOne"];
         trace?: never;
     };
-    "/admin/auth-user": {
+    "/admin/admin-user": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AuthUserController_pagination"];
+        get: operations["AdminUserController_pagination"];
         put?: never;
-        post: operations["AuthUserController_createOne"];
+        post: operations["AdminUserController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/auth-user/{id}": {
+    "/admin/admin-user/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -89,10 +89,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["AuthUserController_deleteOne"];
+        delete: operations["AdminUserController_deleteOne"];
         options?: never;
         head?: never;
-        patch: operations["AuthUserController_updateOne"];
+        patch: operations["AdminUserController_updateOne"];
         trace?: never;
     };
     "/admin/article": {
@@ -665,7 +665,7 @@ export interface components {
             order?: number;
             translations?: components["schemas"]["AuthApiTranslationDto"][];
         };
-        AuthUserDto: {
+        AdminUserDto: {
             id: string;
             userName: string;
             /** Format: date-time */
@@ -676,12 +676,12 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
-        CreateAuthUserDto: {
+        CreateAdminUserDto: {
             userName: string;
             roles: string[];
             password: string;
         };
-        UpdateAuthUserDto: {
+        UpdateAdminUserDto: {
             userName?: string;
             roles?: string[];
             password?: string;
@@ -1264,7 +1264,7 @@ export interface operations {
             };
         };
     };
-    AuthUserController_pagination: {
+    AdminUserController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
@@ -1283,7 +1283,7 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
                         data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["AuthUserDto"][];
+                            list: components["schemas"]["AdminUserDto"][];
                         };
                     };
                 };
@@ -1299,7 +1299,7 @@ export interface operations {
             };
         };
     };
-    AuthUserController_createOne: {
+    AdminUserController_createOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1308,7 +1308,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateAuthUserDto"];
+                "application/json": components["schemas"]["CreateAdminUserDto"];
             };
         };
         responses: {
@@ -1331,7 +1331,7 @@ export interface operations {
             };
         };
     };
-    AuthUserController_deleteOne: {
+    AdminUserController_deleteOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1361,7 +1361,7 @@ export interface operations {
             };
         };
     };
-    AuthUserController_updateOne: {
+    AdminUserController_updateOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1372,7 +1372,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateAuthUserDto"];
+                "application/json": components["schemas"]["UpdateAdminUserDto"];
             };
         };
         responses: {

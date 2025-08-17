@@ -9,7 +9,7 @@ import {
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { UpdateAuthApiDto } from './dto/update-auth-api.dto'
-import { AuthUserService } from '../auth-user/auth-user.service'
+import { AdminUserService } from '../admin-user/admin-user.service'
 import { type AuthApiTranslationDto } from './dto/auth-api-translation.dto'
 import { type AuthApiTreeListDto } from './dto/auth-api-tree-list.dto'
 import { type AuthApiDto } from './dto/auth-api.dto'
@@ -20,7 +20,7 @@ export class AuthApiService {
   constructor(
     private prisma: PrismaService,
     private readonly i18n: I18nService,
-    private readonly authUserService: AuthUserService,
+    private readonly authUserService: AdminUserService,
   ) {}
 
   get model() {

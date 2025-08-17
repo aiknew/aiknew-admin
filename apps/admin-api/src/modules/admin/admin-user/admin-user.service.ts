@@ -3,14 +3,14 @@ import { I18nContext, I18nService } from 'nestjs-i18n'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { AppUnauthorizedException } from '@aiknew/shared-api-exceptions'
 import { createHMAC } from '@aiknew/shared-api-utils'
-import { CreateAuthUserDto } from './dto/create-auth-user.dto'
-import { UpdateAuthUserDto } from './dto/update-auth-user.dto'
+import { CreateAdminUserDto } from './dto/create-admin-user.dto'
+import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
 import { AdminApi, Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
 
 @Injectable()
-export class AuthUserService {
+export class AdminUserService {
   userCacheKey = 'user_'
   userApisCacheKey = this.userCacheKey + 'apis'
   userRoutesCacheKey = this.userCacheKey + 'routes'
@@ -284,7 +284,7 @@ export class AuthUserService {
     }))
   }
 
-  async createOne(data: CreateAuthUserDto) {
+  async createOne(data: CreateAdminUserDto) {
     const { password, roles, userName } = data
     try {
       return await this.model.create({
@@ -308,7 +308,7 @@ export class AuthUserService {
     }
   }
 
-  async updateOne(id: string, data: UpdateAuthUserDto) {
+  async updateOne(id: string, data: UpdateAdminUserDto) {
     const { password, roles, userName } = data
     try {
       // clear user caches

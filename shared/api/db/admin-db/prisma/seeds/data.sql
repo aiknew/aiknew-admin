@@ -748,18 +748,23 @@ INSERT INTO public."AdminApiTranslation" VALUES ('cmda1g6sy001f6xeujz6386ng', 'z
 -- Data for Name: AdminRole; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public."AdminRole" VALUES ('cmeepskv600016x5ibi3v7fpt', 10, '2025-08-16 20:33:33.091', '2025-08-16 20:33:33.091');
 
 
 --
 -- Data for Name: AdminRoleRoute; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public."AdminRoleRoute" VALUES ('cmeepskv600016x5ibi3v7fpt', 'cmda1g6tg001g6xeujpci107l', '2025-08-16 20:33:33.091');
 
 
 --
 -- Data for Name: AdminRoleTranslation; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public."AdminRoleTranslation" VALUES ('cmeepskv600016x5ibi3v7fpt', 'zh-TW', 'few', '2025-08-16 20:33:33.091', '2025-08-16 20:33:33.091');
+INSERT INTO public."AdminRoleTranslation" VALUES ('cmeepskv600016x5ibi3v7fpt', 'en', 'fwae', '2025-08-16 20:33:33.091', '2025-08-16 20:33:33.091');
+INSERT INTO public."AdminRoleTranslation" VALUES ('cmeepskv600016x5ibi3v7fpt', 'zh-CN', 'feaw', '2025-08-16 20:33:33.091', '2025-08-16 20:33:33.091');
 
 
 --
@@ -804,8 +809,9 @@ INSERT INTO public."AdminRoute" VALUES ('cmda35czy00016xd1pxacsazj', 'Setting', 
 INSERT INTO public."AdminRoute" VALUES ('cmda1g6xi00266xeu5kqeiljr', 'Avatar', '', false, 'settings/system-settings/auth-role/auth-role', 'MENU', '', true, '/settings/permissions/admin-role', 'cmda1g6xe00256xeuz1koc09l', 100, '2025-07-19 09:21:17.334', '2025-07-27 16:21:10.132');
 INSERT INTO public."AdminRoute" VALUES ('cmda1g6y5002a6xeunc2c8hya', 'Operation', '', false, 'settings/system-settings/auth-route/auth-route', 'MENU', '', true, '/settings/permissions/admin-route', 'cmda1g6xe00256xeuz1koc09l', 100, '2025-07-19 09:21:17.357', '2025-07-27 16:21:10.132');
 INSERT INTO public."AdminRoute" VALUES ('cmda1g6yw002e6xeubcpbt0w2', 'Document', '', false, 'settings/system-settings/auth-api/auth-api', 'MENU', '', true, '/settings/permissions/admin-api', 'cmda1g6xe00256xeuz1koc09l', 100, '2025-07-19 09:21:17.385', '2025-07-27 16:21:10.132');
-INSERT INTO public."AdminRoute" VALUES ('cmda1g6wo00216xeu9am4uyis', 'User', '', false, 'settings/system-settings/auth-user/auth-user', 'MENU', '', true, '/settings/auth-user', 'cmda1g6wk00206xeucoaq0ac1', 100, '2025-07-19 09:21:17.304', '2025-07-27 16:21:49.01');
 INSERT INTO public."AdminRoute" VALUES ('cmda1g6wk00206xeucoaq0ac1', 'Setting', '/settings/admin-user', false, '', 'GROUP', '', true, '/settings', '0', 100, '2025-07-19 09:21:17.301', '2025-07-27 16:22:52.679');
+INSERT INTO public."AdminRoute" VALUES ('cmeeqjjye00036x5i8b82hsaf', '', '', true, 'settings/user-info/user-info', 'MENU', '', true, '/account-info', '0', 10, '2025-08-16 20:54:31.623', '2025-08-17 09:36:25.737');
+INSERT INTO public."AdminRoute" VALUES ('cmda1g6wo00216xeu9am4uyis', 'User', '', false, 'settings/system-settings/admin-user/admin-user', 'MENU', '', true, '/settings/admin-user', 'cmda1g6wk00206xeucoaq0ac1', 100, '2025-07-19 09:21:17.304', '2025-08-17 21:37:39.274');
 
 
 --
@@ -850,8 +856,9 @@ INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6uy001p6xeu7yyt8y8l', 'cmda1g6
 INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6uy001p6xeu7yyt8y8l', 'cmda1g6nr000f6xeuhukt47p8');
 INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6vj001t6xeuf8n7ibol', 'cmda1g6ob000k6xeutnpcmvlm');
 INSERT INTO public."AdminRouteApi" VALUES ('cmda35czy00016xd1pxacsazj', 'cmda1g6lm00016xeugd7laa8q');
-INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6wo00216xeu9am4uyis', 'cmda1g6ly00026xeuf8n9p3qs');
+INSERT INTO public."AdminRouteApi" VALUES ('cmeeqjjye00036x5i8b82hsaf', 'cmda1g6mi00066xeuovsijd29');
 INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6wo00216xeu9am4uyis', 'cmda1g6pz000w6xeus0zjx34i');
+INSERT INTO public."AdminRouteApi" VALUES ('cmda1g6wo00216xeu9am4uyis', 'cmda1g6ly00026xeuf8n9p3qs');
 
 
 --
@@ -972,12 +979,15 @@ INSERT INTO public."AdminRouteTranslation" VALUES ('cmda33yvf00006xd17jp42mpa', 
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda35czy00016xd1pxacsazj', 'zh-TW', '存儲設置', '2025-07-19 10:09:47.108', '2025-07-19 10:09:47.108');
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda35czy00016xd1pxacsazj', 'en', 'Storage Setting', '2025-07-19 10:09:47.108', '2025-07-19 10:09:47.108');
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda35czy00016xd1pxacsazj', 'zh-CN', '存储设置', '2025-07-19 10:09:47.108', '2025-07-19 10:09:47.108');
-INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wo00216xeu9am4uyis', 'zh-TW', '管理員帳號', '2025-07-27 15:46:09.449', '2025-07-27 15:46:09.449');
-INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wo00216xeu9am4uyis', 'en', 'Admin Users', '2025-07-27 15:46:09.449', '2025-07-27 15:46:09.449');
-INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wo00216xeu9am4uyis', 'zh-CN', '管理员账号', '2025-07-27 15:46:09.449', '2025-07-27 15:46:09.449');
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wk00206xeucoaq0ac1', 'zh-TW', '設定', '2025-07-27 16:22:52.679', '2025-07-27 16:22:52.679');
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wk00206xeucoaq0ac1', 'en', 'Settings', '2025-07-27 16:22:52.679', '2025-07-27 16:22:52.679');
 INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wk00206xeucoaq0ac1', 'zh-CN', '设置', '2025-07-27 16:22:52.679', '2025-07-27 16:22:52.679');
+INSERT INTO public."AdminRouteTranslation" VALUES ('cmeeqjjye00036x5i8b82hsaf', 'zh-TW', '更新账户信息', '2025-08-17 09:36:25.737', '2025-08-17 09:36:25.737');
+INSERT INTO public."AdminRouteTranslation" VALUES ('cmeeqjjye00036x5i8b82hsaf', 'en', '更新账户信息', '2025-08-17 09:36:25.737', '2025-08-17 09:36:25.737');
+INSERT INTO public."AdminRouteTranslation" VALUES ('cmeeqjjye00036x5i8b82hsaf', 'zh-CN', '更新账户信息', '2025-08-17 09:36:25.737', '2025-08-17 09:36:25.737');
+INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wo00216xeu9am4uyis', 'zh-TW', '管理員帳號', '2025-08-17 21:37:39.274', '2025-08-17 21:37:39.274');
+INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wo00216xeu9am4uyis', 'en', 'Admin Users', '2025-08-17 21:37:39.274', '2025-08-17 21:37:39.274');
+INSERT INTO public."AdminRouteTranslation" VALUES ('cmda1g6wo00216xeu9am4uyis', 'zh-CN', '管理员账号', '2025-08-17 21:37:39.274', '2025-08-17 21:37:39.274');
 
 
 --
@@ -1074,14 +1084,14 @@ INSERT INTO public."Language" VALUES ('zh-CN', '中文简体', 'LTR', true, 10, 
 -- Name: ArticleCategory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."ArticleCategory_id_seq"', 1, false);
+SELECT pg_catalog.setval('public."ArticleCategory_id_seq"', 3, true);
 
 
 --
 -- Name: Article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."Article_id_seq"', 1, false);
+SELECT pg_catalog.setval('public."Article_id_seq"', 7, true);
 
 
 --

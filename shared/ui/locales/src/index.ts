@@ -4,6 +4,16 @@ import en from './en.json'
 import zhCN from './zh-CN.json'
 import zhTW from './zh-TW.json'
 
+const LOCALE_SETTING = 'LOCALE_SETTING'
+
+const setLocaleToLocalStorage = (lang: string) => {
+  localStorage.setItem(LOCALE_SETTING, lang)
+}
+
+const getLocaleFromLocalStorage = () => {
+  return localStorage.getItem(LOCALE_SETTING)
+}
+
 const _subscribers: Function[] = []
 
 export const onLangChange = (cb: Function) => {
@@ -17,9 +27,12 @@ export const onLangChange = (cb: Function) => {
   }
 }
 
+const initLocale = getLocaleFromLocalStorage() ?? window.navigator.language
+
 export const i18n = createI18n({
   legacy: false,
-  locale: 'en',
+  locale: initLocale,
+  fallbackLocale: 'en',
   missingWarn: false,
   fallbackWarn: false,
   messages: {
@@ -35,12 +48,15 @@ export const languages = computed(() => {
   return i18n.global.availableLocales
 })
 
-export const currentLang = computed(() => {
-  return i18n.global.locale.value
+export const currentLang = computed<I18nKeys>(() => {
+  return languages.value.includes(i18n.global.locale.value)
+    ? i18n.global.locale.value
+    : (i18n.global.fallbackLocale.value as I18nKeys)
 })
 
 export const setCurrentLang = (lang: I18nKeys) => {
   i18n.global.locale.value = lang
+  setLocaleToLocalStorage(lang)
 
   _subscribers.forEach((fn) => fn())
 }
@@ -51,7 +67,7 @@ export const tField = <T extends { langKey: string }>(
 ) => {
   return computed(() => {
     for (let i = 0; i < translations.length; i++) {
-      if (translations[i].langKey === i18n.global.locale.value) {
+      if (translations[i].langKey === currentLang.value) {
         return translations[i][field]
       }
     }

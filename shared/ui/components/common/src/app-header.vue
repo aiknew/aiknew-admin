@@ -4,8 +4,6 @@ import { Expand, Fold } from '@element-plus/icons-vue'
 import AppRoutePath from './app-route-path.vue'
 import { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { Ref } from 'vue'
-// import AppLanguageSwitcher from './language-switcher/app-language-switcher.vue'
-// import AppUserSetting from './app-user-setting.vue'
 
 export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>

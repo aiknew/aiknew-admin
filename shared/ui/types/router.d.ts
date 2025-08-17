@@ -1,5 +1,6 @@
 import 'vue-router'
 import type { RouteType } from '@/api/auth-route'
+import { type ComputedRef } from 'vue'
 
 export type AdminRouteTranslations = {
   langKey: string
@@ -13,6 +14,14 @@ export interface CustomRouteMeta {
   routeName?: string
   translations?: AdminRouteTranslations
   type?: RouteType
+}
+
+export type RouteHistory = {
+  path: string
+  meta: {
+    name: string
+    icon?: string
+  }
 }
 
 declare module 'vue-router' {

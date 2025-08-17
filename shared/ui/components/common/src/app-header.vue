@@ -16,7 +16,9 @@ defineEmits(['update:expandMenu'])
 </script>
 
 <template>
-  <header class="bg-white-100 flex min-h-10 items-center p-3">
+  <header
+    class="bg-white-100 flex min-h-10 items-center p-3 border-b border-gray-100"
+  >
     <!-- logo -->
     <div class="mr-1 flex size-9 items-center justify-center border md:hidden">
       logo
@@ -40,11 +42,6 @@ defineEmits(['update:expandMenu'])
 
     <!-- operations -->
     <div class="ml-auto flex grow items-center space-x-2">
-      <!-- language switcher -->
-      <!-- <AppLanguageSwitcher /> -->
-
-      <!-- user info -->
-      <!-- <AppUserSetting /> -->
       <slot name="operations"></slot>
     </div>
   </header>

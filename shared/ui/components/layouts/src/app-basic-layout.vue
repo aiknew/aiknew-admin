@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppHeader, AppAside } from '@aiknew/shared-ui-components'
-import { onMounted, Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 import type {
   RouteLocationNormalizedLoadedGeneric,
   RouteRecordRaw,
@@ -26,6 +26,8 @@ const expandMenu = ref(true)
           <slot name="operations"></slot>
         </template>
       </AppHeader>
+
+      <slot name="top"></slot>
 
       <main class="w-full shrink grow bg-stone-100 p-4">
         <RouterView />

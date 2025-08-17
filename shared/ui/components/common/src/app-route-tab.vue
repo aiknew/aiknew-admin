@@ -104,7 +104,6 @@ const handleClick = ({
 
     .tab-item-name {
       margin-left: 6px;
-      max-width: 100px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

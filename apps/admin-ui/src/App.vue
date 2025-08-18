@@ -10,6 +10,7 @@ import { ElConfigProvider } from 'element-plus'
 import { useEnabledLangList } from './api/language'
 import { watch } from 'vue'
 import { currentLang } from '@aiknew/shared-ui-locales'
+import { ProgressProvider } from '@bprogress/vue'
 
 const langStore = useLangStore()
 
@@ -31,10 +32,10 @@ watch(data, () => {
 </script>
 
 <template>
-  <el-config-provider :locale>
-    <RouterView />
-    <VueQueryDevtools />
-  </el-config-provider>
+  <ProgressProvider>
+    <el-config-provider :locale>
+      <RouterView />
+      <VueQueryDevtools />
+    </el-config-provider>
+  </ProgressProvider>
 </template>
-
-<style scoped></style>

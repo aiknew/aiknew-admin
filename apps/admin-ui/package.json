@@ -18,13 +18,15 @@
   },
   "dependencies": {
     "@aiknew/shared-ui-components": "workspace:*",
-    "@aiknew/shared-ui-form": "workspace:*",
-    "@aiknew/shared-ui-table": "workspace:*",
     "@aiknew/shared-ui-filer": "workspace:*",
+    "@aiknew/shared-ui-form": "workspace:*",
     "@aiknew/shared-ui-layouts": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/shared-ui-table": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
+    "@bprogress/core": "catalog:ui",
+    "@bprogress/vue": "catalog:ui",
     "@element-plus/icons-vue": "catalog:ui",
     "@tailwindcss/vite": "catalog:ui",
     "@tanstack/vue-query": "^5.81.2",
@@ -46,8 +48,8 @@
     "zod": "catalog:ui"
   },
   "devDependencies": {
-    "@aiknew/shared-ui-types": "workspace:*",
     "@aiknew/shared-types": "workspace:*",
+    "@aiknew/shared-ui-types": "workspace:*",
     "@intlify/unplugin-vue-i18n": "catalog:ui",
     "@playwright/test": "^1.53.1",
     "@tsconfig/node22": "^22.0.2",

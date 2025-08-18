@@ -55,7 +55,7 @@ const { AppForm, formApi } = useAppForm({
         as: 'ElInput',
         label: t('hostname'),
         name: 'hostname',
-        schema: z.string().nonempty().default('')
+        schema: z.url().nonempty().default('')
       },
       {
         when: isS3,

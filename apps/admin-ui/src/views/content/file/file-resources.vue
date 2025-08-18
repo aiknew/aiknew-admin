@@ -16,6 +16,8 @@ import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { ElMessage } from 'element-plus'
 import { currentLang } from '@aiknew/shared-ui-locales'
+import { join } from 'pathe'
+import z from 'zod'
 
 const fileManagerRef = useTemplateRef('fileManager')
 const userStore = useUserStore()
@@ -39,7 +41,26 @@ const {
   id: parentGroupId,
   query: { data: childGroups, refetch: fetchChildGroups }
 } = useUploadFileGroupChildren()
-const uploadUrl = ref<string>(import.meta.env.VITE_API_BASE_URL + uploadFileUrl)
+
+const checkURL = (str: string) => {
+  return z
+    .url({
+      protocol: /^https?$/
+    })
+    .safeParse(str)
+}
+
+const resolveURL = (host: string, path: string) => {
+  const result = checkURL(host)
+  if (result.success) {
+    return new URL(path, result.data).href
+  }
+
+  return join(host, path)
+}
+
+const uploadUrl = ref<string>(resolveURL(import.meta.env.VITE_API_BASE_URL, uploadFileUrl))
+
 const uploadHeaders = ref<Record<string, string>>({
   Authorization: `Bearer ${userStore.accessToken}`,
   'x-lang': currentLang.value
@@ -60,7 +81,8 @@ const beforeUpload = async (extraFormData: Ref<Record<string, unknown>>) => {
       if (presignedUrlData.value) {
         const { fields } = presignedUrlData.value
         extraFormData.value = fields
-        uploadUrl.value = storage.hostname + storage.bucket
+
+        uploadUrl.value = resolveURL(storage.hostname, storage.bucket ?? '')
       }
 
       return true

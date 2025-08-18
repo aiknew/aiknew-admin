@@ -36,9 +36,21 @@ const onSuccess = (response: { msg: string }) => {
   })
 }
 
-const onError = (err: Error) => {
+const onError = (err: { message: string }) => {
+  let message = String(err)
+  if (err.message) {
+    message = err.message
+  }
+
+  try {
+    const o = JSON.parse(err.message)
+    if (typeof o === 'object' && typeof o.msg === 'string') {
+      message = o.msg
+    }
+  } catch {}
+
   ElMessage.error({
-    message: JSON.parse(err.message).msg,
+    message,
   })
 }
 

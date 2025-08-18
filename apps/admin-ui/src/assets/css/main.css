@@ -1,3 +1,13 @@
 @import 'tailwindcss' source(none);
 @source "../../../../admin-ui/src";
 @source "../../../../../shared/ui/components";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-them-primary: var(--el-color-primary);
+  --color-theme-bg-page: var(--el-bg-color-page);
+  --color-theme-bg-overlay: var(--el-bg-color-overlay);
+  --color-theme-bg: var(--el-bg-color);
+  --color-theme-border: var(--el-border-color);
+}

@@ -16,10 +16,10 @@ defineEmits<Emits<LANG>>()
 </script>
 
 <template>
-  <div class="language-switcher">
+  <div class="flex items-center">
     <el-dropdown @command="$emit('switchLang', $event)">
-      <span class="el-dropdown-link">
-        <localeSVG width="22" height="22" />
+      <span class="outline-0 cursor-pointer">
+        <localeSVG width="20" height="20" />
       </span>
       <template #dropdown>
         <el-dropdown-menu>
@@ -33,15 +33,6 @@ defineEmits<Emits<LANG>>()
 </template>
 
 <style>
-.language-switcher {
-  margin-left: auto;
-}
-
-.el-dropdown-link {
-  outline: none;
-  cursor: pointer;
-}
-
 .active {
   color: var(--el-color-primary);
 }

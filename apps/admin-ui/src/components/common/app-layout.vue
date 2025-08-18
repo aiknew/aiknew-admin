@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppBasicLayout } from '@aiknew/shared-ui-layouts'
-import { AppLanguageSwitcher, AppRouteTab } from '@aiknew/shared-ui-components'
+import { AppLanguageSwitcher, AppRouteTab, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
 import AppUserSetting from './app-user-setting.vue'
 import { useRouter } from 'vue-router'
 import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locales'
@@ -15,13 +15,17 @@ const routes = router.getRoutes().find((route) => route.name === 'Index')?.child
 <template>
   <AppBasicLayout :routes :current-route="router.currentRoute">
     <template #operations>
-      <AppLanguageSwitcher
-        :languages
-        :current-language="currentLang"
-        @switch-lang="setCurrentLang"
-      />
+      <div class="flex items-center gap-3">
+        <AppDarkModeSwitcher />
 
-      <AppUserSetting />
+        <AppLanguageSwitcher
+          :languages
+          :current-language="currentLang"
+          @switch-lang="setCurrentLang"
+        />
+
+        <AppUserSetting />
+      </div>
     </template>
 
     <template #top>

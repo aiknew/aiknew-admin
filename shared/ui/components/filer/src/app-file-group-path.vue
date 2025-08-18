@@ -24,7 +24,7 @@ const handleClickPath = (index: number) => {
 </script>
 
 <template>
-  <div class="path-info">
+  <div class="path-info dark:bg-theme-bg-overlay bg-[#f9f9f9]">
     <div
       v-show="searchScope === SearchScopeEnum.CURRENT_GROUP"
       class="path-list"
@@ -66,7 +66,6 @@ const handleClickPath = (index: number) => {
   width: 100%;
   display: flex;
   align-items: center;
-  background: #f9f9f9;
   padding: 10px 15px;
   border-radius: 4px;
 

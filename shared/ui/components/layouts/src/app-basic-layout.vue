@@ -29,7 +29,8 @@ const expandMenu = ref(true)
 
       <slot name="top"></slot>
 
-      <main class="w-full shrink grow bg-stone-100 p-4">
+      <!-- bg-stone-100 -->
+      <main class="w-full shrink grow p-4 bg-theme-bg-page">
         <RouterView />
       </main>
     </div>

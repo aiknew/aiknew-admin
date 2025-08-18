@@ -55,10 +55,10 @@ defineExpose({
 
   <!-- table -->
   <el-table
+    class="app-table"
     ref="elTable"
     :data="list"
     v-bind="$attrs"
-    class="app-table"
     size="large"
   >
     <slot name="default"></slot>
@@ -79,7 +79,6 @@ defineExpose({
 }
 
 .app-table.el-table {
-  --el-table-header-bg-color: rgba(245, 245, 245, 0.5);
   --el-table-header-text-color: #333;
   width: 100%;
   border: solid 1px var(--el-table-border-color);

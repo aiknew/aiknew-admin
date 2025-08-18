@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
+import { ElTableColumn, ElButton, ElPopconfirm } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'

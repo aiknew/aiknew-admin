@@ -17,7 +17,7 @@ defineEmits(['update:expandMenu'])
 
 <template>
   <header
-    class="bg-white-100 flex min-h-10 items-center p-3 border-b border-gray-100"
+    class="bg-white-100 flex min-h-10 items-center p-3 border-b border-theme-border"
   >
     <!-- logo -->
     <div class="mr-1 flex size-9 items-center justify-center border md:hidden">
@@ -41,7 +41,7 @@ defineEmits(['update:expandMenu'])
     <AppRoutePath :current-route />
 
     <!-- operations -->
-    <div class="ml-auto flex grow items-center space-x-2">
+    <div class="ml-auto flex items-center">
       <slot name="operations"></slot>
     </div>
   </header>

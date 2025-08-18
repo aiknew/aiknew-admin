@@ -8,6 +8,7 @@ import AppRoutePath from './app-route-path.vue'
 import AppLanguageSwitcher from './language-switcher/app-language-switcher.vue'
 import WangEditor from './wang-editor.vue'
 import AppRouteTab from './app-route-tab.vue'
+import AppDarkModeSwitcher from './app-dark-mode-switcher.vue'
 
 export {
   AppAside,
@@ -20,4 +21,5 @@ export {
   AppLanguageSwitcher,
   WangEditor,
   AppRouteTab,
+  AppDarkModeSwitcher,
 }

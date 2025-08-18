@@ -22,5 +22,7 @@
   "operations": "操作",
   "deleteConfirm": "确认删除吗？",
   "cantSelectChildrenAsOwnSuperior": "不能选择自身的子级作为父级",
-  "type": "类型"
+  "type": "类型",
+  "enabled": "启用",
+  "disabled": "禁用"
 }

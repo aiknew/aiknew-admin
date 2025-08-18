@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateFileStorageDto } from './dto/create-file-storage.dto'
 import { UpdateFileStorageDto } from './dto/update-file-storage.dto'
 import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
+import { UpdateStorageActiveDto } from './dto/update-storage-active.dto'
 
 @Injectable()
 export class FileStorageService {
@@ -80,5 +81,25 @@ export class FileStorageService {
         id,
       },
     })
+  }
+
+  async updateActive(data: UpdateStorageActiveDto) {
+    const { id, active } = data
+
+    const actions: PrismaPromise<unknown>[] = []
+    const update = this.model.update({
+      where: { id },
+      data: {
+        active,
+      },
+    })
+
+    if (active) {
+      actions.push(this.disableOthers())
+    }
+
+    actions.push(update)
+
+    return this.prisma.$transaction(actions)
   }
 }

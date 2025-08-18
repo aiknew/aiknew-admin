@@ -11,6 +11,8 @@ export type CreateFileStorageDto = ApiPostReqBody<'/admin/file-storage'>
 
 export type UpdateFileStorageDto = ApiPatchReqBody<'/admin/file-storage/{id}'>
 
+export type UpdateFileStorageActiveDto = ApiPatchReqBody<'/admin/file-storage/updateActive'>
+
 export const useFileStorageList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
     queryKey: ['file-storage-list', query],
@@ -70,6 +72,19 @@ export const useFileStorageDelete = () => {
               id
             }
           }
+        })
+      )
+    }
+  })
+}
+
+export const useUpdateFileStorageActive = () => {
+  return useMutation({
+    mutationKey: ['update-file-storage-active'],
+    mutationFn: (body: UpdateFileStorageActiveDto) => {
+      return useApiData(() =>
+        fetchClient.PATCH('/admin/file-storage/updateActive', {
+          body
         })
       )
     }

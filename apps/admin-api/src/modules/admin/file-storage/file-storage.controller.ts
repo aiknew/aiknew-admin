@@ -18,6 +18,7 @@ import {
   AppApiPaginationResponse,
 } from '@aiknew/shared-api-decorators'
 import { FileStorageDto } from './dto/file-storage.dto'
+import { UpdateStorageActiveDto } from './dto/update-storage-active.dto'
 
 @Controller('file-storage')
 export class FileStorageController {
@@ -35,6 +36,12 @@ export class FileStorageController {
   @AppApiCreatedResponse()
   async createOne(@Body() data: CreateFileStorageDto) {
     return this.fileStorageService.createOne(data)
+  }
+
+  @Patch('updateActive')
+  @AppApiOkResponse()
+  async updateActive(@Body() data: UpdateStorageActiveDto) {
+    return this.fileStorageService.updateActive(data)
   }
 
   @Patch(':id')

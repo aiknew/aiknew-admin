@@ -496,6 +496,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/file-storage/updateActive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["FileStorageController_updateActive"];
+        trace?: never;
+    };
     "/admin/file-storage/{id}": {
         parameters: {
             query?: never;
@@ -1007,6 +1023,10 @@ export interface components {
             secretKey?: string;
             endpoint?: string;
             bucket?: string;
+        };
+        UpdateStorageActiveDto: {
+            id: string;
+            active: boolean;
         };
         UpdateFileStorageDto: {
             type?: components["schemas"]["StorageType"];
@@ -2647,6 +2667,38 @@ export interface operations {
         };
         responses: {
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    FileStorageController_updateActive: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateStorageActiveDto"];
+            };
+        };
+        responses: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };

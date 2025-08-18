@@ -22,5 +22,7 @@
   "operations": "操作",
   "deleteConfirm": "確認刪除嗎？",
   "cantSelectChildrenAsOwnSuperior": "不能選擇自身的子級作為父級",
-  "type": "類型"
+  "type": "類型",
+  "enabled": "啟用",
+  "disabled": "禁用"
 }

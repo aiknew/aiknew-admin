@@ -5,6 +5,7 @@ import AppUserSetting from './app-user-setting.vue'
 import { useRouter } from 'vue-router'
 import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locales'
 import { useRouteHistoryStore } from '@/stores/route-history'
+import AppAdminSetting from './app-admin-setting.vue'
 
 const router = useRouter()
 const routeHistoryStore = useRouteHistoryStore()
@@ -23,6 +24,8 @@ const routes = router.getRoutes().find((route) => route.name === 'Index')?.child
           :current-language="currentLang"
           @switch-lang="setCurrentLang"
         />
+
+        <AppAdminSetting />
 
         <AppUserSetting />
       </div>

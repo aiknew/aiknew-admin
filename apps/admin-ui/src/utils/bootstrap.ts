@@ -9,6 +9,7 @@ import type { components } from '@/types/open-api'
 import { ElLoading } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { registerDirectives } from '@/directives'
+import { useThemeSettingStore } from '@aiknew/shared-ui-stores'
 
 export const bootstrap = (app: App<Element>) => {
   // install vue-i18n
@@ -20,6 +21,10 @@ export const bootstrap = (app: App<Element>) => {
   // register routes
   const { registerRoutes } = useUserStore()
   registerRoutes()
+
+  // restore user selected themes
+  const { restoreThemeColors } = useThemeSettingStore()
+  restoreThemeColors()
 
   // install vue router
   app.use(router)

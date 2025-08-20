@@ -1,0 +1,21 @@
+{
+  "name": "@aiknew/shared-ui-stores",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "^0.7.0"
+  },
+  "peerDependencies": {
+    "vue": "catalog:ui",
+    "pinia": "catalog:ui",
+    "@vueuse/core": "catalog:ui",
+    "color2k": "catalog:ui"
+  }
+}

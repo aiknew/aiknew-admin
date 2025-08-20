@@ -19,7 +19,7 @@ defineEmits<Emits<LANG>>()
   <div class="flex items-center">
     <el-dropdown @command="$emit('switchLang', $event)">
       <span class="outline-0 cursor-pointer">
-        <localeSVG width="20" height="20" />
+        <localeSVG width="19" height="19" />
       </span>
       <template #dropdown>
         <el-dropdown-menu>

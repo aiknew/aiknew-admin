@@ -10,7 +10,7 @@
       <div class="left-slot">
         <slot name="left"></slot>
       </div>
-      <div class="w-full flex-auto">
+      <div class="max-w-[100%]">
         <slot></slot>
       </div>
       <div class="right-slot">

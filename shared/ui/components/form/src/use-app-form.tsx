@@ -22,7 +22,7 @@ import {
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
 import { isDefined } from '@vueuse/core'
-import type { ComponentSlots } from 'vue-component-type-helpers'
+import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import { ElFormItem, ElForm } from 'element-plus'
 import z from 'zod'
 import AppTranslation from './components/app-translation.vue'
@@ -34,6 +34,7 @@ import AppFormItemContainer from './components/app-form-item-container.vue'
 import { onLangChange } from '@aiknew/shared-ui-locales'
 
 interface Props<F extends readonly Field<string, keyof Components>[]> {
+  formProps?: ComponentProps<typeof ElForm>
   fields: F | (() => F)
   languages?: ILanguage[]
   onSubmit: (data: {
@@ -121,7 +122,7 @@ export const useAppForm = <
 >(
   props: Props<F>,
 ) => {
-  const { fields: fieldsOrFn, languages = [], onSubmit } = props
+  const { fields: fieldsOrFn, formProps = {}, languages = [], onSubmit } = props
   const fields = typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
   const defaultValues = generateDefaultVal(fields)
   const i18nFieldNames = getI18nFieldNames(fields)
@@ -372,7 +373,7 @@ export const useAppForm = <
 
       return () => (
         <>
-          <ElForm label-width="auto" key={formKey.value}>
+          <ElForm {...formProps} label-width="auto" key={formKey.value}>
             {renderFields()}
 
             {slots.default?.()}

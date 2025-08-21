@@ -52,6 +52,7 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElTreeSelect',
           props: {
+            style: { width: '200px' },
             valueKey: 'id',
             nodeKey: 'id',
             lazy: true,

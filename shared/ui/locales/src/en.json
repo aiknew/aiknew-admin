@@ -24,5 +24,6 @@
   "cantSelectChildrenAsOwnSuperior": "Cannot select its own child as a parent",
   "type": "Type",
   "enabled": "enabled",
-  "disabled": "disabled"
+  "disabled": "disabled",
+  "reset": "Reset"
 }

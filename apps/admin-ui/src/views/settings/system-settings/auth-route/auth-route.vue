@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
+import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
 import { usePagination } from '@/composables'
@@ -16,6 +16,8 @@ import {
 } from '@/api/auth-route'
 import AuthRouteModal from './components/auth-route-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import z from 'zod'
 
 const { t } = useAuthRouteI18n()
 const { currentPage, pageSize } = usePagination()
@@ -113,10 +115,64 @@ const appTableRef = useTemplateRef('appTableRef')
 const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
   refresh(updatedParentIds)
 }
+
+const { AppForm: QueryForm, formApi } = useAppForm({
+  formProps: {
+    inline: true
+  },
+  fields() {
+    return [
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('name'),
+        name: 'name',
+        schema: z.string().default('').optional()
+      },
+      {
+        as: {
+          component: 'ElSelectV2',
+          props: {
+            style: { width: '150px' },
+            options: [
+              { label: t('routeTypeMenu'), value: 'MENU' },
+              {
+                label: t('routeTypeGroup'),
+                value: 'GROUP'
+              },
+              {
+                label: t('routeTypeSmallGroup'),
+                value: 'SMALL_GROUP'
+              },
+              {
+                label: t('routeTypeButton'),
+                value: 'BUTTON'
+              }
+            ]
+          }
+        },
+        label: t('routeType'),
+        name: 'type',
+        schema: z.enum(['MENU', 'BUTTON', 'GROUP', 'SMALL_GROUP']).default('MENU').optional()
+      }
+    ] as const satisfies Fields
+  },
+  onSubmit({ values }) {
+    console.log(values)
+  }
+})
 </script>
 
 <template>
-  <AppContentBlock class="mb-6"> </AppContentBlock>
+  <AppContentBlock class="mb-6">
+    <QueryForm>
+      <el-form-item>
+        <el-button type="primary" @click="formApi.handleSubmit">{{ t('submit') }}</el-button>
+        <el-button @click="formApi.reset()">{{ t('reset') }}</el-button>
+      </el-form-item>
+    </QueryForm>
+  </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">

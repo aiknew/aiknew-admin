@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/client/index.js'
+import { Prisma } from './prisma-client'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 import dayjs from 'dayjs'
 

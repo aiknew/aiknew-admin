@@ -1,5 +1,5 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
-import { PrismaClient } from '../generated/client/index.js'
+import { PrismaClient } from './prisma-client'
 import {
   existsExtension,
   formatDateExtension,

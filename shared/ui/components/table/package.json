@@ -22,7 +22,6 @@
     "@aiknew/shared-types": "workspace:*",
     "@types/lodash": "^4.17.20",
     "@vitejs/plugin-vue": "catalog:ui",
-    "typescript": "catalog:common",
     "vite": "catalog:ui",
     "vite-plugin-dts": "catalog:ui"
   },

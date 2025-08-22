@@ -1,4 +1,10 @@
-import { PrismaService, StorageType } from '@aiknew/shared-admin-db'
+import {
+  FileStatus,
+  Prisma,
+  PrismaService,
+  StorageType,
+  UploadFileChannel,
+} from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
 import { FileStorageService } from '../file-storage/file-storage.service'
 import { S3WebhookBodyDto, UploadS3FileDto } from './dto'
@@ -22,12 +28,16 @@ export class S3Service {
     private readonly configService: ConfigService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['uploadFile'] {
     return this.prisma.uploadFile
   }
 
+  get fileStorageModel() {
+    return this.prisma.fileStorage
+  }
+
   async getS3Client() {
-    const storage = await this.fileStorageService.getActiveStorage()
+    const storage = await this.fileStorageService.getFirstStorage()
     const bucket = storage.bucket
 
     if (storage.type === StorageType.S3 && bucket) {
@@ -56,7 +66,7 @@ export class S3Service {
   async getPresignedPost(
     fileGroupId: string,
     uploaderId: string,
-    uploadChannel: string = '10',
+    uploadChannel: UploadFileChannel = 'ADMIN',
   ) {
     const { client, storage } = await this.getS3Client()
     const { fields, url } = await createPresignedPost(client, {
@@ -106,9 +116,10 @@ export class S3Service {
   async deleteS3FileFromBucket(data: { bucket: string; key: string }) {
     const { bucket, key } = data
     const { client } = await this.getS3Client()
+
     const command = new DeleteObjectCommand({
       Bucket: bucket,
-      Key: key,
+      Key: key.slice(bucket.length + 1),
     })
     return await client.send(command)
   }
@@ -126,19 +137,30 @@ export class S3Service {
   async temporaryDeleteS3FileFromDB(data: {
     groupId: string
     originalName: string
+    fileStorageId: string
   }) {
-    const { groupId, originalName } = data
-    await this.model.update({
-      where: {
-        originalName_groupId: {
-          groupId,
-          originalName,
+    const { groupId, originalName, fileStorageId } = data
+    try {
+      await this.model.update({
+        where: {
+          originalName_groupId_fileStorageId: {
+            groupId,
+            originalName,
+            fileStorageId,
+          },
         },
-      },
-      data: {
-        deletedAt: new Date(),
-      },
-    })
+        data: {
+          deletedAt: new Date(),
+        },
+      })
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code === 'P2025') {
+          // file record not found
+          return
+        }
+      }
+    }
   }
 
   async deleteS3File(data: {
@@ -146,10 +168,15 @@ export class S3Service {
     originalName: string
     bucket: string
     key: string
+    fileStorageId: string
   }) {
-    const { bucket, key, groupId, originalName } = data
+    const { bucket, key, groupId, originalName, fileStorageId } = data
     return Promise.allSettled([
-      this.temporaryDeleteS3FileFromDB({ groupId, originalName }),
+      this.temporaryDeleteS3FileFromDB({
+        groupId,
+        originalName,
+        fileStorageId,
+      }),
       this.deleteS3FileFromBucket({ bucket, key }),
     ]).then(() => {
       this.deleteAllTemporaryDeletedFiles()
@@ -165,73 +192,60 @@ export class S3Service {
     }
   }
 
-  async upsertFileRecord(data: UploadS3FileDto) {
-    const activeStorage = await this.fileStorageService.getActiveStorage()
-    const existFile = await this.model.findUnique({
+  async upsertFileRecord(data: UploadS3FileDto, fileStorageId: string) {
+    return await this.model.upsert({
       where: {
-        originalName_groupId: {
+        originalName_groupId_fileStorageId: {
           groupId: data.groupId,
           originalName: data.originalName,
-        },
-      },
-      include: {
-        storage: true,
-      },
-    })
-
-    if (existFile && existFile.storage.id !== activeStorage.id) {
-      // delete the exist file asset
-      if (existFile.storage.type === 'LOCAL') {
-        this.deleteLocalStorageFile(existFile.filePath)
-      }
-
-      if (existFile.storage.type === 'S3' && existFile.storage.bucket) {
-        this.deleteS3FileFromBucket({
-          bucket: existFile.storage.bucket,
-          key: existFile.filePath,
-        })
-      }
-    }
-
-    const ret = await this.model.upsert({
-      where: {
-        originalName_groupId: {
-          groupId: data.groupId,
-          originalName: data.originalName,
+          fileStorageId,
         },
       },
       create: {
         ...data,
-        fileStorageId: activeStorage.id,
+        fileStorageId,
       },
       update: {
         ...data,
-        fileStorageId: activeStorage.id,
+        deletedAt: null,
+        fileStorageId,
       },
     })
+  }
 
-    return ret
+  isUploadFileChannel(str: string): str is UploadFileChannel {
+    return Object.getOwnPropertyNames(UploadFileChannel).includes(str)
+  }
+
+  async findFileStorageId(endpoint: string, bucket: string) {
+    return this.fileStorageModel.findFirst({
+      where: {
+        endpoint,
+        bucket,
+      },
+    })
   }
 
   async handleS3Webhook(body: S3WebhookBodyDto) {
     try {
+      const fileStorageId = body.storageId
       const s3 = body?.Records?.[0]?.s3
       const s3Object = s3?.object
       const userMetadata = s3Object?.userMetadata
-
       const EventName = body?.EventName
       const Key = body?.Key
       const contentType = s3Object?.contentType
       const size = s3Object?.size
-      const channelStr = userMetadata?.['X-Amz-Meta-Channel']
-      const groupId = userMetadata?.['X-Amz-Meta-Groupid']
-      const uploaderId = userMetadata?.['X-Amz-Meta-Uploaderid']
+      let channelStr = userMetadata?.['X-Amz-Meta-Channel']
+      let groupId = userMetadata?.['X-Amz-Meta-Groupid']
+      let uploaderId = userMetadata?.['X-Amz-Meta-Uploaderid']
 
-      if (!channelStr || !groupId || !uploaderId) {
-        //  The request is not coming from a normal presigned URL, like the console..
-        // TODO
-        // await this.checkS3File(s3?.bucket?.name, s3Object?.key)
-        // return logger.warn('Unhandled s3 notification: ')
+      if (!channelStr && !groupId && !uploaderId) {
+        // its not upload from presigned url
+        return
+      }
+
+      if (!this.isUploadFileChannel(channelStr)) {
         return
       }
 
@@ -241,23 +255,26 @@ export class S3Service {
         fileName,
         groupId,
         uploaderId,
-        channel: Number(channelStr),
+        channel: channelStr,
         fileExt: extname(fileName),
         filePath: Key,
         fileSize: size,
         mime: contentType,
         order: 10,
+        status: FileStatus.NORMAL,
         originalName: fileName,
       }
 
-      switch (EventName) {
-        case S3EventsEnum['s3:ObjectCreated:Post']:
-          return await this.upsertFileRecord(data)
-        case S3EventsEnum['s3:ObjectRemoved:Delete']:
-          return await this.temporaryDeleteS3FileFromDB({
-            groupId: data.groupId,
-            originalName: data.originalName,
-          })
+      if (EventName.startsWith(S3EventsEnum['s3:ObjectCreated'])) {
+        return await this.upsertFileRecord(data, fileStorageId)
+      }
+
+      if (EventName.startsWith(S3EventsEnum['s3:ObjectRemoved'])) {
+        return await this.temporaryDeleteS3FileFromDB({
+          groupId: data.groupId,
+          originalName: data.originalName,
+          fileStorageId,
+        })
       }
     } catch (err) {
       console.log(err)

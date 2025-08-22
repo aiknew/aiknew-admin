@@ -27,11 +27,11 @@ export class FileService {
     private readonly s3Service: S3Service,
   ) {}
 
-  get model() {
+  get model(): PrismaService['uploadFile'] {
     return this.prisma[FileService.modelName]
   }
 
-  get fileStorageModel() {
+  get fileStorageModel(): PrismaService['fileStorage'] {
     return this.prisma.fileStorage
   }
 
@@ -53,7 +53,7 @@ export class FileService {
         groupName: { contains: keyword },
       }
 
-      const activeStorage = await this.fileStorageService.getActiveStorage()
+      const firstStorage = await this.fileStorageService.getFirstStorage()
 
       const groupsPaginationData = await this.uploadFileGroupService.pagination(
         { currentPage: current, pageSize },
@@ -91,11 +91,10 @@ export class FileService {
         groupList: groupsPaginationData.list,
         fileList,
         storage: {
-          id: activeStorage.id,
-          hostname: activeStorage.hostname,
-          bucket: activeStorage.bucket,
-          type: activeStorage.type,
-          active: activeStorage.active,
+          id: firstStorage.id,
+          hostname: firstStorage.hostname,
+          bucket: firstStorage.bucket,
+          type: firstStorage.type,
         },
       }
     } catch (err) {
@@ -141,7 +140,7 @@ export class FileService {
     fileData: Omit<Prisma.UploadFileCreateArgs['data'], 'fileStorageId'>,
   ) {
     try {
-      const storage = await this.fileStorageService.getActiveStorage()
+      const storage = await this.fileStorageService.getFirstStorage()
       if (storage.type === 'LOCAL') {
         const data = {
           ...fileData,
@@ -191,9 +190,9 @@ export class FileService {
           await this.s3Service.deleteS3File({
             groupId: file.groupId,
             originalName: file.originalName,
-            bucket,
-            // key: relative(bucket, file.filePath),
             key: file.filePath,
+            fileStorageId: file.fileStorageId,
+            bucket,
           })
         }
       } else if (fileStorage.type === 'LOCAL') {

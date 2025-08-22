@@ -4,6 +4,8 @@
     "module": "ESNext",
     "strict": true,
     "jsx": "preserve",
+    "declaration": true,
+    "declarationMap": true,
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,

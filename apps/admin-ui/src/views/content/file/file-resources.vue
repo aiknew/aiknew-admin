@@ -16,8 +16,7 @@ import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { ElMessage } from 'element-plus'
 import { currentLang } from '@aiknew/shared-ui-locales'
-import { join } from 'pathe'
-import z from 'zod'
+import { resolveURL } from '@aiknew/shared-ui-utils'
 
 const fileManagerRef = useTemplateRef('fileManager')
 const userStore = useUserStore()
@@ -41,23 +40,6 @@ const {
   id: parentGroupId,
   query: { data: childGroups, refetch: fetchChildGroups }
 } = useUploadFileGroupChildren()
-
-const checkURL = (str: string) => {
-  return z
-    .url({
-      protocol: /^https?$/
-    })
-    .safeParse(str)
-}
-
-const resolveURL = (host: string, path: string) => {
-  const result = checkURL(host)
-  if (result.success) {
-    return new URL(path, result.data).href
-  }
-
-  return join(host, path)
-}
 
 const uploadUrl = ref<string>(resolveURL(import.meta.env.VITE_API_BASE_URL, uploadFileUrl))
 

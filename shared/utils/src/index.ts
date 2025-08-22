@@ -1,5 +1,4 @@
 import { get } from 'lodash-es'
-
 /**
  * build tree list from an array
  * @param list source list

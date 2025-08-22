@@ -31,6 +31,7 @@ import { UpdateUploadFileDto } from './dto/update-upload-file.dto'
 import { CreateUploadFileDto } from './dto/create-upload-file.dto'
 import { t } from '@aiknew/shared-api-utils'
 import type { AuthAdminRequest } from '@aiknew/shared-api-types'
+import { FileStatus, UploadFileChannel } from '@aiknew/shared-admin-db'
 
 @Controller('upload-file')
 export class UploadFileController {
@@ -69,6 +70,8 @@ export class UploadFileController {
       originalName: file.originalname,
       uploaderId: req.adminUser.userId,
       groupId: createUploadFileDto.groupId,
+      status: FileStatus.NORMAL,
+      channel: UploadFileChannel.ADMIN,
     })
   }
 

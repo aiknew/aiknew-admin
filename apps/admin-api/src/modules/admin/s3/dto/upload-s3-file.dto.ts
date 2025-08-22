@@ -1,5 +1,7 @@
+import { FileStatus, UploadFileChannel } from '@aiknew/shared-admin-db'
+
 export class UploadS3FileDto {
-  channel: number
+  channel: UploadFileChannel
   fileName: string
   filePath: string
   fileExt: string
@@ -8,5 +10,6 @@ export class UploadS3FileDto {
   mime: string
   originalName: string
   uploaderId: string
+  status: FileStatus
   order: number
 }

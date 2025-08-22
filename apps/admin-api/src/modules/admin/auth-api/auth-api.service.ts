@@ -23,11 +23,11 @@ export class AuthApiService {
     private readonly authUserService: AdminUserService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['adminApi'] {
     return this.prisma.adminApi
   }
 
-  get translationModel() {
+  get translationModel(): PrismaService['adminApiTranslation'] {
     return this.prisma.adminApiTranslation
   }
 

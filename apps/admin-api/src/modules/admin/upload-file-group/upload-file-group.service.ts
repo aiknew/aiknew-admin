@@ -39,7 +39,7 @@ export class UploadFileGroupService {
     private readonly i18n: I18nService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['uploadFileGroup'] {
     return this.prisma[UploadFileGroupService.modelName]
   }
 

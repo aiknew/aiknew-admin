@@ -79,4 +79,7 @@ export class S3WebhookBodyDto {
   @ValidateNested({ each: true })
   @Type(() => Record)
   Records: Record[]
+
+  @IsString()
+  storageId: string
 }

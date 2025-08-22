@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "types": "index.d.ts",
   "devDependencies": {
-    "typescript": "catalog:common",
     "express": "catalog:api"
   }
 }

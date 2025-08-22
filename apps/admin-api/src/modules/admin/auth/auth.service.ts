@@ -25,7 +25,7 @@ export class AuthService {
     private i18n: I18nService,
   ) {}
 
-  get userModel() {
+  get userModel(): PrismaService['adminUser'] {
     return this.prisma.adminUser
   }
 

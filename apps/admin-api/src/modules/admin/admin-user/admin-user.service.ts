@@ -21,19 +21,19 @@ export class AdminUserService {
     private redisService: RedisService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['adminUser'] {
     return this.prisma.adminUser
   }
 
-  get roleRelModel() {
+  get roleRelModel(): PrismaService['adminUserRole'] {
     return this.prisma.adminUserRole
   }
 
-  get roleRouteRelModel() {
+  get roleRouteRelModel(): PrismaService['adminRoleRoute'] {
     return this.prisma.adminRoleRoute
   }
 
-  get routeModel() {
+  get routeModel(): PrismaService['adminRoute'] {
     return this.prisma.adminRoute
   }
 

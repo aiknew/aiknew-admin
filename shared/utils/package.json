@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -12,16 +13,15 @@
     }
   },
   "scripts": {
-    "build": "pnpm tsc",
-    "clean": "rm -rf ./dist"
+    "dev": "tsdown --watch",
+    "build": "tsdown"
   },
-  "dependencies": {
+  "peerDependencies": {
     "lodash-es": "catalog:common"
   },
   "devDependencies": {
-    "typescript": "catalog:common",
     "@types/lodash-es": "catalog:common",
-    "@aiknew/shared-ts-config": "workspace: *"
+    "@aiknew/shared-ts-config": "workspace:*"
   },
   "keywords": [],
   "author": "",

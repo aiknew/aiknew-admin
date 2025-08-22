@@ -4,6 +4,7 @@ packages:
 
 catalogs:
   common:
+    typescript: 5.8.3
     filesize: ^10.1.6
     mime: ^4.0.7
     lodash-es: ^4.17.21
@@ -12,7 +13,6 @@ catalogs:
     tsx: ^4.19.3
     glob: ^11.0.3
     dayjs: ^1.11.13
-    typescript: ^5.8.3
     '@dotenvx/dotenvx': '^1.48.2'
     pathe: '^2.0.3'
   ui:

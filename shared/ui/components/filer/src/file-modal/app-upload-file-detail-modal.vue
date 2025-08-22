@@ -59,16 +59,7 @@ const TextItem = ({ text }: { text?: string }) => {
   return <span class="detail-item">{text}</span>
 }
 
-const channelText = (channel?: number) => {
-  switch (channel) {
-    case 10:
-      return 'Admin'
-    default:
-      return ''
-  }
-}
-
-const previewFields = () =>
+const previewField = () =>
   ({
     exclude: true,
     label: t('preview'),
@@ -107,7 +98,7 @@ const previewFields = () =>
 
 const editFields = () =>
   [
-    previewFields(),
+    previewField(),
     {
       as: {
         component: 'ElInput',
@@ -153,7 +144,7 @@ const editFields = () =>
 
 const detailFields = () =>
   [
-    previewFields(),
+    previewField(),
 
     {
       exclude: true,
@@ -203,7 +194,7 @@ const detailFields = () =>
       label: t('from'),
       container: {
         content() {
-          return h(TextItem, { text: channelText(fileDetail.value?.channel) })
+          return h(TextItem, { text: fileDetail.value?.channel })
         },
       },
     },

@@ -20,7 +20,6 @@
     "@aiknew/shared-api-enums": "workspace: *"
   },
   "devDependencies": {
-    "typescript": "catalog:common",
     "@types/lodash-es": "catalog:common",
     "@aiknew/shared-types": "workspace: *",
     "@aiknew/shared-ts-config": "workspace: *"

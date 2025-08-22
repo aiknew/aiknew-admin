@@ -15,15 +15,15 @@ export class AuthRoleService {
     private readonly authUserService: AdminUserService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['adminRole'] {
     return this.prisma.adminRole
   }
 
-  get translationModel() {
+  get translationModel(): PrismaService['adminRoleTranslation'] {
     return this.prisma.adminRoleTranslation
   }
 
-  get routeRelModel() {
+  get routeRelModel(): PrismaService['adminRoleRoute'] {
     return this.prisma.adminRoleRoute
   }
 

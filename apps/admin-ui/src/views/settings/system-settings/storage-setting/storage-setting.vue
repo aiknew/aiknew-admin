@@ -8,12 +8,7 @@ import { toReactive } from '@vueuse/core'
 import { useStorageSettingI18n } from './composables/use-storage-setting-i18n'
 import StorageSettingModal from './components/storage-setting-modal.vue'
 import { useTemplateRef } from 'vue'
-import {
-  useFileStorageDelete,
-  useFileStorageList,
-  useUpdateFileStorageActive,
-  type FileStorage
-} from '@/api/file-storage'
+import { useFileStorageDelete, useFileStorageList, type FileStorage } from '@/api/file-storage'
 
 const { t } = useStorageSettingI18n()
 const { currentPage, pageSize } = usePagination()
@@ -24,7 +19,6 @@ const {
   isFetching: isFetchingData
 } = useFileStorageList(toReactive({ currentPage, pageSize }))
 const { mutateAsync: deleteFileStorage, isPending: isDeleting } = useFileStorageDelete()
-const { mutateAsync: updateFileStorageActive } = useUpdateFileStorageActive()
 
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingData.value
@@ -40,11 +34,6 @@ const handleEdit = (row: FileStorage) => {
 
 const handleDelete = async (row: FileStorage) => {
   await deleteFileStorage(row.id)
-  refetchTableData()
-}
-
-const handleChangeActive = async (row: FileStorage) => {
-  await updateFileStorageActive({ id: row.id, active: !row.active })
   refetchTableData()
 }
 </script>
@@ -66,14 +55,10 @@ const handleChangeActive = async (row: FileStorage) => {
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180" />
       <el-table-column prop="type" :label="t('type')" width="180" />
-      <el-table-column prop="active" :label="t('active')" width="180">
+      <el-table-column prop="status" :label="t('status')" width="180">
         <template #default="{ row }">
-          <el-tag
-            class="cursor-pointer"
-            :type="row.active ? 'primary' : 'info'"
-            @click="handleChangeActive(row)"
-          >
-            {{ row.active ? t('enabled') : t('disabled') }}
+          <el-tag class="cursor-pointer">
+            {{ row.status }}
           </el-tag>
         </template>
       </el-table-column>

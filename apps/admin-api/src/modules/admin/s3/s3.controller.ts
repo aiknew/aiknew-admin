@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Query, Req } from '@nestjs/common'
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
+} from '@nestjs/common'
 import { S3Service } from './s3.service'
 import { AppApiOkResponse, Public } from '@aiknew/shared-api-decorators'
 import { plainToInstance } from 'class-transformer'
@@ -15,9 +24,15 @@ export class S3Controller {
    * @returns
    */
   @Public()
-  @Post('webhook')
-  async s3WebhookPost(@Req() req: Request) {
-    const body = plainToInstance(S3WebhookBodyDto, req.body)
+  @Post('webhook/:storageId')
+  async s3WebhookPost(
+    @Param('storageId') storageId: string,
+    @Req() req: Request,
+  ) {
+    const body = plainToInstance(S3WebhookBodyDto, {
+      ...req.body,
+      storageId,
+    })
     return this.s3Service.handleS3Webhook(body)
   }
 

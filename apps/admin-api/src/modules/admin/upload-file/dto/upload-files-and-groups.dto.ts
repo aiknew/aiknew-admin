@@ -12,8 +12,6 @@ class FileStorage {
 
   hostname: string
 
-  active: boolean
-
   bucket: string | null
 }
 

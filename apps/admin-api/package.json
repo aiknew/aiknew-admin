@@ -40,6 +40,7 @@
     "@nestjs/core": "catalog:api",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/platform-express": "catalog:api",
+    "@nestjs/schedule": "^6.0.0",
     "@nestjs/serve-static": "^5.0.3",
     "@nestjs/swagger": "catalog:api",
     "class-transformer": "catalog:api",
@@ -60,7 +61,7 @@
     "@aiknew/shared-types": "workspace:*",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
-    "@nestjs/cli": "^11.0.0",
+    "@nestjs/cli": "^11.0.10",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
     "@swc/cli": "^0.6.0",
@@ -85,7 +86,6 @@
     "ts-loader": "^9.5.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "catalog:common",
-    "typescript": "catalog:common",
     "typescript-eslint": "^8.20.0"
   },
   "jest": {

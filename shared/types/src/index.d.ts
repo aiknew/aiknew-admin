@@ -1,6 +1,6 @@
+export type * from '@aiknew/shared-admin-db'
 export type * from './language.interface'
 export type * from './response-json.interface'
-export type * from './route-type'
 export type * from './upload-file'
 export type * from './pagination-data'
 export type * from './pagination-query'

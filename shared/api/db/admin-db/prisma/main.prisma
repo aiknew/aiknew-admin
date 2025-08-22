@@ -1,7 +1,11 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../generated/client"
+  // provider        = "prisma-client-js"
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
   previewFeatures = ["typedSql"]
+
+  moduleFormat = "cjs"
+  runtime      = "node"
 }
 
 datasource db {
@@ -29,7 +33,6 @@ enum RequestMethod {
   DELETE
 }
 
-// TODO: Rename to AdminLanguage
 model Language {
   key                        String                       @unique @db.VarChar(30)
   name                       String                       @db.VarChar(50)
@@ -43,16 +46,6 @@ model Language {
   AdminRouteTranslation      AdminRouteTranslation[]
   AdminApiTranslation        AdminApiTranslation[]
   ArticleCategoryTranslation ArticleCategoryTranslation[]
-}
-
-model WebsiteLanguage {
-  key         String              @unique @db.VarChar(30)
-  name        String              @db.VarChar(50)
-  orientation LanguageOrientation @default(LTR)
-  status      Boolean             @default(true)
-  order       Int                 @default(10)
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
 }
 
 model AdminUser {

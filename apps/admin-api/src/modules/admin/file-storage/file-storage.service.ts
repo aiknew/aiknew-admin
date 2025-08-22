@@ -4,23 +4,26 @@ import { Injectable } from '@nestjs/common'
 import { CreateFileStorageDto } from './dto/create-file-storage.dto'
 import { UpdateFileStorageDto } from './dto/update-file-storage.dto'
 import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
-import { UpdateStorageActiveDto } from './dto/update-storage-active.dto'
 
 @Injectable()
 export class FileStorageService {
   constructor(private readonly prisma: PrismaService) {}
 
-  get model() {
+  get model(): PrismaService['fileStorage'] {
     return this.prisma.fileStorage
   }
 
-  async getActiveStorage() {
+  async getFirstStorage() {
     const storage = await this.model.findFirst({
-      where: { active: true },
+      where: { status: 'NORMAL' },
+      orderBy: {
+        priority: 'asc',
+        createdAt: 'desc',
+      },
     })
 
     if (!storage) {
-      throw new AppBadRequestException('No file storage is being used.')
+      throw new AppBadRequestException('No file storage can be uploaded.')
     }
 
     return storage
@@ -30,27 +33,12 @@ export class FileStorageService {
     return this.model.paginate(paginationDto)
   }
 
-  disableOthers(): PrismaPromise<unknown> {
-    // currently only one file storage option can be activated at a time
-    return this.model.updateMany({
-      data: {
-        active: false,
-      },
-    })
-  }
-
   async createOne(data: CreateFileStorageDto) {
-    const { active } = data
-
     const actions: PrismaPromise<unknown>[] = []
 
     const create = this.model.create({
       data,
     })
-
-    if (active) {
-      actions.push(this.disableOthers())
-    }
 
     actions.push(create)
 
@@ -58,21 +46,10 @@ export class FileStorageService {
   }
 
   async updateOne(id: string, data: UpdateFileStorageDto) {
-    const { active } = data
-
-    const actions: PrismaPromise<unknown>[] = []
-    const update = this.model.update({
+    return this.model.update({
       where: { id },
       data,
     })
-
-    if (active) {
-      actions.push(this.disableOthers())
-    }
-
-    actions.push(update)
-
-    return this.prisma.$transaction(actions)
   }
 
   async deleteOne(id: string) {
@@ -81,25 +58,5 @@ export class FileStorageService {
         id,
       },
     })
-  }
-
-  async updateActive(data: UpdateStorageActiveDto) {
-    const { id, active } = data
-
-    const actions: PrismaPromise<unknown>[] = []
-    const update = this.model.update({
-      where: { id },
-      data: {
-        active,
-      },
-    })
-
-    if (active) {
-      actions.push(this.disableOthers())
-    }
-
-    actions.push(update)
-
-    return this.prisma.$transaction(actions)
   }
 }

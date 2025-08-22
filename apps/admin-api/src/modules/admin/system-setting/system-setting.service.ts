@@ -15,7 +15,7 @@ export class SystemSettingService {
     private redisService: RedisService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['systemSetting'] {
     return this.prisma.systemSetting
   }
 

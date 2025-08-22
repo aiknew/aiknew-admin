@@ -496,22 +496,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/file-storage/updateActive": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["FileStorageController_updateActive"];
-        trace?: never;
-    };
     "/admin/file-storage/{id}": {
         parameters: {
             query?: never;
@@ -528,7 +512,7 @@ export interface paths {
         patch: operations["FileStorageController_updateOne"];
         trace?: never;
     };
-    "/admin/s3/webhook": {
+    "/admin/s3/webhook/{storageId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -940,9 +924,11 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        /** @enum {string} */
+        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
         UploadFileDto: {
+            channel: components["schemas"]["UploadFileChannel"];
             id: string;
-            channel: number;
             fileName: string;
             filePath: string;
             fileExt: string;
@@ -958,6 +944,7 @@ export interface components {
                 hostname: string;
             };
             order: number;
+            status: Record<string, never>;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -969,7 +956,6 @@ export interface components {
             type: components["schemas"]["StorageType"];
             id: string;
             hostname: string;
-            active: boolean;
             bucket: string | null;
         };
         UploadFilesAndGroupsDto: {
@@ -998,12 +984,15 @@ export interface components {
             parentId?: string;
             order?: number;
         };
+        /** @enum {string} */
+        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
         FileStorageDto: {
+            status: components["schemas"]["FileStorageStatus"];
             type: components["schemas"]["StorageType"];
             id: string;
             name: string;
             hostname: string;
-            active: boolean;
+            priority: number;
             accessKey: string | null;
             secretKey: string | null;
             endpoint: string | null;
@@ -1014,26 +1003,26 @@ export interface components {
             updatedAt: string;
         };
         CreateFileStorageDto: {
+            /** @default NORMAL */
+            status: components["schemas"]["FileStorageStatus"];
             type: components["schemas"]["StorageType"];
             name: string;
             hostname: string;
-            /** @default false */
-            active: boolean;
+            /** @default 10 */
+            priority: number;
             accessKey?: string;
             secretKey?: string;
             endpoint?: string;
             bucket?: string;
         };
-        UpdateStorageActiveDto: {
-            id: string;
-            active: boolean;
-        };
         UpdateFileStorageDto: {
+            /** @default NORMAL */
+            status: components["schemas"]["FileStorageStatus"];
             type?: components["schemas"]["StorageType"];
             name?: string;
             hostname?: string;
-            /** @default false */
-            active: boolean;
+            /** @default 10 */
+            priority: number;
             accessKey?: string;
             secretKey?: string;
             endpoint?: string;
@@ -2685,38 +2674,6 @@ export interface operations {
             };
         };
     };
-    FileStorageController_updateActive: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateStorageActiveDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
     FileStorageController_deleteOne: {
         parameters: {
             query?: never;
@@ -2785,7 +2742,9 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                storageId: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -3081,4 +3040,6 @@ export const createLanguageDtoOrientationValues: ReadonlyArray<components["schem
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const systemSettingKeyValues: ReadonlyArray<components["schemas"]["SystemSettingKey"]> = ["LANGUAGE", "STORAGE"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
+export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
+export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];

@@ -35,7 +35,6 @@
     "@intlify/core-base": "^11.1.9",
     "@types/lodash": "^4.17.20",
     "@vitejs/plugin-vue": "catalog:ui",
-    "typescript": "catalog:common",
     "vite": "catalog:ui",
     "vite-svg-loader": "catalog:ui",
     "@vitejs/plugin-vue-jsx": "catalog:ui",

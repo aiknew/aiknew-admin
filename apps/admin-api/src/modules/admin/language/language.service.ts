@@ -17,7 +17,7 @@ export class LanguageService {
     private systemSettingService: SystemSettingService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['language'] {
     return this.prisma.language
   }
 

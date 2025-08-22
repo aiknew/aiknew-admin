@@ -2,13 +2,22 @@
   "name": "@aiknew/shared-types",
   "version": "0.0.1",
   "types": "./src/index.d.ts",
+  "main": "./src/index.d.ts",
+  "module": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.d.ts",
+      "require": "./src/index.d.ts",
+      "default": "./src/index.d.ts"
+    }
+  },
   "devDependencies": {
-    "typescript": "catalog:common",
     "@nestjs/common": "catalog:api",
     "@aiknew/shared-admin-db": "workspace:*",
     "@aiknew/shared-api-enums": "workspace:*"
   },
   "files": [
-    "src/*.ts"
+    "src/*.d.ts"
   ]
 }

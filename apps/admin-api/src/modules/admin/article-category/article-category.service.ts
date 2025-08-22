@@ -20,11 +20,11 @@ export class ArticleCategoryService {
     private readonly i18n: I18nService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['articleCategory'] {
     return this.prisma.articleCategory
   }
 
-  get translationModel() {
+  get translationModel(): PrismaService['articleCategoryTranslation'] {
     return this.prisma.articleCategoryTranslation
   }
 

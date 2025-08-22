@@ -1,8 +1,8 @@
-import { StorageType } from '@aiknew/shared-admin-db'
+import { FileStorageStatus, StorageType } from '@aiknew/shared-admin-db'
 import { ApiProperty } from '@nestjs/swagger'
 import {
-  IsBoolean,
   IsEnum,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateIf,
@@ -23,9 +23,14 @@ export class CreateFileStorageDto {
   @IsString()
   hostname: string
 
-  @IsBoolean()
+  @ApiProperty({ enumName: 'FileStorageStatus', enum: FileStorageStatus })
+  @IsEnum(FileStorageStatus)
   @IsOptional()
-  active?: boolean = false
+  status: FileStorageStatus = FileStorageStatus.NORMAL
+
+  @IsNumber()
+  @IsOptional()
+  priority: number = 10
 
   @ApiProperty({ enumName: 'StorageType', enum: StorageType })
   @IsEnum(StorageType)

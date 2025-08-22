@@ -30,7 +30,6 @@
     "@aiknew/shared-ui-types": "workspace:*",
     "@types/lodash-es": "catalog:common",
     "@vitejs/plugin-vue": "catalog:ui",
-    "typescript": "catalog:common",
     "vite": "catalog:ui",
     "vite-plugin-dts": "catalog:ui",
     "@vitejs/plugin-vue-jsx": "catalog:ui",

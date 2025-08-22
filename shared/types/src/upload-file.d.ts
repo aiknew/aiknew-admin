@@ -1,8 +1,8 @@
-import type { StorageType } from '@aiknew/shared-admin-db'
+import type { StorageType, UploadFileChannel } from '@aiknew/shared-admin-db'
 
 export interface IUploadFile {
   id: string
-  channel: number
+  channel: UploadFileChannel
   fileName: string
   filePath: string
   fileExt: string
@@ -60,7 +60,6 @@ export interface IUploadFilesAndGroupsData {
     id: string
     hostname: string
     type: StorageType
-    active: boolean
     bucket: string | null
   }
 }

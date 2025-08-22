@@ -1,7 +1,12 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { IPaginationQuery } from '@aiknew/shared-types'
+import {
+  type FileStorageStatus,
+  type IPaginationQuery,
+  type Language,
+  type UploadFile
+} from '@aiknew/shared-types'
 import { type Reactive } from 'vue'
 import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
@@ -10,8 +15,6 @@ export type FileStorage = ApiGetData<'/admin/file-storage'>['list'][number]
 export type CreateFileStorageDto = ApiPostReqBody<'/admin/file-storage'>
 
 export type UpdateFileStorageDto = ApiPatchReqBody<'/admin/file-storage/{id}'>
-
-export type UpdateFileStorageActiveDto = ApiPatchReqBody<'/admin/file-storage/updateActive'>
 
 export const useFileStorageList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({
@@ -72,19 +75,6 @@ export const useFileStorageDelete = () => {
               id
             }
           }
-        })
-      )
-    }
-  })
-}
-
-export const useUpdateFileStorageActive = () => {
-  return useMutation({
-    mutationKey: ['update-file-storage-active'],
-    mutationFn: (body: UpdateFileStorageActiveDto) => {
-      return useApiData(() =>
-        fetchClient.PATCH('/admin/file-storage/updateActive', {
-          body
         })
       )
     }

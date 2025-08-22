@@ -17,6 +17,7 @@ import commonConfig from './common/config/common.config'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { JwtService } from '@nestjs/jwt'
 import { AdminUserService } from './modules/admin/admin-user/admin-user.service'
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
@@ -62,6 +63,8 @@ import { AdminUserService } from './modules/admin/admin-user/admin-user.service'
         ]
       },
     }),
+
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [

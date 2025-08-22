@@ -9,7 +9,6 @@
     "@aiknew/shared-api-utils": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "catalog:common",
     "@aiknew/shared-ts-config": "workspace:*"
   },
   "type": "module",

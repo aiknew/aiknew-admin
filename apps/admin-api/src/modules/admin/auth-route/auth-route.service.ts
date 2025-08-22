@@ -24,15 +24,15 @@ export class AuthRouteService {
     private readonly authUserService: AdminUserService,
   ) {}
 
-  get model() {
+  get model(): PrismaService['adminRoute'] {
     return this.prisma.adminRoute
   }
 
-  get translationModel() {
+  get translationModel(): PrismaService['adminRouteTranslation'] {
     return this.prisma.adminRouteTranslation
   }
 
-  get apiRelModel() {
+  get apiRelModel(): PrismaService['adminRouteApi'] {
     return this.prisma.adminRouteApi
   }
 

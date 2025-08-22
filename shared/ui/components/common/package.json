@@ -39,7 +39,6 @@
     "@vitejs/plugin-vue": "catalog:ui",
     "vite-plugin-dts": "catalog:ui",
     "vite-svg-loader": "catalog:ui",
-    "typescript": "catalog:common",
     "vue-component-type-helpers": "catalog:ui",
     "vue-tsc": "catalog:ui"
   },

@@ -10,7 +10,6 @@
     "build": "pnpm tsc"
   },
   "devDependencies": {
-    "typescript": "catalog:common",
     "@aiknew/shared-ts-config": "workspace:*",
     "@aiknew/shared-types": "workspace:*",
     "@types/node": "catalog:common",
@@ -19,7 +18,9 @@
     "vite": "catalog:ui"
   },
   "peerDependencies": {
-    "vue": "catalog:ui"
+    "vue": "catalog:ui",
+    "zod": "catalog:ui",
+    "pathe": "catalog:common"
   },
   "keywords": [],
   "author": "",

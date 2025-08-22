@@ -5,6 +5,7 @@ import type {
   IUploadFileGroup,
   IUploadFilesAndGroupsData,
 } from '@aiknew/shared-types'
+import { resolveURL } from '@aiknew/shared-ui-utils'
 
 export const isGroupItem = (item: unknown): item is IUploadFileGroup => {
   return (
@@ -34,7 +35,7 @@ export const useFileData = (
     filesAndGroupsData.value.fileList.map((file) => {
       return {
         ...file,
-        filePath: file.storage.hostname + file.filePath,
+        filePath: resolveURL(file.storage.hostname, file.filePath),
       }
     }),
   )

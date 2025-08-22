@@ -6,6 +6,7 @@ import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useStorageSettingI18n } from '../composables/use-storage-setting-i18n'
 import { useFileStorageCreate, useFileStorageUpdate, type FileStorage } from '@/api/file-storage'
 import { convertNullToUndefined } from '@aiknew/shared-utils'
+import { FileStorageStatus, StorageType } from '@aiknew/shared-enums'
 
 interface Emits {
   (e: 'submit'): void
@@ -37,14 +38,25 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('storageType'),
         name: 'type',
-        schema: z.union([z.literal('LOCAL'), z.literal('S3')]).default('LOCAL')
+        schema: z.enum(StorageType).default('LOCAL')
       },
+
       {
-        as: 'ElSwitch',
-        label: t('active'),
-        name: 'active',
-        schema: z.boolean().default(false)
+        as: {
+          component: 'ElRadio',
+          props: {
+            options: [
+              { label: t('normalStatus'), value: FileStorageStatus.NORMAL },
+              { label: t('disabledStatus'), value: FileStorageStatus.DISABLED },
+              { label: t('disabledUploadStatus'), value: FileStorageStatus.DISABLED_UPLOAD }
+            ]
+          }
+        },
+        label: t('status'),
+        name: 'status',
+        schema: z.enum(FileStorageStatus).default(FileStorageStatus.NORMAL)
       },
+
       {
         as: 'ElInput',
         label: t('name'),
@@ -84,6 +96,12 @@ const { AppForm, formApi } = useAppForm({
         label: t('bucket'),
         name: 'bucket',
         schema: z.string().default('').optional()
+      },
+      {
+        as: 'ElInputNumber',
+        label: t('priority'),
+        name: 'priority',
+        schema: z.number().default(10)
       }
     ] as const satisfies Fields,
   async onSubmit({ i18nValues }) {

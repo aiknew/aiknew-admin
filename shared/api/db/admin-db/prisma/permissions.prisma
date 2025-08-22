@@ -9,7 +9,7 @@ model AdminUserRole {
 }
 
 model AdminRole {
-  id           String                 @id @default(cuid())
+  id           String                 @id @default(cuid(2))
   order        Int                    @default(100)
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
@@ -32,7 +32,7 @@ model AdminRoleTranslation {
 }
 
 model AdminRoute {
-  id           String                  @id @default(cuid())
+  id           String                  @id @default(cuid(2))
   icon         String                  @default("") @db.VarChar(20)
   redirect     String                  @default("") @db.VarChar(50)
   hidden       Boolean                 @default(false)
@@ -74,7 +74,7 @@ model AdminRoleRoute {
 
 // TODO: set top level record's parentId to null
 model AdminApi {
-  id           String                @id @default(cuid())
+  id           String                @id @default(cuid(2))
   url          String                @db.VarChar(100)
   method       RequestMethod         @default(GET)
   parentId     String                @default("0") @db.VarChar(30)

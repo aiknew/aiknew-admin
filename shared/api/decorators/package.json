@@ -15,7 +15,6 @@
     "@aiknew/shared-api-dtos": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "catalog:common",
     "@aiknew/shared-api-types": "workspace:*",
     "@aiknew/shared-ts-config": "workspace:*",
     "@aiknew/shared-api-dtos": "workspace:*"

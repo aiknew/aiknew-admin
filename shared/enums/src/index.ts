@@ -1,1 +1,5 @@
-export { FileStorageStatus, StorageType } from '@aiknew/shared-admin-db/enums'
+export {
+  FileStorageStatus,
+  StorageType,
+  FileStatus,
+} from '@aiknew/shared-admin-db/enums'

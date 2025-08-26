@@ -9,6 +9,9 @@ import { useStorageSettingI18n } from './composables/use-storage-setting-i18n'
 import StorageSettingModal from './components/storage-setting-modal.vue'
 import { useTemplateRef } from 'vue'
 import { useFileStorageDelete, useFileStorageList, type FileStorage } from '@/api/file-storage'
+import { FileStorageStatus } from '@aiknew/shared-enums'
+import type { ComponentProps } from 'vue-component-type-helpers'
+import { h } from 'vue'
 
 const { t } = useStorageSettingI18n()
 const { currentPage, pageSize } = usePagination()
@@ -36,6 +39,28 @@ const handleDelete = async (row: FileStorage) => {
   await deleteFileStorage(row.id)
   refetchTableData()
 }
+
+const StatusType = ({ status }: { status: FileStorageStatus }) => {
+  let text: string = status
+  let tagType: ComponentProps<typeof ElTag>['type'] = 'primary'
+
+  switch (status) {
+    case 'NORMAL':
+      text = t('normalStatus')
+      tagType = 'primary'
+      break
+    case 'DISABLED':
+      text = t('disabledStatus')
+      tagType = 'danger'
+      break
+    case 'DISABLED_UPLOAD':
+      text = t('disabledUploadStatus')
+      tagType = 'warning'
+      break
+  }
+
+  return h(ElTag, { type: tagType }, () => text)
+}
 </script>
 
 <template>
@@ -54,12 +79,11 @@ const handleDelete = async (row: FileStorage) => {
     >
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180" />
+      <el-table-column prop="priority" :label="t('priority')" />
       <el-table-column prop="type" :label="t('type')" width="180" />
       <el-table-column prop="status" :label="t('status')" width="180">
         <template #default="{ row }">
-          <el-tag class="cursor-pointer">
-            {{ row.status }}
-          </el-tag>
+          <StatusType :status="row.status" />
         </template>
       </el-table-column>
       <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />

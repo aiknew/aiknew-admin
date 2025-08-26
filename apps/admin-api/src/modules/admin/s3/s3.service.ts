@@ -19,6 +19,7 @@ import { S3EventsEnum, S3PresignedFieldsEnum } from './enum'
 import { basename, extname, join } from 'node:path'
 import { rm } from 'node:fs/promises'
 import { ConfigService } from '@nestjs/config'
+import { logger } from '@aiknew/shared-api-logger'
 
 @Injectable()
 export class S3Service {
@@ -193,24 +194,37 @@ export class S3Service {
   }
 
   async upsertFileRecord(data: UploadS3FileDto, fileStorageId: string) {
-    return await this.model.upsert({
-      where: {
-        originalName_groupId_fileStorageId: {
-          groupId: data.groupId,
-          originalName: data.originalName,
+    try {
+      return await this.model.upsert({
+        where: {
+          originalName_groupId_fileStorageId: {
+            groupId: data.groupId,
+            originalName: data.originalName,
+            fileStorageId,
+          },
+        },
+        create: {
+          ...data,
           fileStorageId,
         },
-      },
-      create: {
-        ...data,
-        fileStorageId,
-      },
-      update: {
-        ...data,
-        deletedAt: null,
-        fileStorageId,
-      },
-    })
+        update: {
+          ...data,
+          deletedAt: null,
+          fileStorageId,
+        },
+      })
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code === 'P2003') {
+          logger.error(
+            'Received a callback request related to creating a file from S3, but the relevant file storage engine id does not exist: ',
+            String(err),
+          )
+        }
+      }
+
+      throw err
+    }
   }
 
   isUploadFileChannel(str: string): str is UploadFileChannel {

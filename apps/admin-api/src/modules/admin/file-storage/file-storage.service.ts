@@ -16,10 +16,7 @@ export class FileStorageService {
   async getFirstStorage() {
     const storage = await this.model.findFirst({
       where: { status: 'NORMAL' },
-      orderBy: {
-        priority: 'asc',
-        createdAt: 'desc',
-      },
+      orderBy: [{ priority: 'asc' }, { createdAt: 'desc' }],
     })
 
     if (!storage) {
@@ -30,7 +27,9 @@ export class FileStorageService {
   }
 
   async pagination(paginationDto: PaginationDto) {
-    return this.model.paginate(paginationDto)
+    return this.model.paginate(paginationDto, {
+      orderBy: [{ priority: 'asc' }, { createdAt: 'desc' }],
+    })
   }
 
   async createOne(data: CreateFileStorageDto) {

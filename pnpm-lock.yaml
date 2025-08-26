@@ -445,6 +445,9 @@ importers:
       color2k:
         specifier: catalog:ui
         version: 2.0.3
+      dayjs:
+        specifier: catalog:common
+        version: 1.11.13
       element-plus:
         specifier: catalog:ui
         version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
@@ -947,6 +950,9 @@ importers:
 
   shared/ui/components/filer:
     dependencies:
+      '@aiknew/shared-enums':
+        specifier: workspace:*
+        version: link:../../../enums
       '@aiknew/shared-ui-components':
         specifier: workspace:*
         version: link:../common
@@ -971,6 +977,9 @@ importers:
       '@vueuse/core':
         specifier: catalog:ui
         version: 13.4.0(vue@3.5.17(typescript@5.9.2))
+      dayjs:
+        specifier: catalog:common
+        version: 1.11.13
       element-plus:
         specifier: catalog:ui
         version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.9.2))

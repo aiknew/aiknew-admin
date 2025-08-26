@@ -18,6 +18,8 @@ import {
   useAppForm,
 } from '@aiknew/shared-ui-form'
 import z from 'zod'
+import { ElLink } from 'element-plus'
+import AppFileStorageDetailModal from './app-file-storage-detail-modal.vue'
 
 export type FileItemWithGroupName = IUploadFile & { groupName: string }
 
@@ -46,6 +48,7 @@ const { updateFile, defaultExpandedTreeNodeKeys, loadGroupTreeNode } =
 
 const { t } = useFileI18n()
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modal')
+const storageModalRef = useTemplateRef('storageModal')
 const { isImage, isVideo, isPreviewable } = useFileType()
 const showFooter = ref(false)
 const fileDetail = ref<FileItemWithGroupName>()
@@ -162,6 +165,35 @@ const detailFields = () =>
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.originalName })
+        },
+      },
+    },
+
+    {
+      exclude: true,
+      label: t('fileStatus'),
+      container: {
+        content() {
+          return h(TextItem, { text: fileDetail.value?.status })
+        },
+      },
+    },
+
+    {
+      exclude: true,
+      label: t('storageName'),
+      container: {
+        content() {
+          return h(
+            ElLink,
+            {
+              type: 'primary',
+              onClick() {
+                storageModalRef.value?.show(fileDetail.value?.storage)
+              },
+            },
+            () => fileDetail.value?.storage.name,
+          )
         },
       },
     },
@@ -286,6 +318,8 @@ defineExpose({
   >
     <AppForm />
   </AppBasicModal>
+
+  <AppFileStorageDetailModal ref="storageModal" />
 </template>
 
 <style>

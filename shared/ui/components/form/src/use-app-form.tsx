@@ -37,7 +37,7 @@ interface Props<F extends readonly Field<string, keyof Components>[]> {
   formProps?: ComponentProps<typeof ElForm>
   fields: F | (() => F)
   languages?: ILanguage[]
-  onSubmit: (data: {
+  onSubmit?: (data: {
     values: Prettify<GetDefaultVals<F>>
     i18nFieldNames: Prettify<GetI18nFieldNames<F>>[]
     i18nValues: Prettify<GetFieldsWithTranslations<F>>
@@ -141,11 +141,12 @@ export const useAppForm = <
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      onSubmit({
-        values: value,
-        i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
-        i18nFieldNames,
-      })
+      onSubmit &&
+        onSubmit({
+          values: value,
+          i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
+          i18nFieldNames,
+        })
     },
     validators: {
       onChange: schemas,
@@ -167,11 +168,12 @@ export const useAppForm = <
           onSubmit: schemas,
         },
         onSubmit: async ({ value }) => {
-          onSubmit({
-            values: value,
-            i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
-            i18nFieldNames,
-          })
+          onSubmit &&
+            onSubmit({
+              values: value,
+              i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
+              i18nFieldNames,
+            })
         },
       })
     },

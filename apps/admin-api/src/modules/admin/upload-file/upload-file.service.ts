@@ -79,7 +79,14 @@ export class FileService {
             select: { userName: true },
           },
           storage: {
-            select: { hostname: true },
+            select: {
+              hostname: true,
+              name: true,
+              type: true,
+              status: true,
+              createdAt: true,
+              updatedAt: true,
+            },
           },
         },
       })
@@ -92,6 +99,8 @@ export class FileService {
         fileList,
         storage: {
           id: firstStorage.id,
+          name: firstStorage.name,
+          status: firstStorage.status,
           hostname: firstStorage.hostname,
           bucket: firstStorage.bucket,
           type: firstStorage.type,

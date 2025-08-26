@@ -6,6 +6,8 @@
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "moduleResolution": "bundler",
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

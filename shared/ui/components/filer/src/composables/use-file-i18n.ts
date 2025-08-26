@@ -31,6 +31,10 @@ const messages = {
     clearSelected: 'Clear Selection',
     uploadFile: 'Upload File',
     createGroup: 'Create Group',
+    fileStatus: 'File Status',
+    storageName: 'Storage Name',
+    storageDetailModalTitle: 'Storage Detail',
+    hostname: 'Hostname',
   },
   'zh-CN': {
     editFileDetailModalTitle: '修改文件',
@@ -61,6 +65,10 @@ const messages = {
     clearSelected: '清空选中',
     uploadFile: '上传文件',
     createGroup: '创建分组',
+    fileStatus: '文件状态',
+    storageName: '存储引擎名字',
+    storageDetailModalTitle: '存储引擎详情',
+    hostname: '主机名称',
   },
   'zh-TW': {
     editFileDetailModalTitle: '修改檔案',
@@ -91,6 +99,10 @@ const messages = {
     clearSelected: '清空選取',
     uploadFile: '上傳檔案',
     createGroup: '建立分組',
+    fileStatus: '檔案狀態',
+    storageName: '儲存引擎名字',
+    storageDetailModalTitle: '儲存引擎詳情',
+    hostname: '主機名稱',
   },
 }
 

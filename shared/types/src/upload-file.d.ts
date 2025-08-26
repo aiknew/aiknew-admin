@@ -1,4 +1,9 @@
-import type { StorageType, UploadFileChannel } from '@aiknew/shared-admin-db'
+import type {
+  FileStatus,
+  FileStorageStatus,
+  StorageType,
+  UploadFileChannel,
+} from '@aiknew/shared-admin-db'
 
 export interface IUploadFile {
   id: string
@@ -11,11 +16,18 @@ export interface IUploadFile {
   mime: string
   originalName: string
   uploaderId: string
+  status: FileStatus
   uploader: {
     userName: string
   }
   storage: {
+    name: string
+    type: StorageType
+    status: FileStorageStatus
     hostname: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
   }
   order: number
   createdAt: Date | string
@@ -60,6 +72,7 @@ export interface IUploadFilesAndGroupsData {
     id: string
     hostname: string
     type: StorageType
+    status: FileStorageStatus
     bucket: string | null
   }
 }

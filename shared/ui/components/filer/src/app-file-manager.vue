@@ -11,6 +11,7 @@ import {
 import { computed, onMounted, Ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { SharedProps } from './types/props'
+import { FileStatus } from '@aiknew/shared-enums'
 
 export interface Props extends SharedProps {
   filesAndGroupsData: IUploadFilesAndGroupsData | undefined
@@ -43,7 +44,7 @@ const defaultData: IUploadFilesAndGroupsData = {
   pageSize: 10,
   total: 0,
   storage: {
-    active: false,
+    status: FileStatus.NORMAL,
     bucket: '',
     hostname: '',
     id: '',

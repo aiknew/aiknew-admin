@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      formats: ['es', 'cjs'],
+      formats: ['es'],
       fileName: (format) => `filer.${format}.js`,
     },
     sourcemap: true,
@@ -28,7 +28,9 @@ export default defineConfig({
         '@aiknew/shared-ui-table',
         '@aiknew/shared-ui-utils',
         '@aiknew/shared-utils',
+        '@aiknew/shared-enums',
         'vue-i18n',
+        'dayjs',
       ],
       output: {
         globals: {

@@ -3,6 +3,8 @@
     "target": "ESNext",
     "module": "ESNext",
     "strict": true,
+    "declaration": true,
+    "declarationMap": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
     "moduleResolution": "bundler",

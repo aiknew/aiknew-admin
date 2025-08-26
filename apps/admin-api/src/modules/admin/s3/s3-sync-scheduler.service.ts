@@ -77,6 +77,15 @@ export class S3SyncSchedulerService {
         })
         try {
           await client.send(command)
+
+          await this.fileModel.update({
+            where: {
+              id: file.id,
+            },
+            data: {
+              status: FileStatus.NORMAL,
+            },
+          })
         } catch (err) {
           if (err.name === 'NotFound') {
             await this.fileModel.update({

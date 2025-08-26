@@ -1,4 +1,9 @@
-import { FileStatus, UploadFileChannel } from '@aiknew/shared-admin-db'
+import {
+  FileStatus,
+  UploadFileChannel,
+  FileStorageStatus,
+  StorageType,
+} from '@aiknew/shared-admin-db'
 import type { IUploadFile } from '@aiknew/shared-types'
 import { ApiProperty } from '@nestjs/swagger'
 
@@ -32,7 +37,12 @@ export class UploadFileDto implements IUploadFile {
   }
 
   storage: {
+    type: StorageType
+    status: FileStorageStatus
     hostname: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
   }
 
   order: number

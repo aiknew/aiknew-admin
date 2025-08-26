@@ -941,7 +941,14 @@ export interface components {
                 userName: string;
             };
             storage: {
+                type: Record<string, never>;
+                status: Record<string, never>;
                 hostname: string;
+                name: string;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
             };
             order: number;
             status: Record<string, never>;
@@ -955,6 +962,8 @@ export interface components {
         FileStorage: {
             type: components["schemas"]["StorageType"];
             id: string;
+            name: string;
+            status: Record<string, never>;
             hostname: string;
             bucket: string | null;
         };

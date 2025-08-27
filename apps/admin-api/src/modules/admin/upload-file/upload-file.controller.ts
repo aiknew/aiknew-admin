@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  Redirect,
   Req,
   UploadedFile,
   UseFilters,
@@ -70,6 +69,7 @@ export class UploadFileController {
       originalName: file.originalname,
       uploaderId: req.adminUser.userId,
       groupId: createUploadFileDto.groupId,
+      fileStorageId: createUploadFileDto.fileStorageId,
       status: FileStatus.NORMAL,
       channel: UploadFileChannel.ADMIN,
     })

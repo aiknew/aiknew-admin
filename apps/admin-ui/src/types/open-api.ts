@@ -496,6 +496,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/file-storage/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["FileStorageController_getAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/file-storage/{id}": {
         parameters: {
             query?: never;
@@ -926,8 +942,26 @@ export interface components {
         };
         /** @enum {string} */
         UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
+        /** @enum {string} */
+        FileStatus: "NORMAL" | "MISSING";
+        /** @enum {string} */
+        StorageType: "LOCAL" | "S3";
+        /** @enum {string} */
+        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
+        CorrespondingFileStorage: {
+            type: components["schemas"]["StorageType"];
+            status: components["schemas"]["FileStorageStatus"];
+            createdAt: string;
+            updatedAt: string;
+            hostname: string;
+            name: string;
+            bucket: string | null;
+        };
         UploadFileDto: {
             channel: components["schemas"]["UploadFileChannel"];
+            status: components["schemas"]["FileStatus"];
+            createdAt: string;
+            updatedAt: string;
             id: string;
             fileName: string;
             filePath: string;
@@ -940,32 +974,8 @@ export interface components {
             uploader: {
                 userName: string;
             };
-            storage: {
-                type: Record<string, never>;
-                status: Record<string, never>;
-                hostname: string;
-                name: string;
-                /** Format: date-time */
-                createdAt: string;
-                /** Format: date-time */
-                updatedAt: string;
-            };
+            storage: components["schemas"]["CorrespondingFileStorage"];
             order: number;
-            status: Record<string, never>;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        /** @enum {string} */
-        StorageType: "LOCAL" | "S3";
-        FileStorage: {
-            type: components["schemas"]["StorageType"];
-            id: string;
-            name: string;
-            status: Record<string, never>;
-            hostname: string;
-            bucket: string | null;
         };
         UploadFilesAndGroupsDto: {
             total: number;
@@ -973,10 +983,10 @@ export interface components {
             pageSize: number;
             groupList: components["schemas"]["UploadFileGroupDto"][];
             fileList: components["schemas"]["UploadFileDto"][];
-            storage: components["schemas"]["FileStorage"];
         };
         CreateUploadFileDto: {
             groupId?: string;
+            fileStorageId: string;
         };
         UpdateUploadFileDto: {
             groupId?: string;
@@ -993,8 +1003,6 @@ export interface components {
             parentId?: string;
             order?: number;
         };
-        /** @enum {string} */
-        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
         FileStorageDto: {
             status: components["schemas"]["FileStorageStatus"];
             type: components["schemas"]["StorageType"];
@@ -1004,6 +1012,20 @@ export interface components {
             priority: number;
             accessKey: string | null;
             secretKey: string | null;
+            endpoint: string | null;
+            bucket: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        OmitTypeClass: {
+            status: components["schemas"]["FileStorageStatus"];
+            type: components["schemas"]["StorageType"];
+            id: string;
+            name: string;
+            hostname: string;
+            priority: number;
             endpoint: string | null;
             bucket: string | null;
             /** Format: date-time */
@@ -2683,6 +2705,36 @@ export interface operations {
             };
         };
     };
+    FileStorageController_getAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["OmitTypeClass"][];
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
     FileStorageController_deleteOne: {
         parameters: {
             query?: never;
@@ -3050,5 +3102,6 @@ export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schem
 export const systemSettingKeyValues: ReadonlyArray<components["schemas"]["SystemSettingKey"]> = ["LANGUAGE", "STORAGE"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
 export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
+export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
 export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];

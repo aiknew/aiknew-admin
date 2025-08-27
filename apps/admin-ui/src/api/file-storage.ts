@@ -1,12 +1,7 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import {
-  type FileStorageStatus,
-  type IPaginationQuery,
-  type Language,
-  type UploadFile
-} from '@aiknew/shared-types'
+import { type IPaginationQuery } from '@aiknew/shared-types'
 import { type Reactive } from 'vue'
 import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
@@ -15,6 +10,19 @@ export type FileStorage = ApiGetData<'/admin/file-storage'>['list'][number]
 export type CreateFileStorageDto = ApiPostReqBody<'/admin/file-storage'>
 
 export type UpdateFileStorageDto = ApiPatchReqBody<'/admin/file-storage/{id}'>
+
+export const useFileStorageAll = () => {
+  return useQuery({
+    queryKey: ['file-storage-all'],
+    queryFn: async () => {
+      return useApiData(() =>
+        fetchClient.GET('/admin/file-storage/all', {
+          showMsg: false
+        })
+      )
+    }
+  })
+}
 
 export const useFileStorageList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

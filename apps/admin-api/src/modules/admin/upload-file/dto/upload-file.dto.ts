@@ -7,6 +7,26 @@ import {
 import type { IUploadFile } from '@aiknew/shared-types'
 import { ApiProperty } from '@nestjs/swagger'
 
+class CorrespondingFileStorage {
+  @ApiProperty({ enumName: 'StorageType', enum: StorageType })
+  type: StorageType
+
+  @ApiProperty({ enumName: 'FileStorageStatus', enum: FileStorageStatus })
+  status: FileStorageStatus
+
+  hostname: string
+
+  name: string
+
+  bucket: string | null
+
+  @ApiProperty({ type: 'string' })
+  createdAt: Date | string
+
+  @ApiProperty({ type: 'string' })
+  updatedAt: Date | string
+}
+
 export class UploadFileDto implements IUploadFile {
   id: string
 
@@ -36,20 +56,16 @@ export class UploadFileDto implements IUploadFile {
     userName: string
   }
 
-  storage: {
-    type: StorageType
-    status: FileStorageStatus
-    hostname: string
-    name: string
-    createdAt: Date
-    updatedAt: Date
-  }
+  storage: CorrespondingFileStorage
 
   order: number
 
+  @ApiProperty({ enumName: 'FileStatus', enum: FileStatus })
   status: FileStatus
 
-  createdAt: Date
+  @ApiProperty({ type: 'string' })
+  createdAt: Date | string
 
-  updatedAt: Date
+  @ApiProperty({ type: 'string' })
+  updatedAt: Date | string
 }

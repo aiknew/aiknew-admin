@@ -18,6 +18,7 @@ import {
   AppApiPaginationResponse,
 } from '@aiknew/shared-api-decorators'
 import { FileStorageDto } from './dto/file-storage.dto'
+import { OmitType } from '@nestjs/swagger'
 
 @Controller('file-storage')
 export class FileStorageController {
@@ -29,6 +30,12 @@ export class FileStorageController {
     @Query() paginationDto: PaginationDto,
   ): Promise<PaginationResponseDto<FileStorageDto[]>> {
     return this.fileStorageService.pagination(paginationDto)
+  }
+
+  @Get('all')
+  @AppApiOkResponse([OmitType(FileStorageDto, ['accessKey', 'secretKey'])])
+  async getAll(): Promise<Omit<FileStorageDto, 'accessKey' | 'secretKey'>[]> {
+    return this.fileStorageService.getAll()
   }
 
   @Post()

@@ -26,6 +26,15 @@ export class FileStorageService {
     return storage
   }
 
+  async getAll() {
+    return this.model.findMany({
+      omit: {
+        accessKey: true,
+        secretKey: true,
+      },
+    })
+  }
+
   async pagination(paginationDto: PaginationDto) {
     return this.model.paginate(paginationDto, {
       orderBy: [{ priority: 'asc' }, { createdAt: 'desc' }],

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { rm } from 'node:fs/promises'
-import { join, relative } from 'node:path'
+import { join } from 'node:path'
 import { ConfigService } from '@nestjs/config'
 import { QueryUploadFileDto } from './dto/query-upload-file.dto'
 import { UploadFileGroupService } from '../upload-file-group/upload-file-group.service'
@@ -53,8 +53,6 @@ export class FileService {
         groupName: { contains: keyword },
       }
 
-      const firstStorage = await this.fileStorageService.getFirstStorage()
-
       const groupsPaginationData = await this.uploadFileGroupService.pagination(
         { currentPage: current, pageSize },
         groupWhereInput,
@@ -84,6 +82,7 @@ export class FileService {
               name: true,
               type: true,
               status: true,
+              bucket: true,
               createdAt: true,
               updatedAt: true,
             },
@@ -97,14 +96,6 @@ export class FileService {
         pageSize,
         groupList: groupsPaginationData.list,
         fileList,
-        storage: {
-          id: firstStorage.id,
-          name: firstStorage.name,
-          status: firstStorage.status,
-          hostname: firstStorage.hostname,
-          bucket: firstStorage.bucket,
-          type: firstStorage.type,
-        },
       }
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -145,27 +136,17 @@ export class FileService {
     }
   }
 
-  async createOne(
-    fileData: Omit<Prisma.UploadFileCreateArgs['data'], 'fileStorageId'>,
-  ) {
+  async createOne(data: Prisma.UploadFileCreateArgs['data']) {
     try {
-      const storage = await this.fileStorageService.getFirstStorage()
-      if (storage.type === 'LOCAL') {
-        const data = {
-          ...fileData,
-          fileStorageId: storage.id,
-        } as Prisma.UploadFileCreateArgs['data']
-
-        await this.model.create({
-          data,
-        })
-      }
+      await this.model.create({
+        data,
+      })
     } catch (err) {
       // delete the file asset
       await rm(
         join(
           this.configService.get<string>('common.publicFolder') ?? '',
-          fileData.filePath,
+          data.filePath,
         ),
         { force: true },
       )

@@ -7,9 +7,23 @@ import type {
 import type { Ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
+export interface UploadStorage {
+  id: string
+  name: string
+  uploadURL:
+    | string
+    | ((
+        extraFormData: Ref<Record<string, unknown>>,
+        uploadHeaders: Ref<Record<string, unknown>>,
+        info: {
+          selectedStorageId: string | undefined
+          currentGroupId: string | undefined
+        },
+      ) => Promise<string> | string)
+}
+
 export interface SharedProps {
-  uploadUrl: string
-  uploadHeaders: Record<string, string>
+  storages: UploadStorage[]
   deleteSelected: (selectedFiles: IUploadFile[]) => Promise<unknown>
   createFileGroup: (data: ICreateUploadFileGroup) => Promise<unknown>
   updateFileGroup: (data: {

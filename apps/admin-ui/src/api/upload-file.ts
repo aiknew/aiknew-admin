@@ -12,7 +12,7 @@ export type UpdateUploadFileDto = ApiPatchReqBody<'/admin/upload-file/{id}'>
 
 export type UploadFilePresignedQuery = ApiGetQuery<'/admin/s3/presigned'>
 
-export const uploadFileUrl = '/admin/upload-file'
+export const localUploadFilePath = '/admin/upload-file'
 
 export const useUploadFileUpdate = () => {
   return useMutation({

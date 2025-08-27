@@ -5,6 +5,16 @@ import type {
   UploadFileChannel,
 } from '@aiknew/shared-admin-db'
 
+export interface IFileStorage {
+  name: string
+  type: StorageType
+  status: FileStorageStatus
+  hostname: string
+  name: string
+  createdAt: Date | string
+  updatedAt: Date | string
+}
+
 export interface IUploadFile {
   id: string
   channel: UploadFileChannel
@@ -20,15 +30,7 @@ export interface IUploadFile {
   uploader: {
     userName: string
   }
-  storage: {
-    name: string
-    type: StorageType
-    status: FileStorageStatus
-    hostname: string
-    name: string
-    createdAt: Date
-    updatedAt: Date
-  }
+  storage: IFileStorage
   order: number
   createdAt: Date | string
   updatedAt: Date | string
@@ -67,14 +69,6 @@ export interface IUploadFilesAndGroupsData {
   groupList: IUploadFileGroup[]
 
   fileList: IUploadFile[]
-
-  storage: {
-    id: string
-    hostname: string
-    type: StorageType
-    status: FileStorageStatus
-    bucket: string | null
-  }
 }
 
 export interface IUpdateUploadFile {

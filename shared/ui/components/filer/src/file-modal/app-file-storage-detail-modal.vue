@@ -11,8 +11,8 @@ export interface Data {
   type?: StorageType
   hostname?: string
   status?: FileStorageStatus
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modal')

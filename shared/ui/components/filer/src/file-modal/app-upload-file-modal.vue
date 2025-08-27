@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { Ref, ref, useTemplateRef } from 'vue'
+import { computed, Ref, ref, useTemplateRef, watch } from 'vue'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ElMessage, ElUpload, ElIcon } from 'element-plus'
+import {
+  ElMessage,
+  ElUpload,
+  ElIcon,
+  ElSelectV2,
+  ElFormItem,
+} from 'element-plus'
 import { useFileI18n } from '../composables/use-file-i18n'
+import { SharedProps, UploadStorage } from '@/types'
+import { isPromise } from 'element-plus/es/utils/types.mjs'
 
 export interface Props {
   currentGroupId: string | undefined
-  uploadUrl: string
-  uploadHeaders: Record<string, string>
+  storages: SharedProps['storages']
   beforeUpload?: (extraFormData: Ref<Record<string, unknown>>) => void
 }
 
@@ -16,17 +23,38 @@ export interface Emits {
 }
 
 defineEmits<Emits>()
-const { currentGroupId, uploadHeaders, uploadUrl, beforeUpload } =
-  defineProps<Props>()
+const { currentGroupId, storages, beforeUpload } = defineProps<Props>()
 const { t } = useFileI18n()
-
 const modalRef = useTemplateRef('modal')
 const extraData = ref<Record<string, unknown>>({})
+const uploadHeaders = ref<Record<string, unknown>>({})
+const uploadURL = ref<string | undefined>()
+const selectedStorageId = ref<string | undefined>(undefined)
+const isLoading = ref(false)
+
+watch(
+  selectedStorageId,
+  async (storageId) => {
+    isLoading.value = true
+    const storage = storages.find((item) => item.id === storageId)
+    const url = storage?.uploadURL
+
+    if (typeof url === 'function') {
+      const ret = url(extraData, uploadHeaders, {
+        currentGroupId,
+        selectedStorageId: selectedStorageId.value,
+      })
+      uploadURL.value = isPromise(ret) ? await ret : ret
+    } else {
+      uploadURL.value = url
+    }
+
+    isLoading.value = false
+  },
+  { immediate: true },
+)
 
 const onBeforeUpload = () => {
-  extraData.value = {
-    groupId: currentGroupId,
-  }
   return beforeUpload && beforeUpload(extraData)
 }
 
@@ -71,10 +99,19 @@ defineExpose({
     :show-footer="false"
     @close="$emit('close')"
   >
+    <el-form-item :label="t('selectStorage')">
+      <el-select-v2
+        v-model="selectedStorageId"
+        :options="storages"
+        :props="{ value: 'id', label: 'name' }"
+      ></el-select-v2>
+    </el-form-item>
     <el-upload
+      v-loading="isLoading"
       drag
       multiple
-      :action="uploadUrl"
+      :disabled="!Boolean(selectedStorageId)"
+      :action="uploadURL"
       :headers="uploadHeaders"
       :data="extraData"
       :before-upload="onBeforeUpload"

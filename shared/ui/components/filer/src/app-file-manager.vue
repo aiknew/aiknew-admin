@@ -26,8 +26,7 @@ export interface Emits {
 }
 
 const {
-  uploadUrl,
-  uploadHeaders,
+  storages: storage,
   filesAndGroupsData,
   deleteSelected,
   deleteFile,
@@ -43,13 +42,6 @@ const defaultData: IUploadFilesAndGroupsData = {
   groupList: [],
   pageSize: 10,
   total: 0,
-  storage: {
-    status: FileStatus.NORMAL,
-    bucket: '',
-    hostname: '',
-    id: '',
-    type: 'LOCAL',
-  },
 }
 
 const refresh = () => {
@@ -175,8 +167,7 @@ defineExpose({
 
   <!-- Modals -->
   <AppUploadFileModal
-    :upload-url
-    :upload-headers
+    :storages
     :before-upload
     ref="appUploadFileModal"
     :current-group-id

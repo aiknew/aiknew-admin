@@ -35,6 +35,7 @@ const messages = {
     storageName: 'Storage Name',
     storageDetailModalTitle: 'Storage Detail',
     hostname: 'Hostname',
+    selectStorage: 'Select Storage'
   },
   'zh-CN': {
     editFileDetailModalTitle: '修改文件',
@@ -69,6 +70,7 @@ const messages = {
     storageName: '存储引擎名字',
     storageDetailModalTitle: '存储引擎详情',
     hostname: '主机名称',
+    selectStorage: '选择存储引擎'
   },
   'zh-TW': {
     editFileDetailModalTitle: '修改檔案',
@@ -103,6 +105,7 @@ const messages = {
     storageName: '儲存引擎名字',
     storageDetailModalTitle: '儲存引擎詳情',
     hostname: '主機名稱',
+    selectStorage: '選擇儲存引擎'
   },
 }
 

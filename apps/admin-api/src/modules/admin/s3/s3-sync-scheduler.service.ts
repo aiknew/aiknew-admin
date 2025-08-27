@@ -45,7 +45,7 @@ export class S3SyncSchedulerService {
     return files
   }
 
-  @Cron('45 * * * * *')
+  @Cron('5 * * * * *')
   async handleCron() {
     const ret = await this.getUploadFiles()
     ret.forEach(async (file) => {
@@ -58,6 +58,7 @@ export class S3SyncSchedulerService {
       if (
         storage &&
         storage.type === 'S3' &&
+        storage.status !== 'DISABLED' &&
         storage.endpoint &&
         storage.accessKey &&
         storage.secretKey &&
@@ -73,7 +74,7 @@ export class S3SyncSchedulerService {
         })
         const command = new HeadObjectCommand({
           Bucket: storage.bucket,
-          Key: file.originalName,
+          Key: storage.bucket + '/' + file.originalName,
         })
         try {
           await client.send(command)
@@ -99,7 +100,7 @@ export class S3SyncSchedulerService {
           }
         }
       } else {
-        // local file storage
+        //TODO: local file storage
       }
     })
   }

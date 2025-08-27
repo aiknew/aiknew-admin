@@ -43,10 +43,15 @@ export class FileService {
         currentPage: current,
         keyword,
       } = queryUploadFileDto
-      const fileWhereInput = {
+      const fileWhereInput: Prisma.UploadFileWhereInput = {
         groupId: parentId,
         originalName: { contains: keyword },
         deletedAt: null,
+        storage: {
+          status: {
+            not: 'DISABLED',
+          },
+        },
       }
       const groupWhereInput: Prisma.UploadFileGroupWhereInput = {
         parentId,

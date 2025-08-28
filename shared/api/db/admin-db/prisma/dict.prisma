@@ -1,0 +1,44 @@
+model DictType {
+  id           String                @id @default(cuid(2))
+  key          String                @unique
+  order        Int                   @default(10)
+  status       Boolean               @default(true)
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  translations DictTypeTranslation[]
+  Dict         Dict[]
+}
+
+model DictTypeTranslation {
+  dictTypeId String
+  dictType   DictType @relation(fields: [dictTypeId], references: [id])
+  langs      Language @relation(fields: [langKey], references: [key])
+  langKey    String
+  name       String   @unique() @db.VarChar(50)
+  remark     String?
+
+  @@id([dictTypeId, langKey])
+}
+
+model Dict {
+  id              String            @id @default(cuid(2))
+  name            String
+  dictTypeId      String
+  dictType        DictType          @relation(fields: [dictTypeId], references: [id])
+  order           Int               @default(10)
+  status          Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  DictTranslation DictTranslation[]
+}
+
+model DictTranslation {
+  dictId   String
+  dict     Dict      @relation(fields: [dictId], references: [id])
+  Language Language? @relation(fields: [langKey], references: [key])
+  langKey  String
+  label     String    @unique() @db.VarChar(50)
+  remark   String?
+
+  @@id([dictId, langKey])
+}

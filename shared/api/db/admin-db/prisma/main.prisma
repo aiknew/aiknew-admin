@@ -46,6 +46,8 @@ model Language {
   AdminRouteTranslation      AdminRouteTranslation[]
   AdminApiTranslation        AdminApiTranslation[]
   ArticleCategoryTranslation ArticleCategoryTranslation[]
+  DictTranslation            DictTranslation[]
+  DictTypeTranslation        DictTypeTranslation[]
 }
 
 model AdminUser {

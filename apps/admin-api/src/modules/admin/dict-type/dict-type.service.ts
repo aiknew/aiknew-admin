@@ -33,6 +33,18 @@ export class DictTypeService {
     })
   }
 
+  async getAll() {
+    return this.model.findMany({
+      include: {
+        translations: true,
+      },
+      orderBy: {
+        order: 'asc'
+      }
+    })
+  }
+
+
   async createOne(data: CreateDictTypeDto) {
     const { translations, ...rest } = data
     return this.model.create({
@@ -53,7 +65,7 @@ export class DictTypeService {
       },
       data: {
         ...rest,
-        translations: {
+        translations: translations && {
           deleteMany: {},
           create: translations,
         },

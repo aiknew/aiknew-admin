@@ -295,6 +295,7 @@ export const useAppForm = <
     return h(
       ElFormItem,
       {
+        style: { display: toValue(item.hidden) ? 'none' : undefined },
         label: item.label,
         required: !(item.schema instanceof z.ZodOptional),
         error: error.value.msg,

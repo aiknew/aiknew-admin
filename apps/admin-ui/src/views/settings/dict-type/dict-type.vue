@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElSwitch } from 'element-plus'
+import { ElLink, ElTableColumn, ElButton, ElPopconfirm, ElSwitch } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
@@ -15,12 +15,13 @@ import {
 } from '@/api/dict-type'
 import DictTypeModal from './components/dict-type-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
+import DictItemsDrawer from './components/dict-items-drawer.vue'
 
 const { t } = useDictTypeI18n()
 const { currentPage, pageSize } = usePagination()
 
-const appTableRef = useTemplateRef('appTableRef')
-const categoryModalRef = useTemplateRef('categoryModalRef')
+const dictTypeModalRef = useTemplateRef('dictTypeModalRef')
+const dictItemsDrawerRef = useTemplateRef('dictItemsDrawer')
 
 const {
   data: dictTypeData,
@@ -36,11 +37,11 @@ const isLoading = computed(() => {
 })
 
 const handleAdd = () => {
-  categoryModalRef.value?.add()
+  dictTypeModalRef.value?.add()
 }
 
 const handleEdit = (row: DictType) => {
-  categoryModalRef.value?.edit(row)
+  dictTypeModalRef.value?.edit(row)
 }
 
 const handleDelete = async (row: DictType) => {
@@ -61,6 +62,10 @@ const handleToggleStatus = async (row: DictType) => {
 const handleSubmit = () => {
   refetchDictTypeData()
 }
+
+const handleCheckItems = (row: DictType) => {
+  dictItemsDrawerRef.value?.show(tField(row.translations, 'name').value, row)
+}
 </script>
 
 <template>
@@ -80,9 +85,14 @@ const handleSubmit = () => {
       :table-data="dictTypeData"
     >
       <el-table-column prop="key" :label="t('key')" width="150" />
-      <el-table-column prop="name" :label="t('name')" width="200">
+      <el-table-column prop="name" :label="t('dictTypeName')" align="center">
         <template #default="{ row }: { row: DictType }">
           <span>{{ tField(row.translations, 'name').value }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="t('dictItem')" align="center">
+        <template #default="{ row }: { row: DictType }">
+          <el-link type="primary" @click="handleCheckItems(row)">{{ t('check') }}</el-link>
         </template>
       </el-table-column>
       <el-table-column prop="order" :label="t('order')" width="100" />
@@ -114,5 +124,6 @@ v-permission:delete
     </AppTable>
   </AppContentBlock>
 
-  <DictTypeModal ref="categoryModalRef" @submit="handleSubmit" />
+  <DictTypeModal ref="dictTypeModalRef" @submit="handleSubmit" />
+  <DictItemsDrawer ref="dictItemsDrawer" />
 </template>

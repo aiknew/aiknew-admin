@@ -14,6 +14,7 @@ import { DictTypeModule } from './dict-type/dict-type.module'
 import { RouterModule } from '@nestjs/core'
 import { FileStorageModule } from './file-storage/file-storage.module'
 import { S3Module } from './s3/s3.module'
+import { DictModule } from './dict/dict.module'
 
 const adminModules = [
   AuthApiModule,
@@ -30,6 +31,7 @@ const adminModules = [
   DictTypeModule,
   FileStorageModule,
   S3Module,
+  DictModule
 ]
 
 @Module({

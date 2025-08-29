@@ -10,12 +10,18 @@ import { UpdateDictTypeDto } from "./dto/update-dict-type.dto";
 @Controller('dict-type')
 export class DictTypeController {
 
-  constructor(private readonly dictTypeService: DictTypeService) {}
+  constructor(private readonly dictTypeService: DictTypeService) { }
 
   @Get()
   @AppApiPaginationResponse(DictTypeDto)
-  async pagination(@Query() paginationDto: PaginationDto):Promise<PaginationResponseDto<DictTypeDto[]>> {
+  async pagination(@Query() paginationDto: PaginationDto): Promise<PaginationResponseDto<DictTypeDto[]>> {
     return this.dictTypeService.pagination(paginationDto)
+  }
+
+  @Get('all')
+  @AppApiOkResponse([DictTypeDto])
+  async getAll(): Promise<DictTypeDto[]> {
+    return this.dictTypeService.getAll()
   }
 
   @Post()

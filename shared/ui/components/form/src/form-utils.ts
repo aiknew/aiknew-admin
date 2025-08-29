@@ -22,18 +22,18 @@ export type Fields = Field<string, keyof Components>[]
 export type GetDefaultVals<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-  [Item in Fields[number] as GetFieldName<Item['name']>]: z.infer<
-    Item['schema']
-  >
-}
+    [Item in Fields[number]as GetFieldName<Item['name']>]: z.infer<
+      Item['schema']
+    >
+  }
 
 export type GetI18nFields<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-  [Item in Fields[number] as Item['i18n'] extends true
+    [Item in Fields[number]as Item['i18n'] extends true
     ? GetFieldName<Item['name']>
     : never]: z.infer<Item['schema']>
-}
+  }
 
 export type GetI18nFieldNames<
   Fields extends readonly Field<string, keyof Components>[],
@@ -42,9 +42,9 @@ export type GetI18nFieldNames<
 export type GetFieldsWithTranslations<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-  [Item in Fields[number] as Item['i18n'] extends true
-    ? never
-    : GetFieldName<Item['name']>]: z.infer<Item['schema']>
+  [Item in Fields[number]as Item['i18n'] extends true
+  ? never
+  : GetFieldName<Item['name']>]: z.infer<Item['schema']>
 } & {
   translations: Prettify<
     {
@@ -56,10 +56,10 @@ export type GetFieldsWithTranslations<
 export type GetValidators<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-  [Item in Fields[number] as GetFieldName<Item['name']>]: ReturnType<
-    Item['schema'] extends ZodType ? Item['schema']['unwrap'] : never
-  >
-}
+    [Item in Fields[number]as GetFieldName<Item['name']>]: ReturnType<
+      Item['schema'] extends ZodType ? Item['schema']['unwrap'] : never
+    >
+  }
 
 export type ComponentPropsAndSlots<T> = {
   props: ComponentProps<T>
@@ -72,7 +72,7 @@ export interface Components {
   ElSelectV2: ComponentPropsAndSlots<typeof ElSelectV2>
   ElTreeSelect: ComponentPropsAndSlots<typeof ElTreeSelect>
   ElRadio: ComponentPropsAndSlots<typeof ElRadio> &
-    ComponentPropsAndSlots<typeof AppRadio>
+  ComponentPropsAndSlots<typeof AppRadio>
   ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>
   WangEditor: ComponentPropsAndSlots<typeof WangEditor>
 }
@@ -110,6 +110,7 @@ export type Prettify<T> = {
 } & {}
 
 export type NormalField<N extends string, C extends keyof Components> = {
+  hidden?: MaybeRefOrGetter<boolean>
   exclude?: false
   when?: MaybeRefOrGetter<boolean>
   as: C | AsObject<C>

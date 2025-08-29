@@ -1,27 +1,28 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { computed, ref, useTemplateRef, type ComputedRef } from 'vue'
+import { computed, h, ref, useTemplateRef, watch } from 'vue'
 import { z } from 'zod'
 import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
-import { useDictTypeI18n } from '../composables/use-dict-type-i18n'
-import { useDictTypeCreate, useDictTypeUpdate, type DictType } from '@/api/dict-type'
+import { useDictCreate, useDictUpdate, type Dict } from '@/api/dict'
 import { useLangStore } from '@/stores/lang'
+import { useDictTypeI18n } from '../composables/use-dict-type-i18n'
+import type { DictType } from '@/api/dict-type'
+import { tField } from '@aiknew/shared-ui-locales'
 
 interface Emits {
   (e: 'submit'): void
   (e: 'close'): void
 }
 
+const dictType = defineModel<DictType>('dictType')
+
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useDictTypeI18n()
 const modalRef = useTemplateRef('modal')
-const disabledEditKey = computed(() => {
-  return modalRef.value?.modalMode === 'edit'
-}) as ComputedRef<boolean>
 
-const { mutateAsync: createDictType } = useDictTypeCreate()
-const { mutateAsync: updateDictType } = useDictTypeUpdate()
+const { mutateAsync: createDict } = useDictCreate()
+const { mutateAsync: updateDict } = useDictUpdate()
 
 const languages = langStore.enabledLangs
 const { AppForm, formApi } = useAppForm({
@@ -29,28 +30,55 @@ const { AppForm, formApi } = useAppForm({
   fields: () =>
     [
       {
+        exclude: true,
+        container: {
+          content: h(
+            'div',
+            computed(() => {
+              if (dictType.value) {
+                return tField(dictType.value.translations, 'name').value ?? ''
+              }
+
+              return ''
+            }).value
+          )
+        },
+        label: t('dictTypeName')
+      },
+      {
+        hidden: true,
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('key'),
-            disabled: disabledEditKey.value
+            disabled: true
           }
         },
-        label: t('key'),
-        name: 'key',
+        label: '',
+        name: 'dictTypeId',
         schema: z.string().nonempty().default('')
       },
       {
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('dictTypeName')
+            placeholder: t('dictLabel')
           }
         },
-        label: t('dictTypeName'),
-        name: 'name',
+        label: t('dictLabel'),
+        name: 'label',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+      },
+      {
+        as: {
+          component: 'ElInput',
+          props: {
+            placeholder: t('dictValue')
+          }
+        },
+        label: t('dictValue'),
+        name: 'value',
+        schema: z.string().nonempty().default('')
       },
       {
         as: {
@@ -74,9 +102,9 @@ const { AppForm, formApi } = useAppForm({
     ] as const satisfies Fields,
   onSubmit: async ({ i18nValues }) => {
     if (modalRef.value?.modalMode === 'add') {
-      await createDictType(i18nValues)
+      await createDict(i18nValues)
     } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
-      await updateDictType({ id: editId.value, body: i18nValues })
+      await updateDict({ id: editId.value, body: i18nValues })
     }
 
     emit('submit')
@@ -86,16 +114,26 @@ const { AppForm, formApi } = useAppForm({
 
 const editId = ref('')
 
+watch(
+  dictType,
+  (val) => {
+    if (val) {
+      formApi.setFieldValue('dictTypeId', val.id)
+    }
+  },
+  { immediate: true }
+)
+
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('addDictTitle'))
 }
 
-const edit = (item: DictType) => {
+const edit = (item: Dict) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('editDictTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })
@@ -105,6 +143,10 @@ const handleReset = () => {
   editId.value = ''
   modalRef.value?.close()
   formApi.reset()
+  if (dictType.value) {
+    formApi.setFieldValue('dictTypeId', dictType.value.id)
+  }
+
   emit('close')
 }
 

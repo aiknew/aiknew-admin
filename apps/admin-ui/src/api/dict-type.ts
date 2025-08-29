@@ -3,7 +3,7 @@ import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import type { IPaginationQuery } from '@aiknew/shared-types'
 import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
-import type { Reactive } from 'vue'
+import type { Reactive, Ref } from 'vue'
 
 export type DictType = ApiGetData<'/admin/dict-type'>['list'][number]
 
@@ -27,6 +27,20 @@ export const useDictTypeList = (query: Reactive<IPaginationQuery>) => {
     }
   })
 }
+
+export const useDictTypeAll = () => {
+  return useQuery({
+    queryKey: ['dict-type-all'],
+    queryFn: async () => {
+      return useApiData(() =>
+        fetchClient.GET('/admin/dict-type/all', {
+          showMsg: false
+        })
+      )
+    }
+  })
+}
+
 
 export const useDictTypeCreate = () => {
   return useMutation({

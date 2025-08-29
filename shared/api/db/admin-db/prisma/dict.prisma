@@ -21,15 +21,15 @@ model DictTypeTranslation {
 }
 
 model Dict {
-  id              String            @id @default(cuid(2))
-  name            String
-  dictTypeId      String
-  dictType        DictType          @relation(fields: [dictTypeId], references: [id])
-  order           Int               @default(10)
-  status          Boolean           @default(true)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  DictTranslation DictTranslation[]
+  id           String            @id @default(cuid(2))
+  value        String            @db.VarChar(50)
+  dictTypeId   String
+  dictType     DictType          @relation(fields: [dictTypeId], references: [id])
+  order        Int               @default(10)
+  status       Boolean           @default(true)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  translations DictTranslation[]
 }
 
 model DictTranslation {

@@ -27,14 +27,14 @@ defineEmits<Emits>()
     class="linear fixed top-0 left-0 z-10 inline-flex h-full min-h-screen shrink-0 origin-center overflow-hidden border-r border-theme-border bg-theme-bg px-4 transition md:relative"
     :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
   >
-    <ElMenu
+    <el-menu
       class="border-r-0!"
       :default-active="currentRoute.value.fullPath"
       :collapse="!expand"
       router
     >
       <AppRecursiveMenu :routes />
-    </ElMenu>
+    </el-menu>
   </aside>
 
   <div
@@ -43,3 +43,9 @@ defineEmits<Emits>()
     @click="$emit('update:expand', false)"
   ></div>
 </template>
+
+<style>
+.el-menu-item {
+  min-width: 200px;
+}
+</style>

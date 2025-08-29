@@ -124,4 +124,14 @@ export const i18n = {
     en: 'Admin Users',
     'zh-TW': '管理員帳號',
   },
+  dataSettings: {
+    'zh-CN': '数据管理',
+    en: 'Data Settings',
+    'zh-TW': '數據管理',
+  },
+  dictSettings: {
+    'zh-CN': '字典管理',
+    en: 'Dict Settings',
+    'zh-TW': '字典管理',
+  },
 } as const

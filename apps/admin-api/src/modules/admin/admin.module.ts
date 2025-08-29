@@ -10,6 +10,7 @@ import { SystemSettingModule } from './system-setting/system-setting.module'
 import { UploadFileGroupModule } from './upload-file-group/upload-file-group.module'
 import { UploadFileModule } from './upload-file/upload-file.module'
 import { ArticleCategoryModule } from './article-category/article-category.module'
+import { DictTypeModule } from './dict-type/dict-type.module'
 import { RouterModule } from '@nestjs/core'
 import { FileStorageModule } from './file-storage/file-storage.module'
 import { S3Module } from './s3/s3.module'
@@ -26,6 +27,7 @@ const adminModules = [
   UploadFileModule,
   UploadFileGroupModule,
   ArticleCategoryModule,
+  DictTypeModule,
   FileStorageModule,
   S3Module,
 ]
@@ -44,4 +46,4 @@ const adminModules = [
   providers: [],
   exports: [],
 })
-export class AdminModule {}
+export class AdminModule { }

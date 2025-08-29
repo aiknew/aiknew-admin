@@ -626,6 +626,38 @@ export interface paths {
         patch: operations["ArticleCategoryController_updateOne"];
         trace?: never;
     };
+    "/admin/dict-type": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["DictTypeController_pagination"];
+        put?: never;
+        post: operations["DictTypeController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/dict-type/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["DictTypeController_deleteOne"];
+        options?: never;
+        head?: never;
+        patch: operations["DictTypeController_updateOne"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1095,6 +1127,36 @@ export interface components {
             order?: number;
             parentId?: number;
             translations?: components["schemas"]["ArticleCategoryTranslationDto"][];
+        };
+        DictTypeTranslationDto: {
+            langKey: string;
+            name: string;
+            remark?: string | null;
+        };
+        DictTypeDto: {
+            id: string;
+            key: string;
+            order: number;
+            status: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            translations: components["schemas"]["DictTypeTranslationDto"][];
+        };
+        CreateDictTypeDto: {
+            key: string;
+            order?: number;
+            /** @default true */
+            status: boolean;
+            translations: components["schemas"]["DictTypeTranslationDto"][];
+        };
+        UpdateDictTypeDto: {
+            key?: string;
+            order?: number;
+            /** @default true */
+            status: boolean;
+            translations?: components["schemas"]["DictTypeTranslationDto"][];
         };
         PaginationDto: {
             currentPage: number;
@@ -3066,6 +3128,137 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateArticleCategoryDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    DictTypeController_pagination: {
+        parameters: {
+            query: {
+                currentPage: number;
+                pageSize: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["DictTypeDto"][];
+                        };
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    DictTypeController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDictTypeDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    DictTypeController_deleteOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    DictTypeController_updateOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDictTypeDto"];
             };
         };
         responses: {

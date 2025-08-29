@@ -22,7 +22,7 @@ export class AuthRouteService {
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly authUserService: AdminUserService,
-  ) {}
+  ) { }
 
   get model(): PrismaService['adminRoute'] {
     return this.prisma.adminRoute

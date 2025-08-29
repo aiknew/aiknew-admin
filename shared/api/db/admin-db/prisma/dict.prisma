@@ -14,7 +14,7 @@ model DictTypeTranslation {
   dictType   DictType @relation(fields: [dictTypeId], references: [id])
   langs      Language @relation(fields: [langKey], references: [key])
   langKey    String
-  name       String   @unique() @db.VarChar(50)
+  name       String   @db.VarChar(50)
   remark     String?
 
   @@id([dictTypeId, langKey])
@@ -37,7 +37,7 @@ model DictTranslation {
   dict     Dict      @relation(fields: [dictId], references: [id])
   Language Language? @relation(fields: [langKey], references: [key])
   langKey  String
-  label     String    @unique() @db.VarChar(50)
+  label    String    @db.VarChar(50)
   remark   String?
 
   @@id([dictId, langKey])

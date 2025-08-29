@@ -27,7 +27,7 @@ export const settings: AdminRouteItem = {
       name: i18n.systemSetting,
       children: [
         {
-          component: 'settings/system-settings/storage-setting/storage-setting',
+          component: 'settings/storage-setting/storage-setting',
           hidden: false,
           icon: 'Setting',
           key: '',
@@ -53,7 +53,7 @@ export const settings: AdminRouteItem = {
       name: i18n.permissionSettings,
       children: [
         {
-          component: 'settings/system-settings/auth-role/auth-role',
+          component: 'settings/auth-role/auth-role',
           hidden: false,
           icon: 'Avatar',
           key: '',
@@ -103,7 +103,7 @@ export const settings: AdminRouteItem = {
           ],
         },
         {
-          component: 'settings/system-settings/auth-route/auth-route',
+          component: 'settings/auth-route/auth-route',
           hidden: false,
           icon: 'Operation',
           key: '',
@@ -153,7 +153,7 @@ export const settings: AdminRouteItem = {
           ],
         },
         {
-          component: 'settings/system-settings/auth-api/auth-api',
+          component: 'settings/auth-api/auth-api',
           hidden: false,
           icon: 'Document',
           key: '',
@@ -205,7 +205,7 @@ export const settings: AdminRouteItem = {
       ],
     },
     {
-      component: 'settings/system-settings/admin-user/admin-user',
+      component: 'settings/admin-user/admin-user',
       hidden: false,
       icon: 'User',
       key: '',
@@ -254,5 +254,19 @@ export const settings: AdminRouteItem = {
         },
       ],
     },
+    {
+      component: '',
+      name: i18n.dataSettings,
+      type: RouteType.SMALL_GROUP,
+      children: [
+        {
+          name: i18n.dictSettings,
+          component: 'settings/dict-type/dict-type',
+          icon: 'NoteBook',
+          path: '/settings/dict-type',
+          type: RouteType.MENU
+        }
+      ]
+    }
   ],
 } as const

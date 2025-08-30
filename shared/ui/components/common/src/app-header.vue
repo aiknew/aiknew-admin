@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ElIcon } from 'element-plus'
-import { Expand, Fold } from '@element-plus/icons-vue'
+import { Expand, Fold, Refresh } from '@element-plus/icons-vue'
 import AppRoutePath from './app-route-path.vue'
 import { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { Ref } from 'vue'
@@ -12,7 +12,7 @@ export interface Props {
 
 const { expandMenu = true, currentRoute } = defineProps<Props>()
 
-defineEmits(['update:expandMenu'])
+defineEmits(['update:expandMenu', 'refresh'])
 </script>
 
 <template>
@@ -38,7 +38,12 @@ defineEmits(['update:expandMenu'])
     </div>
 
     <!-- route path -->
-    <AppRoutePath :current-route />
+    <AppRoutePath class="hidden sm:block" :current-route />
+
+    <!-- refresh button -->
+    <el-icon class="cursor-pointer ml-1.5 sm:ml-0" @click="$emit('refresh')"
+      ><Refresh
+    /></el-icon>
 
     <!-- operations -->
     <div class="ml-auto flex items-center">

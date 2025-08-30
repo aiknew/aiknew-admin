@@ -1093,6 +1093,9 @@ importers:
       '@aiknew/shared-ui-components':
         specifier: workspace:*
         version: link:../common
+      '@bprogress/core':
+        specifier: catalog:ui
+        version: 1.3.4
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.10

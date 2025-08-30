@@ -11,6 +11,7 @@
     "vue": "catalog:ui",
     "vue-router": "catalog:ui",
     "tailwindcss": "catalog:ui",
+    "@bprogress/core": "catalog:ui",
     "@aiknew/shared-ui-components": "workspace:*"
   },
   "dependencies": {},

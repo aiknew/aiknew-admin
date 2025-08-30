@@ -22,6 +22,7 @@
   },
   "peerDependencies": {
     "vue": "catalog:ui",
-    "vue-i18n": "catalog:ui"
+    "vue-i18n": "catalog:ui",
+    "element-plus": "catalog:ui"
   }
 }

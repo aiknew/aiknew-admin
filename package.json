@@ -12,11 +12,6 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.6.2",
-  "pnpm": {
-    "patchedDependencies": {
-      "element-plus": "patches/element-plus.patch"
-    }
-  },
   "devDependencies": {
     "tsdown": "^0.14.1",
     "typescript": "catalog:common"

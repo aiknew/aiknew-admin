@@ -120,8 +120,8 @@ catalogs:
       specifier: ^2.0.3
       version: 2.0.3
     element-plus:
-      specifier: 2.10.3
-      version: 2.10.3
+      specifier: ^2.11.1
+      version: 2.11.1
     openapi-typescript:
       specifier: ^7.8.0
       version: 7.8.0
@@ -161,11 +161,6 @@ catalogs:
     zod:
       specifier: ^4.0.14
       version: 4.0.17
-
-patchedDependencies:
-  element-plus:
-    hash: 2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d
-    path: patches/element-plus.patch
 
 importers:
 
@@ -450,7 +445,7 @@ importers:
         version: 1.11.13
       element-plus:
         specifier: catalog:ui
-        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3))
+        version: 2.11.1(vue@3.5.17(typescript@5.8.3))
       lodash-es:
         specifier: catalog:common
         version: 4.17.21
@@ -900,7 +895,7 @@ importers:
         version: 5.1.14(@wangeditor-next/editor@5.6.34)(vue@3.5.17(typescript@5.9.2))
       element-plus:
         specifier: catalog:ui
-        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.9.2))
+        version: 2.11.1(vue@3.5.17(typescript@5.9.2))
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.10
@@ -982,7 +977,7 @@ importers:
         version: 1.11.13
       element-plus:
         specifier: catalog:ui
-        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.9.2))
+        version: 2.11.1(vue@3.5.17(typescript@5.9.2))
       filesize:
         specifier: catalog:common
         version: 10.1.6
@@ -1008,27 +1003,6 @@ importers:
       '@intlify/core-base':
         specifier: ^11.1.9
         version: 11.1.9
-      '@types/lodash':
-        specifier: ^4.17.20
-        version: 4.17.20
-      '@vitejs/plugin-vue':
-        specifier: catalog:ui
-        version: 6.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.9.2))
-      '@vitejs/plugin-vue-jsx':
-        specifier: catalog:ui
-        version: 5.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.9.2))
-      unplugin-element-plus:
-        specifier: catalog:ui
-        version: 0.9.1
-      vite:
-        specifier: catalog:ui
-        version: 7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
-      vite-plugin-dts:
-        specifier: catalog:ui
-        version: 4.5.4(@types/node@24.0.3)(rollup@4.44.0)(typescript@5.9.2)(vite@7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))
-      vite-svg-loader:
-        specifier: catalog:ui
-        version: 5.1.0(vue@3.5.17(typescript@5.9.2))
 
   shared/ui/components/form:
     dependencies:
@@ -1049,7 +1023,7 @@ importers:
         version: 13.4.0(vue@3.5.17(typescript@5.9.2))
       element-plus:
         specifier: catalog:ui
-        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.9.2))
+        version: 2.11.1(vue@3.5.17(typescript@5.9.2))
       lodash-es:
         specifier: catalog:common
         version: 4.17.21
@@ -1123,7 +1097,7 @@ importers:
         version: link:../common
       element-plus:
         specifier: catalog:ui
-        version: 2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.9.2))
+        version: 2.11.1(vue@3.5.17(typescript@5.9.2))
       tailwindcss:
         specifier: catalog:ui
         version: 4.1.10
@@ -1134,18 +1108,6 @@ importers:
       '@aiknew/shared-types':
         specifier: workspace:*
         version: link:../../../types
-      '@types/lodash':
-        specifier: ^4.17.20
-        version: 4.17.20
-      '@vitejs/plugin-vue':
-        specifier: catalog:ui
-        version: 6.0.0(vite@7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.17(typescript@5.9.2))
-      vite:
-        specifier: catalog:ui
-        version: 7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0)
-      vite-plugin-dts:
-        specifier: catalog:ui
-        version: 4.5.4(@types/node@24.0.3)(rollup@4.44.0)(typescript@5.9.2)(vite@7.0.0(@types/node@24.0.3)(jiti@2.5.1)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.19.4)(yaml@2.8.0))
 
   shared/ui/locales:
     dependencies:
@@ -1734,14 +1696,14 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@emnapi/core@1.4.5':
-    resolution: {integrity: sha512-XsLw1dEOpkSX/WucdqUhPWP7hDxSvZiY+fsUC14h+FtQ2Ifni4znbBt8punRX+Uj2JG/uDb8nEHVKvrVlvdZ5Q==}
+  '@emnapi/core@1.5.0':
+    resolution: {integrity: sha512-sbP8GzB1WDzacS8fgNPpHlp6C9VZe+SJP3F90W9rLemaQj2PzIuTEl1qDOYQf58YIpyjViI24y9aPWCjEzY2cg==}
 
-  '@emnapi/runtime@1.4.5':
-    resolution: {integrity: sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg==}
+  '@emnapi/runtime@1.5.0':
+    resolution: {integrity: sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==}
 
-  '@emnapi/wasi-threads@1.0.4':
-    resolution: {integrity: sha512-PJR+bOmMOPH8AtcTGAyYNiuJ3/Fcoj2XN/gBEWzDIKh254XO+mM9XoXHk5GNEhodxeMznbg7BlRojVbKN+gC6g==}
+  '@emnapi/wasi-threads@1.1.0':
+    resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
 
   '@esbuild/aix-ppc64@0.25.5':
     resolution: {integrity: sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA==}
@@ -2398,6 +2360,9 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
+
+  '@jridgewell/sourcemap-codec@1.5.5':
+    resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
@@ -5291,8 +5256,8 @@ packages:
   electron-to-chromium@1.5.165:
     resolution: {integrity: sha512-naiMx1Z6Nb2TxPU6fiFrUrDTjyPMLdTtaOd2oLmG8zVSg2hCWGkhPyxwk+qRmZ1ytwVqUv0u7ZcDA5+ALhaUtw==}
 
-  element-plus@2.10.3:
-    resolution: {integrity: sha512-OLpf0iekuvWJrz1+H9ybvem6TYTKSNk6L1QDA3tYq2YWbogKXJnWpHG1UAGKR1B7gx+vUH7M15VIH3EijE9Kgw==}
+  element-plus@2.11.1:
+    resolution: {integrity: sha512-weYFIniyNXTAe9vJZnmZpYzurh4TDbdKhBsJwhbzuo0SDZ8PLwHVll0qycJUxc6SLtH+7A9F7dvdDh5CnqeIVA==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -9939,18 +9904,18 @@ snapshots:
     dependencies:
       vue: 3.5.17(typescript@5.9.2)
 
-  '@emnapi/core@1.4.5':
+  '@emnapi/core@1.5.0':
     dependencies:
-      '@emnapi/wasi-threads': 1.0.4
+      '@emnapi/wasi-threads': 1.1.0
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/runtime@1.4.5':
+  '@emnapi/runtime@1.5.0':
     dependencies:
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/wasi-threads@1.0.4':
+  '@emnapi/wasi-threads@1.1.0':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -10639,6 +10604,9 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
+  '@jridgewell/sourcemap-codec@1.5.5':
+    optional: true
+
   '@jridgewell/trace-mapping@0.3.25':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
@@ -10652,7 +10620,7 @@ snapshots:
   '@jridgewell/trace-mapping@0.3.9':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.5.0
+      '@jridgewell/sourcemap-codec': 1.5.5
     optional: true
 
   '@lukeed/csprng@1.1.0': {}
@@ -10788,8 +10756,8 @@ snapshots:
 
   '@napi-rs/wasm-runtime@1.0.3':
     dependencies:
-      '@emnapi/core': 1.4.5
-      '@emnapi/runtime': 1.4.5
+      '@emnapi/core': 1.5.0
+      '@emnapi/runtime': 1.5.0
       '@tybys/wasm-util': 0.10.0
     optional: true
 
@@ -14075,7 +14043,7 @@ snapshots:
 
   electron-to-chromium@1.5.165: {}
 
-  element-plus@2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.8.3)):
+  element-plus@2.11.1(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.5.17(typescript@5.8.3))
@@ -14096,7 +14064,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
-  element-plus@2.10.3(patch_hash=2f8288c37107eb55c2844a0d3ccd35158903c9c0bb661775df22add2673f121d)(vue@3.5.17(typescript@5.9.2)):
+  element-plus@2.11.1(vue@3.5.17(typescript@5.9.2)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.5.17(typescript@5.9.2))

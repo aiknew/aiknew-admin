@@ -1,6 +1,8 @@
 {
   "name": "@aiknew/shared-ui-types",
   "version": "0.0.1",
+  "main": "./index.d.ts",
+  "module": "./index.d.ts",
   "types": "./index.d.ts",
   "peerDependencies": {
     "vue-router": "catalog:ui",

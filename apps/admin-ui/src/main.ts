@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { bootstrap } from './utils/bootstrap'
-import '@aiknew/shared-ui-form/style.css'
 import '@/assets/css/main.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import '@/assets/css/css-vars-dark.css'

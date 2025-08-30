@@ -1,16 +1,9 @@
 {
   "name": "@aiknew/shared-ui-form",
   "version": "0.0.1",
-  "main": "dist/form.es.js",
-  "module": "dist/form.es.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/form.es.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./style.css": "./dist/shared-ui-form.css"
-  },
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
   "peerDependencies": {
     "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
@@ -29,10 +22,6 @@
     "@aiknew/shared-types": "workspace:*",
     "@aiknew/shared-ui-types": "workspace:*",
     "@types/lodash-es": "catalog:common",
-    "@vitejs/plugin-vue": "catalog:ui",
-    "vite": "catalog:ui",
-    "vite-plugin-dts": "catalog:ui",
-    "@vitejs/plugin-vue-jsx": "catalog:ui",
     "vue-component-type-helpers": "catalog:ui"
   },
   "scripts": {

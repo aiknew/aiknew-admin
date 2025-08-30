@@ -1099,6 +1099,9 @@ importers:
 
   shared/ui/locales:
     dependencies:
+      dayjs:
+        specifier: catalog:common
+        version: 1.11.13
       element-plus:
         specifier: catalog:ui
         version: 2.11.1(vue@3.5.17(typescript@5.9.2))
@@ -1108,6 +1111,9 @@ importers:
       vue-i18n:
         specifier: catalog:ui
         version: 11.1.11(vue@3.5.17(typescript@5.9.2))
+      zod:
+        specifier: catalog:ui
+        version: 4.0.17
 
   shared/ui/stores:
     dependencies:

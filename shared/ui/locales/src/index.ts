@@ -3,6 +3,7 @@ import { createI18n } from 'vue-i18n'
 import en from './en.json'
 import zhCN from './zh-CN.json'
 import zhTW from './zh-TW.json'
+import { setZodLocales } from './lib-locales'
 export * from './lib-locales'
 
 const LOCALE_SETTING = 'LOCALE_SETTING'
@@ -58,6 +59,7 @@ export const currentLang = computed<I18nKeys>(() => {
 export const setCurrentLang = (lang: I18nKeys) => {
   i18n.global.locale.value = lang
   setLocaleToLocalStorage(lang)
+  setZodLocales(lang)
 
   _subscribers.forEach((fn) => fn())
 }

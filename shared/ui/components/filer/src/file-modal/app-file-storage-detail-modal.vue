@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFileI18n } from '@/composables/use-file-i18n'
+import { useFileI18n } from '../composables/use-file-i18n'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import type { FileStorageStatus, StorageType } from '@aiknew/shared-types'
 import { useAppForm } from '@aiknew/shared-ui-form'

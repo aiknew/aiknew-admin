@@ -1,16 +1,14 @@
 {
   "name": "@aiknew/shared-ui-locales",
-  "scripts": {
-    "clean": "rm -rf dist",
-    "build": "pnpm tsc"
-  },
   "files": [
     "src/*.json"
   ],
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
     },
     "./en": {
       "default": "./src/en.json"

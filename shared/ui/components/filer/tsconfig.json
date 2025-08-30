@@ -13,8 +13,6 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "lodash": ["node_modules/@types/lodash"],
       "@intlify/core-base": ["node_modules/@intlify/core-base"]
     },
     "types": ["vite/client"]

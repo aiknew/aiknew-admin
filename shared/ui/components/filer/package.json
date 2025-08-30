@@ -1,16 +1,9 @@
 {
   "name": "@aiknew/shared-ui-filer",
   "version": "0.0.1",
-  "main": "dist/filer.es.js",
-  "module": "dist/filer.es.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/filer.es.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./style.css": "./dist/shared-ui-filer.css"
-  },
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
   "peerDependencies": {
     "@element-plus/icons-vue": "catalog:ui",
     "@vueuse/core": "catalog:ui",
@@ -34,14 +27,7 @@
   },
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",
-    "@intlify/core-base": "^11.1.9",
-    "@types/lodash": "^4.17.20",
-    "@vitejs/plugin-vue": "catalog:ui",
-    "vite": "catalog:ui",
-    "vite-svg-loader": "catalog:ui",
-    "@vitejs/plugin-vue-jsx": "catalog:ui",
-    "unplugin-element-plus": "catalog:ui",
-    "vite-plugin-dts": "catalog:ui"
+    "@intlify/core-base": "^11.1.9"
   },
   "scripts": {
     "dev": "vite",

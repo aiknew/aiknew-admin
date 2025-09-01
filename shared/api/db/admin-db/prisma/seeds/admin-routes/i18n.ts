@@ -1,5 +1,4 @@
 export const i18n = {
-  // 顶级路由翻译
   contentManagement: {
     'zh-CN': '内容管理',
     en: 'Content management',
@@ -16,7 +15,6 @@ export const i18n = {
     'zh-TW': '更新账户信息',
   },
 
-  // 内容管理子路由
   fileManagement: {
     'zh-CN': '文件管理',
     en: 'File management',
@@ -82,13 +80,7 @@ export const i18n = {
     en: 'Article list',
     'zh-TW': '文章列表',
   },
-  articleDetails: {
-    'zh-CN': '文章详情',
-    en: 'Article details',
-    'zh-TW': '文章詳情',
-  },
 
-  // 设置子路由
   systemSetting: {
     'zh-CN': '系统设置',
     en: 'System Setting',
@@ -123,11 +115,6 @@ export const i18n = {
     'zh-CN': '管理员账号',
     en: 'Admin Users',
     'zh-TW': '管理員帳號',
-  },
-  dataSettings: {
-    'zh-CN': '数据管理',
-    en: 'Data Settings',
-    'zh-TW': '數據管理',
   },
   dictSettings: {
     'zh-CN': '字典管理',

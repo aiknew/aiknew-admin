@@ -4,12 +4,22 @@ import { AdminRouteItem } from './types'
 
 const createRoute = (items: AdminRouteItem[], parentId: string) => {
   items.forEach(async (item) => {
-    const { name, children, ...data } = item
+    let { name, children, redirect, ...data } = item
+
+    if (!redirect && children && children.length > 0) {
+
+      const firstValidChild = children.find(item => item.type === 'MENU' && !item.hidden && (item.status === undefined || item.status))
+      if (firstValidChild) {
+        redirect = firstValidChild?.path
+      }
+    }
+
 
     const ret = await prisma.adminRoute.create({
       data: {
         ...data,
         parentId,
+        redirect,
         translations: {
           createMany: {
             data: Object.entries(name).map(([key, val]) => ({
@@ -35,13 +45,4 @@ export const createAdminRoutes = async () => {
   createRoute([userInfo], '0')
   createRoute([contentManagement], '0')
   createRoute([settings], '0')
-  // return Promise.all([createUserInfo])
-  //   .then((res) => {
-  //     console.log('res: ', res)
-  //     return res
-  //   })
-  //   .catch((err) => {
-  //     console.log('err: ', err)
-  //     throw err
-  //   })
 }

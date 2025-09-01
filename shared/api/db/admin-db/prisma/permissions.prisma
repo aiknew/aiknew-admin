@@ -40,7 +40,7 @@ model AdminRoute {
   type         RouteType               @default(GROUP)
   key          String                  @default("") @db.VarChar(20) // the permission identifier of the button
   status       Boolean                 @default(true)
-  path         String                  @default("-") @db.VarChar(100) // route path
+  path         String                  @default(nanoid()) @db.VarChar(100) // route path
   parentId     String                  @default("0") @db.VarChar(30)
   order        Int                     @default(100)
   createdAt    DateTime                @default(now())

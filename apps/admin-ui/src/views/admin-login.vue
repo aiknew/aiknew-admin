@@ -73,7 +73,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   <div
     class="flex min-h-screen items-center justify-center bg-[url(@/assets/svg/bg.svg)] bg-cover bg-center bg-no-repeat"
   >
-    <div class="flex w-[80%] max-w-[800px] rounded-xl bg-white px-6 pt-5 pb-8">
+    <div class="bg-theme-bg flex w-[80%] max-w-[800px] rounded-xl px-6 pt-5 pb-8">
       <!-- Brand Info -->
       <div
         class="hidden h-[300px] w-[68%] bg-[url(@/assets/svg/login.svg)] bg-cover bg-center bg-no-repeat p-12 md:block"
@@ -119,7 +119,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             >
               <template #append>
                 <div
-                  class="flex h-[38px] w-[100px] cursor-pointer items-center justify-center"
+                  class="flex h-[38px] w-[100px] cursor-pointer items-center justify-center bg-white"
                   v-html="captchaData?.captcha"
                   @click="refetchCaptcha()"
                 ></div>
@@ -142,6 +142,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     </div>
   </div>
 </template>
+
+<style>
+.el-input-group__append {
+  padding: 0 10px;
+  background-color: #fff;
+}
+</style>
 
 <i18n lang="yaml">
 en:

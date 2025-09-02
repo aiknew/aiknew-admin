@@ -63,11 +63,11 @@ export const settings: AdminRouteItem = {
           ],
         },
         {
-          component: 'settings/auth-api/auth-api',
+          component: 'settings/admin-permission/admin-permission',
           icon: 'Document',
-          path: '/settings/permissions/admin-api',
+          path: '/settings/permissions/permission',
           type: RouteType.MENU,
-          name: i18n.apiSettings,
+          name: i18n.permissionSettings,
           children: [
             {
               key: 'add',

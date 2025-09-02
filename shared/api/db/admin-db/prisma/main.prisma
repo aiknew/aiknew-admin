@@ -25,30 +25,23 @@ enum RouteType {
   BUTTON
 }
 
-enum RequestMethod {
-  GET
-  POST
-  PATCH
-  PUT
-  DELETE
-}
-
 model Language {
-  key                        String                       @unique @db.VarChar(30)
-  name                       String                       @db.VarChar(50)
-  orientation                LanguageOrientation          @default(LTR)
-  status                     Boolean                      @default(true)
-  order                      Int                          @default(10)
-  createdAt                  DateTime                     @default(now())
-  updatedAt                  DateTime                     @updatedAt
-  ArticleTranslation         ArticleTranslation[]
-  AdminRoleTranslation       AdminRoleTranslation[]
-  AdminRouteTranslation      AdminRouteTranslation[]
-  AdminApiTranslation        AdminApiTranslation[]
-  ArticleCategoryTranslation ArticleCategoryTranslation[]
-  DictTranslation            DictTranslation[]
-  DictTypeTranslation        DictTypeTranslation[]
-  ConfigTranslation          ConfigTranslation[]
+  key                             String                            @unique @db.VarChar(30)
+  name                            String                            @db.VarChar(50)
+  orientation                     LanguageOrientation               @default(LTR)
+  status                          Boolean                           @default(true)
+  order                           Int                               @default(10)
+  createdAt                       DateTime                          @default(now())
+  updatedAt                       DateTime                          @updatedAt
+  ArticleTranslation              ArticleTranslation[]
+  AdminRoleTranslation            AdminRoleTranslation[]
+  AdminRouteTranslation           AdminRouteTranslation[]
+  AdminPermissionTranslation      AdminPermissionTranslation[]
+  AdminPermissionGroupTranslation AdminPermissionGroupTranslation[]
+  ArticleCategoryTranslation      ArticleCategoryTranslation[]
+  DictTranslation                 DictTranslation[]
+  DictTypeTranslation             DictTypeTranslation[]
+  ConfigTranslation               ConfigTranslation[]
 }
 
 model AdminUser {

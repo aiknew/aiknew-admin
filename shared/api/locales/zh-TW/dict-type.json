@@ -1,3 +1,9 @@
 {
-  "haveChild": "該字典類型存在子項,無法刪除"
+  "haveChild": "該字典類型存在子項,無法刪除",
+  "dictTypeManagement": "字典類型管理",
+  "dictTypePagination": "取得字典類型分頁",
+  "dictTypeGetAll": "取得所有字典類型",
+  "dictTypeCreate": "建立字典類型",
+  "dictTypeUpdate": "更新字典類型",
+  "dictTypeDelete": "刪除字典類型"
 }

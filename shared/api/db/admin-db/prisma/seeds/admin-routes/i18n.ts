@@ -106,11 +106,6 @@ export const i18n = {
     en: 'Menu settings',
     'zh-TW': '選單設定',
   },
-  apiSettings: {
-    'zh-CN': 'API设置',
-    en: 'API settings',
-    'zh-TW': 'API設定',
-  },
   adminUsers: {
     'zh-CN': '管理员账号',
     en: 'Admin Users',

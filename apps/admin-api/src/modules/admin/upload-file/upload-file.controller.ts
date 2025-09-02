@@ -24,6 +24,8 @@ import { QueryUploadFileDto } from './dto/query-upload-file.dto'
 import {
   AppApiCreatedResponse,
   AppApiOkResponse,
+  Permission,
+  PermissionGroup,
   SuccessMsg,
 } from '@aiknew/shared-api-decorators'
 import { UpdateUploadFileDto } from './dto/update-upload-file.dto'
@@ -32,13 +34,15 @@ import { t } from '@aiknew/shared-api-utils'
 import type { AuthAdminRequest } from '@aiknew/shared-api-types'
 import { FileStatus, UploadFileChannel } from '@aiknew/shared-admin-db'
 
+@PermissionGroup({ name: 'upload-file.uploadFileManagement' })
 @Controller('upload-file')
 export class UploadFileController {
   constructor(
     private readonly uploadFileService: UploadFileService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
+  @Permission({ key: 'upload-file:filesAndGroups', name: 'upload-file.uploadFileFilesAndGroups' })
   @AppApiOkResponse(UploadFilesAndGroupsDto)
   @Get('filesAndGroups')
   async filesAndGroups(
@@ -47,6 +51,7 @@ export class UploadFileController {
     return this.uploadFileService.getFilesAndGroups(queryFileDto)
   }
 
+  @Permission({ key: 'upload-file:create', name: 'upload-file.uploadFileCreate' })
   @SuccessMsg(t('upload-file.uploadSuccess'))
   @Post()
   @UseInterceptors(FileInterceptor('file'))
@@ -75,6 +80,7 @@ export class UploadFileController {
     })
   }
 
+  @Permission({ key: 'upload-file:update', name: 'upload-file.uploadFileUpdate' })
   @Patch(':id')
   @SuccessMsg(t('upload-file.updateSuccess'))
   @AppApiOkResponse()
@@ -85,6 +91,7 @@ export class UploadFileController {
     await this.uploadFileService.updateOne(fileId, updateFileDto)
   }
 
+  @Permission({ key: 'upload-file:delete', name: 'upload-file.uploadFileDelete' })
   @Delete(':id')
   @SuccessMsg(t('upload-file.deleteSuccess'))
   @AppApiOkResponse()

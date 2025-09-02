@@ -3,5 +3,7 @@
   "loginSuccess": "登陸成功",
   "infoUpdated": "權限資訊已更新,請重新整理頁面",
   "noPermissions": "抱歉,該帳號沒有權限",
-  "wrongPassword": "原密碼錯誤"
+  "wrongPassword": "原密碼錯誤",
+  "adminAuthManagement": "管理員權限管理",
+  "adminAuthUpdate": "更新管理員信息"
 }

@@ -1,0 +1,14 @@
+{
+  "alreadyExists": "已存在相同的请求路径",
+  "haveRelated": "该权限被关联使用中",
+  "haveChild": "该权限存在子级，不能删除",
+  "cannotDelBuiltIn": "不能删除系统内置权限",
+  "permissionManagement": "权限管理",
+  "permissionPagination": "获取权限分页",
+  "permissionGetAll": "获取所有权限",
+  "permissionCreate": "创建权限",
+  "permissionUpdate": "更新权限",
+  "permissionDelete": "删除权限",
+  "cannotModifyBuiltIn": "不能修改系统内置的权限",
+  "nonExistsPermission": "不存在的权限"
+}

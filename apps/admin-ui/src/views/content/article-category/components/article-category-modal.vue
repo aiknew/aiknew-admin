@@ -54,10 +54,6 @@ const { AppForm, formApi } = useAppForm({
         name: 'name',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
-        // rules: langStore.buildTranslationSchema(
-        //   z.string({ message: 'translationRequired' }).nonempty({ message: 'translationRequired' }),
-        //   ''
-        // )
       },
       {
         as: {

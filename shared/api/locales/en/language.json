@@ -1,0 +1,8 @@
+{
+  "languageManagement": "Language Management",
+  "languagePagination": "Get Language Pagination",
+  "languageGetEnabled": "Get All Enabled Language",
+  "languageCreate": "Create Language",
+  "languageUpdate": "Update Language",
+  "languageDelete": "Delete Language"
+}

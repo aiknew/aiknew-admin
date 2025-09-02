@@ -7,5 +7,10 @@
   "inexistentFile": "不存在的文件",
   "uploadSuccess": "上傳成功",
   "deleteSuccess": "刪除檔案成功",
-  "updateSuccess": "修改文件資訊成功"
+  "updateSuccess": "修改文件資訊成功",
+  "uploadFileManagement": "上傳文件管理",
+  "uploadFileFilesAndGroups": "文件與分組",
+  "uploadFileCreate": "建立文件",
+  "uploadFileUpdate": "更新文件",
+  "uploadFileDelete": "刪除文件"
 }

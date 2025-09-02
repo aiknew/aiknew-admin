@@ -30,7 +30,7 @@ export class AuthRouteDto {
 
   updatedAt: Date
 
-  apis: string[]
+  permissions: string[]
 
   translations: AuthRouteTranslationDto[]
 }

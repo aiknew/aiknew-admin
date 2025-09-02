@@ -1,44 +1,28 @@
 export interface paths {
-    "/admin/auth-api": {
+    "/admin/permission": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AuthApiController_pagination"];
+        get: operations["PermissionController_pagination"];
         put?: never;
-        post: operations["AuthApiController_createOne"];
+        post: operations["PermissionController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/auth-api/ancestors": {
+    "/admin/permission/all": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AuthApiController_findAllAncestors"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/auth-api/{id}/children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AuthApiController_getChildren"];
+        get: operations["PermissionController_getAll"];
         put?: never;
         post?: never;
         delete?: never;
@@ -47,7 +31,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/auth-api/{id}": {
+    "/admin/permission/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -57,10 +41,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["AuthApiController_deleteOne"];
+        delete: operations["PermissionController_deleteOne"];
         options?: never;
         head?: never;
-        patch: operations["AuthApiController_updateOne"];
+        patch: operations["PermissionController_updateOne"];
         trace?: never;
     };
     "/admin/admin-user": {
@@ -93,6 +77,38 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["AdminUserController_updateOne"];
+        trace?: never;
+    };
+    "/admin/permission-group": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PermissionGroupController_getAll"];
+        put?: never;
+        post: operations["PermissionGroupController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/permission-group/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["PermissionGroupController_deleteOne"];
+        options?: never;
+        head?: never;
+        patch: operations["PermissionGroupController_updateOne"];
         trace?: never;
     };
     "/admin/article": {
@@ -749,49 +765,70 @@ export interface components {
             data: Record<string, never>;
             msg: string;
         };
-        PaginationResponseDto: {
-            current: number;
-            pageSize: number;
-            total: number;
-            list: Record<string, never>;
-        };
-        /** @enum {string} */
-        RequestMethod: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
-        AuthApiTranslationDto: {
+        PermissionGroupTranslationDto: {
             langKey: string;
-            apiName: string;
+            groupName: string;
         };
-        AuthApiDto: {
-            method: components["schemas"]["RequestMethod"];
+        PermissionGroupDto: {
             id: string;
-            url: string;
-            parentId: string;
             order: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            translations: components["schemas"]["AuthApiTranslationDto"][];
+            translations: components["schemas"]["PermissionGroupTranslationDto"][];
         };
-        AuthApiAncestorsDto: {
-            idPath: {
-                [key: string]: string[];
-            };
-            list: components["schemas"]["AuthApiDto"][];
+        /** @enum {string} */
+        RequestMethod: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "ALL" | "OPTIONS" | "HEAD" | "SEARCH" | "PROPFIND" | "PROPPATCH" | "MKCOL" | "COPY" | "MOVE" | "LOCK" | "UNLOCK";
+        /** @enum {string} */
+        AdminPermissionSource: "BUILT_IN" | "EXTERNAL";
+        PermissionTranslationDto: {
+            langKey: string;
+            permissionName: string;
+            remark?: string | null;
         };
-        CreateAuthApiDto: {
-            method: components["schemas"]["RequestMethod"];
-            url: string;
-            parentId: string;
+        PermissionDto: {
+            method: components["schemas"]["RequestMethod"] | null;
+            source: components["schemas"]["AdminPermissionSource"];
+            id: string;
+            path: string | null;
+            key: string;
+            groupId: string | null;
             order: number;
-            translations: components["schemas"]["AuthApiTranslationDto"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            translations: components["schemas"]["PermissionTranslationDto"][];
         };
-        UpdateAuthApiDto: {
-            method?: components["schemas"]["RequestMethod"];
-            url?: string;
-            parentId?: string;
+        PermissionsAndGroupsDto: {
+            total: number;
+            current: number;
+            pageSize: number;
+            groupList: components["schemas"]["PermissionGroupDto"][];
+            permissionList: components["schemas"]["PermissionDto"][];
+        };
+        CreatePermissionDto: {
+            method?: components["schemas"]["RequestMethod"] | null;
+            path?: string | null;
+            key: string;
+            groupId?: string | null;
+            order: number;
+            translations: components["schemas"]["PermissionTranslationDto"][];
+        };
+        UpdatePermissionDto: {
+            method?: components["schemas"]["RequestMethod"] | null;
+            path?: string | null;
+            key?: string;
+            groupId?: string | null;
             order?: number;
-            translations?: components["schemas"]["AuthApiTranslationDto"][];
+            translations?: components["schemas"]["PermissionTranslationDto"][];
+        };
+        PaginationResponseDto: {
+            current: number;
+            pageSize: number;
+            total: number;
+            list: Record<string, never>;
         };
         AdminUserDto: {
             id: string;
@@ -813,6 +850,14 @@ export interface components {
             userName?: string;
             roles?: string[];
             password?: string;
+        };
+        CreatePermissionGroupDto: {
+            order?: number;
+            translations: components["schemas"]["PermissionGroupTranslationDto"][];
+        };
+        UpdatePermissionGroupDto: {
+            order?: number;
+            translations?: components["schemas"]["PermissionGroupTranslationDto"][];
         };
         ArticleTranslationDto: {
             langKey: string;
@@ -983,7 +1028,7 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            apis: string[];
+            permissions: string[];
             translations: components["schemas"]["AuthRouteTranslationDto"][];
         };
         AuthRoute: {
@@ -1007,7 +1052,7 @@ export interface components {
         };
         CreateAuthRouteDto: {
             type: components["schemas"]["RouteType"];
-            apis: string[];
+            permissions: string[];
             icon?: string;
             redirect?: string;
             hidden: boolean;
@@ -1021,7 +1066,7 @@ export interface components {
         };
         UpdateAuthRouteDto: {
             type?: components["schemas"]["RouteType"];
-            apis?: string[];
+            permissions?: string[];
             icon?: string;
             redirect?: string;
             hidden?: boolean;
@@ -1314,7 +1359,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    AuthApiController_pagination: {
+    PermissionController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
@@ -1332,9 +1377,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["AuthApiDto"][];
-                        };
+                        data: components["schemas"]["PermissionsAndGroupsDto"];
                     };
                 };
             };
@@ -1349,7 +1392,7 @@ export interface operations {
             };
         };
     };
-    AuthApiController_createOne: {
+    PermissionController_createOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1358,7 +1401,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateAuthApiDto"];
+                "application/json": components["schemas"]["CreatePermissionDto"];
             };
         };
         responses: {
@@ -1381,10 +1424,10 @@ export interface operations {
             };
         };
     };
-    AuthApiController_findAllAncestors: {
+    PermissionController_getAll: {
         parameters: {
-            query: {
-                ids: string[];
+            query?: {
+                groupId?: string;
             };
             header?: never;
             path?: never;
@@ -1398,7 +1441,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AuthApiAncestorsDto"];
+                        data: components["schemas"]["PermissionDto"][];
                     };
                 };
             };
@@ -1413,39 +1456,7 @@ export interface operations {
             };
         };
     };
-    AuthApiController_getChildren: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AuthApiDto"][];
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    AuthApiController_deleteOne: {
+    PermissionController_deleteOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1475,7 +1486,7 @@ export interface operations {
             };
         };
     };
-    AuthApiController_updateOne: {
+    PermissionController_updateOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -1486,7 +1497,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateAuthApiDto"];
+                "application/json": components["schemas"]["UpdatePermissionDto"];
             };
         };
         responses: {
@@ -1618,6 +1629,132 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateAdminUserDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    PermissionGroupController_getAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PermissionGroupDto"][];
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    PermissionGroupController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePermissionGroupDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    PermissionGroupController_deleteOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    PermissionGroupController_updateOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePermissionGroupDto"];
             };
         };
         responses: {
@@ -3724,7 +3861,8 @@ type ReadonlyArray<T> = [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
 export const responseStatusCodeValues: ReadonlyArray<components["schemas"]["ResponseStatusCode"]> = [-1, 0, 401, 403, 400];
-export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMethod"]> = ["GET", "POST", "PATCH", "PUT", "DELETE"];
+export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMethod"]> = ["GET", "POST", "PUT", "DELETE", "PATCH", "ALL", "OPTIONS", "HEAD", "SEARCH", "PROPFIND", "PROPPATCH", "MKCOL", "COPY", "MOVE", "LOCK", "UNLOCK"];
+export const adminPermissionSourceValues: ReadonlyArray<components["schemas"]["AdminPermissionSource"]> = ["BUILT_IN", "EXTERNAL"];
 export const languageOrientationValues: ReadonlyArray<components["schemas"]["LanguageOrientation"]> = ["LTR", "RTL"];
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];

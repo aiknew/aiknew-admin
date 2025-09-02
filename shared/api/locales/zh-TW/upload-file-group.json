@@ -4,5 +4,10 @@
   "deleteSuccess": "刪除文件分組成功",
   "groupNameExists": "目前分組下已存在同名分組",
   "groupIsUsing": "該分組下存在文件或子分組,無法刪除",
-  "invalidParentGroup": "無效的父級分組"
+  "invalidParentGroup": "無效的父級分組",
+  "uploadFileGroupManagement": "文件分組管理",
+  "uploadFileGroupFindChildren": "取得文件分組下子組",
+  "uploadFileGroupCreate": "建立文件分組",
+  "uploadFileGroupUpdate": "更新文件分組",
+  "uploadFileGroupDelete": "刪除文件分組"
 }

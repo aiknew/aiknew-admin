@@ -25,7 +25,7 @@ const isSpecificTypes = (o: any, types: RouteType[]) => {
 export class CreateAuthRouteDto {
   @IsArray()
   @ValidateIf((o) => isSpecificTypes(o, ['MENU', 'BUTTON']))
-  apis: string[]
+  permissions: string[]
 
   @IsString()
   @IsOptional()

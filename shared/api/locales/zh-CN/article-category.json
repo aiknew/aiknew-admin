@@ -1,12 +1,12 @@
 {
   "hasChildren": "该文章分类存在子分类,无法删除",
   "haveRelated": "该文章分类下存在关联的文章,无法删除",
-  "seed": {
-    "title": "文章分类管理",
-    "list": "文章分类列表",
-    "child": "获取子分类",
-    "add": "新增文章分类",
-    "edit": "编辑文章分类",
-    "delete": "删除文章分类"
-  }
+  "articleCategoryManagement": "文章分类管理",
+  "articleCategoryAncestors": "获取文章分类祖先",
+  "articleCategoryChildren": "获取文章分类子级",
+  "articleCategoryPagination": "获取文章分类分页",
+  "articleCategoryDetail": "获取文章分类详情",
+  "articleCategoryCreate": "创建文章分类",
+  "articleCategoryUpdate": "更新文章分类",
+  "articleCategoryDelete": "删除文章分类"
 }

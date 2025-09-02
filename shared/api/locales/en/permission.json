@@ -1,0 +1,14 @@
+{
+  "alreadyExists": "The same request url already exists",
+  "haveRelated": "The permission is being used in association with",
+  "haveChild": "This permission has children and cannot be deleted",
+  "cannotDelBuiltIn": "Cannot delete the built-in permission of the system",
+  "permissionManagement": "Permission Management",
+  "permissionPagination": "Get permission Pagination",
+  "permissionGetAll": "Get All permission",
+  "permissionCreate": "Create permission",
+  "permissionUpdate": "Update permission",
+  "permissionDelete": "Delete permission",
+  "cannotModifyBuiltIn": "Cannot modify the built-in permission of the system",
+  "nonExistsPermission": "A non-existent permission"
+}

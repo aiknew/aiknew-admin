@@ -1,12 +1,10 @@
 {
   "invalidCategoryId": "不存在的文章分类",
   "invalidTitle": "已存在相同的文章标题",
-  "seed": {
-    "title": "文章管理",
-    "list": "文章列表",
-    "detail": "文章详情",
-    "add": "创建文章",
-    "edit": "编辑文章",
-    "delete": "删除文章"
-  }
+  "articleManagement": "文章管理",
+  "articlePagination": "获取文章列表",
+  "articleDetail": "获取文章详情",
+  "articleCreate": "创建文章",
+  "articleUpdate": "更新文章",
+  "articleDelete": "删除文章"
 }

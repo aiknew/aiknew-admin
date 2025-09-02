@@ -16,15 +16,19 @@ import {
   AppApiCreatedResponse,
   AppApiOkResponse,
   AppApiPaginationResponse,
+  Permission,
+  PermissionGroup,
 } from '@aiknew/shared-api-decorators'
 import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import { AuthRouteAncestorsDto } from './dto/auth-route-ancestors.dto'
 
+@PermissionGroup({ name: 'auth-route.authRouteManagement' })
 @Controller('auth-route')
 export class AuthRouteController {
-  constructor(private service: AuthRouteService) {}
+  constructor(private service: AuthRouteService) { }
 
   @Get()
+  @Permission({ key: 'auth-route:pagination', name: 'auth-route.authRoutePagination' })
   @AppApiPaginationResponse(AuthRouteDto)
   async pagination(
     @Query() paginationDto: PaginationDto,
@@ -33,6 +37,7 @@ export class AuthRouteController {
   }
 
   @Get('ancestors')
+  @Permission({ key: 'auth-route:ancestors', name: 'auth-route.authRouteAncestors' })
   @AppApiOkResponse(AuthRouteAncestorsDto)
   findAllAncestors(
     @Query('ids') ids: string[],
@@ -41,24 +46,28 @@ export class AuthRouteController {
   }
 
   @Get(':id/children')
+  @Permission({ key: 'auth-route:getChildren', name: 'auth-route.authRouteChildren' })
   @AppApiOkResponse([AuthRouteDto])
   async getChildren(@Param('id') id: string): Promise<AuthRouteDto[]> {
     return await this.service.getChildren(id)
   }
 
   @AppApiCreatedResponse()
+  @Permission({ key: 'auth-route:create', name: 'auth-route.authRouteCreate' })
   @Post()
   async createOne(@Body() data: CreateAuthRouteDto) {
     await this.service.createOne(data)
   }
 
   @Get('all')
+  @Permission({ key: 'auth-route:getAll', name: 'auth-route.authRouteGetAll' })
   @AppApiOkResponse([AuthRouteDto])
   getAll() {
     return this.service.getAll()
   }
 
   @AppApiOkResponse()
+  @Permission({ key: 'auth-route:update', name: 'auth-route.authRouteUpdate' })
   @Patch(':id')
   async updateOne(
     @Param('id') id: string,
@@ -68,6 +77,7 @@ export class AuthRouteController {
   }
 
   @AppApiOkResponse()
+  @Permission({ key: 'auth-route:delete', name: 'auth-route.authRouteDelete' })
   @Delete(':id')
   async deleteOne(@Param('id') id: string) {
     await this.service.deleteOne(id)

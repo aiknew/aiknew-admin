@@ -1,3 +1,8 @@
 {
-  "cannotDeleteSystem": "不能刪除系統內置的配置"
+  "cannotDeleteSystem": "不能刪除系統內置的配置",
+  "configManagement": "配置管理",
+  "configPagination": "獲取配置分頁",
+  "configCreate": "創建配置",
+  "configUpdate": "更新配置",
+  "configDelete": "刪除配置"
 }

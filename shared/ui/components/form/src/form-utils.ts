@@ -1,5 +1,5 @@
 import { type StandardSchemaV1 } from '@tanstack/vue-form'
-import { z, ZodType, ZodDefault, ZodOptional } from 'zod'
+import { z, ZodType, ZodDefault, ZodOptional, ZodNullable } from 'zod'
 import {
   ElInput,
   ElSwitch,
@@ -118,7 +118,7 @@ export type NormalField<N extends string, C extends keyof Components> = {
   label: string
   name: N
   i18n?: boolean
-  schema: ZodDefault | ZodOptional<ZodDefault>
+  schema: ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>
 }
 
 export type ExcludeField = {

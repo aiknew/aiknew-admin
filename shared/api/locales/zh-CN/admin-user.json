@@ -1,4 +1,9 @@
 {
   "userNotExists": "用户名或密码错误",
-  "userAlreadyExists": "用户名已存在"
+  "userAlreadyExists": "用户名已存在",
+  "adminUserManagement": "管理员用户管理",
+  "adminUserPagination": "获取管理员用户列表",
+  "adminUserCreate": "创建管理员用户",
+  "adminUserUpdate": "更新管理员用户",
+  "adminUserDelete": "删除管理员用户"
 }

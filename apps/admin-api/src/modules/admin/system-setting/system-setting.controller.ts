@@ -15,11 +15,14 @@ import {
   AppApiBadRequestResponse,
   AppApiInternalServerErrorResponse,
   AppApiOkResponse,
+  Permission,
+  PermissionGroup,
 } from '@aiknew/shared-api-decorators'
 
+@PermissionGroup({ name: 'system-setting.systemSettingManagement' })
 @Controller('system-setting')
 export class SystemSettingController {
-  constructor(private systemSettingService: SystemSettingService) {}
+  constructor(private systemSettingService: SystemSettingService) { }
 
   @Get(':key')
   @ApiParam({
@@ -27,6 +30,7 @@ export class SystemSettingController {
     enumName: 'SystemSettingKey',
     enum: SystemSettingKey,
   })
+  @Permission({ key: 'system-setting:get', name: 'system-setting.systemSettingGet' })
   @AppApiBadRequestResponse()
   @AppApiOkResponse(SystemSettingDto)
   async getSetting(
@@ -43,6 +47,7 @@ export class SystemSettingController {
   }
 
   @Put()
+  @Permission({ key: 'system-setting:set', name: 'system-setting.systemSettingSet' })
   @AppApiOkResponse()
   @AppApiInternalServerErrorResponse()
   async setSetting(@Body() systemSettingDto: SystemSettingDto) {

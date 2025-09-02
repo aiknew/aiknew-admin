@@ -4,6 +4,10 @@
   "deleteSuccess": "File group deleted successfully",
   "groupNameExists": "A group with the same name already exists under the current group",
   "groupIsUsing": "There are files or subgroups under this group and cannot be deleted.",
-
-  "invalidParentGroup": "Invalid parent grouping"
+  "invalidParentGroup": "Invalid parent grouping",
+  "uploadFileGroupManagement": "File group management",
+  "uploadFileGroupFindChildren": "Get file group children",
+  "uploadFileGroupCreate": "Create file group",
+  "uploadFileGroupUpdate": "Update file group",
+  "uploadFileGroupDelete": "Delete file group"
 }

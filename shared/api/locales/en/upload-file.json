@@ -7,5 +7,10 @@
   "inexistentFile": "non-existent file",
   "uploadSuccess": "Upload successful",
   "deleteSuccess": "File deleted successfully",
-  "updateSuccess": "File information modified successfully"
+  "updateSuccess": "File information modified successfully",
+  "uploadFileManagement": "Upload File Management",
+  "uploadFileFilesAndGroups": "Upload File Files And Groups",
+  "uploadFileCreate": "Upload File Create",
+  "uploadFileUpdate": "Upload File Update",
+  "uploadFileDelete": "Upload File Delete"
 }

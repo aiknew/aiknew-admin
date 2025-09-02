@@ -32,8 +32,8 @@ export class AuthRouteService {
     return this.prisma.adminRouteTranslation
   }
 
-  get apiRelModel(): PrismaService['adminRouteApi'] {
-    return this.prisma.adminRouteApi
+  get permissionRelModel() {
+    return this.prisma.adminRoutePermission
   }
 
   async pagination(paginationDto: PaginationDto) {
@@ -42,9 +42,9 @@ export class AuthRouteService {
         parentId: '0',
       },
       include: {
-        apis: {
+        permissions: {
           select: {
-            apiId: true,
+            permissionId: true,
           },
         },
         translations: {
@@ -60,7 +60,7 @@ export class AuthRouteService {
       ...ret,
       list: ret.list.map((route) => ({
         ...route,
-        apis: route.apis.map((item) => item.apiId),
+        permissions: route.permissions.map((item) => item.permissionId),
       })),
     }
   }
@@ -72,9 +72,9 @@ export class AuthRouteService {
       },
 
       include: {
-        apis: {
+        permissions: {
           select: {
-            apiId: true,
+            permissionId: true,
           },
         },
         translations: {
@@ -88,7 +88,7 @@ export class AuthRouteService {
 
     return ret.map((route) => ({
       ...route,
-      apis: route.apis.map((item) => item.apiId),
+      permissions: route.permissions.map((item) => item.permissionId),
     }))
   }
 
@@ -168,10 +168,10 @@ export class AuthRouteService {
     })
   }
 
-  constructRelatedApis(idArr?: string[]) {
+  constructRelatedPermissions(idArr?: string[]) {
     if (!idArr) return
     return idArr.map((id) => ({
-      api: {
+      permission: {
         connect: {
           id,
         },
@@ -183,21 +183,21 @@ export class AuthRouteService {
     const routes = await this.model.findMany({
       include: {
         translations: true,
-        apis: {
+        permissions: {
           select: {
-            apiId: true,
+            permissionId: true,
           },
         },
       },
     })
     return routes.map((route) => ({
       ...route,
-      apis: route.apis.map((item) => item.apiId),
+      apis: route.permissions.map((item) => item.permissionId),
     }))
   }
 
   async createOne(data: CreateAuthRouteDto) {
-    const { apis, translations, ...route } = data
+    const { permissions, translations, ...route } = data
     try {
       await this.model.create({
         data: {
@@ -205,8 +205,8 @@ export class AuthRouteService {
           translations: {
             create: translations,
           },
-          apis: {
-            create: this.constructRelatedApis(apis),
+          permissions: {
+            create: this.constructRelatedPermissions(permissions),
           },
         },
       })
@@ -231,7 +231,7 @@ export class AuthRouteService {
   }
 
   async updateOne(id: string, updateAdminRouteDto: UpdateAuthRouteDto) {
-    const { apis, translations, ...route } = updateAdminRouteDto
+    const { permissions: apis, translations, ...route } = updateAdminRouteDto
     await this.authUserService.clearAllUserCache()
     await this.model.update({
       where: { id },
@@ -243,9 +243,9 @@ export class AuthRouteService {
           create: translations,
         },
 
-        apis: {
+        permissions: {
           deleteMany: {},
-          create: this.constructRelatedApis(apis ?? []),
+          create: this.constructRelatedPermissions(apis ?? []),
         },
       },
     })
@@ -268,7 +268,7 @@ export class AuthRouteService {
         },
       })
 
-      const deleteRelatedApis = this.apiRelModel.deleteMany({
+      const deleteRelatedApis = this.permissionRelModel.deleteMany({
         where: {
           routeId: id,
         },

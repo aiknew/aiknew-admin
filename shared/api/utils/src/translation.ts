@@ -25,3 +25,6 @@ export const getTranslation = (text?: unknown): string => {
 
   return (text as string) ?? ''
 }
+
+export const getI18nValues = (key: string) => {
+}

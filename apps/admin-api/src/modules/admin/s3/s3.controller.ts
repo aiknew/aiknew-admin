@@ -1,22 +1,22 @@
 import {
   Controller,
-  Delete,
   Get,
   Param,
   Post,
-  Put,
   Query,
   Req,
 } from '@nestjs/common'
 import { S3Service } from './s3.service'
-import { AppApiOkResponse, Public } from '@aiknew/shared-api-decorators'
+import { AppApiOkResponse, Permission, Public } from '@aiknew/shared-api-decorators'
 import { plainToInstance } from 'class-transformer'
 import { PresignedDataDto, S3WebhookBodyDto } from './dto'
 import { AuthAdminRequest } from '@aiknew/shared-api-types'
+import { PermissionGroup } from '@aiknew/shared-api-decorators'
 
+@PermissionGroup({ name: 's3.s3Management' })
 @Controller('s3')
 export class S3Controller {
-  constructor(private readonly s3Service: S3Service) {}
+  constructor(private readonly s3Service: S3Service) { }
 
   /**
    * S3 webhook
@@ -42,6 +42,7 @@ export class S3Controller {
    * @param req Express Request Object with auth info
    * @returns
    */
+  @Permission({ key: 's3:presigned', name: 's3.s3Presigned' })
   @Get('presigned')
   @AppApiOkResponse(PresignedDataDto)
   async uploadToS3(

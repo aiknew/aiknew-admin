@@ -2,11 +2,11 @@ import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { AuthRouteDto } from './auth-route.dto'
 
 class AuthRoute extends OmitType(AuthRouteDto, [
-  'apis',
+  'permissions',
   'order',
   'createdAt',
   'updatedAt',
-]) {}
+]) { }
 
 export class AuthRouteAncestorsDto {
   @ApiProperty({

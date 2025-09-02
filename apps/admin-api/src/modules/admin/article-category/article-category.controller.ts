@@ -16,19 +16,23 @@ import {
   AppApiPaginationResponse,
   AppApiCreatedResponse,
   AppApiOkResponse,
+  PermissionGroup,
+  Permission,
 } from '@aiknew/shared-api-decorators'
 import { ArticleCategoryDto } from './dto/article-category.dto'
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto'
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto'
 import { ArticleCategoryAncestorsDto } from './dto/article-category-ancestors.dto'
 
+@PermissionGroup({ name: 'article-category.articleCategoryManagement' })
 @Controller('article-category')
 export class ArticleCategoryController {
   constructor(
     private readonly articleCategoryService: ArticleCategoryService,
-  ) {}
+  ) { }
 
   @Get()
+  @Permission({ key: 'article-category:pagination', name: 'article-category.articleCategoryPagination' })
   @AppApiPaginationResponse(ArticleCategoryDto)
   async pagination(
     @Query() paginationDto: PaginationDto,
@@ -37,6 +41,7 @@ export class ArticleCategoryController {
   }
 
   @Get('ancestors')
+  @Permission({ key: 'article-category:ancestors', name: 'article-category.articleCategoryAncestors' })
   @AppApiOkResponse(ArticleCategoryAncestorsDto)
   @ApiQuery({
     name: 'ids',
@@ -49,12 +54,14 @@ export class ArticleCategoryController {
   }
 
   @Get(':id/children')
+  @Permission({ key: 'article-category:children', name: 'article-category.articleCategoryChildren' })
   @AppApiOkResponse([ArticleCategoryDto])
   async getChildren(@Param('id') id: number): Promise<ArticleCategoryDto[]> {
     return await this.articleCategoryService.getChildren(id)
   }
 
   @Get(':id')
+  @Permission({ key: 'article-category:detail', name: 'article-category.articleCategoryDetail' })
   @AppApiOkResponse([ArticleCategoryDto])
   async getChildrenCate(
     @Param('id') id: number,
@@ -63,12 +70,14 @@ export class ArticleCategoryController {
   }
 
   @Post()
+  @Permission({ key: 'article-category:create', name: 'article-category.articleCategoryCreate' })
   @AppApiCreatedResponse()
   async createOne(@Body() data: CreateArticleCategoryDto) {
     await this.articleCategoryService.createOne(data)
   }
 
   @Patch(':id')
+  @Permission({ key: 'article-category:update', name: 'article-category.articleCategoryUpdate' })
   @AppApiOkResponse()
   async updateOne(
     @Param('id') id: number,
@@ -78,6 +87,7 @@ export class ArticleCategoryController {
   }
 
   @Delete(':id')
+  @Permission({ key: 'article-category:delete', name: 'article-category.articleCategoryDelete' })
   @AppApiOkResponse()
   async deleteOne(@Param('id') id: number) {
     await this.articleCategoryService.deleteOne(id)

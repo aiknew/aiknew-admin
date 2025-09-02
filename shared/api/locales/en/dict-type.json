@@ -1,3 +1,9 @@
 {
-  "haveChild": "This dictionary type has subordinates and cannot be deleted"
+  "haveChild": "This dictionary type has subordinates and cannot be deleted",
+  "dictTypeManagement": "Dictionary Type Management",
+  "dictTypePagination": "Get Dictionary Type Pagination",
+  "dictTypeGetAll": "Get All Dictionary Type",
+  "dictTypeCreate": "Create Dictionary Type",
+  "dictTypeUpdate": "Update Dictionary Type",
+  "dictTypeDelete": "Delete Dictionary Type"
 }

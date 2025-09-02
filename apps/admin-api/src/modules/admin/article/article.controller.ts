@@ -14,16 +14,20 @@ import {
   AppApiCreatedResponse,
   AppApiOkResponse,
   AppApiPaginationResponse,
+  Permission,
+  PermissionGroup,
 } from '@aiknew/shared-api-decorators'
 import { ArticleDto } from './dto/article.dto'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
 
+@PermissionGroup({ name: 'article.articleManagement' })
 @Controller('article')
 export class ArticleController {
-  constructor(private articleService: ArticleService) {}
+  constructor(private articleService: ArticleService) { }
 
   @Get()
+  @Permission({ key: 'article:pagination', name: 'article.articlePagination' })
   @AppApiPaginationResponse(ArticleDto)
   async pagination(
     @Query() pagination: PaginationDto,
@@ -32,24 +36,28 @@ export class ArticleController {
   }
 
   @Get(':id')
+  @Permission({ key: 'article:detail', name: 'article.articleDetail' })
   @AppApiOkResponse(ArticleDto)
   async detail(@Param('id') id: number): Promise<ArticleDto> {
     return this.articleService.getDetail(id)
   }
 
   @Post()
+  @Permission({ key: 'article:create', name: 'article.articleCreate' })
   @AppApiCreatedResponse()
   async createOne(@Body() data: CreateArticleDto) {
     return this.articleService.createOne(data)
   }
 
   @Patch(':id')
+  @Permission({ key: 'article:update', name: 'article.articleUpdate' })
   @AppApiOkResponse()
   async updateOne(@Param('id') id: number, @Body() data: UpdateArticleDto) {
     return this.articleService.updateOne(id, data)
   }
 
   @Delete(':id')
+  @Permission({ key: 'article:delete', name: 'article.articleDelete' })
   @AppApiOkResponse()
   async deleteOne(@Param('id') id: number) {
     return this.articleService.deleteOne(id)

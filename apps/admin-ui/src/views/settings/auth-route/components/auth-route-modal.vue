@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { h, computed, useTemplateRef, ref } from 'vue'
+import { h, computed, useTemplateRef, ref, onMounted } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAuthRouteI18n } from '../composables/use-auth-route-i18n'
 import { useAuthRouteCreate, useAuthRouteUpdate, type AuthRoute } from '@/api/auth-route'
-import { type AuthApi } from '@/api/auth-api'
-import { useAuthRouteApiData } from '../composables/use-auth-route-api-data'
+import { usePermissionAll, type Permission } from '@/api/permission'
 import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import { useAuthRouteData } from '../composables/use-auth-route-data'
 import { tField } from '@aiknew/shared-ui-locales'
@@ -23,8 +22,7 @@ const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAuthRouteI18n()
 const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds()
-const { defaultExpandedApiKeys, setSelectedApiKeys, fetchApiAncestors, loadApiNode } =
-  useAuthRouteApiData()
+const { data: apis, refetch: getAllApis } = usePermissionAll()
 const {
   editRouteId,
   // parentRouteId,
@@ -40,6 +38,10 @@ const isSmallGroup = ref(false)
 
 const { mutateAsync: createRoute } = useAuthRouteCreate()
 const { mutateAsync: updateRoute } = useAuthRouteUpdate()
+
+onMounted(() => {
+  getAllApis()
+})
 
 const languages = langStore.enabledLangs
 const { AppForm, formApi } = useAppForm({
@@ -73,7 +75,7 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { width: '200px' },
+            style: { minWidth: '200px' },
             valueKey: 'id',
             nodeKey: 'id',
             lazy: true,
@@ -172,17 +174,17 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { width: '200px' },
+            style: { minWidth: '200px' },
             multiple: true,
             valueKey: 'id',
             nodeKey: 'id',
-            lazy: true,
-            checkStrictly: true,
-            defaultExpandedKeys: defaultExpandedApiKeys.value,
             props: {
-              label: (data: AuthApi) => tField(data.translations, 'apiName').value
+              label: (data: Permission) => {
+                const name = tField(data.translations, 'apiName').value
+                return name.length > 0 ? name : `${data.method}: ${data.path}`
+              }
             },
-            load: loadApiNode
+            data: apis
           }
         },
         label: t('apiLabel'),
@@ -196,9 +198,6 @@ const { AppForm, formApi } = useAppForm({
         name: 'routeName',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
-        // rules: langStore.buildTranslationSchema(
-        //   z.string({ message: 'translationRequired' }).nonempty({ message: 'translationRequired' })
-        // )
       },
       {
         as: 'ElInputNumber',
@@ -242,8 +241,6 @@ const edit = async (item: AuthRoute) => {
   setEditRouteId(item.id)
   addUpdatedParentId(item.parentId)
 
-  setSelectedApiKeys(item.apis)
-  fetchApiAncestors()
   fetchRouteAncestors()
 
   modalRef.value?.setModalMode('edit')

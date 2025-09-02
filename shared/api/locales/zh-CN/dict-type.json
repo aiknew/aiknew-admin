@@ -1,3 +1,9 @@
 {
-  "haveChild": "该字典类型存在子类型，无法删除"
+  "haveChild": "该字典类型存在子类型，无法删除",
+  "dictTypeManagement": "字典类型管理",
+  "dictTypePagination": "获取字典类型分页",
+  "dictTypeGetAll": "获取所有字典类型",
+  "dictTypeCreate": "创建字典类型",
+  "dictTypeUpdate": "更新字典类型",
+  "dictTypeDelete": "删除字典类型"
 }

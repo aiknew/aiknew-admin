@@ -3,6 +3,7 @@
     "module": "NodeNext",
     "moduleResolution": "node16",
     "declaration": true,
+    "declarationMap": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

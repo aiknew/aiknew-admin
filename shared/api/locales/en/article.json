@@ -1,12 +1,10 @@
 {
   "invalidCategoryId": "Article category does not exist",
   "invalidTitle": "The same article title already exists",
-  "seed": {
-    "title": "Article management",
-    "list": "Article list",
-    "detail": "Article details",
-    "add": "Create article",
-    "edit": "Edit article",
-    "delete": "Delete article"
-  }
+  "articleManagement": "Article Management",
+  "articlePagination": "Get Article Pagination",
+  "articleDetail": "Get Article Detail",
+  "articleCreate": "Create Article",
+  "articleUpdate": "Update Article",
+  "articleDelete": "Delete Article"
 }

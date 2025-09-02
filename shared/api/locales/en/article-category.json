@@ -1,12 +1,12 @@
 {
   "hasChildren": "This article category has subcategories and cannot be deleted.",
   "haveRelated": "There are related articles under this article category and cannot be deleted.",
-  "seed": {
-    "title": "Article classification management",
-    "list": "Article category list",
-    "child": "Get subcategory",
-    "add": "Add article category",
-    "edit": "Edit article category",
-    "delete": "Delete article category"
-  }
+  "articleCategoryManagement": "Article Category Management",
+  "articleCategoryAncestors": "Get Article Category Ancestors",
+  "articleCategoryChildren": "Get Article Category Children",
+  "articleCategoryPagination": "Get Article Category Pagination",
+  "articleCategoryDetail": "Get Article Category Detail",
+  "articleCategoryCreate": "Create Article Category",
+  "articleCategoryUpdate": "Update Article Category",
+  "articleCategoryDelete": "Delete Article Category"
 }

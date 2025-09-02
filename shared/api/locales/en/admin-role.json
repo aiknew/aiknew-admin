@@ -1,3 +1,9 @@
 {
-  "hasRelated": "The role is currently being used."
+  "hasRelated": "The role is currently being used.",
+  "adminRoleManagement": "Admin Role Management",
+  "adminRolePagination": "Get Admin Role Pagination",
+  "adminRoleGetAll": "Get All Admin Role",
+  "adminRoleCreate": "Create Admin Role",
+  "adminRoleUpdate": "Update Admin Role",
+  "adminRoleDelete": "Delete Admin Role"
 }

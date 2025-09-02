@@ -1,4 +1,9 @@
 {
   "userNotExists": "Wrong username or password",
-  "userAlreadyExists": "Username already exists"
+  "userAlreadyExists": "Username already exists",
+  "adminUserManagement": "Admin user management",
+  "adminUserPagination": "Get admin user list",
+  "adminUserCreate": "Create admin user",
+  "adminUserUpdate": "Update admin user",
+  "adminUserDelete": "Delete admin user"
 }

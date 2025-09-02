@@ -297,7 +297,10 @@ export const useAppForm = <
       {
         style: { display: toValue(item.hidden) ? 'none' : undefined },
         label: item.label,
-        required: !(item.schema instanceof z.ZodOptional),
+        required: !(
+          item.schema instanceof z.ZodOptional ||
+          item.schema instanceof z.ZodNullable
+        ),
         error: error.value.msg,
         class: { [DynamicFormItemStyles.isOk]: isNotCurrentFieldLangErr },
       },

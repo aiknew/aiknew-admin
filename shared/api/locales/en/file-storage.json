@@ -1,0 +1,8 @@
+{
+  "fileStorageManagement": "File Storage Management",
+  "fileStoragePagination": "Get File Storage Pagination",
+  "fileStorageGetAll": "Get All File Storage",
+  "fileStorageCreate": "Create File Storage",
+  "fileStorageUpdate": "Update File Storage",
+  "fileStorageDelete": "Delete File Storage"
+}

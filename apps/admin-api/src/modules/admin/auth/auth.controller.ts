@@ -7,7 +7,9 @@ import {
   AppApiOkResponse,
   AppApiUnauthorizedResponse,
   SuccessMsg,
-  NoPermission,
+  Authenticated,
+  PermissionGroup,
+  Permission,
 } from '@aiknew/shared-api-decorators'
 import { ApiOperation } from '@nestjs/swagger'
 import { LoginBodyDto } from './dto/login-body.dto'
@@ -18,9 +20,10 @@ import { UserInfoDto } from './dto/user-info.dto'
 import { type AuthAdminRequest } from '@aiknew/shared-api-types'
 import { UpdateUserInfoDto } from './dto/update-user-info.dto'
 
+@PermissionGroup({ name: 'admin-auth.adminAuthManagement' })
 @Controller('auth')
 export class AuthController {
-  constructor(private service: AuthService) {}
+  constructor(private service: AuthService) { }
 
   @SuccessMsg(t('admin-auth.loginSuccess'))
   @Public()
@@ -44,13 +47,14 @@ export class AuthController {
   }
 
   @SuccessMsg(t('admin-auth.infoUpdated'))
-  @NoPermission()
+  @Authenticated()
   @AppApiOkResponse(UserInfoDto)
   @Get('info')
   async info(@Req() req: AuthAdminRequest): Promise<UserInfoDto> {
     return this.service.getUserInfo(req.adminUser)
   }
 
+  @Permission({ key: 'admin-auth:update', name: 'admin-auth.adminAuthUpdate' })
   @Patch('update')
   async updateUserInfo(
     @Req() req: AuthAdminRequest,

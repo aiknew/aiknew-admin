@@ -1,3 +1,27 @@
+enum RequestMethod {
+  GET
+  POST
+  PUT
+  DELETE
+  PATCH
+  ALL
+  OPTIONS
+  HEAD
+  SEARCH
+  PROPFIND
+  PROPPATCH
+  MKCOL
+  COPY
+  MOVE
+  LOCK
+  UNLOCK
+}
+
+enum AdminPermissionSource {
+  BUILT_IN
+  EXTERNAL
+}
+
 model AdminUserRole {
   adminUser   AdminUser @relation(fields: [adminUserId], references: [id])
   adminUserId String
@@ -46,7 +70,7 @@ model AdminRoute {
   createdAt    DateTime                @default(now())
   updatedAt    DateTime                @updatedAt
   roles        AdminRoleRoute[]
-  apis         AdminRouteApi[]
+  permissions  AdminRoutePermission[]
   translations AdminRouteTranslation[]
 }
 
@@ -72,38 +96,64 @@ model AdminRoleRoute {
   @@id([roleId, routeId])
 }
 
-// TODO: set top level record's parentId to null
-model AdminApi {
-  id           String                @id @default(cuid(2))
-  url          String                @db.VarChar(100)
-  method       RequestMethod         @default(GET)
-  parentId     String                @default("0") @db.VarChar(30)
-  order        Int                   @default(100)
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
-  routes       AdminRouteApi[]
-  translations AdminApiTranslation[]
-
-  @@unique([url, method])
+model AdminPermissionGroup {
+  id              String                            @id @default(cuid(2))
+  order           Int                               @default(100)
+  controllerName  String?                           @unique @db.VarChar(100)
+  source          AdminPermissionSource             @default(EXTERNAL)
+  createdAt       DateTime                          @default(now())
+  updatedAt       DateTime                          @updatedAt
+  translations    AdminPermissionGroupTranslation[]
+  AdminPermission AdminPermission[]
 }
 
-model AdminApiTranslation {
-  api       AdminApi @relation(fields: [apiId], references: [id])
-  apiId     String
-  langs     Language @relation(fields: [langKey], references: [key])
-  langKey   String
-  apiName   String   @db.VarChar(50)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model AdminPermissionGroupTranslation {
+  permissionGroup AdminPermissionGroup @relation(fields: [groupId], references: [id])
+  groupId         String
+  langs           Language             @relation(fields: [langKey], references: [key])
+  langKey         String
+  groupName       String               @db.VarChar(50)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
 
-  @@id([apiId, langKey])
+  @@id([groupId, langKey])
 }
 
-model AdminRouteApi {
-  route   AdminRoute @relation(fields: [routeId], references: [id])
-  routeId String
-  api     AdminApi   @relation(fields: [apiId], references: [id])
-  apiId   String
+model AdminPermission {
+  id              String                       @id @default(cuid(2))
+  key             String                       @unique @db.VarChar(100)
+  path            String?                      @db.VarChar(100)
+  permissionGroup AdminPermissionGroup?        @relation(fields: [groupId], references: [id], onDelete: Restrict)
+  groupId         String?
+  method          RequestMethod?               @default(GET)
+  source          AdminPermissionSource
+  order           Int                          @default(100)
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  routes          AdminRoutePermission[]
+  translations    AdminPermissionTranslation[]
 
-  @@id([routeId, apiId])
+  @@unique([path, method])
+}
+
+model AdminPermissionTranslation {
+  permission     AdminPermission @relation(fields: [permissionId], references: [id])
+  permissionId   String
+  langs          Language        @relation(fields: [langKey], references: [key])
+  langKey        String
+  permissionName String          @db.VarChar(50)
+  remark         String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@id([permissionId, langKey])
+}
+
+model AdminRoutePermission {
+  route        AdminRoute      @relation(fields: [routeId], references: [id])
+  routeId      String
+  permission   AdminPermission @relation(fields: [permissionId], references: [id])
+  permissionId String
+
+  @@id([routeId, permissionId])
 }

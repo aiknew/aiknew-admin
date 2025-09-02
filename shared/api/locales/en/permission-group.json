@@ -1,0 +1,12 @@
+{
+  "cannotDeleteBuiltIn": "Built-in permission grouping cannot be deleted",
+  "cannotModifyBuiltIn": "Built-in permission grouping cannot be modified",
+  "nonExistsGroup": "Non-existent permission grouping",
+  "alreadyExists": "Already a group with the same name exists",
+  "haveRelated": "There is an permission in this group and cannot be deleted",
+  "permissionGroupManagement": "Permission group management",
+  "permissionGroupGetAll": "Get all permission groups",
+  "permissionGroupCreate": "Create permission group",
+  "permissionGroupUpdate": "Update permission group",
+  "permissionGroupDelete": "Delete permission group"
+}

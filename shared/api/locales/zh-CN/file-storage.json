@@ -1,0 +1,8 @@
+{
+  "fileStorageManagement": "文件存储管理",
+  "fileStoragePagination": "获取文件存储分页",
+  "fileStorageGetAll": "获取所有文件存储",
+  "fileStorageCreate": "创建文件存储",
+  "fileStorageUpdate": "更新文件存储",
+  "fileStorageDelete": "删除文件存储"
+}

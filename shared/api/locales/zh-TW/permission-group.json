@@ -1,0 +1,12 @@
+{
+  "cannotDeleteBuiltIn": "不能刪除內建的權限分組",
+  "cannotModifyBuiltIn": "不能修改內建的權限分組",
+  "nonExistsGroup": "不存在的權限分組",
+  "alreadyExists": "已經存在同名的權限分組",
+  "haveRelated": "該分組下有權限,無法刪除",
+  "permissionGroupManagement": "權限分組管理",
+  "permissionGroupGetAll": "取得所有權限分組",
+  "permissionGroupCreate": "建立權限分組",
+  "permissionGroupUpdate": "更新權限分組",
+  "permissionGroupDelete": "刪除權限分組"
+}

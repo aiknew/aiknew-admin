@@ -1,0 +1,7 @@
+{
+  "dictManagement": "Dict Management",
+  "dictPagination": "Get Dict Pagination",
+  "dictCreate": "Create Dict",
+  "dictUpdate": "Update Dict",
+  "dictDelete": "Delete Dict"
+}

@@ -1,7 +1,6 @@
 import {
   useAuthRouteAncestors,
   useAuthRouteChildren,
-  type AuthRoute,
   type AuthRouteAncestorsDto
 } from '@/api/auth-route'
 import { computed, ref } from 'vue'

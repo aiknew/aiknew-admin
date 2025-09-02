@@ -1,3 +1,8 @@
 {
-  "cannotDeleteSystem": "Cannot delete system built-in configuration"
+  "cannotDeleteSystem": "Cannot delete system built-in configuration",
+  "configManagement": "Config Management",
+  "configPagination": "Get Config Pagination",
+  "configCreate": "Create Config",
+  "configUpdate": "Update Config",
+  "configDelete": "Delete Config"
 }

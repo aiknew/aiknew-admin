@@ -1,0 +1,8 @@
+{
+  "languageManagement": "语言管理",
+  "languagePagination": "获取语言分页",
+  "languageGetEnabled": "获取所有启用的语言",
+  "languageCreate": "创建语言",
+  "languageUpdate": "更新语言",
+  "languageDelete": "删除语言"
+}

@@ -1,0 +1,7 @@
+{
+  "dictManagement": "字典管理",
+  "dictPagination": "取得字典分頁",
+  "dictCreate": "建立字典",
+  "dictUpdate": "更新字典",
+  "dictDelete": "刪除字典"
+}

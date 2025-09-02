@@ -3,43 +3,12 @@
   "nonExistenceParentId": "不存在的上级ID",
   "alreadyExists": "已存在相同的路由",
   "hasRelated": "该路由正在被关联使用中",
-  "settings": {
-    "title": "设置"
-  },
-  "adminUsers": {
-    "title": "管理员账号",
-    "adminUserSettings": "管理员设置"
-  },
-  "common": {
-    "add": "新增",
-    "edit": "编辑",
-    "delete": "删除"
-  },
-  "roleSettings": {
-    "title": "角色设置"
-  },
-  "authSettings": {
-    "title": "权限设置",
-    "menuSettings": "菜单设置"
-  },
-  "apiSettings": "API设置",
   "hasChild": "该项目存在下级，不能删除",
-  "content": {
-    "title": "内容管理",
-    "file": {
-      "title": "文件管理",
-      "uploadFile": "上传文件",
-      "editFile": "编辑文件",
-      "deleteFile": "删除文件",
-      "addGroup": "新增文件分组",
-      "editGroup": "编辑文件分组",
-      "deleteGroup": "删除文件分组"
-    },
-    "articleManagement": {
-      "title": "文章管理",
-      "category": "文章分类列表",
-      "article": "文章列表",
-      "articleDetail": "文章详情"
-    }
-  }
+  "adminRouteManagement": "路由管理",
+  "adminRoutePagination": "获取路由分页",
+  "adminRouteGetChildren": "获取路由子路由",
+  "adminRouteGetAll": "获取所有路由",
+  "adminRouteCreate": "创建路由",
+  "adminRouteUpdate": "更新路由",
+  "adminRouteDelete": "删除路由"
 }

@@ -1,3 +1,9 @@
 {
-  "hasRelated": "該角色正在被關聯使用中"
+  "hasRelated": "該角色正在被關聯使用中",
+  "adminRoleManagement": "管理員角色管理",
+  "adminRolePagination": "獲取管理員角色分頁",
+  "adminRoleGetAll": "獲取所有管理員角色",
+  "adminRoleCreate": "創建管理員角色",
+  "adminRoleUpdate": "更新管理員角色",
+  "adminRoleDelete": "刪除管理員角色"
 }

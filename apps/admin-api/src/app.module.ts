@@ -86,4 +86,6 @@ import { ScheduleModule } from '@nestjs/schedule'
     TranslationsConstraint,
   ],
 })
-export class AppModule {}
+export class AppModule {
+
+}

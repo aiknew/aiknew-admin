@@ -14,16 +14,20 @@ import {
   AppApiPaginationResponse,
   AppApiCreatedResponse,
   AppApiOkResponse,
+  PermissionGroup,
+  Permission,
 } from '@aiknew/shared-api-decorators'
 import { CreateAuthRoleDto } from './dto/create-auth-role.dto'
 import { UpdateAuthRoleDto } from './dto/update-auth-role.dto'
 import { AuthRoleDto } from './dto/auth-role.dto'
 
+@PermissionGroup({ name: 'auth-role.authRoleManagement' })
 @Controller('auth-role')
 export class AuthRoleController {
-  constructor(private readonly service: AuthRoleService) {}
+  constructor(private readonly service: AuthRoleService) { }
 
   @AppApiPaginationResponse(AuthRoleDto)
+  @Permission({ key: 'auth-role:pagination', name: 'auth-role.authRolePagination' })
   @Get()
   pagination(
     @Query() paginationDto: PaginationDto,
@@ -32,18 +36,21 @@ export class AuthRoleController {
   }
 
   @AppApiOkResponse([AuthRoleDto])
+  @Permission({ key: 'auth-role:getAll', name: 'auth-role.authRoleGetAll' })
   @Get('all')
   async getAll() {
     return this.service.getAll()
   }
 
   @AppApiCreatedResponse()
+  @Permission({ key: 'auth-role:create', name: 'auth-role.authRoleCreate' })
   @Post()
   createOne(@Body() createAdminRoleDto: CreateAuthRoleDto) {
     return this.service.createOne(createAdminRoleDto)
   }
 
   @AppApiOkResponse()
+  @Permission({ key: 'auth-role:update', name: 'auth-role.authRoleUpdate' })
   @Patch(':id')
   updateOne(
     @Param('id') id: string,
@@ -53,6 +60,7 @@ export class AuthRoleController {
   }
 
   @AppApiOkResponse()
+  @Permission({ key: 'auth-role:delete', name: 'auth-role.authRoleDelete' })
   @Delete(':id')
   deleteOne(@Param('id') id: string) {
     return this.service.deleteOne(id)

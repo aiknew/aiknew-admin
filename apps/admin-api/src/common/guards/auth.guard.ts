@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
-import { IS_PUBLIC_KEY } from '@aiknew/shared-api-decorators'
+import { IS_PUBLIC_KEY, PERMISSION_KEY, PermissionMetaData } from '@aiknew/shared-api-decorators'
 import type { Request } from 'express'
 import type {
   AuthAdminRequest,
@@ -15,8 +15,8 @@ import {
 } from '@aiknew/shared-api-exceptions'
 import { t } from '@aiknew/shared-api-utils'
 import { AdminUserService } from 'src/modules/admin/admin-user/admin-user.service'
-import { AdminApi } from '@aiknew/shared-admin-db'
-import { IS_NO_PERMISSION_KEY } from '@aiknew/shared-api-decorators'
+import { AdminPermission } from '@aiknew/shared-admin-db'
+import { IS_AUTHENTICATED_KEY } from '@aiknew/shared-api-decorators'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,27 +25,26 @@ export class AuthGuard implements CanActivate {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly adminUserService: AdminUserService,
-  ) {}
+  ) { }
 
-  matchApiPermission(authApis: AdminApi[], request: Request) {
-    return authApis.some((item) => {
-      return (
-        item.url === (request.route as Record<string, unknown>).path &&
-        item.method.toLowerCase() === request.method.toLowerCase()
-      )
+  matchPermission(userPermissions: AdminPermission[], handlerPermissionKey: string) {
+    return userPermissions.some((item) => {
+      return item.key === handlerPermissionKey
     })
   }
 
   async canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ])
-    if (isPublic) {
-      return true
-    }
+
 
     try {
+      const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ])
+      if (isPublic) {
+        return true
+      }
+
       const request = context.switchToHttp().getRequest<AuthAdminRequest>()
       const authorization = request.get('Authorization')
       const token = authorization?.match(/Bearer\s+(\S+)/)?.[1]
@@ -63,25 +62,31 @@ export class AuthGuard implements CanActivate {
 
       // request from admin
       if (/^\/admin(\/.*)?$/.test(request.path)) {
-        // check if it's no permissions required
-        const isNoPermission = this.reflector.getAllAndOverride<boolean>(
-          IS_NO_PERMISSION_KEY,
-          [context.getHandler(), context.getClass()],
-        )
-        if (isNoPermission) {
-          return true
-        }
 
         // check if it's super admin user
         if (await this.adminUserService.isSuperAdminUser(decodedToken.sub)) {
           return true
         }
 
-        // validate role permissions
-        const apis = await this.adminUserService.getUserApis(decodedToken.sub)
-        if (this.matchApiPermission(apis, request)) {
+        // Check if only need to be logged in 
+        const isAuthenticated = this.reflector.getAllAndOverride<boolean>(
+          IS_AUTHENTICATED_KEY,
+          [context.getHandler(), context.getClass()],
+        )
+
+        if (isAuthenticated) {
           return true
         }
+
+        // validate permissions
+        const permissionMetaData = this.reflector.get<PermissionMetaData | undefined>(PERMISSION_KEY, context.getHandler())
+        if (permissionMetaData) {
+          const userPermissions = await this.adminUserService.getUserPermissions(decodedToken.sub)
+          if (this.matchPermission(userPermissions, permissionMetaData.key)) {
+            return true
+          }
+        }
+
 
         throw new AppForbiddenException(t('common.invalidAuth'))
       }

@@ -5,40 +5,40 @@ import { AppUnauthorizedException } from '@aiknew/shared-api-exceptions'
 import { createHMAC } from '@aiknew/shared-api-utils'
 import { CreateAdminUserDto } from './dto/create-admin-user.dto'
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
-import { AdminApi, Prisma, PrismaService } from '@aiknew/shared-admin-db'
+import { AdminPermission, Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
 
 @Injectable()
 export class AdminUserService {
   userCacheKey = 'user_'
-  userApisCacheKey = this.userCacheKey + 'apis'
+  userPermissionsCacheKey = this.userCacheKey + 'permissions'
   userRoutesCacheKey = this.userCacheKey + 'routes'
 
   constructor(
     private prisma: PrismaService,
     private i18n: I18nService,
     private redisService: RedisService,
-  ) {}
+  ) { }
 
-  get model(): PrismaService['adminUser'] {
+  get model() {
     return this.prisma.adminUser
   }
 
-  get roleRelModel(): PrismaService['adminUserRole'] {
+  get roleRelModel() {
     return this.prisma.adminUserRole
   }
 
-  get roleRouteRelModel(): PrismaService['adminRoleRoute'] {
+  get roleRouteRelModel() {
     return this.prisma.adminRoleRoute
   }
 
-  get routeModel(): PrismaService['adminRoute'] {
+  get routeModel() {
     return this.prisma.adminRoute
   }
 
-  buildUserApisCacheKey(userId: string) {
-    return this.userApisCacheKey + ':' + userId
+  buildUserPermissionsCacheKey(userId: string) {
+    return this.userPermissionsCacheKey + ':' + userId
   }
 
   buildUserRoutesCacheKey(userId: string) {
@@ -51,22 +51,22 @@ export class AdminUserService {
 
   async clearUserCache(userId: string) {
     await this.redisService.delete([
-      this.buildUserApisCacheKey(userId),
+      this.buildUserPermissionsCacheKey(userId),
       this.buildUserRoutesCacheKey(userId),
     ])
   }
 
-  setUserApisCache(userId: string, val: string) {
-    return this.redisService.set(this.buildUserApisCacheKey(userId), val)
+  setUserPermissionsCache(userId: string, val: string) {
+    return this.redisService.set(this.buildUserPermissionsCacheKey(userId), val)
   }
 
   setUserRoutesCache(userId: string, val: string) {
     return this.redisService.set(this.buildUserRoutesCacheKey(userId), val)
   }
 
-  async getUserRoutesAndApis(userId: string) {
-    const authApis: AdminApi[] = []
-    let authRoutes: Omit<AuthRouteDto, 'apis'>[] = []
+  async getUserRoutesAndPermissions(userId: string) {
+    const permissions: AdminPermission[] = []
+    let authRoutes: Omit<AuthRouteDto, 'permissions'>[] = []
 
     const userRoles = await this.roleRelModel.findMany({
       where: {
@@ -92,9 +92,9 @@ export class AdminUserService {
         route: {
           include: {
             translations: true,
-            apis: {
+            permissions: {
               include: {
-                api: true,
+                permission: true,
               },
             },
           },
@@ -103,11 +103,11 @@ export class AdminUserService {
     })
 
     authRoutes = roleRoutes.map((val) => {
-      const { apis, ...route } = val.route
-      if (apis.length) {
-        apis.forEach((item) => {
-          if (item.api) {
-            authApis.push(item.api)
+      const { permissions: userPermissions, ...route } = val.route
+      if (userPermissions.length) {
+        userPermissions.forEach((item) => {
+          if (item.permission) {
+            permissions.push(item.permission)
           }
         })
       }
@@ -116,35 +116,35 @@ export class AdminUserService {
     })
 
     // set user caches
-    await this.setUserApisCache(userId, JSON.stringify(authApis))
+    await this.setUserPermissionsCache(userId, JSON.stringify(permissions))
     await this.setUserRoutesCache(userId, JSON.stringify(authRoutes))
 
     return {
-      authApis,
+      permissions,
       authRoutes,
     }
   }
 
-  async getUserApis(userId: string): Promise<AdminApi[]> {
-    const str = await this.redisService.get(this.buildUserApisCacheKey(userId))
+  async getUserPermissions(userId: string): Promise<AdminPermission[]> {
+    const str = await this.redisService.get(this.buildUserPermissionsCacheKey(userId))
     if (str) {
-      return (JSON.parse(str) as AdminApi[]) ?? []
+      return (JSON.parse(str) as AdminPermission[]) ?? []
     }
 
-    const { authApis } = await this.getUserRoutesAndApis(userId)
+    const { permissions } = await this.getUserRoutesAndPermissions(userId)
 
-    return authApis
+    return permissions
   }
 
-  async getUserRoutes(userId: string): Promise<Omit<AuthRouteDto, 'apis'>[]> {
+  async getUserRoutes(userId: string): Promise<Omit<AuthRouteDto, 'permissions'>[]> {
     const str = await this.redisService.get(
       this.buildUserRoutesCacheKey(userId),
     )
     if (str) {
-      return (JSON.parse(str) as Omit<AuthRouteDto, 'apis'>[]) ?? []
+      return (JSON.parse(str) as Omit<AuthRouteDto, 'permissions'>[]) ?? []
     }
 
-    const { authRoutes } = await this.getUserRoutesAndApis(userId)
+    const { authRoutes } = await this.getUserRoutesAndPermissions(userId)
 
     return authRoutes
   }
@@ -210,7 +210,7 @@ export class AdminUserService {
         },
       })
 
-      let routes: Omit<AuthRouteDto, 'apis'>[] = []
+      let routes: Omit<AuthRouteDto, 'permissions'>[] = []
       if (user.super) {
         // get all routes for super admin user
         routes = await this.routeModel.findMany({

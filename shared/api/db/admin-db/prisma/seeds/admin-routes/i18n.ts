@@ -121,4 +121,9 @@ export const i18n = {
     en: 'Dict Settings',
     'zh-TW': '字典管理',
   },
+  configSettings: {
+    'zh-CN': '配置管理',
+    en: 'Config Settings',
+    'zh-TW': '配置管理',
+  },
 } as const

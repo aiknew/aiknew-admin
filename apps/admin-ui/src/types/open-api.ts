@@ -706,6 +706,38 @@ export interface paths {
         patch: operations["DictController_updateOne"];
         trace?: never;
     };
+    "/admin/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ConfigController_pagination"];
+        put?: never;
+        post: operations["ConfigController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/config/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["ConfigController_deleteOne"];
+        options?: never;
+        head?: never;
+        patch: operations["ConfigController_updateOne"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1237,6 +1269,37 @@ export interface components {
             /** @default true */
             status: boolean;
             translations?: components["schemas"]["DictTranslationDto"][];
+        };
+        ConfigTranslationDto: {
+            langKey: string;
+            name: string;
+            /** @default  */
+            remark: string;
+        };
+        ConfigDto: {
+            id: string;
+            key: string;
+            value: string;
+            system: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            translations: components["schemas"]["ConfigTranslationDto"][];
+        };
+        CreateConfigDto: {
+            key: string;
+            value: string;
+            /** @default false */
+            system: boolean;
+            translations: components["schemas"]["ConfigTranslationDto"][];
+        };
+        UpdateConfigDto: {
+            key?: string;
+            value?: string;
+            /** @default false */
+            system: boolean;
+            translations?: components["schemas"]["ConfigTranslationDto"][];
         };
         PaginationDto: {
             currentPage: number;
@@ -3501,6 +3564,137 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateDictDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    ConfigController_pagination: {
+        parameters: {
+            query: {
+                currentPage: number;
+                pageSize: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["ConfigDto"][];
+                        };
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    ConfigController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateConfigDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    ConfigController_deleteOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    ConfigController_updateOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateConfigDto"];
             };
         };
         responses: {

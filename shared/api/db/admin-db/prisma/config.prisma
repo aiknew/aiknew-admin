@@ -1,0 +1,20 @@
+model Config {
+  id           String              @id @default(cuid(2))
+  key          String              @unique @db.VarChar(50)
+  value        String              @db.VarChar(50)
+  system       Boolean             @default(false)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  translations ConfigTranslation[]
+}
+
+model ConfigTranslation {
+  configId String
+  config   Config   @relation(fields: [configId], references: [id])
+  langs    Language @relation(fields: [langKey], references: [key])
+  langKey  String
+  name     String   @db.VarChar(50)
+  remark   String   @default("")
+
+  @@id([configId, langKey])
+}

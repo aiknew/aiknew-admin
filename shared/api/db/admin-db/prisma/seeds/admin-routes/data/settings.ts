@@ -107,6 +107,13 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU
         },
         {
+          name: i18n.configSettings,
+          component: 'settings/config/config-view',
+          icon: 'Operation',
+          path: '/settings/config',
+          type: RouteType.MENU
+        },
+        {
           component: 'settings/admin-user/admin-user',
           icon: 'User',
           path: '/settings/admin-user',

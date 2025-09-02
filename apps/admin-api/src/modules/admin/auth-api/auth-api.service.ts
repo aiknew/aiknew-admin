@@ -11,7 +11,6 @@ import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { UpdateAuthApiDto } from './dto/update-auth-api.dto'
 import { AdminUserService } from '../admin-user/admin-user.service'
 import { type AuthApiTranslationDto } from './dto/auth-api-translation.dto'
-import { type AuthApiTreeListDto } from './dto/auth-api-tree-list.dto'
 import { type AuthApiDto } from './dto/auth-api.dto'
 import { isDate } from 'lodash-es'
 
@@ -21,7 +20,7 @@ export class AuthApiService {
     private prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly authUserService: AdminUserService,
-  ) {}
+  ) { }
 
   get model(): PrismaService['adminApi'] {
     return this.prisma.adminApi

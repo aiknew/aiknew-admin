@@ -1,0 +1,15 @@
+{
+  "nonExistenceApis": "不存在的api",
+  "nonExistenceParentId": "不存在的上級ID",
+  "alreadyExists": "已存在相同的路由",
+  "hasRelated": "該路由正在被關聯使用中",
+  "hasChild": "該項目存在下級，不能刪除",
+  "authRouteManagement": "路由管理",
+  "authRoutePagination": "獲取路由分頁",
+  "authRouteGetChildren": "獲取路由子路由",
+  "authRouteGetAll": "獲取所有路由",
+  "authRouteCreate": "創建路由",
+  "authRouteUpdate": "更新路由",
+  "authRouteDelete": "刪除路由",
+  "authRouteGetAncestors": "獲取祖先路由"
+}

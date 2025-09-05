@@ -54,7 +54,7 @@ export class AuthController {
     return this.service.getUserInfo(req.adminUser)
   }
 
-  @Permission({ key: 'admin-auth:update', name: 'admin-auth.adminAuthUpdate' })
+  @Authenticated()
   @Patch('update')
   async updateUserInfo(
     @Req() req: AuthAdminRequest,

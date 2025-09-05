@@ -6,7 +6,7 @@ import { Cron, Interval } from '@nestjs/schedule'
 @Injectable()
 export class S3SyncSchedulerService {
   private static fileCursor: undefined | string
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   get fileModel(): PrismaService['uploadFile'] {
     return this.prisma.uploadFile

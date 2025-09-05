@@ -5,7 +5,7 @@ generator client {
   previewFeatures = ["typedSql"]
 
   moduleFormat = "cjs"
-  runtime      = "node"
+  runtime      = "nodejs"
 }
 
 datasource db {

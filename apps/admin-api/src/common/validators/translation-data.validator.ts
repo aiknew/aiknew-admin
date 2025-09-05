@@ -15,14 +15,14 @@ import {
   isTranslationObjectArray,
 } from '@aiknew/shared-api-utils'
 import { I18nContext } from 'nestjs-i18n'
-import { LanguageService } from 'src/modules/admin/language/language.service'
+import { LanguageService } from '../../modules/admin/language/language.service'
 
 @ValidatorConstraint({ name: 'TranslationsConstraint', async: true })
 export class TranslationsConstraint implements ValidatorConstraintInterface {
   enableWhiteList = true
   validatingProperty = ''
 
-  constructor(private readonly languageService: LanguageService) {}
+  constructor(private readonly languageService: LanguageService) { }
 
   async validate(data: unknown, args: ValidationArguments) {
     this.validatingProperty = args.property

@@ -64,7 +64,7 @@ model AdminRoute {
   type         RouteType               @default(GROUP)
   key          String                  @default("") @db.VarChar(20) // the permission identifier of the button
   status       Boolean                 @default(true)
-  path         String                  @default(nanoid()) @db.VarChar(100) // route path
+  path         String                  @unique @default(nanoid()) @db.VarChar(100) // route path
   parentId     String                  @default("0") @db.VarChar(30)
   order        Int                     @default(100)
   createdAt    DateTime                @default(now())
@@ -121,7 +121,7 @@ model AdminPermissionGroupTranslation {
 
 model AdminPermission {
   id              String                       @id @default(cuid(2))
-  key             String                       @unique @db.VarChar(100)
+  key             String                       @db.VarChar(100)
   path            String?                      @db.VarChar(100)
   permissionGroup AdminPermissionGroup?        @relation(fields: [groupId], references: [id], onDelete: Restrict)
   groupId         String?
@@ -134,6 +134,7 @@ model AdminPermission {
   translations    AdminPermissionTranslation[]
 
   @@unique([path, method])
+  @@unique([key])
 }
 
 model AdminPermissionTranslation {

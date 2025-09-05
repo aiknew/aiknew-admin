@@ -1,0 +1,357 @@
+[
+  {
+    "permissionKey": "permission:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "permission:getAll",
+    "path": "all",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "permission:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "permission:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "permission:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "admin-user:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "admin-user:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "admin-user:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "admin-user:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "permissionGroup:getAll",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "permissionGroup:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "permissionGroup:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "permissionGroup:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "article:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article:detail",
+    "path": ":id",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "article:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "article:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "language:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "language:getEnabled",
+    "path": "enabled",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "language:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "language:update",
+    "path": ":key",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "language:delete",
+    "path": ":key",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "system-setting:get",
+    "path": ":key",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "system-setting:set",
+    "path": "/",
+    "httpMethod": 2
+  },
+  {
+    "permissionKey": "auth-role:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "auth-role:getAll",
+    "path": "all",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "auth-role:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "auth-role:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "auth-role:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "auth-route:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "auth-route:ancestors",
+    "path": "ancestors",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "auth-route:getChildren",
+    "path": ":id/children",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "auth-route:getAll",
+    "path": "all",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "auth-route:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "auth-route:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "auth-route:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "upload-file:filesAndGroups",
+    "path": "filesAndGroups",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "upload-file:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "upload-file:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "upload-file:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "upload-file-group:findChildren",
+    "path": ":id",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "upload-file-group:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "upload-file-group:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "upload-file-group:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "file-storage:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "file-storage:getAll",
+    "path": "all",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "file-storage:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "file-storage:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "file-storage:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "s3:presigned",
+    "path": "presigned",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article-category:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article-category:ancestors",
+    "path": "ancestors",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article-category:children",
+    "path": ":id/children",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article-category:detail",
+    "path": ":id",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "article-category:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "article-category:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "article-category:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "dict-type:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "dict-type:getAll",
+    "path": "all",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "dict-type:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "dict-type:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "dict-type:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "dict:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "dict:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "dict:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "dict:delete",
+    "path": ":id",
+    "httpMethod": 3
+  },
+  {
+    "permissionKey": "config:pagination",
+    "path": "/",
+    "httpMethod": 0
+  },
+  {
+    "permissionKey": "config:create",
+    "path": "/",
+    "httpMethod": 1
+  },
+  {
+    "permissionKey": "config:update",
+    "path": ":id",
+    "httpMethod": 4
+  },
+  {
+    "permissionKey": "config:delete",
+    "path": ":id",
+    "httpMethod": 3
+  }
+]

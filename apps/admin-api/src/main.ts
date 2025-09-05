@@ -8,6 +8,7 @@ import { ADMIN_API_PORT } from '@aiknew/shared-constants'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

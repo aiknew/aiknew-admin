@@ -18,7 +18,6 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@aiknew/shared-api-redis": ["../../shared/api/redis/src"],
       "@aiknew/shared-constants": ["../../shared/constants/src"],
       "@aiknew/shared-api-decorators": ["../../shared/api/decorators/src"],
       "@aiknew/shared-api-dtos": ["../../shared/api/dtos/src"],

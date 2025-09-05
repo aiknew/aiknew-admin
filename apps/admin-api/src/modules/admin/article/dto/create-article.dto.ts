@@ -1,6 +1,6 @@
 import { IsBoolean, IsNumber, ValidateNested } from 'class-validator'
 import { ArticleTranslationDto } from './article-translation.dto'
-import { ValidateTranslations } from 'src/common/validators'
+import { ValidateTranslations } from '../../../../common/validators'
 import { Type } from 'class-transformer'
 
 export class CreateArticleDto {

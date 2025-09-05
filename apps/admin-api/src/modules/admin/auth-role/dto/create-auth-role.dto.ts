@@ -1,6 +1,6 @@
 import { IsArray, IsNumber, ValidateNested } from 'class-validator'
 import { AuthRoleTranslationDto } from './auth-role-translation.dto'
-import { ValidateTranslations } from 'src/common/validators'
+import { ValidateTranslations } from '../../../../common/validators'
 import { Type } from 'class-transformer'
 
 export class CreateAuthRoleDto {

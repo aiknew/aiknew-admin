@@ -1,0 +1,15 @@
+{
+  "nonExistenceApis": "A non-existent api",
+  "nonExistenceParentId": "A non-existent superior ID",
+  "alreadyExists": "The same route already exists",
+  "hasRelated": "The route is being used by association",
+  "hasChild": "This project has subordinates and cannot be deleted",
+  "authRouteManagement": "Auth Route Management",
+  "authRoutePagination": "Get Auth Route Pagination",
+  "authRouteGetChildren": "Get Auth Route Children",
+  "authRouteGetAll": "Get All Auth Route",
+  "authRouteCreate": "Create Auth Route",
+  "authRouteUpdate": "Update Auth Route",
+  "authRouteDelete": "Delete Auth Route",
+  "authRouteGetAncestors": "Get Ancestors Auth Route"
+}

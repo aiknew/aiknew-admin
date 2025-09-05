@@ -9,7 +9,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator'
-import { ValidateTranslations } from 'src/common/validators'
+import { ValidateTranslations } from '../../../../common/validators'
 import { AuthRouteTranslationDto } from './auth-route-translation.dto'
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'

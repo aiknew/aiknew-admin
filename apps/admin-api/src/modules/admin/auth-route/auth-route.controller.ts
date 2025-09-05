@@ -37,7 +37,7 @@ export class AuthRouteController {
   }
 
   @Get('ancestors')
-  @Permission({ key: 'auth-route:ancestors', name: 'auth-route.authRouteAncestors' })
+  @Permission({ key: 'auth-route:ancestors', name: 'auth-route.authRouteGetAncestors' })
   @AppApiOkResponse(AuthRouteAncestorsDto)
   findAllAncestors(
     @Query('ids') ids: string[],
@@ -46,17 +46,10 @@ export class AuthRouteController {
   }
 
   @Get(':id/children')
-  @Permission({ key: 'auth-route:getChildren', name: 'auth-route.authRouteChildren' })
+  @Permission({ key: 'auth-route:getChildren', name: 'auth-route.authRouteGetChildren' })
   @AppApiOkResponse([AuthRouteDto])
   async getChildren(@Param('id') id: string): Promise<AuthRouteDto[]> {
     return await this.service.getChildren(id)
-  }
-
-  @AppApiCreatedResponse()
-  @Permission({ key: 'auth-route:create', name: 'auth-route.authRouteCreate' })
-  @Post()
-  async createOne(@Body() data: CreateAuthRouteDto) {
-    await this.service.createOne(data)
   }
 
   @Get('all')
@@ -64,6 +57,13 @@ export class AuthRouteController {
   @AppApiOkResponse([AuthRouteDto])
   getAll() {
     return this.service.getAll()
+  }
+
+  @AppApiCreatedResponse()
+  @Permission({ key: 'auth-route:create', name: 'auth-route.authRouteCreate' })
+  @Post()
+  async createOne(@Body() data: CreateAuthRouteDto) {
+    await this.service.createOne(data)
   }
 
   @AppApiOkResponse()

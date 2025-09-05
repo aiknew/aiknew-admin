@@ -1,0 +1,9 @@
+{
+  "hasRelated": "The role is currently being used.",
+  "authRoleManagement": "Auth Role Management",
+  "authRolePagination": "Get Auth Role Pagination",
+  "authRoleGetAll": "Get All Auth Role",
+  "authRoleCreate": "Create Auth Role",
+  "authRoleUpdate": "Update Auth Role",
+  "authRoleDelete": "Delete Auth Role"
+}

@@ -1,0 +1,9 @@
+{
+  "hasRelated": "該角色正在被關聯使用中",
+  "authRoleManagement": "管理員角色管理",
+  "authRolePagination": "獲取管理員角色分頁",
+  "authRoleGetAll": "獲取所有管理員角色",
+  "authRoleCreate": "創建管理員角色",
+  "authRoleUpdate": "更新管理員角色",
+  "authRoleDelete": "刪除管理員角色"
+}

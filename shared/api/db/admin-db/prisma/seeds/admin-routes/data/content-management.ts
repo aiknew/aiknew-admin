@@ -19,36 +19,43 @@ export const contentManagement: AdminRouteItem = {
           path: '/content/file',
           type: RouteType.MENU,
           name: i18n.fileManagement,
+          permissions: ['upload-file:filesAndGroups', 'upload-file-group:findChildren'],
           children: [
             {
               key: 'upload-file',
               type: RouteType.BUTTON,
               name: i18n.uploadFiles,
+              permissions: ['upload-file:create'],
             },
             {
               key: 'edit-file',
               type: RouteType.BUTTON,
               name: i18n.editFile,
+              permissions: ['upload-file:update'],
             },
             {
               key: 'delete-file',
               type: RouteType.BUTTON,
               name: i18n.deleteFiles,
+              permissions: ['upload-file:delete'],
             },
             {
               key: 'add-group',
               type: RouteType.BUTTON,
               name: i18n.addFileGroup,
+              permissions: ['upload-file-group:create'],
             },
             {
               key: 'edit-group',
               type: RouteType.BUTTON,
               name: i18n.editFileGroup,
+              permissions: ['upload-file-group:update'],
             },
             {
               key: 'delete-group',
               type: RouteType.BUTTON,
               name: i18n.deleteFileGroup,
+              permissions: ['upload-file-group:delete'],
             },
           ],
         },
@@ -64,21 +71,25 @@ export const contentManagement: AdminRouteItem = {
           path: '/content/article-category/list',
           type: RouteType.MENU,
           name: i18n.articleCategoryList,
+          permissions: ['article-category:pagination', 'article-category:children', 'article-category:detail', 'article-category:ancestors'],
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
+              permissions: ['article-category:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
+              permissions: ['article-category:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
+              permissions: ['article-category:delete']
             },
           ],
         },
@@ -88,21 +99,25 @@ export const contentManagement: AdminRouteItem = {
           path: '/content/article/list',
           type: RouteType.MENU,
           name: i18n.articleList,
+          permissions: ['article:pagination', 'article:detail'],
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
+              permissions: ['article:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
+              permissions: ['article:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
+              permissions: ['article:delete']
             },
           ],
         },

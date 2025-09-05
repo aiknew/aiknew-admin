@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
 import { IS_PUBLIC_KEY, PERMISSION_KEY, PermissionMetaData } from '@aiknew/shared-api-decorators'
-import type { Request } from 'express'
 import type {
   AuthAdminRequest,
   AdminJWTPayload,
@@ -14,7 +13,7 @@ import {
   AppUnauthorizedException,
 } from '@aiknew/shared-api-exceptions'
 import { t } from '@aiknew/shared-api-utils'
-import { AdminUserService } from 'src/modules/admin/admin-user/admin-user.service'
+import { AdminUserService } from '../../modules/admin/admin-user/admin-user.service'
 import { AdminPermission } from '@aiknew/shared-admin-db'
 import { IS_AUTHENTICATED_KEY } from '@aiknew/shared-api-decorators'
 

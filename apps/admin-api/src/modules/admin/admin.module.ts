@@ -18,7 +18,7 @@ import { S3Module } from './s3/s3.module'
 import { DictModule } from './dict/dict.module'
 import { ConfigModule } from './config/config.module'
 import { PermissionSyncService } from './permission/permission-sync.service'
-import { adminBasePath } from 'src/common/constants'
+import { adminBasePath } from '../../common/constants'
 
 const adminModules = [
   PermissionModule,
@@ -60,10 +60,10 @@ const adminModules = [
 })
 export class AdminModule {
 
-  constructor(private readonly authApiSyncService: PermissionSyncService) {
+  constructor(private readonly permissionSyncService: PermissionSyncService) {
   }
 
-  onModuleInit() {
-    this.authApiSyncService.sync()
+  async onModuleInit() {
+    await this.permissionSyncService.sync()
   }
 }

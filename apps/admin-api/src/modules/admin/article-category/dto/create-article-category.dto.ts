@@ -5,7 +5,7 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator'
-import { ValidateTranslations } from 'src/common/validators'
+import { ValidateTranslations } from '../../../../common/validators'
 import { ArticleCategoryTranslationDto } from './article-category-translation.dto'
 
 export class CreateArticleCategoryDto {

@@ -20,21 +20,25 @@ export const settings: AdminRouteItem = {
           path: '/settings/permissions/admin-role',
           type: RouteType.MENU,
           name: i18n.characterSettings,
+          permissions: ['auth-role:pagination', 'auth-role:getAll'],
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
+              permissions: ['auth-role:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
+              permissions: ['auth-role:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
+              permissions: ['auth-role:delete']
             },
           ],
         },
@@ -44,21 +48,25 @@ export const settings: AdminRouteItem = {
           path: '/settings/permissions/admin-route',
           type: RouteType.MENU,
           name: i18n.menuSettings,
+          permissions: ['auth-route:pagination', 'auth-route:getAll', 'auth-route:getChildren', 'auth-route:ancestors'],
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
+              permissions: ['auth-route:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
+              permissions: ['auth-route:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
+              permissions: ['auth-route:delete']
             },
           ],
         },
@@ -68,21 +76,25 @@ export const settings: AdminRouteItem = {
           path: '/settings/permissions/permission',
           type: RouteType.MENU,
           name: i18n.permissionSettings,
+          permissions: ['permission:pagination', 'permission:getAll'],
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
+              permissions: ['permission:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
+              permissions: ['permission:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
+              permissions: ['permission:delete']
             },
           ],
         },
@@ -98,20 +110,83 @@ export const settings: AdminRouteItem = {
           path: '/settings/storage-setting',
           type: RouteType.MENU,
           name: i18n.storageSetting,
+          permissions: ['storage-setting:pagination', 'storage-setting:getAll'],
+          children: [
+            {
+              key: 'add',
+              type: RouteType.BUTTON,
+              name: i18n.new,
+              permissions: ['storage-setting:create']
+            },
+            {
+              key: 'edit',
+              type: RouteType.BUTTON,
+              name: i18n.edit,
+              permissions: ['storage-setting:update']
+            },
+            {
+              key: 'delete',
+              type: RouteType.BUTTON,
+              name: i18n.delete,
+              permissions: ['storage-setting:delete']
+            },
+          ],
         },
         {
           name: i18n.dictSettings,
           component: 'settings/dict-type/dict-type',
           icon: 'Notebook',
           path: '/settings/dict-type',
-          type: RouteType.MENU
+          type: RouteType.MENU,
+          permissions: ['dict-type:pagination', 'dict-type:getAll'],
+          children: [
+            {
+              key: 'add',
+              type: RouteType.BUTTON,
+              name: i18n.new,
+              permissions: ['dict-type:create']
+            },
+            {
+              key: 'edit',
+              type: RouteType.BUTTON,
+              name: i18n.edit,
+              permissions: ['dict-type:update']
+            },
+            {
+              key: 'delete',
+              type: RouteType.BUTTON,
+              name: i18n.delete,
+              permissions: ['dict-type:delete']
+            },
+          ],
         },
         {
           name: i18n.configSettings,
           component: 'settings/config/config-view',
           icon: 'Operation',
           path: '/settings/config',
-          type: RouteType.MENU
+          type: RouteType.MENU,
+          permissions: ['config:pagination'],
+          children: [
+            {
+              key: 'add',
+              type: RouteType.BUTTON,
+              name: i18n.new,
+              permissions: ['config:create']
+            },
+            {
+              key: 'edit',
+              type: RouteType.BUTTON,
+              name: i18n.edit,
+              permissions: ['config:update']
+            },
+            {
+              key: 'delete',
+              type: RouteType.BUTTON,
+              name: i18n.delete,
+              permissions: ['config:delete']
+            },
+          ],
         },
         {
           component: 'settings/admin-user/admin-user',
@@ -119,21 +194,25 @@ export const settings: AdminRouteItem = {
           path: '/settings/admin-user',
           type: RouteType.MENU,
           name: i18n.adminUsers,
+          permissions: ['admin-user:pagination'],
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
+              permissions: ['admin-user:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
+              permissions: ['admin-user:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
+              permissions: ['admin-user:delete']
             },
           ],
         },

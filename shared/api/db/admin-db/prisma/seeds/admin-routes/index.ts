@@ -4,7 +4,7 @@ import { AdminRouteItem } from './types'
 
 const createRoute = (items: AdminRouteItem[], parentId: string) => {
   items.forEach(async (item) => {
-    let { name, children, redirect, ...data } = item
+    let { name, children, redirect, permissions, ...data } = item
 
     if (!redirect && children && children.length > 0) {
 
@@ -13,6 +13,21 @@ const createRoute = (items: AdminRouteItem[], parentId: string) => {
         redirect = firstValidChild?.path
       }
     }
+
+    const permissionIds = (await prisma.adminPermission.findMany({
+      where: {
+        key: {
+          in: permissions
+        }
+      },
+      select: {
+        id: true
+      }
+    })).map(item => {
+      return {
+        permissionId: item.id
+      }
+    })
 
 
     const ret = await prisma.adminRoute.create({
@@ -28,6 +43,11 @@ const createRoute = (items: AdminRouteItem[], parentId: string) => {
             })),
           },
         },
+        permissions: {
+          createMany: {
+            data: permissionIds
+          }
+        }
       },
     })
 

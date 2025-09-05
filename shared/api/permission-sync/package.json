@@ -1,30 +1,27 @@
 {
-  "name": "@aiknew/admin-api",
+  "name": "@aiknew/shared-api-permission-sync",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "db:seed": "pnpm -w --filter @aiknew/shared-admin-db db:seed",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "load-env": "dotenvx run -f .env",
-    "start": "pnpm load-env -- nest start",
-    "start:dev": "pnpm load-env -- nest start --watch",
-    "start:debug": "pnpm load-env -- nest start --debug --watch",
-    "start:prod": "pnpm load-env -- node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "sync": "pnpm load-env -- ts-node --project tsconfig.json src/sync.ts",
+    "load-env": "dotenvx run -f ../../../apps/admin-api/.env",
+    "clean": "rm -rf dist",
+    "build": "pnpm tsc"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "peerDependencies": {
+    "@aiknew/shared-admin-db": "workspace:*",
+    "@nestjs/core": "catalog:api",
+    "nestjs-i18n": "catalog:api",
+    "@nestjs/common": "catalog:api",
+    "@aiknew/shared-api-decorators": "workspace:*"
   },
   "dependencies": {
-    "@aiknew/shared-api-permission-sync": "workspace:*",
-    "@aiknew/shared-admin-db": "workspace:*",
-    "@aiknew/shared-api-decorators": "workspace:*",
     "@aiknew/shared-api-dtos": "workspace:*",
     "@aiknew/shared-api-enums": "workspace:*",
     "@aiknew/shared-api-exceptions": "workspace:*",
@@ -37,9 +34,7 @@
     "@aws-sdk/client-s3": "^3.844.0",
     "@aws-sdk/s3-presigned-post": "^3.844.0",
     "@dotenvx/dotenvx": "catalog:common",
-    "@nestjs/common": "catalog:api",
     "@nestjs/config": "catalog:api",
-    "@nestjs/core": "catalog:api",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/platform-express": "catalog:api",
     "@nestjs/schedule": "^6.0.0",
@@ -51,7 +46,6 @@
     "express": "catalog:api",
     "lodash-es": "catalog:common",
     "multer": "1.4.5-lts.2",
-    "nestjs-i18n": "catalog:api",
     "redis": "catalog:api",
     "reflect-metadata": "^0.2.2",
     "rxjs": "catalog:api",
@@ -88,24 +82,6 @@
     "ts-loader": "^9.5.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "catalog:common",
-    "typescript-eslint": "^8.20.0",
-    "why-is-node-running": "^3.2.2"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "typescript-eslint": "^8.20.0"
   }
 }

@@ -18,7 +18,7 @@ const messages = {
     pathLabel: 'Route Path',
     keyLabel: 'Permission Key',
     keyTips: 'Permission identifier for the button',
-    apiLabel: 'API Permission',
+    permissions: 'Permissions',
     routeNameLabel: 'Route Name',
     addTitle: 'Add Menu',
     editTitle: 'Edit Menu'
@@ -40,7 +40,7 @@ const messages = {
     pathLabel: '路由路径',
     keyLabel: '权限标识',
     keyTips: '按钮的权限标识',
-    apiLabel: 'API权限',
+    permissions: '权限',
     routeNameLabel: '路由名称',
     addTitle: '新增菜单',
     editTitle: '编辑菜单'
@@ -62,7 +62,7 @@ const messages = {
     pathLabel: '路由路徑',
     keyLabel: '權限標識',
     keyTips: '按鈕的權限標識',
-    apiLabel: 'API權限',
+    permissions: '權限',
     routeNameLabel: '路由名稱',
     addTitle: '新增選單',
     editTitle: '編輯選單'

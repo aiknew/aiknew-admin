@@ -1052,7 +1052,7 @@ export interface components {
         };
         CreateAuthRouteDto: {
             type: components["schemas"]["RouteType"];
-            permissions: string[];
+            permissions?: string[];
             icon?: string;
             redirect?: string;
             hidden: boolean;

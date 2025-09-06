@@ -22,7 +22,7 @@ const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAuthRouteI18n()
 const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds()
-const { data: apis, refetch: getAllApis } = usePermissionAll()
+const { data: permissions, refetch: getAllApis } = usePermissionAll()
 const {
   editRouteId,
   // parentRouteId,
@@ -180,16 +180,15 @@ const { AppForm, formApi } = useAppForm({
             nodeKey: 'id',
             props: {
               label: (data: Permission) => {
-                const name = tField(data.translations, 'apiName').value
-                return name.length > 0 ? name : `${data.method}: ${data.path}`
+                return tField(data.translations, 'permissionName').value
               }
             },
-            data: apis
+            data: computed(() => permissions.value ?? []).value
           }
         },
-        label: t('apiLabel'),
-        name: 'apis',
-        schema: z.array(z.string()).nonempty().default([])
+        label: t('permissions'),
+        name: 'permissions',
+        schema: z.array(z.string()).optional().default([]).optional()
       },
 
       {
@@ -246,6 +245,7 @@ const edit = async (item: AuthRoute) => {
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
+
   formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 

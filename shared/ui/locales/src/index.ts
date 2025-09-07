@@ -1,4 +1,4 @@
-import { computed, type App } from 'vue'
+import { computed, watch, type App } from 'vue'
 import { createI18n } from 'vue-i18n'
 import en from './en.json'
 import zhCN from './zh-CN.json'
@@ -84,3 +84,5 @@ export const t: typeof i18n.global.t = i18n.global.t
 export const installI18n = (app: App<Element>) => {
   app.use(i18n)
 }
+
+setZodLocales(i18n.global.locale.value)

@@ -4,16 +4,11 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common'
-import { ApiQuery } from '@nestjs/swagger'
 import { ArticleCategoryService } from './article-category.service'
-import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import {
-  AppApiPaginationResponse,
   AppApiCreatedResponse,
   AppApiOkResponse,
   PermissionGroup,
@@ -22,7 +17,6 @@ import {
 import { ArticleCategoryDto } from './dto/article-category.dto'
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto'
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto'
-import { ArticleCategoryAncestorsDto } from './dto/article-category-ancestors.dto'
 
 @PermissionGroup({ name: 'article-category.articleCategoryManagement' })
 @Controller('article-category')
@@ -31,35 +25,19 @@ export class ArticleCategoryController {
     private readonly articleCategoryService: ArticleCategoryService,
   ) { }
 
-  @Get()
-  @Permission({ key: 'article-category:pagination', name: 'article-category.articleCategoryPagination' })
-  @AppApiPaginationResponse(ArticleCategoryDto)
-  async pagination(
-    @Query() paginationDto: PaginationDto,
-  ): Promise<PaginationResponseDto<ArticleCategoryDto[]>> {
-    return this.articleCategoryService.pagination(paginationDto)
-  }
-
-  @Get('ancestors')
-  @Permission({ key: 'article-category:ancestors', name: 'article-category.articleCategoryAncestors' })
-  @AppApiOkResponse(ArticleCategoryAncestorsDto)
-  @ApiQuery({
-    name: 'ids',
-    type: [Number],
-  })
-  findAllAncestors(
-    @Query('ids', ParseIntPipe) ids: number[],
-  ): Promise<ArticleCategoryAncestorsDto> {
-    return this.articleCategoryService.findAncestors(ids)
-  }
-
-  @Get(':id/children')
-  @Permission({ key: 'article-category:children', name: 'article-category.articleCategoryChildren' })
+  /**
+   * Get all article categories 
+   */
+  @Get('all')
+  @Permission({ key: 'article-category:getAll', name: 'article-category.articleCategoryGetAll' })
   @AppApiOkResponse([ArticleCategoryDto])
-  async getChildren(@Param('id') id: number): Promise<ArticleCategoryDto[]> {
-    return await this.articleCategoryService.getChildren(id)
+  async getAll(): Promise<ArticleCategoryDto[]> {
+    return this.articleCategoryService.getAll()
   }
 
+  /**
+   * Get Article Category Detail 
+   */
   @Get(':id')
   @Permission({ key: 'article-category:detail', name: 'article-category.articleCategoryDetail' })
   @AppApiOkResponse([ArticleCategoryDto])
@@ -69,6 +47,9 @@ export class ArticleCategoryController {
     return this.articleCategoryService.getChildrenCategory(id)
   }
 
+  /**
+   * Create article category 
+   */
   @Post()
   @Permission({ key: 'article-category:create', name: 'article-category.articleCategoryCreate' })
   @AppApiCreatedResponse()
@@ -76,6 +57,9 @@ export class ArticleCategoryController {
     await this.articleCategoryService.createOne(data)
   }
 
+  /**
+   * Update Article Category 
+   */
   @Patch(':id')
   @Permission({ key: 'article-category:update', name: 'article-category.articleCategoryUpdate' })
   @AppApiOkResponse()
@@ -86,6 +70,9 @@ export class ArticleCategoryController {
     await this.articleCategoryService.updateOne(id, data)
   }
 
+  /**
+   * Delete Article Category 
+   */
   @Delete(':id')
   @Permission({ key: 'article-category:delete', name: 'article-category.articleCategoryDelete' })
   @AppApiOkResponse()

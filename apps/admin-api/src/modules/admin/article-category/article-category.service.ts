@@ -28,6 +28,22 @@ export class ArticleCategoryService {
     return this.prisma.articleCategoryTranslation
   }
 
+  async getAll() {
+    return this.model.findMany({
+      include: {
+        translations: true
+      },
+      orderBy: [
+        {
+          order: 'asc'
+        },
+        {
+          'createdAt': 'desc'
+        }
+      ]
+    })
+  }
+
   async pagination(paginationDto: PaginationDto) {
     return this.model.paginate(paginationDto, {
       where: {

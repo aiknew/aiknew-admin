@@ -71,7 +71,7 @@ export const contentManagement: AdminRouteItem = {
           path: '/content/article-category/list',
           type: RouteType.MENU,
           name: i18n.articleCategoryList,
-          permissions: ['article-category:pagination', 'article-category:children', 'article-category:detail', 'article-category:ancestors'],
+          permissions: ['article-category:getAll', 'article-category:detail'],
           children: [
             {
               key: 'add',

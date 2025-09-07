@@ -1,42 +1,50 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { h, useTemplateRef } from 'vue'
+import { computed, h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useArticleCategoryI18n } from '../composables/use-article-category-i18n'
-import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
 import {
   useArticleCategoryCreate,
   useArticleCategoryUpdate,
   type ArticleCategory
 } from '@/api/article-category'
-import { useArticleCategoryData } from '../composables/use-article-category-data'
 import { tField } from '@aiknew/shared-ui-locales'
+import { buildTree } from '@aiknew/shared-utils'
+
+interface Props {
+  categories?: ArticleCategory[]
+}
 
 interface Emits {
-  (e: 'submit', info: { updatedParentIds: number[] }): void
+  (e: 'submit'): void
   (e: 'close'): void
 }
 
+const { categories } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useArticleCategoryI18n()
 const modalRef = useTemplateRef('modal')
+const editId = ref<number>()
+const categoriesTree = computed(() => {
+  return [
+    {
+      id: 0,
+      translations: langStore.enabledLangs.map((item) => {
+        return {
+          langKey: item.key,
+          name: t('top')
+        }
+      }),
+      children: buildTree(categories, 'id', 'parentId')
+    }
+  ]
+})
 
 const { mutateAsync: createArticleCategory } = useArticleCategoryCreate()
 const { mutateAsync: updateArticleCategory } = useArticleCategoryUpdate()
-const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds<number>()
-const {
-  editId,
-  // disabledSelectIds,
-  defaultExpandedKeys,
-  addDisabledIds,
-  fetchArticleCategoryAncestors,
-  isDisabled,
-  loadNode,
-  resetEditId
-} = useArticleCategoryData()
 
 const languages = langStore.enabledLangs
 const { AppForm, formApi } = useAppForm({
@@ -62,20 +70,19 @@ const { AppForm, formApi } = useAppForm({
             style: { width: '200px' },
             valueKey: 'id',
             nodeKey: 'id',
-            lazy: true,
             checkStrictly: true,
-            defaultExpandedKeys: defaultExpandedKeys.value,
+            defaultExpandedKeys: [],
+            data: categoriesTree.value,
             props: {
-              label: (data: ArticleCategory) => tField(data.translations, 'name').value,
-              disabled: (data: ArticleCategory) => {
-                if (editId.value === 0) {
-                  return false
-                }
+              label: (data: ArticleCategory) => tField(data.translations, 'name').value
+              // disabled: (data: ArticleCategory) => {
+              //   if (editId.value === 0) {
+              //     return false
+              //   }
 
-                return isDisabled(data.id)
-              }
-            },
-            load: loadNode
+              //   return isDisabled(data.id)
+              // }
+            }
           }
         },
         label: t('parent'),
@@ -100,14 +107,11 @@ const { AppForm, formApi } = useAppForm({
   onSubmit: async ({ i18nValues }) => {
     if (modalRef.value?.modalMode === 'add') {
       await createArticleCategory(i18nValues)
-    } else if (modalRef.value?.modalMode === 'edit') {
+    } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
       await updateArticleCategory({ id: editId.value, body: i18nValues })
     }
 
-    addUpdatedParentId(i18nValues.parentId)
-    emit('submit', {
-      updatedParentIds: getUpdatedParentIds()
-    })
+    emit('submit')
     handleReset()
   }
 })
@@ -120,9 +124,6 @@ const add = () => {
 
 const edit = (item: ArticleCategory) => {
   editId.value = item.id
-  addDisabledIds([item.id])
-  addUpdatedParentId(item.parentId)
-  fetchArticleCategoryAncestors()
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
@@ -131,7 +132,6 @@ const edit = (item: ArticleCategory) => {
 }
 
 const handleReset = () => {
-  resetEditId()
   modalRef.value?.close()
   formApi.reset()
   emit('close')

@@ -578,46 +578,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/article-category": {
+    "/admin/article-category/all": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["ArticleCategoryController_pagination"];
-        put?: never;
-        post: operations["ArticleCategoryController_createOne"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/article-category/ancestors": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["ArticleCategoryController_findAllAncestors"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/article-category/{id}/children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["ArticleCategoryController_getChildren"];
+        /** Get all article categories */
+        get: operations["ArticleCategoryController_getAll"];
         put?: never;
         post?: never;
         delete?: never;
@@ -633,13 +602,33 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get Article Category Detail */
         get: operations["ArticleCategoryController_getChildrenCate"];
         put?: never;
         post?: never;
+        /** Delete Article Category */
         delete: operations["ArticleCategoryController_deleteOne"];
         options?: never;
         head?: never;
+        /** Update Article Category */
         patch: operations["ArticleCategoryController_updateOne"];
+        trace?: never;
+    };
+    "/admin/article-category": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create article category */
+        post: operations["ArticleCategoryController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/admin/dict-type": {
@@ -1234,12 +1223,6 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-        };
-        ArticleCategoryAncestorsDto: {
-            idPath: {
-                [key: string]: number[];
-            };
-            list: components["schemas"]["ArticleCategoryDto"][];
         };
         CreateArticleCategoryDto: {
             status?: boolean;
@@ -3203,112 +3186,11 @@ export interface operations {
             };
         };
     };
-    ArticleCategoryController_pagination: {
-        parameters: {
-            query: {
-                currentPage: number;
-                pageSize: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["ArticleCategoryDto"][];
-                        };
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    ArticleCategoryController_createOne: {
+    ArticleCategoryController_getAll: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateArticleCategoryDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    ArticleCategoryController_findAllAncestors: {
-        parameters: {
-            query: {
-                ids: number[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["ArticleCategoryAncestorsDto"];
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    ArticleCategoryController_getChildren: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
             cookie?: never;
         };
         requestBody?: never;
@@ -3412,6 +3294,38 @@ export interface operations {
         };
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    ArticleCategoryController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateArticleCategoryDto"];
+            };
+        };
+        responses: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

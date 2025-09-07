@@ -10,8 +10,7 @@ import {
 @Injectable()
 export class PrismaProvider
   extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
+  implements OnModuleInit, OnModuleDestroy {
   private static initialized = false
 
   constructor() {
@@ -19,7 +18,7 @@ export class PrismaProvider
       log: [
         {
           emit: 'stdout',
-          level: 'query',
+          level: 'warn',
         },
       ],
     })

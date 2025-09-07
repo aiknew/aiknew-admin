@@ -7,30 +7,35 @@ const createRoute = (items: AdminRouteItem[], parentId: string) => {
     let { name, children, redirect, permissions, ...data } = item
 
     if (!redirect && children && children.length > 0) {
-
+      // set redirect field
       const firstValidChild = children.find(item => item.type === 'MENU' && !item.hidden && (item.status === undefined || item.status))
       if (firstValidChild) {
         redirect = firstValidChild?.path
       }
     }
 
-    const permissionIds = (await prisma.adminPermission.findMany({
-      where: {
-        key: {
-          in: permissions
+    let permissionIds: {
+      permissionId: string;
+    }[] = []
+
+    if (permissions) {
+      permissionIds = (await prisma.adminPermission.findMany({
+        where: {
+          key: {
+            in: permissions
+          }
+        },
+        select: {
+          id: true
         }
-      },
-      select: {
-        id: true
-      }
-    })).map(item => {
-      return {
-        permissionId: item.id
-      }
-    })
+      })).map(item => {
+        return {
+          permissionId: item.id
+        }
+      })
+    }
 
-
-    const ret = await prisma.adminRoute.create({
+    const createdRoute = await prisma.adminRoute.create({
       data: {
         ...data,
         parentId,
@@ -52,7 +57,7 @@ const createRoute = (items: AdminRouteItem[], parentId: string) => {
     })
 
     if (children?.length) {
-      createRoute(children, ret.id)
+      createRoute(children, createdRoute.id)
     }
   })
 }

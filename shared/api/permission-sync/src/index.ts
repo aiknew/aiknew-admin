@@ -64,7 +64,7 @@ export const syncPermission = async ({ discovery, i18n, metadataScanner, prisma,
 
 
   try {
-    for await (const controller of controllers) {
+    for (const controller of controllers) {
       const controllerPath = resolve(adminBasePath, reflector.get<string>(PATH_METADATA, controller.instance.constructor))
       const controllerHandlers = metadataScanner.getAllMethodNames(controller.instance)
       const permissionGroupMeta = reflector.get<PermissionGroupMetaData | undefined>(PERMISSION_GROUP_DECORATOR_KEY, controller.instance.constructor)
@@ -108,16 +108,16 @@ export const syncPermission = async ({ discovery, i18n, metadataScanner, prisma,
       })
 
       const permissionKeys: string[] = []
-      for await (const handlerName of controllerHandlers) {
+      for (const handlerName of controllerHandlers) {
 
         const handler = controller.instance[handlerName]
         // is public
         const isPublic = reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [handler, controller.instance.constructor])
-        if (isPublic) return
+        if (isPublic) continue
 
         // is authenticated
         const isAuthenticated = reflector.getAllAndOverride<boolean>(IS_AUTHENTICATED_KEY, [handler, controller.instance.constructor])
-        if (isAuthenticated) return
+        if (isAuthenticated) continue
 
         let handlerPath = reflector.get(PATH_METADATA, handler)
         handlerPath = handlerPath === '/' ? '' : handlerPath

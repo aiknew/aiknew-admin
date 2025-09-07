@@ -40,10 +40,20 @@ export const useRoutes = (router: Router) => {
     return buildTree(normalizedRoutes, 'meta.id', 'meta.parentId')
   }
 
+  const findFirstMenu = (routes: RouteRecordRaw[]) => {
+    for (const route of routes) {
+      if (route.meta?.type === 'MENU') {
+        return route
+      } else if (route.children && route.children.length > 0) {
+        return findFirstMenu(route.children)
+      }
+    }
+  }
+
   const addRoutes = (routes: UserInfo['routes']) => {
     const dynamicRoutes = resolveRoutes(routes)
     const children = [...dynamicRoutes, ...staticRoutes]
-    const redirect = children?.[0]?.path
+    const redirect = findFirstMenu(dynamicRoutes)
 
     router.addRoute({
       path: '/',

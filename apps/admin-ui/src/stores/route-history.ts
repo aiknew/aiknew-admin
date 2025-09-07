@@ -16,8 +16,13 @@ export const useRouteHistoryStore = defineStore('route-history', () => {
     for (let i = 0, len = routes.length; i < len; i++) {
       const route = routes[i]
       if (route.path === path) {
-        if (route.redirect) {
-          return _getRedirectedLocation(route.redirect as string, routes)
+
+        if (typeof route.redirect === 'string') {
+          return _getRedirectedLocation(route.redirect, routes)
+        }
+
+        if (typeof route.redirect === 'object') {
+          return route.redirect as RouteRecordNormalized
         }
 
         return route

@@ -20,7 +20,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/permissions/admin-role',
           type: RouteType.MENU,
           name: i18n.characterSettings,
-          permissions: ['auth-role:pagination', 'auth-role:getAll'],
+          permissions: ['auth-role:pagination', 'auth-role:getAll', 'auth-route:getChildren'],
           children: [
             {
               key: 'add',

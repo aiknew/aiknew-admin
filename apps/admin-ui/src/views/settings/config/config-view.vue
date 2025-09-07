@@ -88,20 +88,23 @@ const handleSubmit = () => {
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="180" />
       <el-table-column :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
-          <!--
-
+          <el-button
             v-permission:edit
-          -->
-          <el-button type="primary" size="small" icon="Edit" @click="handleEdit(scope.row)" />
+            type="primary"
+            size="small"
+            icon="Edit"
+            @click="handleEdit(scope.row)"
+          />
 
           <el-popconfirm :title="t('deleteConfirm')" @confirm="() => handleDelete(scope.row)">
             <template #reference>
-              <!--
-
+              <el-button
                 v-permission:delete
-
-              -->
-              <el-button v-if="!scope.row.system" type="danger" icon="Delete" size="small" />
+                v-if="!scope.row.system"
+                type="danger"
+                icon="Delete"
+                size="small"
+              />
             </template>
           </el-popconfirm>
         </template>

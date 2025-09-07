@@ -105,18 +105,17 @@ const handleCheckItems = (row: DictType) => {
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="200" />
       <el-table-column :label="t('operations')" width="150">
         <template #default="scope">
-          <!--
-
+          <el-button
             v-permission:edit
-          -->
-          <el-button type="primary" size="small" icon="Edit" @click="handleEdit(scope.row)" />
+            type="primary"
+            size="small"
+            icon="Edit"
+            @click="handleEdit(scope.row)"
+          />
 
           <el-popconfirm :title="t('deleteConfirm')" @confirm="handleDelete(scope.row)">
             <template #reference>
-              <!--
-v-permission:delete
-               -->
-              <el-button type="danger" icon="Delete" size="small" />
+              <el-button v-permission:delete type="danger" icon="Delete" size="small" />
             </template>
           </el-popconfirm>
         </template>

@@ -37,16 +37,12 @@ const { AppForm, formApi } = useAppForm({
         name: 'roleName',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
-        // rules: langStore.buildTranslationSchema(
-        //   z.string().nonempty({ message: 'translationRequired' }),
-        //   ''
-        // )
       },
       {
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { width: '200px' },
+            style: { minWidth: '200px' },
             multiple: true,
             valueKey: 'id',
             nodeKey: 'id',

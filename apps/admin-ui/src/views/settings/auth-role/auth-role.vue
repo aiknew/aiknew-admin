@@ -71,7 +71,7 @@ const handleSubmit = () => {
       <el-table-column prop="order" :label="t('order')" width="100" />
       <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
-      <el-table-column :label="t('operations')" width="150">
+      <el-table-column :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
           <el-button
             v-permission:edit

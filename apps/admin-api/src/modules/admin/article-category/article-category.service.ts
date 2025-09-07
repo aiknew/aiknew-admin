@@ -18,7 +18,7 @@ export class ArticleCategoryService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) {}
+  ) { }
 
   get model(): PrismaService['articleCategory'] {
     return this.prisma.articleCategory
@@ -87,7 +87,7 @@ export class ArticleCategoryService {
           : (target.translations = [translation])
       } else {
         if (
-          typeof cate.id === 'string' &&
+          typeof cate.id === 'number' &&
           typeof cate.parentId === 'number' &&
           typeof cate.order === 'number' &&
           typeof cate.status === 'boolean' &&

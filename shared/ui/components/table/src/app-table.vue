@@ -1,13 +1,17 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="P extends boolean = true">
 import { ElTable } from 'element-plus'
 import { useTemplateRef } from 'vue'
 import { AppPagination } from '@aiknew/shared-ui-components'
 import { computed } from 'vue'
 import type { IPaginationData } from '@aiknew/shared-types'
 
-export interface Props {
-  pagination?: boolean
-  tableData?: IPaginationData<Record<string, unknown>[]>
+export type TableData<P extends boolean> = P extends true
+  ? IPaginationData<Record<string, unknown>[]>
+  : Record<string, unknown>[]
+
+export interface Props<P extends boolean> {
+  pagination?: P
+  tableData?: TableData<P>
   tree?: boolean
 }
 
@@ -15,17 +19,31 @@ const {
   pagination = true,
   tableData = { current: 1, list: [], pageSize: 10, total: 0 },
   tree = false,
-} = defineProps<Props>()
+} = defineProps<Props<P>>()
 
 const elTableRef = useTemplateRef<InstanceType<typeof ElTable>>('elTable')
 const currentPage = defineModel<number>('currentPage', { default: 1 })
 const pageSize = defineModel<number>('pageSize', { default: 10 })
 const list = computed(() => {
-  if (tree) {
-    return tableData.list.map((item) => ({ ...item, hasChildren: true }))
+  if (!pagination && Array.isArray(tableData)) {
+    return tableData
+  } else {
+    if ('list' in tableData) {
+      if (tree) {
+        return tableData.list.map((item) => ({ ...item, hasChildren: true }))
+      }
+
+      return tableData.list
+    }
+  }
+})
+
+const total = computed(() => {
+  if (pagination && 'total' in tableData) {
+    return tableData.total
   }
 
-  return tableData.list
+  return 0
 })
 
 const clearSelection = () => {
@@ -69,7 +87,7 @@ defineExpose({
     v-if="pagination"
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
-    :total="tableData.total"
+    :total
   />
 </template>
 

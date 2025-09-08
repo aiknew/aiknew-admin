@@ -17,7 +17,7 @@ defineEmits(['update:expandMenu', 'refresh'])
 
 <template>
   <header
-    class="bg-white-100 flex min-h-10 items-center p-3 border-b border-theme-border"
+    class="bg-white-100 flex min-h-10 items-center p-3 border-b border-gray-100"
   >
     <!-- logo -->
     <div class="mr-1 flex size-9 items-center justify-center border md:hidden">

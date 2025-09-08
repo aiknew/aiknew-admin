@@ -7,30 +7,39 @@ import { useLangStore } from '@/stores/lang'
 import { useAuthRouteI18n } from '../composables/use-auth-route-i18n'
 import { useAuthRouteCreate, useAuthRouteUpdate, type AuthRoute } from '@/api/auth-route'
 import { usePermissionAll, type Permission } from '@/api/permission'
-import { useUpdatedParentIds } from '@/composables/tree-data/use-updated-parent-ids'
-import { useAuthRouteData } from '../composables/use-auth-route-data'
 import { tField } from '@aiknew/shared-ui-locales'
+import type { TreeList } from '@aiknew/shared-ui-types'
+
+interface Props {
+  routes?: TreeList<AuthRoute>
+}
 
 interface Emits {
-  (e: 'submit', info: { updatedParentIds: string[] }): void
+  (e: 'submit'): void
   (e: 'close'): void
 }
 
 const emit = defineEmits<Emits>()
-
+const { routes } = defineProps<Props>()
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAuthRouteI18n()
-const { addUpdatedParentId, getUpdatedParentIds } = useUpdatedParentIds()
 const { data: permissions, refetch: getAllApis } = usePermissionAll()
-const {
-  editRouteId,
-  // parentRouteId,
-  defaultExpandedRouteKeys,
-  setEditRouteId,
-  fetchRouteAncestors,
-  loadNode
-} = useAuthRouteData()
+const editRoute = ref<AuthRoute>()
+const routesTree = computed(() => {
+  return [
+    {
+      id: '0',
+      translations: langStore.enabledLangs.map((lang) => {
+        return {
+          langKey: lang.key,
+          routeName: t('top')
+        }
+      }),
+      children: routes
+    }
+  ]
+})
 
 const isMenu = ref(true)
 const isButton = ref(false)
@@ -78,19 +87,11 @@ const { AppForm, formApi } = useAppForm({
             style: { minWidth: '200px' },
             valueKey: 'id',
             nodeKey: 'id',
-            lazy: true,
             checkStrictly: true,
-            defaultExpandedKeys: defaultExpandedRouteKeys.value,
+            data: routesTree.value,
             props: {
-              label: (data: AuthRoute) => tField(data.translations, 'routeName').value,
-              disabled: (data: AuthRoute) => {
-                return data.id === editRouteId.value && data.id !== '0'
-              },
-              isLeaf: (data: AuthRoute) => {
-                return data.id === editRouteId.value && data.id !== '0'
-              }
-            },
-            load: loadNode
+              label: (data: AuthRoute) => tField(data.translations, 'routeName').value
+            }
           }
         },
         label: t('parent'),
@@ -211,15 +212,11 @@ const { AppForm, formApi } = useAppForm({
   async onSubmit({ i18nValues }) {
     if (modalRef.value?.modalMode === 'add') {
       await createRoute(i18nValues)
-    } else if (modalRef.value?.modalMode === 'edit') {
-      await updateRoute({ id: editRouteId.value, body: i18nValues })
+    } else if (modalRef.value?.modalMode === 'edit' && editRoute.value) {
+      await updateRoute({ id: editRoute.value.id, body: i18nValues })
     }
 
-    addUpdatedParentId(i18nValues.parentId)
-
-    emit('submit', {
-      updatedParentIds: getUpdatedParentIds()
-    })
+    emit('submit')
     handleReset()
   }
 })
@@ -236,12 +233,19 @@ const add = async () => {
   modalRef.value?.show()
 }
 
+const setDisabled = (route: TreeList<AuthRoute>[number] | undefined, disabled: boolean) => {
+  if (!route) return
+  route.disabled = disabled
+  if (route.children && route.children.length > 0) {
+    route.children.forEach((item) => {
+      setDisabled(item, disabled)
+    })
+  }
+}
+
 const edit = async (item: AuthRoute) => {
-  setEditRouteId(item.id)
-  addUpdatedParentId(item.parentId)
-
-  fetchRouteAncestors()
-
+  editRoute.value = item
+  setDisabled(editRoute.value, true)
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
@@ -250,6 +254,7 @@ const edit = async (item: AuthRoute) => {
 }
 
 const handleReset = () => {
+  setDisabled(editRoute.value, false)
   modalRef.value?.close()
   formApi.reset()
   emit('close')

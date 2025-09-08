@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, h, useTemplateRef } from 'vue'
+import { ref, h, useTemplateRef, computed } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useAuthRoleI18n } from '../composables/use-auth-role-i18n'
 import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
-import { type AuthRoute } from '@/api/auth-route'
-import { useAuthRoleRouteData } from '../composables/use-auth-role-route-data'
+import { useAuthRouteAll, type AuthRoute } from '@/api/auth-route'
 import { tField } from '@aiknew/shared-ui-locales'
+import { buildTree } from '@aiknew/shared-utils'
 
 interface Emits {
   (e: 'submit'): void
@@ -20,11 +20,13 @@ const emit = defineEmits<Emits>()
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
 const { t } = useAuthRoleI18n()
+const { data: routes } = useAuthRouteAll()
 const { mutateAsync: createRole } = useAuthRoleCreate()
 const { mutateAsync: updateRole } = useAuthRoleUpdate()
 const editId = ref('0')
-const { defaultExpandedKeys, setSelectedKeys, fetchRouteAncestors, loadNode } =
-  useAuthRoleRouteData()
+const routesTree = computed(() => {
+  return buildTree(routes.value, 'id', 'parentId')
+})
 
 const languages = langStore.enabledLangs
 const { AppForm, formApi } = useAppForm({
@@ -46,13 +48,11 @@ const { AppForm, formApi } = useAppForm({
             multiple: true,
             valueKey: 'id',
             nodeKey: 'id',
-            lazy: true,
             checkStrictly: true,
-            defaultExpandedKeys: defaultExpandedKeys.value,
+            data: routesTree.value,
             props: {
               label: (data: AuthRoute) => tField(data.translations, 'routeName').value
-            },
-            load: loadNode
+            }
           }
         },
         label: t('permissionsLabel'),
@@ -94,10 +94,6 @@ const add = () => {
 
 const edit = (item: AuthRole) => {
   editId.value = item.id
-
-  setSelectedKeys(item.routes)
-  fetchRouteAncestors()
-
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()

@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common'
 import { AuthRouteService } from './auth-route.service'
 import { UpdateAuthRouteDto } from './dto/update-auth-route.dto'
@@ -15,47 +14,19 @@ import { AuthRouteDto } from './dto/auth-route.dto'
 import {
   AppApiCreatedResponse,
   AppApiOkResponse,
-  AppApiPaginationResponse,
   Permission,
   PermissionGroup,
 } from '@aiknew/shared-api-decorators'
-import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
-import { AuthRouteAncestorsDto } from './dto/auth-route-ancestors.dto'
 
 @PermissionGroup({ name: 'auth-route.authRouteManagement' })
 @Controller('auth-route')
 export class AuthRouteController {
   constructor(private service: AuthRouteService) { }
 
-  @Get()
-  @Permission({ key: 'auth-route:pagination', name: 'auth-route.authRoutePagination' })
-  @AppApiPaginationResponse(AuthRouteDto)
-  async pagination(
-    @Query() paginationDto: PaginationDto,
-  ): Promise<PaginationResponseDto<AuthRouteDto[]>> {
-    return await this.service.pagination(paginationDto)
-  }
-
-  @Get('ancestors')
-  @Permission({ key: 'auth-route:ancestors', name: 'auth-route.authRouteGetAncestors' })
-  @AppApiOkResponse(AuthRouteAncestorsDto)
-  findAllAncestors(
-    @Query('ids') ids: string[],
-  ): Promise<AuthRouteAncestorsDto> {
-    return this.service.findAncestors(ids)
-  }
-
-  @Get(':id/children')
-  @Permission({ key: 'auth-route:getChildren', name: 'auth-route.authRouteGetChildren' })
-  @AppApiOkResponse([AuthRouteDto])
-  async getChildren(@Param('id') id: string): Promise<AuthRouteDto[]> {
-    return await this.service.getChildren(id)
-  }
-
   @Get('all')
   @Permission({ key: 'auth-route:getAll', name: 'auth-route.authRouteGetAll' })
   @AppApiOkResponse([AuthRouteDto])
-  getAll() {
+  getAll(): Promise<AuthRouteDto[]> {
     return this.service.getAll()
   }
 

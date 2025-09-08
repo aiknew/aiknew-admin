@@ -44,7 +44,7 @@
     "db:seed": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma db seed",
     "db:push": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma db push",
     "db:studio": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma studio",
-    "db:generate": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma generate --sql",
+    "db:generate": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma generate",
     "db:reset": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma migrate reset"
   }
 }

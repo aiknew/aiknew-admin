@@ -5,11 +5,8 @@
   "hasRelated": "该路由正在被关联使用中",
   "hasChild": "该项目存在下级，不能删除",
   "authRouteManagement": "路由管理",
-  "authRoutePagination": "获取路由分页",
-  "authRouteGetChildren": "获取路由子路由",
   "authRouteGetAll": "获取所有路由",
   "authRouteCreate": "创建路由",
   "authRouteUpdate": "更新路由",
-  "authRouteDelete": "删除路由",
-  "authRouteGetAncestors": "获取祖先路由"
+  "authRouteDelete": "删除路由"
 }

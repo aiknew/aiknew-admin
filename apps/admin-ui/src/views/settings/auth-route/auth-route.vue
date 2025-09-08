@@ -2,15 +2,13 @@
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { usePagination } from '@/composables'
-import { toReactive } from '@vueuse/core'
 import { useAuthRouteI18n } from './composables/use-auth-route-i18n'
 import { useTemplateRef } from 'vue'
 import {
-  useAuthRouteChildren,
+  useAuthRouteAll,
   useAuthRouteDelete,
-  useAuthRouteList,
   type AuthRoute,
   type RouteType
 } from '@/api/auth-route'
@@ -18,17 +16,19 @@ import AuthRouteModal from './components/auth-route-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import z from 'zod'
+import { buildTree } from '@aiknew/shared-utils'
 
 const { t } = useAuthRouteI18n()
 const { currentPage, pageSize } = usePagination()
+const modalRef = useTemplateRef('modalRef')
+const { data: routes, refetch: refetchAuthRouteData, isFetching } = useAuthRouteAll()
+const { mutateAsync: deleteAuthRoute, isPending: isDeleting } = useAuthRouteDelete()
 
-const {
-  data: authRouteData,
-  refetch: refetchAuthRouteData,
-  isFetching: isFetchingAuthRouteData
-} = useAuthRouteList(toReactive({ currentPage, pageSize }))
-const parentId = ref('0')
-const { refetch: fetchRouteChildren } = useAuthRouteChildren(parentId)
+const routesTree = computed(() => buildTree(routes.value, 'id', 'parentId'))
+
+const isLoading = computed(() => {
+  return isDeleting.value || isFetching.value
+})
 
 // Get tag's text
 const getTypeText = (type: RouteType) => {
@@ -43,6 +43,7 @@ const getTypeText = (type: RouteType) => {
       return t('routeTypeButton')
   }
 }
+
 // Get tag's color
 const getTypeColor = (type: RouteType) => {
   switch (type) {
@@ -57,25 +58,6 @@ const getTypeColor = (type: RouteType) => {
   }
 }
 
-const loadChildren = (row: AuthRoute, treeNode: unknown, resolve: (data: AuthRoute[]) => void) => {
-  parentId.value = row.id
-  fetchRouteChildren()
-    .then(({ data }) => {
-      const arr = data ?? []
-      const res = arr.map((item) => ({ ...item, hasChildren: true }))
-      resolve(res)
-    })
-    .catch(() => {
-      resolve([])
-    })
-}
-
-const { mutateAsync: deleteAuthRoute, isPending: isDeleting } = useAuthRouteDelete()
-const isLoading = computed(() => {
-  return isDeleting.value || isFetchingAuthRouteData.value
-})
-
-const modalRef = useTemplateRef('modalRef')
 const handleAdd = () => {
   modalRef.value?.add()
 }
@@ -84,36 +66,17 @@ const handleEdit = (row: AuthRoute) => {
   modalRef.value?.edit(row)
 }
 
-const refresh = (updatedParentIds: string[]) => {
-  refetchAuthRouteData().then(({ isSuccess }) => {
-    if (isSuccess) {
-      updatedParentIds.forEach((id) => {
-        fetchRouteChildren().then(({ data }) => {
-          if (data) {
-            appTableRef.value?.updateKeyChildren(
-              id,
-              data.map((item) => {
-                return {
-                  ...item,
-                  hasChildren: true
-                }
-              })
-            )
-          }
-        })
-      })
-    }
-  })
+const refresh = () => {
+  refetchAuthRouteData()
 }
 
 const handleDelete = async (row: AuthRoute) => {
   await deleteAuthRoute(row.id)
-  refresh([row.parentId])
+  refresh()
 }
 
-const appTableRef = useTemplateRef('appTableRef')
-const handleSubmit = ({ updatedParentIds }: { updatedParentIds: string[] }) => {
-  refresh(updatedParentIds)
+const handleSubmit = () => {
+  refresh()
 }
 
 const { AppForm: QueryForm, formApi } = useAppForm({
@@ -183,11 +146,9 @@ const { AppForm: QueryForm, formApi } = useAppForm({
       ref="appTableRef"
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
-      :table-data="authRouteData"
+      :pagination="false"
+      :table-data="routesTree"
       row-key="id"
-      tree
-      lazy
-      :load="loadChildren"
     >
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180">
@@ -225,5 +186,5 @@ const { AppForm: QueryForm, formApi } = useAppForm({
     </AppTable>
   </AppContentBlock>
 
-  <AuthRouteModal ref="modalRef" @submit="handleSubmit" />
+  <AuthRouteModal ref="modalRef" :routes="routesTree" @submit="handleSubmit" />
 </template>

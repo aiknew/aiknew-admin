@@ -48,7 +48,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/permissions/admin-route',
           type: RouteType.MENU,
           name: i18n.menuSettings,
-          permissions: ['auth-route:pagination', 'auth-route:getAll', 'auth-route:getChildren', 'auth-route:ancestors'],
+          permissions: ['auth-route:getAll'],
           children: [
             {
               key: 'add',

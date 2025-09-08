@@ -8,13 +8,9 @@ import {
 import {
   Prisma,
   PrismaService,
-  getAdminRouteAncestors,
 } from '@aiknew/shared-admin-db'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AdminUserService } from '../admin-user/admin-user.service'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { AuthRouteTranslationDto } from './dto/auth-route-translation.dto'
-import { AuthRouteAncestorsDto } from './dto/auth-route-ancestors.dto'
 
 @Injectable()
 export class AuthRouteService {
@@ -34,130 +30,6 @@ export class AuthRouteService {
 
   get permissionRelModel() {
     return this.prisma.adminRoutePermission
-  }
-
-  async pagination(paginationDto: PaginationDto) {
-    const ret = await this.model.paginate(paginationDto, {
-      where: {
-        parentId: '0',
-      },
-      include: {
-        permissions: {
-          select: {
-            permissionId: true,
-          },
-        },
-        translations: {
-          select: {
-            routeName: true,
-            langKey: true,
-          },
-        },
-      },
-    })
-
-    return {
-      ...ret,
-      list: ret.list.map((route) => ({
-        ...route,
-        permissions: route.permissions.map((item) => item.permissionId),
-      })),
-    }
-  }
-
-  async getChildren(id: string) {
-    const ret = await this.model.findMany({
-      where: {
-        parentId: id,
-      },
-
-      include: {
-        permissions: {
-          select: {
-            permissionId: true,
-          },
-        },
-        translations: {
-          select: {
-            routeName: true,
-            langKey: true,
-          },
-        },
-      },
-    })
-
-    return ret.map((route) => ({
-      ...route,
-      permissions: route.permissions.map((item) => item.permissionId),
-    }))
-  }
-
-  async findAncestors(id: string | string[]) {
-    const routeList = await this.prisma.$queryRawTyped(
-      getAdminRouteAncestors([id].flat()),
-    )
-
-    const res: AuthRouteAncestorsDto['list'] = []
-    const idPathMap = new Map<string, string[]>()
-
-    for (const route of routeList) {
-      if (route.parentId === '0' && route.idPath) {
-        const arr = route.idPath.split('-')
-        const targetId = arr[arr.length - 1]
-        if (!idPathMap.has(targetId)) {
-          idPathMap.set(targetId, arr)
-        }
-      }
-
-      let target: AuthRouteAncestorsDto['list'][number] | undefined = res.find(
-        (item) => item.id === route.id,
-      )
-
-      const translation: AuthRouteTranslationDto = {
-        langKey: route.langKey,
-        routeName: route.routeName,
-      }
-
-      if (target) {
-        target.translations
-          ? target.translations.push(translation)
-          : (target.translations = [translation])
-      } else {
-        if (
-          typeof route.id === 'string' &&
-          typeof route.component === 'string' &&
-          typeof route.hidden === 'boolean' &&
-          typeof route.icon === 'string' &&
-          typeof route.key === 'string' &&
-          typeof route.status === 'boolean' &&
-          typeof route.type === 'string' &&
-          typeof route.parentId === 'string' &&
-          typeof route.path === 'string' &&
-          typeof route.redirect === 'string'
-        ) {
-          target = {
-            id: route.id,
-            icon: route.icon,
-            redirect: route.redirect,
-            key: route.key,
-            hidden: route.hidden,
-            status: route.status,
-            parentId: route.parentId,
-            path: route.path,
-            type: route.type,
-            component: route.component,
-            translations: [translation],
-          }
-
-          res.push(target)
-        }
-      }
-    }
-
-    return {
-      idPath: Object.fromEntries(idPathMap),
-      list: res,
-    }
   }
 
   findChild(parentId: string) {
@@ -189,10 +61,18 @@ export class AuthRouteService {
           },
         },
       },
+      orderBy: [
+        {
+          order: 'asc'
+        },
+        {
+          createdAt: 'desc'
+        }
+      ]
     })
     return routes.map((route) => ({
       ...route,
-      apis: route.permissions.map((item) => item.permissionId),
+      permissions: route.permissions.map((item) => item.permissionId),
     }))
   }
 

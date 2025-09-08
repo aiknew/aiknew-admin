@@ -14,106 +14,104 @@ export type UnwrapMaybeRefOrGetter<T> = T extends () => infer R
   ? R
   : T
 
-export type TreeList<T, D = T & { disabled?: boolean }> = (D & {
-  children: D[]
-})[]
+export type TreeList<T, D = T & { disabled?: boolean, children?: D[] }> = D[]
 
 export type GetData<Paths, P extends keyof Paths> = Paths extends {
   [k: string]: any
 }
   ? Paths[P] extends {
-      get: {
-        responses: {
-          200: {
-            content: {
-              'application/json': {
-                data: infer D
-              }
+    get: {
+      responses: {
+        200: {
+          content: {
+            'application/json': {
+              data: infer D
             }
           }
         }
       }
     }
-    ? D
-    : never
+  }
+  ? D
+  : never
   : never
 
 export type GetQuery<Paths, P extends keyof Paths> = Paths extends {
   [k: string]: any
 }
   ? Paths[P] extends {
-      get: {
-        parameters: {
-          query: infer Q
-        }
+    get: {
+      parameters: {
+        query: infer Q
       }
     }
-    ? Q
-    : never
+  }
+  ? Q
+  : never
   : never
 
 export type PostReqBody<Paths, P extends keyof Paths> = Paths extends {
   [k: string]: any
 }
   ? Paths[P] extends {
-      post: {
-        requestBody: {
-          content: {
-            'application/json': infer B
-          }
+    post: {
+      requestBody: {
+        content: {
+          'application/json': infer B
         }
       }
     }
-    ? B
-    : never
+  }
+  ? B
+  : never
   : never
 
 export type PutReqBody<Paths, P extends keyof Paths> = Paths extends {
   [k: string]: any
 }
   ? Paths[P] extends {
-      put: {
-        requestBody: {
-          content: {
-            'application/json': infer B
-          }
+    put: {
+      requestBody: {
+        content: {
+          'application/json': infer B
         }
       }
     }
-    ? B
-    : never
+  }
+  ? B
+  : never
   : never
 
 export type PostResBody<Paths, P extends keyof Paths> = Paths extends {
   [k: string]: any
 }
   ? Paths[P] extends {
-      post: {
-        responses: {
-          201: {
-            content: {
-              'application/json': infer B
-            }
-          }
-        }
-      }
-    }
-    ? B
-    : never
-  : never
-
-export type PatchReqBody<Paths, P extends keyof Paths> = Paths extends {
-  [k: string]: any
-}
-  ? Paths[P] extends {
-      patch: {
-        requestBody: {
+    post: {
+      responses: {
+        201: {
           content: {
             'application/json': infer B
           }
         }
       }
     }
-    ? B
-    : never
+  }
+  ? B
+  : never
+  : never
+
+export type PatchReqBody<Paths, P extends keyof Paths> = Paths extends {
+  [k: string]: any
+}
+  ? Paths[P] extends {
+    patch: {
+      requestBody: {
+        content: {
+          'application/json': infer B
+        }
+      }
+    }
+  }
+  ? B
+  : never
   : never

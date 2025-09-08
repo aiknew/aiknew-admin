@@ -335,54 +335,6 @@ export interface paths {
         patch: operations["AuthRoleController_updateOne"];
         trace?: never;
     };
-    "/admin/auth-route": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AuthRouteController_pagination"];
-        put?: never;
-        post: operations["AuthRouteController_createOne"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/auth-route/ancestors": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AuthRouteController_findAllAncestors"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/auth-route/{id}/children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["AuthRouteController_getChildren"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/admin/auth-route/all": {
         parameters: {
             query?: never;
@@ -393,6 +345,22 @@ export interface paths {
         get: operations["AuthRouteController_getAll"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/auth-route": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthRouteController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1019,25 +987,6 @@ export interface components {
             updatedAt: string;
             permissions: string[];
             translations: components["schemas"]["AuthRouteTranslationDto"][];
-        };
-        AuthRoute: {
-            type: components["schemas"]["RouteType"];
-            id: string;
-            icon: string;
-            redirect: string;
-            hidden: boolean;
-            component: string;
-            key: string;
-            status: boolean;
-            path: string;
-            parentId: string;
-            translations: components["schemas"]["AuthRouteTranslationDto"][];
-        };
-        AuthRouteAncestorsDto: {
-            idPath: {
-                [key: string]: string[];
-            };
-            list: components["schemas"]["AuthRoute"][];
         };
         CreateAuthRouteDto: {
             type: components["schemas"]["RouteType"];
@@ -2479,12 +2428,9 @@ export interface operations {
             };
         };
     };
-    AuthRouteController_pagination: {
+    AuthRouteController_getAll: {
         parameters: {
-            query: {
-                currentPage: number;
-                pageSize: number;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
@@ -2497,9 +2443,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["AuthRouteDto"][];
-                        };
+                        data: components["schemas"]["AuthRouteDto"][];
                     };
                 };
             };
@@ -2533,100 +2477,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    AuthRouteController_findAllAncestors: {
-        parameters: {
-            query: {
-                ids: string[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AuthRouteAncestorsDto"];
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    AuthRouteController_getChildren: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AuthRouteDto"][];
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    AuthRouteController_getAll: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["AuthRouteDto"][];
-                    };
                 };
             };
             /** @description Internal server error */

@@ -10,5 +10,6 @@ const localesMap: Record<I18nKeys, () => Partial<$ZodConfig>> = {
 }
 
 export const setZodLocales = (lang: I18nKeys) => {
+  lang = Object.keys(localesMap).includes(lang) ? lang : 'en'
   z.config(localesMap[lang]());
 }

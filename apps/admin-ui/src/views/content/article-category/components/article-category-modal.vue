@@ -11,10 +11,10 @@ import {
   type ArticleCategory
 } from '@/api/article-category'
 import { tField } from '@aiknew/shared-ui-locales'
-import { buildTree } from '@aiknew/shared-utils'
+import type { TreeList } from '@aiknew/shared-ui-types'
 
 interface Props {
-  categories?: ArticleCategory[]
+  categories?: TreeList<ArticleCategory>
 }
 
 interface Emits {
@@ -27,7 +27,7 @@ const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useArticleCategoryI18n()
 const modalRef = useTemplateRef('modal')
-const editId = ref<number>()
+const editCategory = ref<ArticleCategory>()
 const categoriesTree = computed(() => {
   return [
     {
@@ -38,7 +38,7 @@ const categoriesTree = computed(() => {
           name: t('top')
         }
       }),
-      children: buildTree(categories, 'id', 'parentId')
+      children: categories
     }
   ]
 })
@@ -71,17 +71,9 @@ const { AppForm, formApi } = useAppForm({
             valueKey: 'id',
             nodeKey: 'id',
             checkStrictly: true,
-            defaultExpandedKeys: [],
             data: categoriesTree.value,
             props: {
               label: (data: ArticleCategory) => tField(data.translations, 'name').value
-              // disabled: (data: ArticleCategory) => {
-              //   if (editId.value === 0) {
-              //     return false
-              //   }
-
-              //   return isDisabled(data.id)
-              // }
             }
           }
         },
@@ -107,8 +99,8 @@ const { AppForm, formApi } = useAppForm({
   onSubmit: async ({ i18nValues }) => {
     if (modalRef.value?.modalMode === 'add') {
       await createArticleCategory(i18nValues)
-    } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
-      await updateArticleCategory({ id: editId.value, body: i18nValues })
+    } else if (modalRef.value?.modalMode === 'edit' && editCategory.value) {
+      await updateArticleCategory({ id: editCategory.value.id, body: i18nValues })
     }
 
     emit('submit')
@@ -122,8 +114,19 @@ const add = () => {
   modalRef.value?.setTitle(t('addTitle'))
 }
 
+const setDisabled = (route: TreeList<ArticleCategory>[number] | undefined, disabled: boolean) => {
+  if (!route) return
+  route.disabled = disabled
+  if (route.children && route.children.length > 0) {
+    route.children.forEach((item) => {
+      setDisabled(item, disabled)
+    })
+  }
+}
+
 const edit = (item: ArticleCategory) => {
-  editId.value = item.id
+  editCategory.value = item
+  setDisabled(editCategory.value, true)
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('editTitle'))
   modalRef.value?.show()
@@ -132,6 +135,7 @@ const edit = (item: ArticleCategory) => {
 }
 
 const handleReset = () => {
+  setDisabled(editCategory.value, false)
   modalRef.value?.close()
   formApi.reset()
   emit('close')

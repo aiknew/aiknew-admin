@@ -96,7 +96,7 @@ const handleSubmit = () => {
 
   <ArticleCategoryModal
     ref="categoryModalRef"
-    :categories="articleCategories"
+    :categories="articleCategoriesTree"
     @submit="handleSubmit"
   />
 </template>

@@ -94,7 +94,7 @@ export const contentManagement: AdminRouteItem = {
           ],
         },
         {
-          component: 'content/article/article',
+          component: 'content/article/article-list',
           icon: 'Memo',
           path: '/content/article/list',
           type: RouteType.MENU,

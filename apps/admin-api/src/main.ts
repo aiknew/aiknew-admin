@@ -39,6 +39,13 @@ async function bootstrap() {
   // class-validator
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
-  await app.listen(ADMIN_API_PORT)
+  try {
+    await app.listen(ADMIN_API_PORT, '0.0.0.0', () => {
+      console.log('app is listening on port ' + ADMIN_API_PORT)
+    })
+  } catch (err) {
+    console.error('err: ', err)
+    process.exit(1)
+  }
 }
 bootstrap()

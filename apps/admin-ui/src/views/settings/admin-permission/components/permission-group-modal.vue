@@ -61,7 +61,7 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('adPermissionGroup'))
+  modalRef.value?.setTitle(t('addPermissionGroup'))
 }
 
 const edit = (item: PermissionGroup) => {

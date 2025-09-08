@@ -1,3 +1,4 @@
 :root {
   --el-table-header-bg-color: rgba(245, 245, 245, 0.5);
+  --app-border-color-light: var(--color-gray-100);
 }

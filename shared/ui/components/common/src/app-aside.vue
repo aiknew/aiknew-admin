@@ -23,7 +23,7 @@ defineEmits<Emits>()
 
 <template>
   <aside
-    class="linear fixed top-0 left-0 z-10 inline-flex h-full min-h-screen shrink-0 origin-center overflow-hidden border-r border-gray-100 bg-theme-bg px-4 transition md:relative"
+    class="linear fixed top-0 left-0 z-10 inline-flex h-full min-h-screen shrink-0 origin-center overflow-hidden border-r border-theme-border-light bg-theme-bg px-4 transition md:relative"
     :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
   >
     <el-menu

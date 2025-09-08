@@ -10,4 +10,5 @@
   --color-theme-bg-overlay: var(--el-bg-color-overlay);
   --color-theme-bg: var(--el-bg-color);
   --color-theme-border: var(--el-border-color);
+  --color-theme-border-light: var(--app-border-color-light);
 }

@@ -4,10 +4,6 @@ module.exports = function (options) {
   console.log('webpack options: ', options)
   return {
     ...options,
-    entry: {
-      main: options.entry,
-      permission: './src/permission.ts',
-    },
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].js',

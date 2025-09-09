@@ -36,18 +36,6 @@ export class ArticleCategoryController {
   }
 
   /**
-   * Get Article Category Detail 
-   */
-  @Get(':id')
-  @Permission({ key: 'article-category:detail', name: 'article-category.articleCategoryDetail' })
-  @AppApiOkResponse([ArticleCategoryDto])
-  async getChildrenCate(
-    @Param('id') id: number,
-  ): Promise<ArticleCategoryDto[]> {
-    return this.articleCategoryService.getChildrenCategory(id)
-  }
-
-  /**
    * Create article category 
    */
   @Post()

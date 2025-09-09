@@ -22,9 +22,7 @@ export const createDefaultLangs = async () => {
         where: {
           key: lang.key,
         },
-        update: {
-          name: lang.name,
-        },
+        update: {},
         create: lang,
       })
     }),

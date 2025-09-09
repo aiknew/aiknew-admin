@@ -10,12 +10,14 @@
     "dayjs": "catalog:common",
     "redis": "catalog:api"
   },
+  "dependencies": {
+    "tsx": "catalog:common"
+  },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",
     "@types/node": "catalog:common",
     "postgres": "^3.4.7",
-    "prisma": "catalog:api",
-    "tsx": "catalog:common"
+    "prisma": "catalog:api"
   },
   "prisma": {
     "schema": "./prisma",
@@ -39,10 +41,13 @@
     "clean": "rm -rf dist",
     "dev": "pnpm tsc --watch",
     "build": "pnpm tsc",
-    "db:seed": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma db seed",
-    "db:push": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma db push",
-    "db:studio": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma studio",
-    "db:generate": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma generate",
-    "db:reset": "dotenvx run -f .env -f ../../../../apps/admin-api/.env -- pnpm prisma migrate reset"
+    "db:dev": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma migrate dev",
+    "db:deploy:prod": "pnpm prisma migrate deploy",
+    "db:seed:prod": "pnpm prisma db seed",
+    "db:seed": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma db seed",
+    "db:push": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma db push",
+    "db:studio": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma studio",
+    "db:generate": "pnpm prisma generate",
+    "db:reset": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma migrate reset"
   }
 }

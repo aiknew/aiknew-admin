@@ -13,9 +13,7 @@ export const createSuperAdmin = async () => {
   const password = createHMAC(process.env.SUPER_ADMIN_USER_PASSWORD)
   await prisma.adminUser.upsert({
     where: { userName: process.env.SUPER_ADMIN_USER_NAME },
-    update: {
-      password,
-    },
+    update: {},
     create: {
       userName: process.env.SUPER_ADMIN_USER_NAME,
       super: true,

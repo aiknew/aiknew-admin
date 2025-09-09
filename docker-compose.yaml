@@ -1,0 +1,92 @@
+name: aiknew-admin
+
+services:
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/admin-api/Dockerfile
+      target: builder
+    working_dir: /aiknew-admin/apps/admin-api
+    profiles:
+      - migrate
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - aiknew-admin
+    environment:
+      'NODE_ENV': 'production'
+      'DOTENV_PRIVATE_KEY_PRODUCTION': 041967b3b66adbb2590a174c356d1a957565ecd5263a1bdf5de5b892489edefc
+    command:
+      [
+        'sh',
+        '-c',
+        'pnpm sync-permissions:prod && pnpm db:deploy:prod && pnpm db:seed:prod',
+      ]
+
+  postgres:
+    container_name: aiknew-admin-postgres
+    image: postgres:17.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=aiknew-admin
+    ports:
+      - 5434:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - aiknew-admin
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres', '-d', 'aiknew-admin']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: aiknew-admin-redis
+    image: redis:7.4.5
+    restart: always
+    networks:
+      - aiknew-admin
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6380:6379
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  admin-api:
+    build:
+      context: .
+      dockerfile: apps/admin-api/Dockerfile
+    container_name: admin-api
+    ports:
+      - 3000:3000
+    environment:
+      'NODE_ENV': 'production'
+      'DOTENV_PRIVATE_KEY_PRODUCTION': 041967b3b66adbb2590a174c356d1a957565ecd5263a1bdf5de5b892489edefc
+
+    restart: always
+    networks:
+      - aiknew-admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+networks:
+  aiknew-admin:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

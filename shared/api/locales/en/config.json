@@ -4,5 +4,6 @@
   "configPagination": "Get Config Pagination",
   "configCreate": "Create Config",
   "configUpdate": "Update Config",
-  "configDelete": "Delete Config"
+  "configDelete": "Delete Config",
+  "cannotModifyBuiltIn": "Cannot modify system built-in configuration"
 }

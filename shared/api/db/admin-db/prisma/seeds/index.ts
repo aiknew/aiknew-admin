@@ -1,20 +1,51 @@
 import { prisma } from './prisma'
 import { createSuperAdmin } from './admin-user'
 import { createDefaultLangs } from './languages'
-import { createInitialData } from './initial-data'
 import { createAdminRoutes } from './admin-routes'
-import { execSync } from 'node:child_process'
+import { Prisma } from '../../src/prisma-client'
+import { createAdminPermissions } from './admin-permissions'
 
-const createAdminPermissions = () => {
-  execSync('pnpm -w --filter @aiknew/shared-api-permission-sync sync')
+const isSeed = async () => {
+  try {
+
+    const count = await prisma.config.count({
+      where: { key: 'seed' }
+    })
+
+    return Boolean(count)
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      if (err.code === 'P2021' && err.meta?.modelName === 'Config') {
+        return false
+      }
+    }
+
+    console.log('err: ', err)
+    throw err
+  }
 }
 
+const markSeed = async () => {
+  await prisma.config.create({
+    data: {
+      key: 'seed',
+      value: "true",
+      system: true
+    }
+  })
+}
+
+
 async function main() {
-  // await createInitialData()
+  if (await isSeed()) {
+    console.log(`It's already seeds, skip it.`)
+    return
+  }
   await createSuperAdmin()
   await createDefaultLangs()
-  createAdminPermissions()
+  await createAdminPermissions()
   await createAdminRoutes()
+  await markSeed()
 }
 
 main()

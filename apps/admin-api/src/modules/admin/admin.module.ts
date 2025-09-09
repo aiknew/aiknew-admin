@@ -17,7 +17,6 @@ import { FileStorageModule } from './file-storage/file-storage.module'
 import { S3Module } from './s3/s3.module'
 import { DictModule } from './dict/dict.module'
 import { ConfigModule } from './config/config.module'
-import { PermissionSyncService } from './permission/permission-sync.service'
 import { adminBasePath } from '../../common/constants'
 
 const adminModules = [
@@ -52,7 +51,6 @@ const adminModules = [
   ],
   controllers: [],
   providers: [
-    PermissionSyncService,
     DiscoveryService,
     MetadataScanner,
   ],
@@ -60,10 +58,4 @@ const adminModules = [
 })
 export class AdminModule {
 
-  constructor(private readonly permissionSyncService: PermissionSyncService) {
-  }
-
-  async onModuleInit() {
-    await this.permissionSyncService.sync()
-  }
 }

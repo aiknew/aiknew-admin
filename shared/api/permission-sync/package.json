@@ -6,20 +6,18 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "sync": "pnpm load-env -- ts-node --project tsconfig.json src/sync.ts",
-    "load-env": "dotenvx run -f ../../../apps/admin-api/.env",
-    "clean": "rm -rf dist",
-    "build": "pnpm tsc"
+    "sync:prod": "ts-node --project tsconfig.json src/main.ts",
+    "sync": "dotenvx run -f ../../../apps/admin-api/.env -- ts-node --project tsconfig.json src/main.ts"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/permissions.ts",
+  "module": "./src/permissions.ts",
+  "types": "./src/permissions.ts",
   "peerDependencies": {
     "@aiknew/shared-admin-db": "workspace:*",
-    "@nestjs/core": "catalog:api",
-    "nestjs-i18n": "catalog:api",
+    "@aiknew/shared-api-decorators": "workspace:*",
     "@nestjs/common": "catalog:api",
-    "@aiknew/shared-api-decorators": "workspace:*"
+    "@nestjs/core": "catalog:api",
+    "nestjs-i18n": "catalog:api"
   },
   "dependencies": {
     "@aiknew/shared-api-dtos": "workspace:*",
@@ -80,8 +78,8 @@
     "supertest": "^7.0.0",
     "ts-jest": "catalog:api",
     "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "catalog:common",
     "typescript-eslint": "^8.20.0"
   }
 }

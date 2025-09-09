@@ -6,7 +6,12 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "db:seed": "pnpm -w --filter @aiknew/shared-admin-db db:seed",
+    "db:dev": "pnpm -w --filter @aiknew/shared-admin-db db:dev",
+    "sync-permissions:prod": "pnpm dotenvx run -f .env.production -- pnpm -w --filter @aiknew/shared-api-permission-sync sync:prod",
+    "db:deploy:prod": "pnpm dotenvx run -f .env.production -- pnpm -w --filter @aiknew/shared-admin-db db:deploy:prod",
+    "db:seed:prod": "pnpm dotenvx run -f .env.production -- pnpm -w --filter @aiknew/shared-admin-db db:seed:prod",
+    "env:prod:encrypt": "pnpm dotenvx encrypt -f .env.production",
+    "env:prod:decrypt": "pnpm dotenvx decrypt -f .env.production",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "load-env": "dotenvx run -f .env",
@@ -22,7 +27,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@aiknew/shared-api-permission-sync": "workspace:*",
     "@aiknew/shared-admin-db": "workspace:*",
     "@aiknew/shared-api-decorators": "workspace:*",
     "@aiknew/shared-api-dtos": "workspace:*",

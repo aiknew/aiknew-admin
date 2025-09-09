@@ -4,10 +4,12 @@
   "description": "",
   "keywords": [],
   "scripts": {
+    "db:generate": "pnpm --filter '@aiknew/shared-admin-db' db:generate",
+    "prebuild": "pnpm db:generate",
     "build": "pnpm -r build",
     "clean": "pnpm -r clean",
-    "api": "pnpm --filter '@aiknew/api' start:dev",
-    "admin": "pnpm --filter '@aiknew/admin' dev"
+    "api": "pnpm --filter '@aiknew/admin-api' start:dev",
+    "admin": "pnpm --filter '@aiknew/admin-ui' dev"
   },
   "author": "",
   "license": "ISC",

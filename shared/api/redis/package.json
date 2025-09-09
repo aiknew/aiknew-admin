@@ -1,7 +1,7 @@
 {
   "name": "@aiknew/shared-api-redis",
   "version": "0.0.1",
-  "dependencies": {
+  "peerDependencies": {
     "redis": "catalog:api",
     "@redis/client": "catalog:api",
     "@nestjs/common": "catalog:api",

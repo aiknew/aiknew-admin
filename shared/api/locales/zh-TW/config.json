@@ -4,5 +4,6 @@
   "configPagination": "獲取配置分頁",
   "configCreate": "創建配置",
   "configUpdate": "更新配置",
-  "configDelete": "刪除配置"
+  "configDelete": "刪除配置",
+  "cannotModifyBuiltIn": "不能修改系統內置的配置"
 }

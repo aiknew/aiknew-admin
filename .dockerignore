@@ -1,0 +1,87 @@
+# Version control
+**/.git
+**/.gitignore
+**/.gitattributes
+
+# IDE and editor files
+**/.vscode/
+**/.idea/
+*.swp
+*.swo
+**/.editorconfig
+
+# Dependencies and package management
+**/node_modules/
+**/.pnpm/
+**/.pnpm-store/
+**/.npm/
+**/.yarn/
+
+# Build artifacts
+**/dist/
+**/build/
+**/out/
+
+# Test files
+**/coverage/
+**/.nyc_output
+**/test-results/
+**/.jest/
+**/e2e-results/
+
+# Logs and cache
+**/*.log
+**/logs/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/.lighthouseci
+**/.cache
+**/.nova
+**/*.pid
+**/*.seed
+**/*.pid.lock
+
+# Environment files
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+**/.env.keys
+
+# Documentation
+**/README.md
+**/CHANGELOG.md
+**/docs/
+**/*.md
+
+# Other configuration files
+**/.prettierrc
+**/.prettierrc.json
+**/.eslintrc*
+**/.pre-commit*
+**/husky/
+
+# Package manager related
+**/.npmrc
+**/.yarnrc
+**/.pnpmrc
+**/.nvmrc
+**/.lock-wscript
+
+# OS specific files
+**/.DS_Store
+**/Thumbs.db
+**/Desktop.ini
+**/Icon
+
+# Docker related (optional)
+# Dockerfile
+# .dockerignore
+
+# Misc
+**/public/th
+
+# prisma generated
+shared/api/db/**/generated

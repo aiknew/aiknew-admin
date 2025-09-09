@@ -35,10 +35,5 @@
     "vite-svg-loader": "catalog:ui",
     "vue-component-type-helpers": "catalog:ui",
     "vue-tsc": "catalog:ui"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
-    "preview": "vite preview"
   }
 }

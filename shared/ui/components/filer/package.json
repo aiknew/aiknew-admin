@@ -19,20 +19,12 @@
     "zod": "catalog:ui",
     "tailwindcss": "catalog:ui",
     "vue-i18n": "catalog:ui",
-    "dayjs": "catalog:common"
-  },
-  "dependencies": {
+    "dayjs": "catalog:common",
     "filesize": "catalog:common",
     "mime": "catalog:common"
   },
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",
     "@intlify/core-base": "^11.1.9"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build-watch": "vite build --watch",
-    "preview": "vite preview"
   }
 }

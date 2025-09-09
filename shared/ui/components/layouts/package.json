@@ -13,16 +13,5 @@
     "tailwindcss": "catalog:ui",
     "@bprogress/core": "catalog:ui",
     "@aiknew/shared-ui-components": "workspace:*"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@vitejs/plugin-vue": "catalog:ui",
-    "vite": "catalog:ui",
-    "vite-plugin-dts": "catalog:ui"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
   }
 }

@@ -23,10 +23,5 @@
     "@aiknew/shared-ui-types": "workspace:*",
     "@types/lodash-es": "catalog:common",
     "vue-component-type-helpers": "catalog:ui"
-  },
-  "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build",
-    "preview": "vite preview"
   }
 }

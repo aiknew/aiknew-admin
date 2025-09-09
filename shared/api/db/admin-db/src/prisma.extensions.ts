@@ -1,5 +1,4 @@
 import { Prisma } from './prisma-client'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
 import dayjs from 'dayjs'
 
 export const existsExtension = Prisma.defineExtension({
@@ -45,7 +44,10 @@ export const paginateExtension = Prisma.defineExtension({
       // Get pagination list
       async paginate<T, A>(
         this: T,
-        { currentPage: current, pageSize }: PaginationDto,
+        { currentPage: current, pageSize }: {
+          currentPage: number
+          pageSize: number
+        },
         args?: Prisma.Exact<A, Prisma.Args<T, 'findMany'>>,
       ) {
         const findManyArgs = (args ? args : {}) as Record<string, any>

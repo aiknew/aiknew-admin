@@ -1,9 +1,7 @@
 {
   "name": "@aiknew/shared-admin-db",
   "version": "0.0.2",
-  "dependencies": {
-    "@aiknew/shared-api-dtos": "workspace:*",
-    "@aiknew/shared-api-utils": "workspace:*",
+  "peerDependencies": {
     "@dotenvx/dotenvx": "catalog:common",
     "@nestjs/common": "catalog:api",
     "@nestjs/config": "catalog:api",

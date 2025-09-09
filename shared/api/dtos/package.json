@@ -12,16 +12,16 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "dependencies": {
+  "peerDependencies": {
     "@nestjs/common": "catalog:api",
     "@nestjs/swagger": "catalog:api",
     "class-transformer": "catalog:api",
     "class-validator": "catalog:api",
-    "@aiknew/shared-api-enums": "workspace: *"
+    "@aiknew/shared-api-enums": "workspace: *",
+    "@aiknew/shared-types": "workspace: *"
   },
   "devDependencies": {
     "@types/lodash-es": "catalog:common",
-    "@aiknew/shared-types": "workspace: *",
     "@aiknew/shared-ts-config": "workspace: *"
   },
   "scripts": {

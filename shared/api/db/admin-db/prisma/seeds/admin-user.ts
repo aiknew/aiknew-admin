@@ -1,4 +1,4 @@
-import { createHMAC } from '@aiknew/shared-api-utils'
+import { createHMAC } from '../../../../utils/src/index'
 import { prisma } from './prisma'
 
 // Create default super admin user

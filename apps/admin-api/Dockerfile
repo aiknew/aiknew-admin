@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1-labs
 
-FROM node:22.19 AS builder
+FROM node:22.19-alpine AS builder
 
 WORKDIR /aiknew-admin
 
@@ -19,15 +19,18 @@ COPY apps/admin-api/src ./apps/admin-api/src
 
 RUN pnpm build
 
-FROM node:22.19 AS runner
+FROM node:22.19-alpine AS runner
 
 WORKDIR /aiknew-admin
 
-RUN npm i -g pnpm
 # Install dotenvx
+RUN apk add curl
 RUN curl -sfS https://dotenvx.sh/install.sh | sh
 
-COPY apps/admin-api/.env.production ./apps/admin-api/.env.production
+RUN npm i -g pnpm
+RUN npm install pm2@latest -g
+
+COPY apps/admin-api/.env.production apps/admin-api/ecosystem.config.js ./apps/admin-api/
 COPY --from=builder /aiknew-admin/package.json /aiknew-admin/pnpm-lock.yaml ./
 COPY --from=builder /aiknew-admin/apps/admin-api/package.json ./apps/admin-api/
 COPY --from=builder --exclude=**/src/*.ts --exclude=ui/* /aiknew-admin/shared/ ./shared/
@@ -39,4 +42,4 @@ RUN pnpm install --frozen-lockfile --production
 WORKDIR /aiknew-admin/apps/admin-api
 
 EXPOSE 3000
-CMD ["dotenvx", "run", "-f", ".env.production", "--", "node", "dist/main.js"]
+CMD ["dotenvx", "run", "-f", ".env.production", "--", "pm2-runtime", "start", "./ecosystem.config.js"]

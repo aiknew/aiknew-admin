@@ -67,7 +67,7 @@ services:
     build:
       context: .
       dockerfile: apps/admin-api/Dockerfile
-    container_name: admin-api
+    container_name: aiknew-admin-admin-api
     ports:
       - 3000:3000
     environment:
@@ -77,6 +77,8 @@ services:
     restart: always
     networks:
       - aiknew-admin
+    volumes:
+      - app_data:/aiknew-admin/apps/admin-api/public/files
     depends_on:
       postgres:
         condition: service_healthy
@@ -90,3 +92,4 @@ networks:
 volumes:
   postgres_data:
   redis_data:
+  app_data:

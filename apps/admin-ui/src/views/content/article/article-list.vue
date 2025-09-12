@@ -5,13 +5,13 @@ import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useArticleI18n } from './composables/use-article-i18n'
 import { useTemplateRef } from 'vue'
 import { useArticleDelete, useArticleList, type Article } from '@/api/article'
 import ArticleModal from './components/article-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useArticleI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 
 const appTableRef = useTemplateRef('appTableRef')

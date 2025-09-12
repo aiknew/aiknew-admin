@@ -4,11 +4,11 @@ import { computed, h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useArticleI18n } from '../composables/use-article-i18n'
 import { useArticleCreate, useArticleUpdate, type Article } from '@/api/article'
 import { useArticleCategoryAll, type ArticleCategory } from '@/api/article-category'
 import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
+import { useI18n } from 'vue-i18n'
 
 interface Emits {
   (e: 'submit'): void
@@ -17,7 +17,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = useArticleI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modalRef')
 const editId = ref<number>()
 const { mutateAsync: createArticle } = useArticleCreate()
@@ -34,7 +34,7 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: 'ElInput',
-        label: t('articleTitle'),
+        label: t('article.articleTitle'),
         name: 'title',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -53,13 +53,13 @@ const { AppForm, formApi } = useAppForm({
             data: categoriesTree.value
           }
         },
-        label: t('articleCategory'),
+        label: t('article.articleCategory'),
         name: 'articleCategoryId',
         schema: z.number()
       },
       {
         as: 'WangEditor',
-        label: t('content'),
+        label: t('article.content'),
         name: 'content',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -72,10 +72,10 @@ const { AppForm, formApi } = useAppForm({
       },
       {
         as: 'ElInputNumber',
-        label: t('fakeViewCount'),
+        label: t('article.fakeViewCount'),
         name: 'fakeViewCount',
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('fakeViewCountTips') })
+          bottomSlot: h(AppFormItemTips, { text: t('article.fakeViewCountTips') })
         },
         schema: z.number().default(10)
       },
@@ -105,13 +105,13 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('article.addTitle'))
 }
 
 const edit = (item: Article) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('article.editTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

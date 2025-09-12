@@ -136,5 +136,14 @@
     "permissionGroup": "權限分組",
     "permissionKey": "權限標識符",
     "permission": "權限"
+  },
+  "article": {
+    "articleTitle": "文章標題",
+    "articleCategory": "文章分類",
+    "addTitle": "新增文章",
+    "editTitle": "編輯文章",
+    "fakeViewCount": "虛擬瀏覽量",
+    "fakeViewCountTips": "瀏覽量 = 真實瀏覽量 + 虛擬瀏覽量",
+    "content": "文章內容"
   }
 }

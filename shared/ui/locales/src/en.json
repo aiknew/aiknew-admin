@@ -138,5 +138,14 @@
     "permissionGroup": "permission Group",
     "permissionKey": "permission Key",
     "permission": "Permission"
+  },
+  "article": {
+    "articleTitle": "Article Title",
+    "articleCategory": "Article Category",
+    "addTitle": "Add Article",
+    "editTitle": "Edit Article",
+    "fakeViewCount": "Fake View Count",
+    "fakeViewCountTips": "View Count = Real View Count + Fake View Count",
+    "content": "Article Content"
   }
 }

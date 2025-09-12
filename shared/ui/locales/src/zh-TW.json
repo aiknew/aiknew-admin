@@ -80,5 +80,27 @@
     "password": "原密碼",
     "newPassword": "新密碼",
     "newPasswordConfirm": "確認新密碼"
+  },
+  "authRoute": {
+    "routeTypeGroup": "分組",
+    "routeTypeSmallGroup": "小分組",
+    "routeTypeMenu": "菜單",
+    "routeTypeButton": "按鈕",
+    "routeType": "類型",
+    "iconLabel": "圖示",
+    "redirectLabel": "重定向",
+    "hiddenLabel": "隱藏",
+    "hiddenTips": "是否在左側菜單欄中隱藏",
+    "componentLabel": "組件位置",
+    "componentTips": "組件文件所在位置",
+    "statusLabel": "狀態",
+    "statusTips": "是否啟用",
+    "pathLabel": "路由路徑",
+    "keyLabel": "權限標識",
+    "keyTips": "按鈕的權限標識",
+    "permissions": "權限",
+    "routeNameLabel": "路由名稱",
+    "addTitle": "新增選單",
+    "editTitle": "編輯選單"
   }
 }

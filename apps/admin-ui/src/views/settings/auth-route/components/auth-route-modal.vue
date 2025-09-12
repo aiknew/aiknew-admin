@@ -4,11 +4,11 @@ import { h, computed, useTemplateRef, ref, onMounted } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useAuthRouteI18n } from '../composables/use-auth-route-i18n'
 import { useAuthRouteCreate, useAuthRouteUpdate, type AuthRoute } from '@/api/auth-route'
 import { usePermissionAll, type Permission } from '@/api/permission'
 import { tField } from '@aiknew/shared-ui-locales'
 import type { TreeList } from '@aiknew/shared-ui-types'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   routes?: TreeList<AuthRoute>
@@ -23,7 +23,7 @@ const emit = defineEmits<Emits>()
 const { routes } = defineProps<Props>()
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
-const { t } = useAuthRouteI18n()
+const { t } = useI18n()
 const { data: permissions, refetch: getAllApis } = usePermissionAll()
 const editRoute = ref<AuthRoute>()
 const routesTree = computed(() => {
@@ -62,14 +62,14 @@ const { AppForm, formApi } = useAppForm({
           component: 'ElRadio',
           props: {
             options: [
-              { label: t('routeTypeMenu'), value: 'MENU' },
-              { label: t('routeTypeButton'), value: 'BUTTON' },
-              { label: t('routeTypeGroup'), value: 'GROUP' },
-              { label: t('routeTypeSmallGroup'), value: 'SMALL_GROUP' }
+              { label: t('authRoute.routeTypeMenu'), value: 'MENU' },
+              { label: t('authRoute.routeTypeButton'), value: 'BUTTON' },
+              { label: t('authRoute.routeTypeGroup'), value: 'GROUP' },
+              { label: t('authRoute.routeTypeSmallGroup'), value: 'SMALL_GROUP' }
             ]
           }
         },
-        label: t('routeType'),
+        label: t('authRoute.routeType'),
         name: 'type',
         schema: z
           .union([
@@ -101,25 +101,25 @@ const { AppForm, formApi } = useAppForm({
       {
         when: computed(() => !(isButton.value || isSmallGroup.value)),
         as: 'ElInput',
-        label: t('iconLabel'),
+        label: t('authRoute.iconLabel'),
         name: 'icon',
         schema: z.string().default('').optional()
       },
       {
         when: isMenu,
         as: 'ElInput',
-        label: t('redirectLabel'),
+        label: t('authRoute.redirectLabel'),
         name: 'redirect',
         schema: z.string().default('').optional()
       },
       {
         when: () => !isButton.value,
         as: 'ElSwitch',
-        label: t('hiddenLabel'),
+        label: t('authRoute.hiddenLabel'),
         name: 'hidden',
         schema: z.boolean().default(false),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('hiddenTips') })
+          bottomSlot: h(AppFormItemTips, { text: t('authRoute.hiddenTips') })
         }
       },
       {
@@ -135,38 +135,38 @@ const { AppForm, formApi } = useAppForm({
             }
           }
         },
-        label: t('componentLabel'),
+        label: t('authRoute.componentLabel'),
         name: 'component',
         schema: z.string().nonempty().default(''),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('componentTips') })
+          bottomSlot: h(AppFormItemTips, { text: t('authRoute.componentTips') })
         }
       },
       {
         when: isMenu,
         as: 'ElSwitch',
-        label: t('statusLabel'),
+        label: t('authRoute.statusLabel'),
         name: 'status',
         schema: z.boolean().default(false),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('statusTips') })
+          bottomSlot: h(AppFormItemTips, { text: t('authRoute.statusTips') })
         }
       },
       {
         when: isMenu,
         as: 'ElInput',
-        label: t('pathLabel'),
+        label: t('authRoute.pathLabel'),
         name: 'path',
         schema: z.string().nonempty().default('')
       },
       {
         when: isButton,
         as: 'ElInput',
-        label: t('keyLabel'),
+        label: t('authRoute.keyLabel'),
         name: 'key',
         schema: z.string().nonempty().default(''),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('keyTips') })
+          bottomSlot: h(AppFormItemTips, { text: t('authRoute.keyTips') })
         }
       },
 
@@ -187,14 +187,14 @@ const { AppForm, formApi } = useAppForm({
             data: computed(() => permissions.value ?? []).value
           }
         },
-        label: t('permissions'),
+        label: t('authRoute.permissions'),
         name: 'permissions',
         schema: z.array(z.string()).optional().default([]).optional()
       },
 
       {
         as: 'ElInput',
-        label: t('routeNameLabel'),
+        label: t('authRoute.routeNameLabel'),
         name: 'routeName',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -229,7 +229,7 @@ formApi.useStore((state) => {
 
 const add = async () => {
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('authRoute.addTitle'))
   modalRef.value?.show()
 }
 
@@ -247,7 +247,7 @@ const edit = async (item: AuthRoute) => {
   editRoute.value = item
   setDisabled(editRoute.value, true)
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('authRoute.editTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

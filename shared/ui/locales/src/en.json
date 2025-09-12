@@ -82,5 +82,27 @@
     "password": "Password",
     "newPassword": "New Password",
     "newPasswordConfirm": "Confirm New Password"
+  },
+  "authRoute": {
+    "routeTypeGroup": "Group",
+    "routeTypeSmallGroup": "Subgroup",
+    "routeTypeMenu": "Menu",
+    "routeTypeButton": "Button",
+    "routeType": "Type",
+    "iconLabel": "Icon",
+    "redirectLabel": "Redirect",
+    "hiddenLabel": "Hidden",
+    "hiddenTips": "Whether to hide in the left menu bar",
+    "componentLabel": "Component Location",
+    "componentTips": "Location of the component file",
+    "statusLabel": "Status",
+    "statusTips": "Whether to enable",
+    "pathLabel": "Route Path",
+    "keyLabel": "Permission Key",
+    "keyTips": "Permission identifier for the button",
+    "permissions": "Permissions",
+    "routeNameLabel": "Route Name",
+    "addTitle": "Add Menu",
+    "editTitle": "Edit Menu"
   }
 }

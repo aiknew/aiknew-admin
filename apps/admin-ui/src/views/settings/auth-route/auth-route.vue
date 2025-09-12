@@ -4,7 +4,6 @@ import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm, ElTag } from 'elemen
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
-import { useAuthRouteI18n } from './composables/use-auth-route-i18n'
 import { useTemplateRef } from 'vue'
 import {
   useAuthRouteAll,
@@ -17,8 +16,9 @@ import { tField } from '@aiknew/shared-ui-locales'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import z from 'zod'
 import { buildTree } from '@aiknew/shared-utils'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useAuthRouteI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 const modalRef = useTemplateRef('modalRef')
 const { data: routes, refetch: refetchAuthRouteData, isFetching } = useAuthRouteAll()
@@ -34,13 +34,13 @@ const isLoading = computed(() => {
 const getTypeText = (type: RouteType) => {
   switch (type) {
     case 'GROUP':
-      return t('routeTypeGroup')
+      return t('authRoute.routeTypeGroup')
     case 'SMALL_GROUP':
-      return t('routeTypeSmallGroup')
+      return t('authRoute.routeTypeSmallGroup')
     case 'MENU':
-      return t('routeTypeMenu')
+      return t('authRoute.routeTypeMenu')
     case 'BUTTON':
-      return t('routeTypeButton')
+      return t('authRoute.routeTypeButton')
   }
 }
 
@@ -99,23 +99,23 @@ const { AppForm: QueryForm, formApi } = useAppForm({
           props: {
             style: { width: '150px' },
             options: [
-              { label: t('routeTypeMenu'), value: 'MENU' },
+              { label: t('authRoute.routeTypeMenu'), value: 'MENU' },
               {
-                label: t('routeTypeGroup'),
+                label: t('authRoute.routeTypeGroup'),
                 value: 'GROUP'
               },
               {
-                label: t('routeTypeSmallGroup'),
+                label: t('authRoute.routeTypeSmallGroup'),
                 value: 'SMALL_GROUP'
               },
               {
-                label: t('routeTypeButton'),
+                label: t('authRoute.routeTypeButton'),
                 value: 'BUTTON'
               }
             ]
           }
         },
-        label: t('routeType'),
+        label: t('authRoute.routeType'),
         name: 'type',
         schema: z.enum(['MENU', 'BUTTON', 'GROUP', 'SMALL_GROUP']).default('MENU').optional()
       }
@@ -156,7 +156,7 @@ const { AppForm: QueryForm, formApi } = useAppForm({
           <span>{{ tField(row.translations, 'routeName').value }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="type" :label="t('routeType')" width="120">
+      <el-table-column prop="type" :label="t('authRoute.routeType')" width="120">
         <template #default="{ row }">
           <el-tag class="text-white!" :color="getTypeColor(row.type)">
             {{ getTypeText(row.type) }}
@@ -166,7 +166,7 @@ const { AppForm: QueryForm, formApi } = useAppForm({
       <el-table-column prop="order" :label="t('order')" width="100" />
       <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
-      <el-table-column :label="t('operations')" width="150">
+      <el-table-column :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
           <el-button
             v-permission:edit

@@ -4,7 +4,6 @@ import { ElTableColumn, ElButton, ElPopconfirm } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
-import { useArticleCategoryI18n } from './composables/use-article-category-i18n'
 import { useTemplateRef } from 'vue'
 import {
   useArticleCategoryAll,
@@ -14,8 +13,9 @@ import {
 import ArticleCategoryModal from './components/article-category-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useArticleCategoryI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 
 const categoryModalRef = useTemplateRef('categoryModalRef')

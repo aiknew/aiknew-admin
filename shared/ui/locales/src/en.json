@@ -147,5 +147,10 @@
     "fakeViewCount": "Fake View Count",
     "fakeViewCountTips": "View Count = Real View Count + Fake View Count",
     "content": "Article Content"
+  },
+  "articleCategory": {
+    "articleCategoryName": "Article Category Name",
+    "addTitle": "Add Article Category",
+    "editTitle": "Edit Article Category"
   }
 }

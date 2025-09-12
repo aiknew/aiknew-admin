@@ -145,5 +145,10 @@
     "fakeViewCount": "虛擬瀏覽量",
     "fakeViewCountTips": "瀏覽量 = 真實瀏覽量 + 虛擬瀏覽量",
     "content": "文章內容"
+  },
+  "articleCategory": {
+    "articleCategoryName": "文章分類名稱",
+    "addTitle": "新增文章分類",
+    "editTitle": "編輯文章分類"
   }
 }

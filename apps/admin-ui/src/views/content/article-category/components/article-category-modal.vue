@@ -4,7 +4,6 @@ import { computed, h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useArticleCategoryI18n } from '../composables/use-article-category-i18n'
 import {
   useArticleCategoryCreate,
   useArticleCategoryUpdate,
@@ -12,6 +11,7 @@ import {
 } from '@/api/article-category'
 import { tField } from '@aiknew/shared-ui-locales'
 import type { TreeList } from '@aiknew/shared-ui-types'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   categories?: TreeList<ArticleCategory>
@@ -25,7 +25,7 @@ interface Emits {
 const { categories } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = useArticleCategoryI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modal')
 const editCategory = ref<ArticleCategory>()
 const categoriesTree = computed(() => {
@@ -55,10 +55,10 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('articleCategoryName')
+            placeholder: t('articleCategory.articleCategoryName')
           }
         },
-        label: t('articleCategoryName'),
+        label: t('articleCategory.articleCategoryName'),
         name: 'name',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -111,7 +111,7 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('articleCategory.addTitle'))
 }
 
 const setDisabled = (route: TreeList<ArticleCategory>[number] | undefined, disabled: boolean) => {
@@ -128,7 +128,7 @@ const edit = (item: ArticleCategory) => {
   editCategory.value = item
   setDisabled(editCategory.value, true)
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('articleCategory.editTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

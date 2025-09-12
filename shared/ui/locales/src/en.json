@@ -65,5 +65,16 @@
     "nameLengthExceeded": "Config name length cannot exceed 50 characters",
     "enterRemark": "Please enter remark",
     "remarkLengthExceeded": "Remark length cannot exceed 200 characters"
+  },
+  "storageSetting": {
+    "storageType": "Storage Type",
+    "addTitle": "Add Storage",
+    "editTitle": "Edit Storage",
+    "hostname": "hostname",
+    "active": "active",
+    "normalStatus": "Normal",
+    "disabledStatus": "Disabled",
+    "disabledUploadStatus": "Disabled Upload",
+    "priority": "Priority"
   }
 }

@@ -3,10 +3,10 @@ import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
-import { useStorageSettingI18n } from '../composables/use-storage-setting-i18n'
 import { useFileStorageCreate, useFileStorageUpdate, type FileStorage } from '@/api/file-storage'
 import { convertNullToUndefined } from '@aiknew/shared-utils'
 import { FileStorageStatus, StorageType } from '@aiknew/shared-enums'
+import { useI18n } from 'vue-i18n'
 
 interface Emits {
   (e: 'submit'): void
@@ -14,7 +14,7 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-const { t } = useStorageSettingI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modalRef')
 const editId = ref<string>('')
 
@@ -36,7 +36,7 @@ const { AppForm, formApi } = useAppForm({
             ]
           }
         },
-        label: t('storageType'),
+        label: t('storageSetting.storageType'),
         name: 'type',
         schema: z.enum(StorageType).default('LOCAL')
       },
@@ -46,9 +46,12 @@ const { AppForm, formApi } = useAppForm({
           component: 'ElRadio',
           props: {
             options: [
-              { label: t('normalStatus'), value: FileStorageStatus.NORMAL },
-              { label: t('disabledStatus'), value: FileStorageStatus.DISABLED },
-              { label: t('disabledUploadStatus'), value: FileStorageStatus.DISABLED_UPLOAD }
+              { label: t('storageSetting.normalStatus'), value: FileStorageStatus.NORMAL },
+              { label: t('storageSetting.disabledStatus'), value: FileStorageStatus.DISABLED },
+              {
+                label: t('storageSetting.disabledUploadStatus'),
+                value: FileStorageStatus.DISABLED_UPLOAD
+              }
             ]
           }
         },
@@ -65,41 +68,41 @@ const { AppForm, formApi } = useAppForm({
       },
       {
         as: 'ElInput',
-        label: t('hostname'),
+        label: t('storageSetting.hostname'),
         name: 'hostname',
         schema: z.string().nonempty().default('')
       },
       {
         when: isS3,
         as: 'ElInput',
-        label: t('accessKey'),
+        label: t('storageSetting.accessKey'),
         name: 'accessKey',
         schema: z.string().default('').optional()
       },
       {
         when: isS3,
         as: 'ElInput',
-        label: t('secretKey'),
+        label: t('storageSetting.secretKey'),
         name: 'secretKey',
         schema: z.string().default('').optional()
       },
       {
         when: isS3,
         as: 'ElInput',
-        label: t('endpoint'),
+        label: t('storageSetting.endpoint'),
         name: 'endpoint',
         schema: z.string().default('').optional()
       },
       {
         when: isS3,
         as: 'ElInput',
-        label: t('bucket'),
+        label: t('storageSetting.bucket'),
         name: 'bucket',
         schema: z.string().default('').optional()
       },
       {
         as: 'ElInputNumber',
-        label: t('priority'),
+        label: t('storageSetting.priority'),
         name: 'priority',
         schema: z.number().default(10)
       }
@@ -123,14 +126,14 @@ formApi.useStore((state) => {
 
 const add = () => {
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('storageSetting.addTitle'))
   modalRef.value?.show()
 }
 
 const edit = (item: FileStorage) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('storageSetting.editTitle'))
   modalRef.value?.show()
 
   formApi.reset(convertNullToUndefined(item), { keepDefaultValues: true })

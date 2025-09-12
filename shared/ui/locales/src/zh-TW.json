@@ -63,5 +63,16 @@
     "nameRequired": "配置名稱不能為空",
     "nameLengthExceeded": "配置名稱長度不能超過50個字符",
     "remarkLengthExceeded": "備註長度不能超過200個字符"
+  },
+  "storageSetting": {
+    "storageType": "存储类型",
+    "addTitle": "添加存储",
+    "editTitle": "编辑存储",
+    "hostname": "主机名",
+    "active": "啟用",
+    "normalStatus": "正常",
+    "disabledStatus": "禁用",
+    "disabledUploadStatus": "禁用上傳",
+    "priority": "優先級"
   }
 }

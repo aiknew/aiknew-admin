@@ -5,15 +5,15 @@ import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useStorageSettingI18n } from './composables/use-storage-setting-i18n'
 import StorageSettingModal from './components/storage-setting-modal.vue'
 import { useTemplateRef } from 'vue'
 import { useFileStorageDelete, useFileStorageList, type FileStorage } from '@/api/file-storage'
 import { FileStorageStatus } from '@aiknew/shared-enums'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import { h } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useStorageSettingI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 const modalRef = useTemplateRef('modal')
 const {
@@ -46,15 +46,15 @@ const StatusType = ({ status }: { status: FileStorageStatus }) => {
 
   switch (status) {
     case 'NORMAL':
-      text = t('normalStatus')
+      text = t('storageSetting.normalStatus')
       tagType = 'primary'
       break
     case 'DISABLED':
-      text = t('disabledStatus')
+      text = t('storageSetting.disabledStatus')
       tagType = 'danger'
       break
     case 'DISABLED_UPLOAD':
-      text = t('disabledUploadStatus')
+      text = t('storageSetting.disabledUploadStatus')
       tagType = 'warning'
       break
   }
@@ -79,7 +79,7 @@ const StatusType = ({ status }: { status: FileStorageStatus }) => {
     >
       <el-table-column prop="id" label="ID" />
       <el-table-column prop="name" :label="t('name')" width="180" />
-      <el-table-column prop="priority" :label="t('priority')" />
+      <el-table-column prop="priority" :label="t('storageSetting.priority')" />
       <el-table-column prop="type" :label="t('type')" width="180" />
       <el-table-column prop="status" :label="t('status')" width="180">
         <template #default="{ row }">
@@ -88,7 +88,7 @@ const StatusType = ({ status }: { status: FileStorageStatus }) => {
       </el-table-column>
       <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
-      <el-table-column :label="t('operations')" width="150">
+      <el-table-column :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
           <el-button
             v-permission:edit

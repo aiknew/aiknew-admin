@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { CreateAuthRouteDto } from './dto/create-auth-route.dto'
 import { UpdateAuthRouteDto } from './dto/update-auth-route.dto'
+import { QueryAuthRouteDto } from './dto/query-auth-route.dto'
 import {
   AppBadRequestException,
   AppConflictException,
@@ -51,8 +52,23 @@ export class AuthRouteService {
     }))
   }
 
-  async getAll() {
+  async getAll(query?: QueryAuthRouteDto) {
+    const where: Record<string, unknown> = {}
+    if (query?.name) {
+      where.translations = {
+        some: {
+          routeName: {
+            contains: query.name,
+            mode: 'insensitive'
+          }
+        }
+      }
+    }
+    if (query?.type) {
+      where.type = query.type
+    }
     const routes = await this.model.findMany({
+      where,
       include: {
         translations: true,
         permissions: {

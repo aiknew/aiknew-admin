@@ -2,13 +2,14 @@
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { usePagination } from '@/composables'
 import { useTemplateRef } from 'vue'
 import {
   useAuthRouteAll,
   useAuthRouteDelete,
   type AuthRoute,
+  type QueryAuthRouteDto,
   type RouteType
 } from '@/api/auth-route'
 import AuthRouteModal from './components/auth-route-modal.vue'
@@ -21,7 +22,8 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 const modalRef = useTemplateRef('modalRef')
-const { data: routes, refetch: refetchAuthRouteData, isFetching } = useAuthRouteAll()
+const query = ref<QueryAuthRouteDto>({})
+const { data: routes, refetch: refetchAuthRouteData, isFetching } = useAuthRouteAll(query)
 const { mutateAsync: deleteAuthRoute, isPending: isDeleting } = useAuthRouteDelete()
 
 const routesTree = computed(() => buildTree(routes.value, 'id', 'parentId'))
@@ -122,9 +124,14 @@ const { AppForm: QueryForm, formApi } = useAppForm({
     ] as const satisfies Fields
   },
   onSubmit({ values }) {
-    console.log(values)
+    query.value = values
   }
 })
+
+const handleResetQueryForm = () => {
+  formApi.reset()
+  query.value = {}
+}
 </script>
 
 <template>
@@ -132,7 +139,7 @@ const { AppForm: QueryForm, formApi } = useAppForm({
     <QueryForm>
       <el-form-item>
         <el-button type="primary" @click="formApi.handleSubmit">{{ t('submit') }}</el-button>
-        <el-button @click="formApi.reset()">{{ t('reset') }}</el-button>
+        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
       </el-form-item>
     </QueryForm>
   </AppContentBlock>

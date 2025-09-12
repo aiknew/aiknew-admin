@@ -6,11 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common'
 import { AuthRouteService } from './auth-route.service'
 import { UpdateAuthRouteDto } from './dto/update-auth-route.dto'
 import { CreateAuthRouteDto } from './dto/create-auth-route.dto'
 import { AuthRouteDto } from './dto/auth-route.dto'
+import { QueryAuthRouteDto } from './dto/query-auth-route.dto'
 import {
   AppApiCreatedResponse,
   AppApiOkResponse,
@@ -26,8 +28,8 @@ export class AuthRouteController {
   @Get('all')
   @Permission({ key: 'auth-route:getAll', name: 'auth-route.authRouteGetAll' })
   @AppApiOkResponse([AuthRouteDto])
-  getAll(): Promise<AuthRouteDto[]> {
-    return this.service.getAll()
+  getAll(@Query() query: QueryAuthRouteDto): Promise<AuthRouteDto[]> {
+    return this.service.getAll(query)
   }
 
   @AppApiCreatedResponse()

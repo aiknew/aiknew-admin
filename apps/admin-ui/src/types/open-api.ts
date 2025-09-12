@@ -2429,7 +2429,10 @@ export interface operations {
     };
     AuthRouteController_getAll: {
         parameters: {
-            query?: never;
+            query?: {
+                type?: components["schemas"]["RouteType"];
+                name?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;

@@ -1,7 +1,8 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { Ref } from 'vue'
 
 export type AuthRoute = ApiGetData<'/admin/auth-route/all'>[number]
 
@@ -11,13 +12,18 @@ export type CreateAuthRouteDto = ApiPostReqBody<'/admin/auth-route'>
 
 export type UpdateAuthRouteDto = ApiPatchReqBody<'/admin/auth-route/{id}'>
 
-export const useAuthRouteAll = () => {
+export type QueryAuthRouteDto = ApiGetQuery<'/admin/auth-route/all'>
+
+export const useAuthRouteAll = (query?: Ref<QueryAuthRouteDto>) => {
   return useQuery({
-    queryKey: ['auth-route-all'],
+    queryKey: ['auth-route-all', query],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       return useApiData(() =>
         fetchClient.GET('/admin/auth-route/all', {
+          params: {
+            query: query?.value
+          },
           showMsg: false
         })
       )

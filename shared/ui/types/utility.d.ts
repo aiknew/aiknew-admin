@@ -42,7 +42,7 @@ export type GetQuery<Paths, P extends keyof Paths> = Paths extends {
   ? Paths[P] extends {
     get: {
       parameters: {
-        query: infer Q
+        query?: infer Q
       }
     }
   }

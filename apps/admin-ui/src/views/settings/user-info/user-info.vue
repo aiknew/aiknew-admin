@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
-import { useUserInfoI18n } from './composables/use-user-info-i18n'
 import { useUserInfoUpdate } from '@/api/auth'
 import z from 'zod'
 import { h, ref } from 'vue'
 import { ElButton, ElFormItem } from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useUserInfoI18n()
+const { t } = useI18n()
 const userStore = useUserStore()
 const { mutateAsync: updateUserInfo, isPending: isUpdating } = useUserInfoUpdate()
 const newPassword = ref('')
@@ -23,7 +23,7 @@ const { AppForm, formApi } = useAppForm({
             return h('div', { class: 'text-[var(--el-menu-text-color)]' }, userStore.userName)
           }
         },
-        label: t('userName')
+        label: t('useInfo.userName')
       },
       {
         as: {
@@ -32,7 +32,7 @@ const { AppForm, formApi } = useAppForm({
             type: 'password'
           }
         },
-        label: t('password'),
+        label: t('useInfo.password'),
         name: 'password',
         schema: z.string().nonempty().default('')
       },
@@ -43,7 +43,7 @@ const { AppForm, formApi } = useAppForm({
             type: 'password'
           }
         },
-        label: t('newPassword'),
+        label: t('useInfo.newPassword'),
         name: 'newPassword',
         schema: z.string().nonempty().default('')
       },
@@ -54,7 +54,7 @@ const { AppForm, formApi } = useAppForm({
             type: 'password'
           }
         },
-        label: t('newPasswordConfirm'),
+        label: t('useInfo.newPasswordConfirm'),
         name: 'newPasswordConfirm',
         schema: z
           .string()

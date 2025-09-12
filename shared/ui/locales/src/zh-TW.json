@@ -74,5 +74,11 @@
     "disabledStatus": "禁用",
     "disabledUploadStatus": "禁用上傳",
     "priority": "優先級"
+  },
+  "userInfo": {
+    "userName": "管理員名稱",
+    "password": "原密碼",
+    "newPassword": "新密碼",
+    "newPasswordConfirm": "確認新密碼"
   }
 }

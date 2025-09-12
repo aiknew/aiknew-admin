@@ -76,5 +76,11 @@
     "disabledStatus": "Disabled",
     "disabledUploadStatus": "Disabled Upload",
     "priority": "Priority"
+  },
+  "useInfo": {
+    "userName": "Username",
+    "password": "Password",
+    "newPassword": "New Password",
+    "newPasswordConfirm": "Confirm New Password"
   }
 }

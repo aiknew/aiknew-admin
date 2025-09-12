@@ -1,7 +1,7 @@
-import { I18nKeys } from "../index";
+import { type I18nKeys } from "../index";
 import * as z from "zod";
 import { en, zhCN, zhTW } from "zod/locales"
-import { $ZodConfig } from "zod/v4/core";
+import { type $ZodConfig } from "zod/v4/core";
 
 const localesMap: Record<I18nKeys, () => Partial<$ZodConfig>> = {
   "zh-CN": zhCN,

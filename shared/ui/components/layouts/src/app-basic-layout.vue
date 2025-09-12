@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppHeader, AppAside } from '@aiknew/shared-ui-components'
-import { nextTick, Ref, ref } from 'vue'
+import { nextTick, type Ref, ref } from 'vue'
 import {
   type RouteLocationNormalizedLoadedGeneric,
   type RouteRecordRaw,

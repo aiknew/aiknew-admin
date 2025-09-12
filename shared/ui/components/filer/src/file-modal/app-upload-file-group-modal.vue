@@ -2,7 +2,11 @@
 import { h, nextTick, ref, useTemplateRef } from 'vue'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { AppFormItemTips, Fields, useAppForm } from '@aiknew/shared-ui-form'
+import {
+  AppFormItemTips,
+  type Fields,
+  useAppForm,
+} from '@aiknew/shared-ui-form'
 import type {
   IUploadFileGroup,
   ICreateUploadFileGroup,

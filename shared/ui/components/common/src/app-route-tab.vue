@@ -2,8 +2,8 @@
 import { ref, toValue } from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { resolveQueryStr } from '@aiknew/shared-ui-utils'
-import { RouteHistory } from '@aiknew/shared-ui-types'
-import { ElTabs, ElTabPane, ElIcon, TabPaneName } from 'element-plus'
+import { type RouteHistory } from '@aiknew/shared-ui-types'
+import { ElTabs, ElTabPane, ElIcon, type TabPaneName } from 'element-plus'
 
 interface Props {
   history: RouteHistory[]

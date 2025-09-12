@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Ref, useTemplateRef } from 'vue'
-import { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import { type Ref, useTemplateRef } from 'vue'
+import { type RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { ElBreadcrumbItem, ElScrollbar, ElBreadcrumb } from 'element-plus'
 import { tField } from '@aiknew/shared-ui-locales'
 

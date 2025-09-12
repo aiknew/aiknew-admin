@@ -2,8 +2,8 @@
 import { ElIcon } from 'element-plus'
 import { Expand, Fold, Refresh } from '@element-plus/icons-vue'
 import AppRoutePath from './app-route-path.vue'
-import { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import { Ref } from 'vue'
+import { type RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import { type Ref } from 'vue'
 
 export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>

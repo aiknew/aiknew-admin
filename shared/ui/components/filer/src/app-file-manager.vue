@@ -2,15 +2,15 @@
 import { ElSpace } from 'element-plus'
 import { useFileManager } from './composables/use-file-manager'
 import { execute } from '@aiknew/shared-utils'
-import {
+import type {
   IUploadFileQuery,
   IUploadFile,
   IUploadFileGroup,
   IUploadFilesAndGroupsData,
 } from '@aiknew/shared-types'
-import { computed, onMounted, Ref } from 'vue'
+import { computed, onMounted, type Ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { SharedProps } from './types/props'
+import { type SharedProps } from './types/props'
 import { FileStatus } from '@aiknew/shared-enums'
 
 export interface Props extends SharedProps {

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import AppRecursiveMenu from './app-recursive-menu.vue'
 import { ElMenu } from 'element-plus'
-import { Ref } from 'vue'
+import { type Ref } from 'vue'
 import {
-  RouteLocationNormalizedLoadedGeneric,
-  RouteRecordRaw,
+  type RouteLocationNormalizedLoadedGeneric,
+  type RouteRecordRaw,
 } from 'vue-router'
 
 export interface Props {

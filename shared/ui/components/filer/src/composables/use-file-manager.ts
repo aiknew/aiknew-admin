@@ -1,6 +1,6 @@
 import { useFileData } from './use-file-data'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
-import { Ref, useTemplateRef } from 'vue'
+import { type Ref, useTemplateRef } from 'vue'
 import AppFileOperations from '../app-file-operations.vue'
 import AppUploadFileModal from '../file-modal/app-upload-file-modal.vue'
 import AppUploadFileGroupModal from '../file-modal/app-upload-file-group-modal.vue'

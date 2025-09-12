@@ -1,12 +1,22 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
-    "noEmit": true,
+    "target": "ES2020",
+    "module": "esnext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "declaration": true,
     "declarationMap": true,
-    "module": "esnext",
+    "outDir": "dist",
+    "strict": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "outDir": "dist"
-  }
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/*.ts"]
 }

@@ -12,9 +12,7 @@ import { filesize } from 'filesize'
 import { useFileI18n } from '../composables/use-file-i18n'
 import {
   AppFormItemTips,
-  Components,
-  Field,
-  Fields,
+  type Fields,
   useAppForm,
 } from '@aiknew/shared-ui-form'
 import z from 'zod'

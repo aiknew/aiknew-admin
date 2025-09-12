@@ -12,7 +12,7 @@ import { reactive, toValue, type MaybeRefOrGetter, type Component } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
-import { ILanguage } from '@aiknew/shared-types'
+import type { ILanguage } from '@aiknew/shared-types'
 import { WangEditor } from '@aiknew/shared-ui-components'
 
 type GetFieldName<N extends string | undefined> = N extends string ? N : never

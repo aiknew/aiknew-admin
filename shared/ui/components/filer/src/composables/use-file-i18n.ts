@@ -1,4 +1,4 @@
-import { Composer, useI18n } from 'vue-i18n'
+import { type Composer, useI18n } from 'vue-i18n'
 
 const messages = {
   en: {

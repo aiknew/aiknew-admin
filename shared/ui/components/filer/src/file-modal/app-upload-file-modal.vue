@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, Ref, ref, useTemplateRef, watch } from 'vue'
+import { type Ref, ref, useTemplateRef, watch } from 'vue'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import {
   ElMessage,
@@ -9,7 +9,7 @@ import {
   ElFormItem,
 } from 'element-plus'
 import { useFileI18n } from '../composables/use-file-i18n'
-import { SharedProps, UploadStorage } from '@/types'
+import type { SharedProps } from '../types'
 import { isPromise } from 'element-plus/es/utils/types.mjs'
 
 export interface Props {

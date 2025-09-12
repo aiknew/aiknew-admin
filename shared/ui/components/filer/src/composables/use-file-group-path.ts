@@ -1,5 +1,5 @@
-import { SearchScopeEnum } from '@/enums'
-import { computed, Ref, ref } from 'vue'
+import { SearchScopeEnum } from '../enums'
+import { computed, type Ref, ref } from 'vue'
 
 export interface GroupPathItem {
   groupId: string

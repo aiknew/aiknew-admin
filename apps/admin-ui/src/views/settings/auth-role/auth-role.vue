@@ -1,24 +1,34 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm } from 'element-plus'
+import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { usePagination } from '@/composables'
-import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 import AuthRoleModal from './components/auth-role-modal.vue'
-import { useAuthRoleDelete, useAuthRoleList, type AuthRole } from '@/api/auth-role'
+import {
+  useAuthRoleDelete,
+  useAuthRoleList,
+  type AuthRole,
+  type QueryAuthRoleDto
+} from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
 import { useI18n } from 'vue-i18n'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import z from 'zod'
 
 const modalRef = useTemplateRef('modalRef')
 const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
+const query = ref<QueryAuthRoleDto>({
+  currentPage: currentPage.value,
+  pageSize: pageSize.value
+})
 const {
   data: authRoleData,
   refetch: refetchAuthRoleData,
   isFetching: isFetchingAuthRoleData
-} = useAuthRoleList(toReactive({ currentPage, pageSize }))
+} = useAuthRoleList(query)
 const { mutateAsync: deleteAuthRole, isPending: isDeleting } = useAuthRoleDelete()
 
 const isLoading = computed(() => {
@@ -45,10 +55,49 @@ const handleDelete = async (row: AuthRole) => {
 const handleSubmit = () => {
   refresh()
 }
+
+const { AppForm: QueryForm, formApi } = useAppForm({
+  formProps: {
+    inline: true
+  },
+  fields() {
+    return [
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('name'),
+        name: 'name',
+        schema: z.string().default('').optional()
+      }
+    ] as const satisfies Fields
+  },
+  onSubmit({ values: { name } }) {
+    query.value = {
+      ...query.value,
+      name
+    }
+  }
+})
+
+const handleResetQueryForm = () => {
+  formApi.reset()
+  query.value = {
+    currentPage: currentPage.value,
+    pageSize: pageSize.value
+  }
+}
 </script>
 
 <template>
-  <AppContentBlock class="mb-6"> </AppContentBlock>
+  <AppContentBlock class="mb-6">
+    <QueryForm>
+      <el-form-item>
+        <el-button type="primary" @click="formApi.handleSubmit">{{ t('submit') }}</el-button>
+        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+      </el-form-item>
+    </QueryForm>
+  </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">

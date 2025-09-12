@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { AuthRoleService } from './auth-role.service'
-import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
+import { PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import {
   AppApiPaginationResponse,
   AppApiCreatedResponse,
@@ -20,6 +20,7 @@ import {
 import { CreateAuthRoleDto } from './dto/create-auth-role.dto'
 import { UpdateAuthRoleDto } from './dto/update-auth-role.dto'
 import { AuthRoleDto } from './dto/auth-role.dto'
+import { QueryAuthRoleDto } from './dto/query-auth-role.dto'
 
 @PermissionGroup({ name: 'auth-role.authRoleManagement' })
 @Controller('auth-role')
@@ -30,9 +31,9 @@ export class AuthRoleController {
   @Permission({ key: 'auth-role:pagination', name: 'auth-role.authRolePagination' })
   @Get()
   pagination(
-    @Query() paginationDto: PaginationDto,
+    @Query() queryDto: QueryAuthRoleDto,
   ): Promise<PaginationResponseDto<AuthRoleDto[]>> {
-    return this.service.pagination(paginationDto)
+    return this.service.pagination(queryDto)
   }
 
   @AppApiOkResponse([AuthRoleDto])

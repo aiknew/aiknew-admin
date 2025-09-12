@@ -1,9 +1,8 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { IPaginationQuery } from '@aiknew/shared-types'
-import type { Reactive } from 'vue'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { Ref } from 'vue'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
 export type AuthRole = ApiGetData<'/admin/auth-role'>['list'][number]
 
@@ -11,7 +10,9 @@ export type CreateAuthRoleDto = ApiPostReqBody<'/admin/auth-role'>
 
 export type UpdateAuthRoleDto = ApiPatchReqBody<'/admin/auth-role/{id}'>
 
-export const useAuthRoleList = (query: Reactive<IPaginationQuery>) => {
+export type QueryAuthRoleDto = ApiGetQuery<'/admin/auth-role'>
+
+export const useAuthRoleList = (query: Ref<QueryAuthRoleDto>) => {
   return useQuery({
     queryKey: ['auth-role', query],
     placeholderData: keepPreviousData,
@@ -19,7 +20,7 @@ export const useAuthRoleList = (query: Reactive<IPaginationQuery>) => {
       return useApiData(() =>
         fetchClient.GET('/admin/auth-role', {
           params: {
-            query
+            query: query.value
           },
           showMsg: false
         })

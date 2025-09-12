@@ -2271,6 +2271,7 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
+                name?: string;
             };
             header?: never;
             path?: never;

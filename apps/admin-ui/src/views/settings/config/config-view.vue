@@ -134,23 +134,23 @@ const handleResetQueryForm = () => {
       v-model:page-size="query.pageSize"
       :table-data="configData"
     >
-      <el-table-column prop="id" label="ID" width="200" />
+      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
       <el-table-column :label="t('configView.name')" width="200">
         <template #default="{ row }: { row: Config }">
           <span>{{ tField(row.translations, 'name').value }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="t('configView.remark')">
-        <template #default="{ row }: { row: Config }">
-          <span>{{ tField(row.translations, 'remark').value }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="key" :label="t('configView.key')" width="200" />
-      <el-table-column prop="value" :label="t('configView.value')" min-width="150" />
+      <el-table-column prop="key" :label="t('configView.key')" width="150" />
+      <el-table-column prop="value" :label="t('configView.value')" width="150" />
       <el-table-column prop="system" :label="t('configView.configType')" width="120" align="center">
         <template #default="{ row }">
           <el-tag v-if="row.system" type="danger">{{ t('configView.system') }}</el-tag>
           <el-tag v-else type="primary">{{ t('configView.user') }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column :label="t('configView.remark')" show-overflow-tooltip>
+        <template #default="{ row }: { row: Config }">
+          <span>{{ tField(row.translations, 'remark').value }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="createdAt" :label="t('createdAt')" width="180" />

@@ -26,12 +26,23 @@ const isSeed = async () => {
 }
 
 const markSeed = async () => {
+  const languages = await prisma.language.findMany()
   await prisma.config.create({
     data: {
       key: 'seed',
       value: "true",
-      system: true
-    }
+      system: true,
+      translations: {
+        create: languages.map(lang => {
+          return {
+            langKey: lang.key,
+            name: 'prisma db seed',
+            remark: 'Identify whether system data initialization has been performed'
+          }
+        })
+      }
+
+    },
   })
 }
 

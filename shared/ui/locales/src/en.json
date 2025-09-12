@@ -121,5 +121,22 @@
     "passwordConfirmErr": "The passwords are inconsistent twice",
     "userNameRequired": "Please enter the administrator name",
     "passwordRequired": "Please enter the administrator password"
+  },
+  "adminPermission": {
+    "requestMethod": "Request method",
+    "permissionNameRequired": "permission name cannot be empty",
+    "permissionNameLabel": "permission Name",
+    "addPermission": "Add permission",
+    "editPermission": "Edit permission",
+    "path": "Path",
+    "source": "Source",
+    "builtInPermission": "Built In",
+    "externalPermission": "External",
+    "addPermissionGroup": "Add permission Group",
+    "editPermissionGroup": "Edit permission Group",
+    "permissionGroupName": "Permission Group Name",
+    "permissionGroup": "permission Group",
+    "permissionKey": "permission Key",
+    "permission": "Permission"
   }
 }

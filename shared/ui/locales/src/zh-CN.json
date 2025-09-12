@@ -119,5 +119,22 @@
     "passwordConfirmErr": "两次密码不一致",
     "userNameRequired": "请输入管理员名称",
     "passwordRequired": "请输入管理员密码"
+  },
+  "adminPermission": {
+    "requestMethod": "请求方法",
+    "permissionNameRequired": "权限名称不能为空",
+    "permissionNameLabel": "权限名称",
+    "addPermission": "新增权限",
+    "editPermission": "编辑权限",
+    "path": "请求路径",
+    "source": "来源",
+    "builtInPermission": "内置",
+    "externalPermission": "外部",
+    "addPermissionGroup": "新增权限分组",
+    "editPermissionGroup": "编辑权限分组",
+    "permissionGroupName": "权限分组名称",
+    "permissionGroup": "权限分组",
+    "permissionKey": "权限标识符",
+    "permission": "权限"
   }
 }

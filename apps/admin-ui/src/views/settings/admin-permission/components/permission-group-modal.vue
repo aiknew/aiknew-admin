@@ -6,7 +6,7 @@ import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aikn
 import { useLangStore } from '@/stores/lang'
 import { usePermissionGroupCreate, usePermissionGroupUpdate } from '@/api/permission-group'
 import type { PermissionGroup } from '@/api/permission'
-import { usePermissionI18n } from '../composables/use-permission-i18n'
+import { useI18n } from 'vue-i18n'
 
 interface Emits {
   (e: 'submit'): void
@@ -15,7 +15,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = usePermissionI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modalRef')
 const editId = ref('')
 
@@ -29,7 +29,7 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: 'ElInput',
-        label: t('permissionGroupName'),
+        label: t('adminPermission.permissionGroupName'),
         name: 'groupName',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -61,13 +61,13 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addPermissionGroup'))
+  modalRef.value?.setTitle(t('adminPermission.addPermissionGroup'))
 }
 
 const edit = (item: PermissionGroup) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editPermissionGroup'))
+  modalRef.value?.setTitle(t('adminPermission.editPermissionGroup'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

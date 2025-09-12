@@ -13,7 +13,7 @@ import {
 import { RequestMethod } from '@aiknew/shared-enums'
 import { usePermissionGroupAll } from '@/api/permission-group'
 import { tField } from '@aiknew/shared-ui-locales'
-import { usePermissionI18n } from '../composables/use-permission-i18n'
+import { useI18n } from 'vue-i18n'
 
 interface Emits {
   (e: 'submit'): void
@@ -22,7 +22,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = usePermissionI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modalRef')
 const editId = ref('')
 
@@ -48,14 +48,14 @@ const { AppForm, formApi } = useAppForm({
             ]
           }
         },
-        label: t('requestMethod'),
+        label: t('adminPermission.requestMethod'),
         name: 'method',
         schema: z.enum(RequestMethod).nullable().optional().default(null).optional()
       },
       {
         as: 'ElInput',
         name: 'key',
-        label: t('permissionKey'),
+        label: t('adminPermission.permissionKey'),
         schema: z.string().default('')
       },
       {
@@ -73,18 +73,18 @@ const { AppForm, formApi } = useAppForm({
           }
         },
         name: 'groupId',
-        label: t('permissionGroup'),
+        label: t('adminPermission.permissionGroup'),
         schema: z.string().nullable().default(null)
       },
       {
         as: 'ElInput',
-        label: t('path'),
+        label: t('adminPermission.path'),
         name: 'path',
         schema: z.string().optional().nullable().default(null).optional()
       },
       {
         as: 'ElInput',
-        label: t('permissionNameLabel'),
+        label: t('adminPermission.permissionNameLabel'),
         name: 'permissionName',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -116,13 +116,13 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addPermission'))
+  modalRef.value?.setTitle(t('adminPermission.addPermission'))
 }
 
 const edit = (item: Permission) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editPermission'))
+  modalRef.value?.setTitle(t('adminPermission.editPermission'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

@@ -119,5 +119,22 @@
     "passwordConfirmErr": "兩次密碼不一致",
     "userNameRequired": "請輸入管理員名稱",
     "passwordRequired": "請輸入管理員密碼"
+  },
+  "adminPermission": {
+    "requestMethod": "請求方法",
+    "permissionNameRequired": "權限名稱不能為空",
+    "permissionNameLabel": "權限名稱",
+    "addPermission": "新增權限",
+    "editPermission": "编辑權限",
+    "path": "請求路徑",
+    "source": "來源",
+    "builtInPermission": "內建",
+    "externalPermission": "外部",
+    "addPermissionGroup": "新增權限分組",
+    "editPermissionGroup": "編輯權限分組",
+    "permissionGroupName": "權限分組名稱",
+    "permissionGroup": "權限分組",
+    "permissionKey": "權限標識符",
+    "permission": "權限"
   }
 }

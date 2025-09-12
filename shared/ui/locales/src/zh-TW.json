@@ -185,5 +185,9 @@
     "storageDetailModalTitle": "儲存引擎詳情",
     "hostname": "主機名稱",
     "selectStorage": "選擇儲存引擎"
+  },
+  "notFound": {
+    "tips": "沒有找到該頁面",
+    "backToHome": "回到首頁"
   }
 }

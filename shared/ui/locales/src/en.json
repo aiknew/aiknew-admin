@@ -187,5 +187,9 @@
     "storageDetailModalTitle": "Storage Detail",
     "hostname": "Hostname",
     "selectStorage": "Select Storage"
+  },
+  "notFound": {
+    "tips": "The page was not found",
+    "backToHome": "Back to homepage"
   }
 }

@@ -26,6 +26,7 @@
   "enabled": "启用",
   "disabled": "禁用",
   "reset": "重置",
+  "remark": "备注",
   "dictType": {
     "name": "名称",
     "key": "键值",

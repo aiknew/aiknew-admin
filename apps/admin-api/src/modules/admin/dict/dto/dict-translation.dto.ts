@@ -9,5 +9,5 @@ export class DictTranslationDto {
 
   @IsString()
   @IsOptional()
-  remark?: string | null
+  remark?: string = ""
 }

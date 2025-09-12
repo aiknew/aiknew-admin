@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElLink, ElTableColumn, ElButton, ElPopconfirm, ElSwitch } from 'element-plus'
+import { ElLink, ElTableColumn, ElButton, ElPopconfirm, ElSwitch, ElFormItem } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
-import { computed } from 'vue'
-import { usePagination } from '@/composables'
+import { computed, ref } from 'vue'
 import { toReactive } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { useTemplateRef } from 'vue'
@@ -11,14 +10,20 @@ import {
   useDictTypeList,
   useDictTypeDelete,
   type DictType,
-  useDictTypeUpdate
+  useDictTypeUpdate,
+  type QueryDictTypeDto
 } from '@/api/dict-type'
 import DictTypeModal from './components/dict-type-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import DictItemsDrawer from './components/dict-items-drawer.vue'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import z from 'zod'
 
 const { t } = useI18n()
-const { currentPage, pageSize } = usePagination()
+const query = ref<QueryDictTypeDto>({
+  currentPage: 1,
+  pageSize: 10
+})
 
 const dictTypeModalRef = useTemplateRef('dictTypeModalRef')
 const dictItemsDrawerRef = useTemplateRef('dictItemsDrawer')
@@ -27,7 +32,7 @@ const {
   data: dictTypeData,
   refetch: refetchDictTypeData,
   isFetching: isFetchingDictTypeData
-} = useDictTypeList(toReactive({ currentPage, pageSize }))
+} = useDictTypeList(toReactive(query))
 const { mutateAsync: updateDictType } = useDictTypeUpdate()
 
 const { mutateAsync: deleteDictType, isPending: isDeleting } = useDictTypeDelete()
@@ -66,10 +71,69 @@ const handleSubmit = () => {
 const handleCheckItems = (row: DictType) => {
   dictItemsDrawerRef.value?.show(tField(row.translations, 'name').value, row)
 }
+
+const { AppForm: QueryForm, formApi } = useAppForm({
+  formProps: {
+    inline: true
+  },
+  fields() {
+    return [
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('dictType.key'),
+        name: 'key',
+        schema: z.string().default('').optional()
+      },
+
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('remark'),
+        name: 'remark',
+        schema: z.string().default('').optional()
+      },
+
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('name'),
+        name: 'name',
+        schema: z.string().default('').optional()
+      }
+    ] as const satisfies Fields
+  },
+  onSubmit({ values }) {
+    query.value = {
+      ...query.value,
+      ...values
+    }
+  }
+})
+
+const handleResetQueryForm = () => {
+  formApi.reset()
+  query.value = {
+    currentPage: 1,
+    pageSize: 10
+  }
+}
 </script>
 
 <template>
-  <AppContentBlock class="mb-6"> </AppContentBlock>
+  <AppContentBlock class="mb-6">
+    <QueryForm>
+      <el-form-item>
+        <el-button type="primary" @click="formApi.handleSubmit">
+          {{ t('submit') }}
+        </el-button>
+        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+      </el-form-item>
+    </QueryForm>
+  </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
@@ -80,8 +144,8 @@ const handleCheckItems = (row: DictType) => {
 
     <AppTable
       ref="appTableRef"
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
+      v-model:current-page="query.currentPage"
+      v-model:page-size="query.pageSize"
       :table-data="dictTypeData"
     >
       <el-table-column prop="key" :label="t('dictType.key')" width="150" />

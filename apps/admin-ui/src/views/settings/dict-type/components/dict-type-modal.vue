@@ -32,7 +32,19 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('key'),
+            placeholder: t('dictType.dictTypeName')
+          }
+        },
+        label: t('dictType.dictTypeName'),
+        name: 'name',
+        i18n: true,
+        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+      },
+      {
+        as: {
+          component: 'ElInput',
+          props: {
+            placeholder: t('dictType.key'),
             disabled: disabledEditKey.value
           }
         },
@@ -44,13 +56,14 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('dictType.dictTypeName')
+            placeholder: t('remark'),
+            type: 'textarea'
           }
         },
-        label: t('dictType.dictTypeName'),
-        name: 'name',
+        label: t('remark'),
+        name: 'remark',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: buildI18nSchema(z.string().default(''), languages)
       },
       {
         as: {

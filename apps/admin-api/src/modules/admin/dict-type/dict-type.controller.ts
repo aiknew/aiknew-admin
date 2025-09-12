@@ -6,6 +6,7 @@ import { DictTypeDto } from "./dto/dict-type.dto";
 import { PaginationResponseDto } from "@aiknew/shared-api-dtos";
 import { CreateDictTypeDto } from "./dto/create-dict-type.dto";
 import { UpdateDictTypeDto } from "./dto/update-dict-type.dto";
+import { QueryDictTypeDto } from "./dto/query-dict-type.dto";
 
 @PermissionGroup({ name: 'dict-type.dictTypeManagement' })
 @Controller('dict-type')
@@ -16,8 +17,8 @@ export class DictTypeController {
   @Permission({ key: 'dict-type:pagination', name: 'dict-type.dictTypePagination' })
   @Get()
   @AppApiPaginationResponse(DictTypeDto)
-  async pagination(@Query() paginationDto: PaginationDto): Promise<PaginationResponseDto<DictTypeDto[]>> {
-    return this.dictTypeService.pagination(paginationDto)
+  async pagination(@Query() query: QueryDictTypeDto): Promise<PaginationResponseDto<DictTypeDto[]>> {
+    return this.dictTypeService.pagination(query)
   }
 
   @Permission({ key: 'dict-type:getAll', name: 'dict-type.dictTypeGetAll' })

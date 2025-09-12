@@ -5,6 +5,7 @@ import { CreateDictTypeDto } from './dto/create-dict-type.dto'
 import { UpdateDictTypeDto } from './dto/update-dict-type.dto'
 import { AppConflictException } from '@aiknew/shared-api-exceptions'
 import { I18nContext, I18nService } from 'nestjs-i18n'
+import { QueryDictTypeDto } from './dto/query-dict-type.dto'
 
 @Injectable()
 export class DictTypeService {
@@ -25,11 +26,31 @@ export class DictTypeService {
     return this.prisma.dict
   }
 
-  async pagination(paginationDto: PaginationDto) {
-    return this.model.paginate(paginationDto, {
+  async pagination(query: QueryDictTypeDto) {
+    const { key, name, remark, ...pagination } = query
+    return this.model.paginate(pagination, {
+      where: {
+        key: {
+          contains: key
+        },
+        translations: {
+          some: {
+            name: {
+              contains: name
+            },
+            remark: {
+              contains: remark
+            }
+          }
+        }
+      },
       include: {
         translations: true,
       },
+      orderBy: [
+        { order: 'asc' },
+        { createdAt: 'desc' }
+      ]
     })
   }
 

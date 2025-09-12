@@ -61,7 +61,7 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('dictLabel')
+            placeholder: t('dictType.dictLabel')
           }
         },
         label: t('dictType.dictLabel'),
@@ -98,6 +98,18 @@ const { AppForm, formApi } = useAppForm({
         label: t('status'),
         name: 'status',
         schema: z.boolean().default(true)
+      },
+      {
+        as: {
+          component: 'ElInput',
+          props: {
+            placeholder: t('remark')
+          }
+        },
+        label: t('remark'),
+        name: 'remark',
+        i18n: true,
+        schema: buildI18nSchema(z.string().default(''), languages)
       }
     ] as const satisfies Fields,
   onSubmit: async ({ i18nValues }) => {

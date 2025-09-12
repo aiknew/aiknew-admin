@@ -1,9 +1,8 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { IPaginationQuery } from '@aiknew/shared-types'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
-import type { Reactive, Ref } from 'vue'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { Reactive } from 'vue'
 
 export type DictType = ApiGetData<'/admin/dict-type'>['list'][number]
 
@@ -11,7 +10,9 @@ export type CreateDictTypeDto = ApiPostReqBody<'/admin/dict-type'>
 
 export type UpdateDictTypeDto = ApiPatchReqBody<'/admin/dict-type/{id}'>
 
-export const useDictTypeList = (query: Reactive<IPaginationQuery>) => {
+export type QueryDictTypeDto = ApiGetQuery<'/admin/dict-type'>
+
+export const useDictTypeList = (query: Reactive<QueryDictTypeDto>) => {
   return useQuery({
     queryKey: ['dict-type-list', query],
     placeholderData: keepPreviousData,

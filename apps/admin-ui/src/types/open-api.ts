@@ -1187,7 +1187,8 @@ export interface components {
         DictTypeTranslationDto: {
             langKey: string;
             name: string;
-            remark?: string | null;
+            /** @default  */
+            remark: string;
         };
         DictTypeDto: {
             id: string;
@@ -1216,7 +1217,8 @@ export interface components {
         DictTranslationDto: {
             langKey: string;
             label: string;
-            remark?: string | null;
+            /** @default  */
+            remark: string;
         };
         DictDto: {
             id: string;
@@ -3175,6 +3177,9 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
+                key?: string;
+                name?: string;
+                remark?: string;
             };
             header?: never;
             path?: never;

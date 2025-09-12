@@ -38,5 +38,30 @@
     "dictValue": "字典值",
     "addDictTitle": "新增字典項",
     "editDictTitle": "編輯字典項"
+  },
+  "configView": {
+    "key": "配置鍵",
+    "value": "配置值",
+    "systemConfig": "系統配置",
+    "userConfig": "用戶配置",
+    "configType": "配置類型",
+    "deleteConfirm": "確定刪除此配置嗎？",
+    "addConfig": "新增配置",
+    "editConfig": "編輯配置",
+    "searchPlaceholder": "搜索配置鍵或值",
+    "system": "系統",
+    "user": "用戶",
+    "config": "配置",
+    "enterKey": "請輸入配置鍵",
+    "keyRequired": "配置鍵不能為空",
+    "enterValue": "請輸入配置值",
+    "valueRequired": "配置值不能為空",
+    "valueLengthExceeded": "配置值長度不能超過200個字符",
+    "keyLengthExceeded": "配置鍵長度不能超過50個字符",
+    "name": "配置名稱",
+    "remark": "備註",
+    "nameRequired": "配置名稱不能為空",
+    "nameLengthExceeded": "配置名稱長度不能超過50個字符",
+    "remarkLengthExceeded": "備註長度不能超過200個字符"
   }
 }

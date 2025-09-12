@@ -5,9 +5,9 @@ import { z } from 'zod'
 import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
 import { useConfigCreate, useConfigUpdate, type Config } from '@/api/config'
-import { useConfigI18n } from '../composables/use-config-i18n'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useConfigI18n()
+const { t } = useI18n()
 
 interface Emits {
   (e: 'submit', info: { updatedParentIds: string[] }): void
@@ -31,22 +31,22 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: 'ElInput',
-        label: t('key'),
+        label: t('configView.key'),
         name: 'key',
         schema: z
-          .string({ message: t('enterKey') })
-          .min(1, { message: t('keyRequired') })
-          .max(50, { message: t('keyLengthExceeded') })
+          .string({ message: t('configView.enterKey') })
+          .min(1, { message: t('configView.keyRequired') })
+          .max(50, { message: t('configView.keyLengthExceeded') })
           .default('')
       },
       {
         as: 'ElInput',
-        label: t('value'),
+        label: t('configView.value'),
         name: 'value',
         schema: z
-          .string({ message: t('enterValue') })
-          .min(1, { message: t('valueRequired') })
-          .max(200, { message: t('valueLengthExceeded') })
+          .string({ message: t('configView.enterValue') })
+          .min(1, { message: t('configView.valueRequired') })
+          .max(200, { message: t('configView.valueLengthExceeded') })
           .default('')
       },
       {
@@ -54,38 +54,38 @@ const { AppForm, formApi } = useAppForm({
           component: 'ElRadio',
           props: {
             options: [
-              { label: t('userConfig'), value: false },
-              { label: t('systemConfig'), value: true }
+              { label: t('configView.userConfig'), value: false },
+              { label: t('configView.systemConfig'), value: true }
             ]
           }
         },
-        label: t('configType'),
+        label: t('configView.configType'),
         name: 'system',
         schema: z.boolean().default(false)
       },
       {
         as: 'ElInput',
-        label: t('name'),
+        label: t('configView.name'),
         name: 'name',
         i18n: true,
         schema: buildI18nSchema(
           z
-            .string({ message: t('enterName') })
-            .min(1, { message: t('nameRequired') })
-            .max(50, { message: t('nameLengthExceeded') })
+            .string({ message: t('configView.enterName') })
+            .min(1, { message: t('configView.nameRequired') })
+            .max(50, { message: t('configView.nameLengthExceeded') })
             .default(''),
           languages
         )
       },
       {
         as: 'ElInput',
-        label: t('remark'),
+        label: t('configView.remark'),
         name: 'remark',
         i18n: true,
         schema: buildI18nSchema(
           z
-            .string({ message: t('enterRemark') })
-            .max(200, { message: t('remarkLengthExceeded') })
+            .string({ message: t('configView.enterRemark') })
+            .max(200, { message: t('configView.remarkLengthExceeded') })
             .optional()
             .default(''),
           languages
@@ -109,14 +109,14 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addConfig'))
+  modalRef.value?.setTitle(t('configView.addConfig'))
 }
 
 const edit = (item: Config) => {
   editId.value = item.id
   editItem.value = item
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editConfig'))
+  modalRef.value?.setTitle(t('configView.editConfig'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

@@ -8,11 +8,11 @@ import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 import ConfigModal from './components/config-modal.vue'
-import { useConfigI18n } from './composables/use-config-i18n'
 import { tField } from '@aiknew/shared-ui-locales'
+import { useI18n } from 'vue-i18n'
 
 const configModalRef = useTemplateRef('configModalRef')
-const { t } = useConfigI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 
 const {
@@ -66,22 +66,22 @@ const handleSubmit = () => {
       :table-data="configData"
     >
       <el-table-column prop="id" label="ID" width="200" />
-      <el-table-column :label="t('name')" width="200">
+      <el-table-column :label="t('configView.name')" width="200">
         <template #default="{ row }: { row: Config }">
           <span>{{ tField(row.translations, 'name').value }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="t('remark')">
+      <el-table-column :label="t('configView.remark')">
         <template #default="{ row }: { row: Config }">
           <span>{{ tField(row.translations, 'remark').value }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="key" :label="t('key')" width="200" />
-      <el-table-column prop="value" :label="t('value')" min-width="150" />
-      <el-table-column prop="system" :label="t('configType')" width="120" align="center">
+      <el-table-column prop="key" :label="t('configView.key')" width="200" />
+      <el-table-column prop="value" :label="t('configView.value')" min-width="150" />
+      <el-table-column prop="system" :label="t('configView.configType')" width="120" align="center">
         <template #default="{ row }">
-          <el-tag v-if="row.system" type="danger">{{ t('system') }}</el-tag>
-          <el-tag v-else type="primary">{{ t('user') }}</el-tag>
+          <el-tag v-if="row.system" type="danger">{{ t('configView.system') }}</el-tag>
+          <el-tag v-else type="primary">{{ t('configView.user') }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="createdAt" :label="t('createdAt')" width="180" />

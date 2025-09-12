@@ -38,5 +38,30 @@
     "dictValue": "字典值",
     "addDictTitle": "新增字典项",
     "editDictTitle": "编辑字典项"
+  },
+  "configView": {
+    "key": "配置键",
+    "value": "配置值",
+    "systemConfig": "系统配置",
+    "userConfig": "用户配置",
+    "configType": "配置类型",
+    "deleteConfirm": "确定删除此配置吗？",
+    "addConfig": "添加配置",
+    "editConfig": "编辑配置",
+    "searchPlaceholder": "搜索配置键或值",
+    "system": "系统",
+    "user": "用户",
+    "config": "配置",
+    "enterKey": "请输入配置键",
+    "keyRequired": "配置键不能为空",
+    "enterValue": "请输入配置值",
+    "valueRequired": "配置值不能为空",
+    "valueLengthExceeded": "配置值长度不能超过200个字符",
+    "keyLengthExceeded": "配置键长度不能超过50个字符",
+    "name": "配置名称",
+    "remark": "备注",
+    "nameRequired": "配置名称不能为空",
+    "nameLengthExceeded": "配置名称长度不能超过50个字符",
+    "remarkLengthExceeded": "备注长度不能超过200个字符"
   }
 }

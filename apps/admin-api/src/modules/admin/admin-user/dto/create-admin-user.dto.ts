@@ -1,11 +1,12 @@
-import { IsArray, IsString } from 'class-validator'
+import { IsArray, IsOptional, IsString } from 'class-validator'
 
 export class CreateAdminUserDto {
   @IsString()
   userName: string
 
   @IsArray()
-  roles: string[]
+  @IsOptional()
+  roles?: string[]
 
   @IsString()
   password: string

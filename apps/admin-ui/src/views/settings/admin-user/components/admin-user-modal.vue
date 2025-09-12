@@ -24,37 +24,44 @@ const inputPassword = ref('')
 
 const passwordRules = computed(() => {
   if (modalRef.value?.modalMode === 'add') {
-    return z.string({ message: 'passwordRequired' }).min(1).default('')
+    return z
+      .string({ message: t('adminUser.passwordRequired') })
+      .min(1)
+      .default('')
   }
 
-  return z.string({ message: 'passwordRequired' }).min(1).optional().default('')
+  return z
+    .string({ message: t('adminUser.passwordRequired') })
+    .min(1)
+    .optional()
+    .default('')
 })
 
 const passwordConfirmRules = computed(() => {
   if (modalRef.value?.modalMode === 'add' || inputPassword.value) {
     return z
-      .string({ message: 'passwordConfirmErr' })
+      .string({ message: t('adminUser.passwordConfirmErr') })
       .min(1)
       .refine(
         (val) => {
           return val === inputPassword.value
         },
         {
-          message: 'passwordConfirmErr'
+          message: t('adminUser.passwordConfirmErr')
         }
       )
       .default('')
   }
 
   return z
-    .string({ message: 'passwordConfirmErr' })
+    .string({ message: t('adminUser.passwordConfirmErr') })
     .min(1)
     .refine(
       (val) => {
         return val === inputPassword.value
       },
       {
-        message: 'passwordConfirmErr'
+        message: t('adminUser.passwordConfirmErr')
       }
     )
     .optional()
@@ -103,7 +110,7 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('adminUser.roles'),
         name: 'roles',
-        schema: z.array(z.string()).default([])
+        schema: z.array(z.string()).default([]).optional()
       }
     ] as const satisfies Fields,
   async onSubmit({ i18nValues }) {

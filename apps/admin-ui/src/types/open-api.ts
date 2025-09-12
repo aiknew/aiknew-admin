@@ -799,7 +799,7 @@ export interface components {
         };
         CreateAdminUserDto: {
             userName: string;
-            roles: string[];
+            roles?: string[];
             password: string;
         };
         UpdateAdminUserDto: {
@@ -1456,6 +1456,7 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
+                userName?: string;
             };
             header?: never;
             path?: never;

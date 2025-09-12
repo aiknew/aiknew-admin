@@ -20,6 +20,7 @@ import {
 import { AdminUserDto } from './dto/admin-user.dto'
 import { CreateAdminUserDto } from './dto/create-admin-user.dto'
 import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
+import { QueryAdminUserDto } from './dto/query-admin-user.dto'
 
 @PermissionGroup({ name: 'admin-user.adminUserManagement' })
 @Controller('admin-user')
@@ -30,9 +31,9 @@ export class AdminUserController {
   @Permission({ key: 'admin-user:pagination', name: 'admin-user.adminUserPagination' })
   @Get()
   pagination(
-    @Query() paginationDto: PaginationDto,
+    @Query() query: QueryAdminUserDto,
   ): Promise<PaginationResponseDto<AdminUserDto[]>> {
-    return this.service.pagination(paginationDto)
+    return this.service.pagination(query)
   }
 
   @AppApiCreatedResponse()

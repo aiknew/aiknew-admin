@@ -3,13 +3,15 @@ import type { IPaginationQuery } from '@aiknew/shared-types'
 import { fetchClient } from '@/utils/openapi-fetch-client'
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import type { Reactive } from 'vue'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
 export type AdminUser = ApiGetData<'/admin/admin-user'>['list'][number]
 
 export type CreateAdminUserDto = ApiPostReqBody<'/admin/admin-user'>
 
 export type UpdateAdminUserDto = ApiPatchReqBody<'/admin/admin-user/{id}'>
+
+export type QueryAdminUserDto = ApiGetQuery<'/admin/admin-user'>
 
 export const useAdminUserList = (query: Reactive<IPaginationQuery>) => {
   return useQuery({

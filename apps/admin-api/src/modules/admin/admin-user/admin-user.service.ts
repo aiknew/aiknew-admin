@@ -8,6 +8,7 @@ import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
 import { AdminPermission, Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
+import { QueryAdminUserDto } from './dto/query-admin-user.dto'
 
 @Injectable()
 export class AdminUserService {
@@ -244,10 +245,16 @@ export class AdminUserService {
     }
   }
 
-  async pagination(paginationDto: PaginationDto) {
-    const users = await this.model.paginate(paginationDto, {
+  async pagination(query: QueryAdminUserDto) {
+    const { userName, ...pagination } = query
+
+    const users = await this.model.paginate(pagination, {
       where: {
         super: false,
+        userName: {
+          contains: userName,
+          mode: 'insensitive'
+        }
       },
 
       omit: {
@@ -292,7 +299,7 @@ export class AdminUserService {
           userName,
           password: createHMAC(password),
           roles: {
-            create: this.constructRelatedRoles(roles),
+            create: roles && this.constructRelatedRoles(roles),
           },
         },
       })

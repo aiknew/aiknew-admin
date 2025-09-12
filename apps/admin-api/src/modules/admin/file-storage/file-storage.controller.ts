@@ -1,4 +1,4 @@
-import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
+import { PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import {
   Body,
   Controller,
@@ -21,6 +21,7 @@ import {
 } from '@aiknew/shared-api-decorators'
 import { FileStorageDto } from './dto/file-storage.dto'
 import { OmitType } from '@nestjs/swagger'
+import { QueryFileStorageDto } from './dto/query-file-storage.dto'
 
 @PermissionGroup({ name: 'file-storage.fileStorageManagement' })
 @Controller('file-storage')
@@ -31,9 +32,9 @@ export class FileStorageController {
   @Get()
   @AppApiPaginationResponse(FileStorageDto)
   async pagination(
-    @Query() paginationDto: PaginationDto,
+    @Query() query: QueryFileStorageDto,
   ): Promise<PaginationResponseDto<FileStorageDto[]>> {
-    return this.fileStorageService.pagination(paginationDto)
+    return this.fileStorageService.pagination(query)
   }
 
   @Permission({ key: 'file-storage:getAll', name: 'file-storage.fileStorageGetAll' })

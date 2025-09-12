@@ -2822,6 +2822,10 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
+                status?: components["schemas"]["FileStorageStatus"];
+                type?: components["schemas"]["StorageType"];
+                name?: string;
+                hostname?: string;
             };
             header?: never;
             path?: never;

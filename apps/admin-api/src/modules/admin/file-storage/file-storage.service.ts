@@ -1,13 +1,13 @@
-import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { PrismaPromise, PrismaService } from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
 import { CreateFileStorageDto } from './dto/create-file-storage.dto'
 import { UpdateFileStorageDto } from './dto/update-file-storage.dto'
 import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
+import { QueryFileStorageDto } from './dto/query-file-storage.dto'
 
 @Injectable()
 export class FileStorageService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   get model(): PrismaService['fileStorage'] {
     return this.prisma.fileStorage
@@ -35,8 +35,21 @@ export class FileStorageService {
     })
   }
 
-  async pagination(paginationDto: PaginationDto) {
-    return this.model.paginate(paginationDto, {
+  async pagination(query: QueryFileStorageDto) {
+    const { hostname, name, status, type, ...pagination } = query
+    return this.model.paginate(pagination, {
+      where: {
+        hostname: {
+          contains: hostname,
+          mode: 'insensitive'
+        },
+        name: {
+          contains: name,
+          mode: 'insensitive'
+        },
+        status,
+        type
+      },
       orderBy: [{ priority: 'asc' }, { createdAt: 'desc' }],
     })
   }

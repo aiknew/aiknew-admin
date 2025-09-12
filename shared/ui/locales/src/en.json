@@ -104,5 +104,11 @@
     "routeNameLabel": "Route Name",
     "addTitle": "Add Menu",
     "editTitle": "Edit Menu"
+  },
+  "authRole": {
+    "addTitle": "Add Role",
+    "editTitle": "Edit Role",
+    "roleNameLabel": "Role name",
+    "permissionsLabel": "Permission settings"
   }
 }

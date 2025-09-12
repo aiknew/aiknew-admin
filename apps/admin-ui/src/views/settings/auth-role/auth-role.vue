@@ -6,13 +6,13 @@ import { computed } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
-import { useAuthRoleI18n } from './composables/use-auth-role-i18n'
 import AuthRoleModal from './components/auth-role-modal.vue'
 import { useAuthRoleDelete, useAuthRoleList, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
+import { useI18n } from 'vue-i18n'
 
 const modalRef = useTemplateRef('modalRef')
-const { t } = useAuthRoleI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 const {
   data: authRoleData,

@@ -102,5 +102,11 @@
     "routeNameLabel": "路由名称",
     "addTitle": "新增菜单",
     "editTitle": "编辑菜单"
+  },
+  "authRole": {
+    "addTitle": "新增角色",
+    "editTitle": "编辑角色",
+    "roleNameLabel": "角色名称",
+    "permissionsLabel": "权限设置"
   }
 }

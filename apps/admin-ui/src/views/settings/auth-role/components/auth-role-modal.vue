@@ -4,11 +4,11 @@ import { ref, h, useTemplateRef, computed } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { useAuthRoleI18n } from '../composables/use-auth-role-i18n'
 import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
 import { useAuthRouteAll, type AuthRoute } from '@/api/auth-route'
 import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
+import { useI18n } from 'vue-i18n'
 
 interface Emits {
   (e: 'submit'): void
@@ -19,7 +19,7 @@ const emit = defineEmits<Emits>()
 
 const modalRef = useTemplateRef('modalRef')
 const langStore = useLangStore()
-const { t } = useAuthRoleI18n()
+const { t } = useI18n()
 const { data: routes } = useAuthRouteAll()
 const { mutateAsync: createRole } = useAuthRoleCreate()
 const { mutateAsync: updateRole } = useAuthRoleUpdate()
@@ -35,7 +35,7 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: 'ElInput',
-        label: t('roleNameLabel'),
+        label: t('authRole.roleNameLabel'),
         name: 'roleName',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -55,7 +55,7 @@ const { AppForm, formApi } = useAppForm({
             }
           }
         },
-        label: t('permissionsLabel'),
+        label: t('authRole.permissionsLabel'),
         name: 'routes',
         schema: z.array(z.string()).default([]).optional()
       },
@@ -88,14 +88,14 @@ const { AppForm, formApi } = useAppForm({
 
 const add = () => {
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('authRole.addTitle'))
   modalRef.value?.show()
 }
 
 const edit = (item: AuthRole) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('authRole.editTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

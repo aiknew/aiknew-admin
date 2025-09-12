@@ -12,7 +12,7 @@ export type UpdateArticleCategoryDto = ApiPatchReqBody<'/admin/article-category/
 
 export type QueryArticleCategoryDto = ApiGetQuery<'/admin/article-category/all'>
 
-export const useArticleCategoryAll = (query: Reactive<QueryArticleCategoryDto>) => {
+export const useArticleCategoryAll = (query?: Reactive<QueryArticleCategoryDto>) => {
   return useQuery({
     queryKey: ['get-all-article-category', query],
     placeholderData: keepPreviousData,

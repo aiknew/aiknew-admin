@@ -20,6 +20,7 @@ import {
 import { ArticleDto } from './dto/article.dto'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
+import { QueryArticleDto } from './dto/query-article.dto'
 
 @PermissionGroup({ name: 'article.articleManagement' })
 @Controller('article')
@@ -30,9 +31,9 @@ export class ArticleController {
   @Permission({ key: 'article:pagination', name: 'article.articlePagination' })
   @AppApiPaginationResponse(ArticleDto)
   async pagination(
-    @Query() pagination: PaginationDto,
+    @Query() query: QueryArticleDto,
   ): Promise<PaginationResponseDto<ArticleDto[]>> {
-    return this.articleService.pagination(pagination)
+    return this.articleService.pagination(query)
   }
 
   @Get(':id')

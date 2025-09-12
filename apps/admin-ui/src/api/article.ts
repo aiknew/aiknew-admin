@@ -1,9 +1,8 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { IPaginationQuery } from '@aiknew/shared-types'
 import { ref, toValue, type Reactive } from 'vue'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
 export type Article = ApiGetData<'/admin/article'>['list'][number]
 
@@ -11,7 +10,9 @@ export type CreateArticleDto = ApiPostReqBody<'/admin/article'>
 
 export type UpdateArticleDto = ApiPatchReqBody<'/admin/article/{id}'>
 
-export const useArticleList = (query: Reactive<IPaginationQuery>) => {
+export type QueryArticleDto = ApiGetQuery<'/admin/article'>
+
+export const useArticleList = (query: Reactive<QueryArticleDto>) => {
   return useQuery({
     queryKey: ['article-list', query],
     placeholderData: keepPreviousData,

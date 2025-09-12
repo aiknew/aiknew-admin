@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { UpdateArticleDto } from './dto/update-article.dto'
 import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
@@ -8,13 +7,14 @@ import {
   AppNotFoundException,
 } from '@aiknew/shared-api-exceptions'
 import { I18nContext, I18nService } from 'nestjs-i18n'
+import { QueryArticleDto } from './dto/query-article.dto'
 
 @Injectable()
 export class ArticleService {
   constructor(
     private prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) {}
+  ) { }
 
   get model(): PrismaService['article'] {
     return this.prisma.article
@@ -24,11 +24,28 @@ export class ArticleService {
     return this.prisma.articleTranslation
   }
 
-  async pagination(pagination: PaginationDto) {
+  async pagination(query: QueryArticleDto) {
+    const { content, title, ...pagination } = query
     return this.model.paginate(pagination, {
+      where: {
+        translations: {
+          some: {
+            content: {
+              contains: content
+            },
+            title: {
+              contains: title
+            }
+          }
+        }
+      },
       include: {
         translations: true,
       },
+      orderBy: [
+        { order: 'asc' },
+        { createdAt: 'desc' }
+      ]
     })
   }
 

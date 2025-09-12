@@ -1710,6 +1710,8 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
+                title?: string;
+                content?: string;
             };
             header?: never;
             path?: never;

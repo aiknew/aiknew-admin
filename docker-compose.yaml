@@ -68,8 +68,8 @@ services:
       context: .
       dockerfile: apps/admin-api/Dockerfile
     container_name: aiknew-admin-admin-api
-    ports:
-      - 3000:3000
+    # ports:
+    #   - 3000:3000
     environment:
       'NODE_ENV': 'production'
       'DOTENV_PRIVATE_KEY_PRODUCTION': 041967b3b66adbb2590a174c356d1a957565ecd5263a1bdf5de5b892489edefc
@@ -84,6 +84,19 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+
+  admin-ui:
+    build:
+      context: .
+      dockerfile: apps/admin-ui/Dockerfile
+    container_name: aiknew-admin-admin-ui
+    depends_on:
+      - admin-api
+    ports:
+      - 5000:80
+    networks:
+      - aiknew-admin
+    restart: always
 
 networks:
   aiknew-admin:

@@ -20,9 +20,9 @@ defineEmits(['update:expandMenu', 'refresh'])
     class="bg-white-100 flex min-h-10 items-center p-3 border-b border-theme-border-light"
   >
     <!-- logo -->
-    <div class="mr-1 flex size-9 items-center justify-center border md:hidden">
+    <!-- <div class="mr-1 flex size-9 items-center justify-center border md:hidden">
       logo
-    </div>
+    </div> -->
 
     <!-- menu expand button -->
     <div

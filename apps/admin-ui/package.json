@@ -17,6 +17,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@aiknew/shared-enums": "workspace:*",
     "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/shared-ui-filer": "workspace:*",
     "@aiknew/shared-ui-form": "workspace:*",
@@ -24,9 +25,7 @@
     "@aiknew/shared-ui-locales": "workspace:*",
     "@aiknew/shared-ui-table": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
-    "@aiknew/shared-ui-stores": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
-    "@aiknew/shared-enums": "workspace:*",
     "@bprogress/core": "catalog:ui",
     "@bprogress/vue": "catalog:ui",
     "@element-plus/icons-vue": "catalog:ui",
@@ -40,6 +39,7 @@
     "@wangeditor-next/editor": "^5.6.34",
     "@wangeditor-next/editor-for-vue": "^5.1.14",
     "color2k": "catalog:ui",
+    "dayjs": "catalog:common",
     "element-plus": "catalog:ui",
     "lodash-es": "catalog:common",
     "openapi-fetch": "^0.13.8",
@@ -49,8 +49,7 @@
     "vue": "catalog:ui",
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui",
-    "zod": "catalog:ui",
-    "dayjs": "catalog:common"
+    "zod": "catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",
@@ -78,15 +77,15 @@
     "jsdom": "^26.1.0",
     "npm-run-all2": "^7.0.2",
     "openapi-typescript": "catalog:ui",
-    "typescript": "catalog:common",
     "oxlint": "^0.16.12",
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.13",
+    "rollup-plugin-visualizer": "^6.0.3",
     "sass-embedded": "^1.89.2",
     "start-server-and-test": "^2.0.12",
+    "typescript": "catalog:common",
     "unplugin-element-plus": "catalog:ui",
     "vite": "catalog:ui",
-    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-vue-devtools": "^7.7.7",
     "vite-svg-loader": "catalog:ui",
     "vitest": "^3.2.4",

@@ -9,7 +9,7 @@ import type { components } from '@/types/open-api'
 import { ElLoading } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import { registerDirectives } from '@/directives'
-import { useThemeSettingStore } from '@aiknew/shared-ui-stores'
+import { useThemeSettingStore } from '../stores/index'
 
 export const bootstrap = (app: App<Element>) => {
   // install vue-i18n

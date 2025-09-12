@@ -40,6 +40,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "dev": "pnpm tsc --watch",
+    "prebuild": "pnpm db:generate",
     "build": "pnpm tsc",
     "db:dev": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma migrate dev",
     "db:deploy:prod": "pnpm prisma migrate deploy",

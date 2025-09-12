@@ -2,15 +2,27 @@
 import { AppBasicLayout } from '@aiknew/shared-ui-layouts'
 import { AppLanguageSwitcher, AppRouteTab, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
 import AppUserSetting from './app-user-setting.vue'
-import { useRouter } from 'vue-router'
+import { onBeforeRouteUpdate, useRoute, useRouter, type LocationQueryRaw } from 'vue-router'
 import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locales'
 import { useRouteHistoryStore } from '@/stores/route-history'
 import AppAdminSetting from './app-admin-setting.vue'
+import { ref } from 'vue'
 
 const router = useRouter()
+const route = useRoute()
+
+const currentRoutePath = ref(route.fullPath)
 const routeHistoryStore = useRouteHistoryStore()
 
 const routes = router.getRoutes().find((route) => route.name === 'Index')?.children ?? []
+
+onBeforeRouteUpdate((to) => {
+  currentRoutePath.value = to.fullPath
+})
+
+const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | undefined }) => {
+  router.push(data)
+}
 </script>
 
 <template>
@@ -33,7 +45,9 @@ const routes = router.getRoutes().find((route) => route.name === 'Index')?.child
 
     <template #top>
       <AppRouteTab
+        v-model="currentRoutePath"
         :history="routeHistoryStore.routeHistory"
+        @click="handleRouteTabClick"
         @remove="routeHistoryStore.removeHistory"
       />
     </template>

@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type Stream from 'node:stream'
 import openapiTS, { astToString, type OpenAPI3 } from 'openapi-typescript'
-import type { Plugin, PluginOption } from 'vite'
+import type { Plugin } from 'vite'
 
 export function openApiToTypeScript({
   desc,
@@ -10,7 +10,7 @@ export function openApiToTypeScript({
 }: {
   source: string | URL | OpenAPI3 | Buffer | Stream.Readable
   desc: string
-}): PluginOption {
+}): Plugin {
   return {
     name: 'openapi-to-typescript',
     enforce: 'post',

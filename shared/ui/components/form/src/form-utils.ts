@@ -57,7 +57,7 @@ export type GetValidators<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
     [Item in Fields[number]as GetFieldName<Item['name']>]: ReturnType<
-      Item['schema'] extends ZodType ? Item['schema']['unwrap'] : never
+      Item['schema'] extends ZodDefault ? Item['schema']['unwrap'] : never
     >
   }
 
@@ -118,7 +118,7 @@ export type NormalField<N extends string, C extends keyof Components> = {
   label: string
   name: N
   i18n?: boolean
-  schema: ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>
+  schema: ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>
 }
 
 export type ExcludeField = {
@@ -149,10 +149,16 @@ export const generateDefaultVal = <
 ): GetDefaultVals<T> => {
   const defaultValues = {} as Record<string, unknown>
   for (const item of fields) {
+
     if (isDefined(item.when) && !toValue(item.when)) continue
 
     if (isNormalField(item)) {
-      defaultValues[item.name] = item.schema.parse(undefined)
+      const res = item.schema.safeParse(undefined)
+      if (res.success) {
+        defaultValues[item.name] = res.data
+      } else {
+        defaultValues[item.name] = undefined
+      }
     }
   }
 
@@ -170,8 +176,14 @@ export const generateValidators = <
     if (isDefined(item.when) && !toValue(item.when)) continue
 
     if (isNormalField(item)) {
-      schemas[item.name as keyof GetDefaultVals<T>] =
-        item.schema.unwrap() as ZodType
+      if ('unwrap' in item.schema) {
+        schemas[item.name as keyof GetDefaultVals<T>] =
+          item.schema.unwrap() as ZodType
+      } else {
+        schemas[item.name as keyof GetDefaultVals<T>] =
+          item.schema
+      }
+
     }
   }
 

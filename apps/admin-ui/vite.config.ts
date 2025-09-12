@@ -7,8 +7,8 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 import svgLoader from 'vite-svg-loader'
 import tailwindcss from '@tailwindcss/vite'
-import { openApiToTypeScript } from '@aiknew/shared-ui-utils'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import { visualizer } from "rollup-plugin-visualizer"
+import { openApiToTypeScript } from './src/utils/vite-plugin-openapi-typescript'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -31,9 +31,14 @@ export default defineConfig({
     exclude: ['colorette']
   },
   build: {
+    sourcemap: true,
     target: 'esnext',
     rollupOptions: {
-      external: ['node:process']
+      output: {
+        manualChunks: {
+          vendor: ['@wangeditor-next/editor', '@wangeditor-next/editor-for-vue']
+        }
+      }
     }
   },
   plugins: [
@@ -44,18 +49,16 @@ export default defineConfig({
     ElementPlus({}),
     svgLoader(),
     tailwindcss(),
-    nodePolyfills({
-      // Whether to polyfill specific globals. If `true`, the following globals will be polyfilled:
-      globals: {
-        Buffer: true, // can also be 'build', 'dev', 'test', or false
-        global: true,
-        process: true
-      }
-    }),
     openApiToTypeScript({
       source: 'http://localhost:3000/api-doc-json',
       desc: './src/types/open-api.ts'
-    })
+    }) as import('vite').Plugin,
+    visualizer({
+      open: true,
+      sourcemap: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
   ],
   resolve: {
     alias: {

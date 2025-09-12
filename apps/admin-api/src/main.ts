@@ -18,7 +18,6 @@ async function bootstrap() {
       skipUndefinedProperties: false,
     }),
   )
-  // app.enableCors()
   // swagger
   const config = new DocumentBuilder()
     .setTitle('Aiknew Admin Api')

@@ -563,25 +563,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/article-category/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Article Category Detail */
-        get: operations["ArticleCategoryController_getChildrenCate"];
-        put?: never;
-        post?: never;
-        /** Delete Article Category */
-        delete: operations["ArticleCategoryController_deleteOne"];
-        options?: never;
-        head?: never;
-        /** Update Article Category */
-        patch: operations["ArticleCategoryController_updateOne"];
-        trace?: never;
-    };
     "/admin/article-category": {
         parameters: {
             query?: never;
@@ -597,6 +578,24 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/admin/article-category/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete Article Category */
+        delete: operations["ArticleCategoryController_deleteOne"];
+        options?: never;
+        head?: never;
+        /** Update Article Category */
+        patch: operations["ArticleCategoryController_updateOne"];
         trace?: never;
     };
     "/admin/dict-type": {
@@ -3066,25 +3065,25 @@ export interface operations {
             };
         };
     };
-    ArticleCategoryController_getChildrenCate: {
+    ArticleCategoryController_createOne: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: number;
-            };
+            path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateArticleCategoryDto"];
+            };
+        };
         responses: {
-            200: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["ArticleCategoryDto"][];
-                    };
+                    "application/json": components["schemas"]["ResponseJson"];
                 };
             };
             /** @description Internal server error */
@@ -3144,38 +3143,6 @@ export interface operations {
         };
         responses: {
             200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    ArticleCategoryController_createOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateArticleCategoryDto"];
-            };
-        };
-        responses: {
-            201: {
                 headers: {
                     [name: string]: unknown;
                 };

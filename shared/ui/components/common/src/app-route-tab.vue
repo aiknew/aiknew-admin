@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, toValue } from 'vue'
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { type LocationQueryRaw } from 'vue-router'
 import { resolveQueryStr } from '@aiknew/shared-ui-utils'
 import { type RouteHistory } from '@aiknew/shared-ui-types'
 import { ElTabs, ElTabPane, ElIcon, type TabPaneName } from 'element-plus'
@@ -11,18 +11,15 @@ interface Props {
 
 interface Emits {
   (e: 'remove', path: string): void
+  (
+    e: 'click',
+    data: { path: string; query: LocationQueryRaw | undefined },
+  ): void
 }
 
 const { history } = defineProps<Props>()
 const emit = defineEmits<Emits>()
-const router = useRouter()
-const route = useRoute()
-
-const currentRoute = ref(route.path)
-
-onBeforeRouteUpdate((to) => {
-  currentRoute.value = to.fullPath
-})
+const currentRoutePath = defineModel<string>()
 
 const handleRemove = (routePath: TabPaneName) =>
   emit('remove', String(routePath))
@@ -34,7 +31,7 @@ const handleClick = ({
 }) => {
   if (path && typeof path === 'string') {
     const query = resolveQueryStr(path)
-    router.push({ path, query })
+    emit('click', { path, query })
   }
 }
 </script>
@@ -42,7 +39,7 @@ const handleClick = ({
 <template>
   <div class="route-tab border-top">
     <el-tabs
-      v-model="currentRoute"
+      v-model="currentRoutePath"
       type="card"
       closable
       @tab-remove="handleRemove"

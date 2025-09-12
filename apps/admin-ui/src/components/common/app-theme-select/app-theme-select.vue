@@ -3,7 +3,7 @@ import { ElColorPicker } from 'element-plus'
 import { watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AppThemeColorItem from './app-theme-color-item.vue'
-import { useThemeSettingStore } from '@aiknew/shared-ui-stores'
+import { useThemeSettingStore } from '../../../stores'
 
 const themeSettingStore = useThemeSettingStore()
 const { setThemeColor } = themeSettingStore

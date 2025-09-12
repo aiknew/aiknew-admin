@@ -25,18 +25,7 @@ const { mutateAsync: updateArticle } = useArticleUpdate()
 const { data: articleCategories } = useArticleCategoryAll()
 
 const categoriesTree = computed(() => {
-  return [
-    {
-      id: 0,
-      translations: langStore.enabledLangs.map((lang) => {
-        return {
-          langKey: lang.key,
-          name: t('top')
-        }
-      }),
-      children: buildTree(articleCategories.value, 'id', 'parentId')
-    }
-  ]
+  return buildTree(articleCategories.value, 'id', 'parentId')
 })
 
 const languages = langStore.enabledLangs
@@ -66,7 +55,7 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('articleCategory'),
         name: 'articleCategoryId',
-        schema: z.number().default(0)
+        schema: z.number()
       },
       {
         as: 'WangEditor',

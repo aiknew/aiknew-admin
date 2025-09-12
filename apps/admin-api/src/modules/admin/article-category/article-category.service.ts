@@ -7,6 +7,7 @@ import {
   PrismaService,
 } from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
+import { QueryArticleCategoryDto } from './dto/query-article-category.dto'
 
 @Injectable()
 export class ArticleCategoryService {
@@ -23,8 +24,19 @@ export class ArticleCategoryService {
     return this.prisma.articleCategoryTranslation
   }
 
-  async getAll() {
+  async getAll(query: QueryArticleCategoryDto) {
+    const { name } = query
+
     return this.model.findMany({
+      where: {
+        translations: {
+          some: {
+            name: {
+              contains: name
+            }
+          }
+        }
+      },
       include: {
         translations: true
       },

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common'
 import { ArticleCategoryService } from './article-category.service'
 import {
@@ -17,6 +18,7 @@ import {
 import { ArticleCategoryDto } from './dto/article-category.dto'
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto'
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto'
+import { QueryArticleCategoryDto } from './dto/query-article-category.dto'
 
 @PermissionGroup({ name: 'article-category.articleCategoryManagement' })
 @Controller('article-category')
@@ -31,8 +33,8 @@ export class ArticleCategoryController {
   @Get('all')
   @Permission({ key: 'article-category:getAll', name: 'article-category.articleCategoryGetAll' })
   @AppApiOkResponse([ArticleCategoryDto])
-  async getAll(): Promise<ArticleCategoryDto[]> {
-    return this.articleCategoryService.getAll()
+  async getAll(@Query() query: QueryArticleCategoryDto): Promise<ArticleCategoryDto[]> {
+    return this.articleCategoryService.getAll(query)
   }
 
   /**

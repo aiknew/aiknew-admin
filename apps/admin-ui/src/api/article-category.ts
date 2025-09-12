@@ -1,7 +1,8 @@
 import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import type { Reactive } from 'vue'
 
 export type ArticleCategory = ApiGetData<'/admin/article-category/all'>[number]
 
@@ -9,12 +10,17 @@ export type CreateArticleCategoryDto = ApiPostReqBody<'/admin/article-category'>
 
 export type UpdateArticleCategoryDto = ApiPatchReqBody<'/admin/article-category/{id}'>
 
-export const useArticleCategoryAll = () => {
+export type QueryArticleCategoryDto = ApiGetQuery<'/admin/article-category/all'>
+
+export const useArticleCategoryAll = (query: Reactive<QueryArticleCategoryDto>) => {
   return useQuery({
-    queryKey: ['get-all-article-category'],
+    queryKey: ['get-all-article-category', query],
     placeholderData: keepPreviousData,
     queryFn: () => {
       return useApiData(() => fetchClient.GET('/admin/article-category/all', {
+        params: {
+          query
+        },
         showMsg: false
       }))
     }

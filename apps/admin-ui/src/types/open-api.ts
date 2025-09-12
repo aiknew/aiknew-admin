@@ -3042,7 +3042,9 @@ export interface operations {
     };
     ArticleCategoryController_getAll: {
         parameters: {
-            query?: never;
+            query?: {
+                name?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -3466,7 +3468,6 @@ export interface operations {
                 pageSize: number;
                 key?: string;
                 value?: string;
-                system?: boolean;
                 name?: string;
                 remark?: string;
             };

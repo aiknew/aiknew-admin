@@ -17,13 +17,26 @@
   "name": "name",
   "order": "Sorting",
   "orderTips": "The smaller the number, the higher the ranking",
-  "createdAt": "created time",
-  "updatedAt": "Updated Time",
-  "operations": "operation",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
+  "operations": "Operations",
   "deleteConfirm": "Confirm to delete?",
   "cantSelectChildrenAsOwnSuperior": "Cannot select its own child as a parent",
   "type": "Type",
   "enabled": "enabled",
   "disabled": "disabled",
-  "reset": "Reset"
+  "reset": "Reset",
+  "dictType": {
+    "name": "Name",
+    "key": "Key",
+    "orderTips": "Higher values appear later",
+    "addTitle": "Add Dictionary Type",
+    "editTitle": "Edit Dictionary Type",
+    "dictTypeName": "Dictionary Type Name",
+    "dictItem": "Dictionary Item",
+    "dictLabel": "Dictionary Label",
+    "dictValue": "Dictionary Value",
+    "addDictTitle": "Add Dictionary Item",
+    "editDictTitle": "Edit Dictionary Item"
+  }
 }

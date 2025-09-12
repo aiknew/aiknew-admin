@@ -5,7 +5,7 @@ import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useDictTypeI18n } from './composables/use-dict-type-i18n'
+import { useI18n } from 'vue-i18n'
 import { useTemplateRef } from 'vue'
 import {
   useDictTypeList,
@@ -17,7 +17,7 @@ import DictTypeModal from './components/dict-type-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import DictItemsDrawer from './components/dict-items-drawer.vue'
 
-const { t } = useDictTypeI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 
 const dictTypeModalRef = useTemplateRef('dictTypeModalRef')
@@ -84,13 +84,13 @@ const handleCheckItems = (row: DictType) => {
       v-model:page-size="pageSize"
       :table-data="dictTypeData"
     >
-      <el-table-column prop="key" :label="t('key')" width="150" />
-      <el-table-column prop="name" :label="t('dictTypeName')" align="center">
+      <el-table-column prop="key" :label="t('dictType.key')" width="150" />
+      <el-table-column prop="name" :label="t('dictType.dictTypeName')" align="center">
         <template #default="{ row }: { row: DictType }">
           <span>{{ tField(row.translations, 'name').value }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="t('dictItem')" align="center">
+      <el-table-column :label="t('dictType.dictItem')" align="center">
         <template #default="{ row }: { row: DictType }">
           <el-link type="primary" @click="handleCheckItems(row)">{{ t('check') }}</el-link>
         </template>
@@ -103,7 +103,7 @@ const handleCheckItems = (row: DictType) => {
       </el-table-column>
       <el-table-column prop="createdAt" :label="t('createdAt')" width="200" />
       <el-table-column prop="updatedAt" :label="t('updatedAt')" width="200" />
-      <el-table-column :label="t('operations')" width="150">
+      <el-table-column :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
           <el-button
             v-permission:edit

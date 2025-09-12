@@ -5,7 +5,7 @@ import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElSwitch } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { tField } from '@aiknew/shared-ui-locales'
-import { useDictTypeI18n } from '../composables/use-dict-type-i18n'
+import { useI18n } from 'vue-i18n'
 import { usePagination } from '@/composables'
 import { useDictDelete, useDictList, useDictUpdate, type Dict } from '@/api/dict'
 import { toReactive } from '@vueuse/core'
@@ -19,7 +19,7 @@ const dictTypeId = computed(() => {
   return currentDictType.value?.id ?? ''
 })
 const { currentPage, pageSize } = usePagination()
-const { t } = useDictTypeI18n()
+const { t } = useI18n()
 const {
   data: dictItems,
   refetch,
@@ -74,7 +74,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-drawer v-model="visible" :title="t('dictTypeName') + ': ' + drawerTitle" size="50%">
+  <el-drawer v-model="visible" :title="t('dictType.dictTypeName') + ': ' + drawerTitle" size="50%">
     <AppContentBlock v-loading="isLoading">
       <div class="mb-3 flex">
         <el-button class="ml-auto" type="primary" @click="handleAdd">
@@ -88,12 +88,12 @@ defineExpose({
         v-model:page-size="pageSize"
         :table-data="dictItems"
       >
-        <el-table-column prop="label" :label="t('dictLabel')">
+        <el-table-column prop="label" :label="t('dictType.dictLabel')">
           <template #default="{ row }: { row: Dict }">
             <span>{{ tField(row.translations, 'label').value }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="value" :label="t('dictValue')" width="120" />
+        <el-table-column prop="value" :label="t('dictType.dictValue')" width="120" />
         <el-table-column prop="order" :label="t('order')" width="80" />
         <el-table-column prop="status" :label="t('status')" width="100">
           <template #default="{ row }: { row: Dict }">
@@ -101,7 +101,7 @@ defineExpose({
           </template>
         </el-table-column>
         <el-table-column prop="createdAt" :label="t('createdAt')" width="120" />
-        <el-table-column :label="t('operations')" width="150">
+        <el-table-column :label="t('operations')" width="150" fixed="right">
           <template #default="scope">
             <el-button type="primary" size="small" icon="Edit" @click="handleEdit(scope.row)" />
 

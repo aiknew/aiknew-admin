@@ -25,5 +25,18 @@
   "type": "类型",
   "enabled": "启用",
   "disabled": "禁用",
-  "reset": "重置"
+  "reset": "重置",
+  "dictType": {
+    "name": "名称",
+    "key": "键值",
+    "orderTips": "值越大越靠后显示",
+    "addTitle": "新增字典类型",
+    "editTitle": "编辑字典类型",
+    "dictTypeName": "字典类型名称",
+    "dictItem": "字典项",
+    "dictLabel": "字典标签",
+    "dictValue": "字典值",
+    "addDictTitle": "新增字典项",
+    "editDictTitle": "编辑字典项"
+  }
 }

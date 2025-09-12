@@ -3,7 +3,7 @@ import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { computed, ref, useTemplateRef, type ComputedRef } from 'vue'
 import { z } from 'zod'
 import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
-import { useDictTypeI18n } from '../composables/use-dict-type-i18n'
+import { useI18n } from 'vue-i18n'
 import { useDictTypeCreate, useDictTypeUpdate, type DictType } from '@/api/dict-type'
 import { useLangStore } from '@/stores/lang'
 
@@ -14,7 +14,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const { t } = useDictTypeI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modal')
 const disabledEditKey = computed(() => {
   return modalRef.value?.modalMode === 'edit'
@@ -36,7 +36,7 @@ const { AppForm, formApi } = useAppForm({
             disabled: disabledEditKey.value
           }
         },
-        label: t('key'),
+        label: t('dictType.key'),
         name: 'key',
         schema: z.string().nonempty().default('')
       },
@@ -44,10 +44,10 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('dictTypeName')
+            placeholder: t('dictType.dictTypeName')
           }
         },
-        label: t('dictTypeName'),
+        label: t('dictType.dictTypeName'),
         name: 'name',
         i18n: true,
         schema: buildI18nSchema(z.string().nonempty().default(''), languages)
@@ -89,13 +89,13 @@ const editId = ref('')
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('dictType.addTitle'))
 }
 
 const edit = (item: DictType) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('dictType.editTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })

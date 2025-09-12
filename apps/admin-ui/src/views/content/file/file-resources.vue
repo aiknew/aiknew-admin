@@ -137,15 +137,7 @@ const loadGroupNode = (
 ) => {
   // resolve the top level group
   if (!node.key && node.level == 0) {
-    return resolve([
-      {
-        id: '0',
-        groupName: t('top'),
-        parentId: '',
-        ancestors: [],
-        order: 0
-      }
-    ])
+    return resolve([{ id: '0', groupName: t('top'), parentId: '', ancestors: [], order: 0 }])
   }
 
   // check if the group was disabled

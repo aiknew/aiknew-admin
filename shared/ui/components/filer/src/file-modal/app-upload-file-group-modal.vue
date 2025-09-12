@@ -82,7 +82,7 @@ const { AppForm, formApi } = useAppForm({
             checkStrictly: true,
             defaultExpandedKeys: defaultExpandedTreeNodeKeys,
             props: {
-              label: t('filer.groupName'),
+              label: (data: IUploadFileGroup) => data.groupName,
             },
             load: loadGroupTreeNode,
           },

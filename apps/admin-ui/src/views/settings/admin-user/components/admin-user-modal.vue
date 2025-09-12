@@ -3,10 +3,10 @@ import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, computed, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
-import { useAdminUserI18n } from '../composables/use-admin-user-i18n'
 import { useAdminUserCreate, useAdminUserUpdate, type AdminUser } from '@/api/admin-user'
 import { useAuthRoleAll, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'
+import { useI18n } from 'vue-i18n'
 
 interface Emits {
   (e: 'submit'): void
@@ -14,7 +14,7 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-const { t } = useAdminUserI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modalRef')
 const editId = ref('')
 const { mutateAsync: createUser } = useAdminUserCreate()
@@ -66,22 +66,22 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: 'ElInput',
-        label: t('userName'),
+        label: t('adminUser.userName'),
         name: 'userName',
         schema: z
-          .string({ message: t('userNameRequired') })
-          .nonempty({ message: t('userNameRequired') })
+          .string({ message: t('adminUser.userNameRequired') })
+          .nonempty({ message: t('adminUser.userNameRequired') })
           .default('')
       },
       {
         as: 'ElInput',
-        label: t('password'),
+        label: t('adminUser.password'),
         name: 'password',
         schema: passwordRules.value
       },
       {
         as: 'ElInput',
-        label: t('passwordConfirm'),
+        label: t('adminUser.passwordConfirm'),
         name: 'passwordConfirm',
         schema: passwordConfirmRules.value
       },
@@ -101,7 +101,7 @@ const { AppForm, formApi } = useAppForm({
             data: adminRoles.value
           }
         },
-        label: t('roles'),
+        label: t('adminUser.roles'),
         name: 'roles',
         schema: z.array(z.string()).default([])
       }
@@ -127,13 +127,13 @@ formApi.useStore((state) => {
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('addTitle'))
+  modalRef.value?.setTitle(t('adminUser.addTitle'))
 }
 
 const edit = (item: AdminUser) => {
   editId.value = item.id
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('editTitle'))
+  modalRef.value?.setTitle(t('adminUser.editTitle'))
   modalRef.value?.show()
 
   formApi.resetI18nValues(

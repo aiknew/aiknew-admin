@@ -5,13 +5,13 @@ import { AppTable } from '@aiknew/shared-ui-table'
 import { computed } from 'vue'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
-import { useAdminUserI18n } from './composables/use-admin-user-i18n'
 import { useTemplateRef } from 'vue'
 import { useAdminUserDelete, useAdminUserList, type AdminUser } from '@/api/admin-user'
 import AdminUserModal from './components/admin-user-modal.vue'
+import { useI18n } from 'vue-i18n'
 
 const modalRef = useTemplateRef('modalRef')
-const { t } = useAdminUserI18n()
+const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 
 const {

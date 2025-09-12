@@ -108,5 +108,16 @@
     "editTitle": "编辑角色",
     "roleNameLabel": "角色名稱",
     "permissionsLabel": "權限設置"
+  },
+  "adminUser": {
+    "addTitle": "新增管理員",
+    "editTitle": "編輯管理員",
+    "userName": "管理員名稱",
+    "password": "密碼",
+    "passwordConfirm": "確認密碼",
+    "roles": "角色權限",
+    "passwordConfirmErr": "兩次密碼不一致",
+    "userNameRequired": "請輸入管理員名稱",
+    "passwordRequired": "請輸入管理員密碼"
   }
 }

@@ -110,5 +110,16 @@
     "editTitle": "Edit Role",
     "roleNameLabel": "Role name",
     "permissionsLabel": "Permission settings"
+  },
+  "adminUser": {
+    "addTitle": "Add Administrator",
+    "editTitle": "Edit Administrator",
+    "userName": "Administrator Name",
+    "password": "Password",
+    "passwordConfirm": "Confirm Password",
+    "roles": "Roles and Permissions",
+    "passwordConfirmErr": "The passwords are inconsistent twice",
+    "userNameRequired": "Please enter the administrator name",
+    "passwordRequired": "Please enter the administrator password"
   }
 }

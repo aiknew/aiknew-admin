@@ -10,10 +10,9 @@ export type CreateConfigDto = ApiPostReqBody<'/admin/config'>
 
 export type UpdateConfigDto = ApiPatchReqBody<'/admin/config/{id}'>
 
-export type ConfigQuery = ApiGetQuery<'/admin/config'>
+export type QueryConfigDto = ApiGetQuery<'/admin/config'>
 
-
-export const useConfigList = (query: Reactive<ConfigQuery>) => {
+export const useConfigList = (query: Reactive<QueryConfigDto>) => {
   return useQuery({
     queryKey: ['config', query],
     placeholderData: keepPreviousData,

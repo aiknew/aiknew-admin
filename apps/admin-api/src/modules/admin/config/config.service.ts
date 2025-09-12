@@ -22,7 +22,29 @@ export class ConfigService {
   }
 
   async pagination(query: QueryConfigDto) {
-    return this.model.paginate(query, {
+    const { currentPage, pageSize, key, name, remark, value } = query
+
+    return this.model.paginate({ currentPage, pageSize }, {
+      where: {
+        key: {
+          contains: key
+        },
+        value: {
+          contains: value
+        },
+        translations: {
+          some: {
+            name: {
+              contains: name,
+              mode: 'insensitive'
+            },
+            remark: {
+              contains: remark,
+              mode: 'insensitive'
+            }
+          }
+        }
+      },
       include: {
         translations: true,
       },
@@ -34,6 +56,7 @@ export class ConfigService {
     return this.model.create({
       data: {
         ...rest,
+        system: false,
         translations: {
           create: translations,
         },
@@ -68,6 +91,7 @@ export class ConfigService {
       },
       data: {
         ...rest,
+        system: false,
         translations: translations && {
           deleteMany: {},
           create: translations,

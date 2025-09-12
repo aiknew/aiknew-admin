@@ -31,6 +31,20 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: 'ElInput',
+        label: t('configView.name'),
+        name: 'name',
+        i18n: true,
+        schema: buildI18nSchema(
+          z
+            .string({ message: t('configView.enterName') })
+            .min(1, { message: t('configView.nameRequired') })
+            .max(50, { message: t('configView.nameLengthExceeded') })
+            .default(''),
+          languages
+        )
+      },
+      {
+        as: 'ElInput',
         label: t('configView.key'),
         name: 'key',
         schema: z
@@ -48,34 +62,6 @@ const { AppForm, formApi } = useAppForm({
           .min(1, { message: t('configView.valueRequired') })
           .max(200, { message: t('configView.valueLengthExceeded') })
           .default('')
-      },
-      {
-        as: {
-          component: 'ElRadio',
-          props: {
-            options: [
-              { label: t('configView.userConfig'), value: false },
-              { label: t('configView.systemConfig'), value: true }
-            ]
-          }
-        },
-        label: t('configView.configType'),
-        name: 'system',
-        schema: z.boolean().default(false)
-      },
-      {
-        as: 'ElInput',
-        label: t('configView.name'),
-        name: 'name',
-        i18n: true,
-        schema: buildI18nSchema(
-          z
-            .string({ message: t('configView.enterName') })
-            .min(1, { message: t('configView.nameRequired') })
-            .max(50, { message: t('configView.nameLengthExceeded') })
-            .default(''),
-          languages
-        )
       },
       {
         as: 'ElInput',

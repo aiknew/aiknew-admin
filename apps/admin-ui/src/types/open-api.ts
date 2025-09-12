@@ -1266,15 +1266,11 @@ export interface components {
         CreateConfigDto: {
             key: string;
             value: string;
-            /** @default false */
-            system: boolean;
             translations: components["schemas"]["ConfigTranslationDto"][];
         };
         UpdateConfigDto: {
             key?: string;
             value?: string;
-            /** @default false */
-            system: boolean;
             translations?: components["schemas"]["ConfigTranslationDto"][];
         };
         PaginationDto: {
@@ -3468,6 +3464,11 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
+                key?: string;
+                value?: string;
+                system?: boolean;
+                name?: string;
+                remark?: string;
             };
             header?: never;
             path?: never;

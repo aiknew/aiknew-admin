@@ -1,30 +1,29 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
+import { ElTableColumn, ElButton, ElPopconfirm, ElTag, ElFormItem } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
-import { computed } from 'vue'
-import { useConfigDelete, useConfigList, type Config } from '@/api/config'
-import { usePagination } from '@/composables'
+import { computed, ref } from 'vue'
+import { useConfigDelete, useConfigList, type Config, type QueryConfigDto } from '@/api/config'
 import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 import ConfigModal from './components/config-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import { useI18n } from 'vue-i18n'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import z from 'zod'
 
 const configModalRef = useTemplateRef('configModalRef')
 const { t } = useI18n()
-const { currentPage, pageSize } = usePagination()
+const query = ref<QueryConfigDto>({
+  currentPage: 1,
+  pageSize: 10
+})
 
 const {
   data: configData,
   refetch: refetchConfigData,
   isFetching: isFetchingConfigData
-} = useConfigList(
-  toReactive({
-    currentPage,
-    pageSize
-  })
-)
+} = useConfigList(toReactive(query))
 
 const { mutateAsync: deleteConfig, isPending: isDeleting } = useConfigDelete()
 const isLoading = computed(() => {
@@ -51,9 +50,79 @@ const handleDelete = async (row: Config) => {
 const handleSubmit = () => {
   refresh()
 }
+
+const { AppForm: QueryForm, formApi } = useAppForm({
+  formProps: {
+    inline: true
+  },
+  fields() {
+    return [
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('name'),
+        name: 'name',
+        schema: z.string().default('').optional()
+      },
+
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('configView.remark'),
+        name: 'remark',
+        schema: z.string().default('').optional()
+      },
+
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('configView.key'),
+        name: 'key',
+        schema: z.string().default('').optional()
+      },
+
+      {
+        as: {
+          component: 'ElInput'
+        },
+        label: t('configView.value'),
+        name: 'value',
+        schema: z.string().default('').optional()
+      }
+    ] as const satisfies Fields
+  },
+  onSubmit({ values }) {
+    query.value = {
+      ...query.value,
+      ...values
+    }
+  }
+})
+
+const handleResetQueryForm = () => {
+  formApi.reset()
+  query.value = {
+    currentPage: 1,
+    pageSize: 10
+  }
+}
 </script>
 
 <template>
+  <AppContentBlock class="mb-6">
+    <QueryForm>
+      <el-form-item>
+        <el-button type="primary" @click="formApi.handleSubmit">
+          {{ t('submit') }}
+        </el-button>
+        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+      </el-form-item>
+    </QueryForm>
+  </AppContentBlock>
+
   <AppContentBlock class="mb-6" v-loading="isLoading">
     <div class="mb-3 flex">
       <el-button class="ml-auto" type="primary" @click="handleAdd">{{ t('add') }}</el-button>
@@ -61,8 +130,8 @@ const handleSubmit = () => {
 
     <AppTable
       ref="appTableRef"
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
+      v-model:current-page="query.currentPage"
+      v-model:page-size="query.pageSize"
       :table-data="configData"
     >
       <el-table-column prop="id" label="ID" width="200" />

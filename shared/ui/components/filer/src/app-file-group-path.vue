@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { GroupPathItem } from './composables/use-file-group-path'
-import { SearchScopeEnum } from '@/enums'
+import { SearchScopeEnum } from './enums'
 import { ElIcon } from 'element-plus'
 import { ArrowRight } from '@element-plus/icons-vue'
-import { useFileI18n } from './composables/use-file-i18n'
+import { useI18n } from 'vue-i18n'
 
 export interface Props {
   groupPath: GroupPathItem[]
@@ -16,7 +16,7 @@ export interface Emits {
 
 defineProps<Props>()
 const emit = defineEmits<Emits>()
-const { t } = useFileI18n()
+const { t } = useI18n()
 
 const handleClickPath = (index: number) => {
   emit('jump', index)

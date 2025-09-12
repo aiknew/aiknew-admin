@@ -8,9 +8,9 @@ import {
   ElSelectV2,
   ElFormItem,
 } from 'element-plus'
-import { useFileI18n } from '../composables/use-file-i18n'
 import type { SharedProps } from '../types'
 import { isPromise } from 'element-plus/es/utils/types.mjs'
+import { useI18n } from 'vue-i18n'
 
 export interface Props {
   currentGroupId: string | undefined
@@ -24,7 +24,7 @@ export interface Emits {
 
 defineEmits<Emits>()
 const { currentGroupId, storages, beforeUpload } = defineProps<Props>()
-const { t } = useFileI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modal')
 const extraData = ref<Record<string, unknown>>({})
 const uploadHeaders = ref<Record<string, unknown>>({})
@@ -83,7 +83,7 @@ const onError = (err: { message: string }) => {
 }
 
 const show = () => {
-  modalRef.value?.setTitle(t('uploadFileModalTitle'))
+  modalRef.value?.setTitle(t('filer.uploadFileModalTitle'))
   modalRef.value?.show()
 }
 
@@ -99,7 +99,7 @@ defineExpose({
     :show-footer="false"
     @close="$emit('close')"
   >
-    <el-form-item :label="t('selectStorage')">
+    <el-form-item :label="t('filer.selectStorage')">
       <el-select-v2
         v-model="selectedStorageId"
         :options="storages"
@@ -120,11 +120,11 @@ defineExpose({
     >
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">
-        {{ t('uploadFileModalTips1') }}
-        <em>{{ t('uploadFileModalTips2') }}</em>
+        {{ t('filer.uploadFileModalTips1') }}
+        <em>{{ t('filer.uploadFileModalTips2') }}</em>
       </div>
       <template #tip>
-        <div class="el-upload__tip">{{ t('uploadFileModalTips3') }}</div>
+        <div class="el-upload__tip">{{ t('filer.uploadFileModalTips3') }}</div>
       </template>
     </el-upload>
   </AppBasicModal>

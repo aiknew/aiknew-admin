@@ -11,7 +11,7 @@ import {
   ElOption,
 } from 'element-plus'
 import { SearchScopeEnum } from './enums'
-import { useFileI18n } from './composables/use-file-i18n'
+import { useI18n } from 'vue-i18n'
 
 export interface Props {
   searchKeyword: string
@@ -32,7 +32,7 @@ export interface Emits {
 
 const { selectedCount } = defineProps<Props>()
 const emit = defineEmits<Emits>()
-const { t } = useFileI18n()
+const { t } = useI18n()
 
 const hasSelected = computed(() => selectedCount > 0)
 const handleInput = (val: string) => {
@@ -54,7 +54,7 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
         :model-value="searchKeyword"
         clearable
         @input="handleInput"
-        :placeholder="t('enterSearchKeyword')"
+        :placeholder="t('filer.enterSearchKeyword')"
         class="search-file"
       >
         <template #prepend>
@@ -69,7 +69,7 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
             ></el-option>
             <el-option
               key="group"
-              :label="t('currentGroup')"
+              :label="t('filer.currentGroup')"
               :value="SearchScopeEnum.CURRENT_GROUP"
             ></el-option>
           </el-select>
@@ -85,7 +85,7 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
       <!-- Buttons -->
       <el-space class="operations-btns" wrap>
         <span class="selected-count-text" v-show="hasSelected">
-          {{ t('selectedTips', { selectedCount }) }}
+          {{ t('filer.selectedTips', { selectedCount }) }}
         </span>
         <el-button
           type="danger"
@@ -93,7 +93,7 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
           @click="$emit('delete-selected')"
           v-permission:delete-file="'/content/file'"
         >
-          {{ t('deleteSelected') }}
+          {{ t('filer.deleteSelected') }}
         </el-button>
         <el-button
           type="primary"
@@ -101,7 +101,7 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
           plain
           @click="$emit('clear-selected')"
         >
-          {{ t('clearSelected') }}
+          {{ t('filer.clearSelected') }}
         </el-button>
         <el-button
           v-show="currentGroupId"
@@ -109,14 +109,14 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
           @click="$emit('upload')"
           v-permission:upload-file="'/content/file'"
         >
-          {{ t('uploadFile') }}
+          {{ t('filer.uploadFile') }}
         </el-button>
         <el-button
           v-show="currentGroupId"
           @click="$emit('add-group')"
           v-permission:add-group="'/content/file'"
         >
-          {{ t('createGroup') }}
+          {{ t('filer.createGroup') }}
         </el-button>
       </el-space>
     </el-col>

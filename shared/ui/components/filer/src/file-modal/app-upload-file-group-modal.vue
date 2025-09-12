@@ -11,8 +11,8 @@ import type {
   IUploadFileGroup,
   ICreateUploadFileGroup,
 } from '@aiknew/shared-types'
-import { useFileI18n } from '../composables/use-file-i18n'
 import z from 'zod'
+import { useI18n } from 'vue-i18n'
 
 export interface Props {
   currentGroupId: string | undefined
@@ -53,7 +53,7 @@ const {
   updateFileGroup,
 } = defineProps<Props>()
 
-const { t } = useFileI18n()
+const { t } = useI18n()
 const modalRef = useTemplateRef('modal')
 const currentEditGroupID = ref('')
 
@@ -64,32 +64,32 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElInput',
           props: {
-            placeholder: t('enterGroupName'),
+            placeholder: t('filer.enterGroupName'),
           },
         },
-        label: t('fileGroupName'),
+        label: t('filer.fileGroupName'),
         name: 'groupName',
-        schema: z.string().default(''),
+        schema: z.string().nonempty(),
       },
       {
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { width: '200px' },
+            style: { minWidth: '200px' },
             valueKey: 'id',
             nodeKey: 'id',
             lazy: true,
             checkStrictly: true,
             defaultExpandedKeys: defaultExpandedTreeNodeKeys,
             props: {
-              label: t('groupName'),
+              label: t('filer.groupName'),
             },
             load: loadGroupTreeNode,
           },
         },
         label: t('parent'),
         name: 'parentId',
-        schema: z.string().default('0'),
+        schema: z.string(),
       },
       {
         as: 'ElInputNumber',
@@ -119,7 +119,7 @@ const { AppForm, formApi } = useAppForm({
 })
 
 const add = () => {
-  modalRef.value?.setTitle(t('addFileGroup'))
+  modalRef.value?.setTitle(t('filer.addFileGroup'))
   modalRef.value?.setModalMode('add')
   modalRef.value?.show()
 
@@ -133,7 +133,7 @@ const add = () => {
 }
 
 const edit = (data: IUploadFileGroup) => {
-  modalRef.value?.setTitle(t('editFileGroup'))
+  modalRef.value?.setTitle(t('filer.editFileGroup'))
   modalRef.value?.setModalMode('edit')
   modalRef.value?.show()
   currentEditGroupID.value = data.id

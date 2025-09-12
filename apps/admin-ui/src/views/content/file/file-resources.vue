@@ -18,7 +18,9 @@ import { ElMessage } from 'element-plus'
 import { currentLang } from '@aiknew/shared-ui-locales'
 import { resolveURL } from '@aiknew/shared-ui-utils'
 import { useFileStorageAll } from '@/api/file-storage'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const fileManagerRef = useTemplateRef('fileManager')
 const userStore = useUserStore()
 const { refetch: fetchPresignedUrl, data: presignedUrlData } = useUploadFilePresigned(
@@ -138,7 +140,7 @@ const loadGroupNode = (
     return resolve([
       {
         id: '0',
-        groupName: 'Top',
+        groupName: t('top'),
         parentId: '',
         ancestors: [],
         order: 0

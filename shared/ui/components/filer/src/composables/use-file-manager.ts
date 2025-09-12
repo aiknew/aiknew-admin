@@ -9,7 +9,7 @@ import { useFileGroupPath } from './use-file-group-path'
 import AppUploadFileDetailModal, {
   type FileItemWithGroupName,
 } from '../file-modal/app-upload-file-detail-modal.vue'
-import { SearchScopeEnum } from '@/enums'
+import { SearchScopeEnum } from '../enums'
 import AppFileListContainer from '../app-file-list-container.vue'
 import type { IUploadFilesAndGroupsData } from '@aiknew/shared-types'
 

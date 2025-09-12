@@ -4,8 +4,8 @@ import AppFileManager, {
   type Props as FileManagerProps,
 } from './app-file-manager.vue'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { useFileI18n } from './composables/use-file-i18n'
 import type { IUploadFile } from '@aiknew/shared-types'
+import { useI18n } from 'vue-i18n'
 
 export interface Props extends FileManagerProps {}
 
@@ -14,7 +14,7 @@ export interface Emits {
   (e: 'close'): void
 }
 
-const { t } = useFileI18n()
+const { t } = useI18n()
 defineProps<FileManagerProps>()
 const emit = defineEmits<Emits>()
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modal')
@@ -35,7 +35,7 @@ const handleReset = () => {
 
 const show = (title?: string) => {
   if (title) {
-    modalRef.value?.setTitle(title ?? t('fileModalTitle'))
+    modalRef.value?.setTitle(title ?? t('filer.fileModalTitle'))
   }
 
   modalRef.value?.show()

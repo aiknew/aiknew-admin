@@ -10,9 +10,9 @@ import {
   ElPopconfirm,
 } from 'element-plus'
 import { isFileItem, isGroupItem, type GroupPathItem } from './composables'
-import { useFileI18n } from './composables/use-file-i18n'
 import { AppTable } from '@aiknew/shared-ui-table'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
+import { useI18n } from 'vue-i18n'
 
 export interface Props {
   currentGroupPath: GroupPathItem[]
@@ -31,7 +31,7 @@ export interface Emits {
 
 const emit = defineEmits<Emits>()
 const { currentGroupPath } = defineProps<Props>()
-const { t } = useFileI18n()
+const { t } = useI18n()
 
 const loading = ref(false)
 const appTableRef = useTemplateRef('appTable')

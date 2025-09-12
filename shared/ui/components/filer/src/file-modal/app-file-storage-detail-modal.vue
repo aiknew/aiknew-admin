@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { useFileI18n } from '../composables/use-file-i18n'
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-// import type { FileStorageStatus, StorageType } from '@aiknew/shared-types'
 import { useAppForm } from '@aiknew/shared-ui-form'
 import { h, reactive, useTemplateRef } from 'vue'
 import dayjs from 'dayjs'
 import type { FileStorageStatus, StorageType } from '@aiknew/shared-enums'
+import { useI18n } from 'vue-i18n'
 
 export interface Data {
   name?: string
@@ -18,7 +17,7 @@ export interface Data {
 
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modal')
 const storage = reactive<Data>({})
-const { t } = useFileI18n()
+const { t } = useI18n()
 const { AppForm } = useAppForm({
   fields() {
     return [
@@ -40,7 +39,7 @@ const { AppForm } = useAppForm({
 
       {
         exclude: true,
-        label: t('hostname'),
+        label: t('filer.hostname'),
         container: {
           content: h('span', storage.hostname),
         },
@@ -81,7 +80,7 @@ const { AppForm } = useAppForm({
 
 const show = (data?: Data) => {
   modalRef.value?.setModalMode('show')
-  modalRef.value?.setTitle(t('storageDetailModalTitle'))
+  modalRef.value?.setTitle(t('filer.storageDetailModalTitle'))
   modalRef.value?.show()
   if (data) {
     Object.assign(storage, data)

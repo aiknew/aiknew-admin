@@ -126,6 +126,7 @@ export const useAppForm = <
   const fields = typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
   const defaultValues = generateDefaultVal(fields)
   const i18nFieldNames = getI18nFieldNames(fields)
+
   const schemas = generateValidators<F>(fields)
   const activeFieldTab = ref<Record<string, string>>(
     fields
@@ -159,10 +160,10 @@ export const useAppForm = <
   watch(
     () => fields,
     (val) => {
-      const defaultValues = generateDefaultVal(val)
+      // const defaultValues = generateDefaultVal(val)
       const schemas = generateValidators(val)
       form.update({
-        defaultValues,
+        // defaultValues,
         validators: {
           onChange: schemas,
           onSubmit: schemas,
@@ -176,6 +177,9 @@ export const useAppForm = <
             })
         },
       })
+    },
+    {
+      deep: true,
     },
   )
 

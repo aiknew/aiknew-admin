@@ -4,6 +4,7 @@ import { createDefaultLangs } from './languages'
 import { createAdminRoutes } from './admin-routes'
 import { Prisma } from '../../src/prisma-client'
 import { createAdminPermissions } from './admin-permissions'
+import { createFileStorage } from './file-storage'
 
 const isSeed = async () => {
   try {
@@ -56,6 +57,7 @@ async function main() {
   await createDefaultLangs()
   await createAdminPermissions()
   await createAdminRoutes()
+  await createFileStorage()
   await markSeed()
 }
 

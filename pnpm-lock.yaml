@@ -620,7 +620,7 @@ importers:
         version: 4.0.2(@nestjs/common@11.1.3(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@prisma/client':
         specifier: catalog:api
-        version: 6.16.1(prisma@6.15.0(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.16.1(prisma@6.15.0(typescript@5.8.3))(typescript@5.8.3)
       '@redis/client':
         specifier: catalog:api
         version: 1.6.1
@@ -629,7 +629,7 @@ importers:
         version: 1.11.13
       prisma:
         specifier: catalog:api
-        version: 6.15.0(typescript@5.9.2)
+        version: 6.15.0(typescript@5.8.3)
       redis:
         specifier: catalog:api
         version: 4.7.1
@@ -646,6 +646,9 @@ importers:
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
+      typescript:
+        specifier: catalog:common
+        version: 5.8.3
 
   shared/api/decorators:
     dependencies:
@@ -10978,10 +10981,10 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@prisma/client@6.16.1(prisma@6.15.0(typescript@5.9.2))(typescript@5.9.2)':
+  '@prisma/client@6.16.1(prisma@6.15.0(typescript@5.8.3))(typescript@5.8.3)':
     optionalDependencies:
-      prisma: 6.15.0(typescript@5.9.2)
-      typescript: 5.9.2
+      prisma: 6.15.0(typescript@5.8.3)
+      typescript: 5.8.3
 
   '@prisma/config@6.15.0':
     dependencies:
@@ -16226,12 +16229,12 @@ snapshots:
     dependencies:
       parse-ms: 4.0.0
 
-  prisma@6.15.0(typescript@5.9.2):
+  prisma@6.15.0(typescript@5.8.3):
     dependencies:
       '@prisma/config': 6.15.0
       '@prisma/engines': 6.15.0
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.8.3
     transitivePeerDependencies:
       - magicast
 

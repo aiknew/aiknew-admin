@@ -86,7 +86,7 @@
     "typescript": "catalog:common",
     "unplugin-element-plus": "catalog:ui",
     "vite": "catalog:ui",
-    "vite-plugin-vue-devtools": "^7.7.7",
+    "vite-plugin-vue-devtools": "^8.0.2",
     "vite-svg-loader": "catalog:ui",
     "vitest": "^3.2.4",
     "vue-component-type-helpers": "catalog:ui",

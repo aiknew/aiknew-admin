@@ -9,6 +9,8 @@ import { usePermissionAll, type Permission } from '@/api/permission'
 import { tField } from '@aiknew/shared-ui-locales'
 import type { TreeList } from '@aiknew/shared-ui-types'
 import { useI18n } from 'vue-i18n'
+import SelectIcon from './select-icon.vue'
+import { RouteType } from '@aiknew/shared-enums'
 
 interface Props {
   routes?: TreeList<AuthRoute>
@@ -41,6 +43,8 @@ const routesTree = computed(() => {
   ]
 })
 
+const showIcons = ref(false)
+const selectedIcon = ref('')
 const isMenu = ref(true)
 const isButton = ref(false)
 const isSmallGroup = ref(false)
@@ -51,6 +55,13 @@ const { mutateAsync: updateRoute } = useAuthRouteUpdate()
 onMounted(() => {
   getAllApis()
 })
+
+const setType = (type: AuthRoute['type']) => {
+  console.log('setType: ', type)
+  isButton.value = type === 'BUTTON'
+  isMenu.value = type === 'MENU'
+  isSmallGroup.value = type === 'SMALL_GROUP'
+}
 
 const languages = langStore.enabledLangs
 const { AppForm, formApi } = useAppForm({
@@ -66,25 +77,22 @@ const { AppForm, formApi } = useAppForm({
               { label: t('authRoute.routeTypeButton'), value: 'BUTTON' },
               { label: t('authRoute.routeTypeGroup'), value: 'GROUP' },
               { label: t('authRoute.routeTypeSmallGroup'), value: 'SMALL_GROUP' }
-            ]
+            ],
+            onChange(val: RouteType) {
+              setType(val)
+              console.log('change: ', val)
+            }
           }
         },
         label: t('authRoute.routeType'),
         name: 'type',
-        schema: z
-          .union([
-            z.literal('MENU'),
-            z.literal('BUTTON'),
-            z.literal('GROUP'),
-            z.literal('SMALL_GROUP')
-          ])
-          .default('MENU')
+        schema: z.enum(RouteType).default('MENU')
       },
       {
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { minWidth: '200px' },
+            style: { minWidth: '180px' },
             valueKey: 'id',
             nodeKey: 'id',
             checkStrictly: true,
@@ -100,9 +108,33 @@ const { AppForm, formApi } = useAppForm({
       },
       {
         when: computed(() => !(isButton.value || isSmallGroup.value)),
-        as: 'ElInput',
+        as: {
+          component: 'ElInput',
+          props: {
+            modelValue: selectedIcon.value,
+            'onUpdate:modelValue': (val: string) => {
+              selectedIcon.value = val
+            },
+            clearable: true,
+            prefixIcon: selectedIcon.value,
+            onFocus() {
+              showIcons.value = true
+            },
+            onBlur() {
+              showIcons.value = false
+            }
+          }
+        },
         label: t('authRoute.iconLabel'),
         name: 'icon',
+        container: {
+          bottomSlot: h(SelectIcon, {
+            visible: showIcons.value,
+            onSelect(icon) {
+              selectedIcon.value = icon
+            }
+          })
+        },
         schema: z.string().default('').optional()
       },
       {
@@ -221,12 +253,6 @@ const { AppForm, formApi } = useAppForm({
   }
 })
 
-formApi.useStore((state) => {
-  isButton.value = state.values.type === 'BUTTON'
-  isMenu.value = state.values.type === 'MENU'
-  isSmallGroup.value = state.values.type === 'SMALL_GROUP'
-})
-
 const add = async () => {
   modalRef.value?.setModalMode('add')
   modalRef.value?.setTitle(t('authRoute.addTitle'))
@@ -244,16 +270,18 @@ const setDisabled = (route: TreeList<AuthRoute>[number] | undefined, disabled: b
 }
 
 const edit = async (item: AuthRoute) => {
+  setType(item.type)
   editRoute.value = item
   setDisabled(editRoute.value, true)
   modalRef.value?.setModalMode('edit')
   modalRef.value?.setTitle(t('authRoute.editTitle'))
   modalRef.value?.show()
-
+  selectedIcon.value = item.icon
   formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
+  selectedIcon.value = ''
   setDisabled(editRoute.value, false)
   modalRef.value?.close()
   formApi.reset()

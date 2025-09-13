@@ -32,12 +32,12 @@ pnpm admin
 pnpm env:prod:encrypt
 ```
 
-该命令会加密您的 .env.production 文件，同时在 apps/admin-api 目录下会生成 .env.keys 文件，里面包含解密所需的密钥，复制里面的 DOTENV_PRIVATE_KEY_PRODUCTION 的值，填写在项目根目录的 docker-compose.yaml 中 migrate 和 admin-api 两个服务的 environment 中相应的位置。
+该命令会加密您的 .env.production 文件，同时在 apps/admin-api 目录下会生成 .env.keys 文件，里面包含解密所需的密钥，复制里面的 DOTENV_PRIVATE_KEY_PRODUCTION 的值，填写在项目根目录的 docker-compose.yaml 中相应的位置。
 
 运行数据库迁移，执行数据初始化：
 
 ```shell
-docker compose --profile migrate run migrate
+docker compose run --rm admin-api /bin/sh -c "pnpm db:deploy:prod && pnpm db:seed:prod"
 ```
 
 启动 docker compose:

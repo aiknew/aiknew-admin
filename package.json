@@ -4,6 +4,7 @@
   "description": "",
   "keywords": [],
   "scripts": {
+    "db:migrate": "pnpm --filter '@aiknew/admin-api' db:deploy:prod && pnpm --filter '@aiknew/admin-api' db:seed:prod ",
     "db:generate": "pnpm --filter '@aiknew/shared-admin-db' db:generate",
     "prebuild": "pnpm db:generate",
     "build": "pnpm -r build",

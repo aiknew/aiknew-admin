@@ -5,13 +5,13 @@ import { PaginationResponseDto } from "@aiknew/shared-api-dtos";
 import { LoginLogService } from "./login-log.service";
 import { QueryLoginLogDto } from "./dto/query-login-log.dto";
 
-@PermissionGroup({ name: 'loginLog.loginLogManagement' })
+@PermissionGroup({ name: 'login-log.loginLogManagement' })
 @Controller('login-log')
 export class LoginLogController {
 
   constructor(private readonly loginLogService: LoginLogService) { }
 
-  @Permission({ key: 'login-log:pagination', name: 'loginLog.loginLogPagination' })
+  @Permission({ key: 'login-log:pagination', name: 'login-log.loginLogPagination' })
   @Get()
   @AppApiPaginationResponse(LoginLogDto)
   async pagination(@Query() query: QueryLoginLogDto): Promise<PaginationResponseDto<LoginLogDto[]>> {

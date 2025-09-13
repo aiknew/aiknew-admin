@@ -1,32 +1,6 @@
 name: aiknew-admin
 
 services:
-  migrate:
-    build:
-      context: .
-      dockerfile: apps/admin-api/Dockerfile
-      target: builder
-    working_dir: /aiknew-admin/apps/admin-api
-    profiles:
-      - migrate
-    restart: 'no'
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - aiknew-admin
-    environment:
-      'NODE_ENV': 'production'
-      'DOTENV_PRIVATE_KEY_PRODUCTION': add_your_dotenvx_private_key_here_to_replace_me
-    command:
-      [
-        'sh',
-        '-c',
-        'pnpm sync-permissions:prod && pnpm db:deploy:prod && pnpm db:seed:prod',
-      ]
-
   postgres:
     container_name: aiknew-admin-postgres
     image: postgres:17.4-alpine
@@ -72,7 +46,7 @@ services:
     #   - 3000:3000
     environment:
       'NODE_ENV': 'production'
-      'DOTENV_PRIVATE_KEY_PRODUCTION': add_your_dotenvx_private_key_here_to_replace_me
+      'DOTENV_PRIVATE_KEY_PRODUCTION': 'dotenvx_private_key'
 
     restart: always
     networks:

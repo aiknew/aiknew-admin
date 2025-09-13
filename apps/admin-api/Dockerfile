@@ -1,5 +1,8 @@
 # syntax=docker/dockerfile:1-labs
 
+#################################
+#           builder             #
+#################################
 FROM node:22.19-alpine AS builder
 
 WORKDIR /aiknew-admin
@@ -18,6 +21,9 @@ COPY apps/admin-api/src ./apps/admin-api/src
 
 RUN pnpm build
 
+#################################
+#           runner             #
+#################################
 FROM node:22.19-alpine AS runner
 
 WORKDIR /aiknew-admin
@@ -36,10 +42,13 @@ COPY --from=builder --exclude=**/src/*.ts --exclude=ui/* /aiknew-admin/shared/ .
 COPY --from=builder /aiknew-admin/pnpm-workspace.yaml ./
 COPY --from=builder /aiknew-admin/apps/admin-api/dist ./apps/admin-api/dist
 
+COPY --from=builder /aiknew-admin/shared/api/db/ ./shared/api/db/ 
+COPY --from=builder /aiknew-admin/shared/api/utils/ ./shared/api/utils/ 
+
 RUN pnpm install --frozen-lockfile --production
 
 RUN mkdir -p /aiknew-admin/apps/admin-api/logs /aiknew-admin/apps/admin-api/public/files && \
-    chown -R node:node /aiknew-admin/apps/admin-api/logs /aiknew-admin/apps/admin-api/public
+    chown -R node:node /aiknew-admin/apps/admin-api/logs /aiknew-admin/apps/admin-api/public  /aiknew-admin/node_modules
 
 USER node
 WORKDIR /aiknew-admin/apps/admin-api

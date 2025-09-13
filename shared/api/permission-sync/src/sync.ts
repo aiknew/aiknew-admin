@@ -110,7 +110,7 @@ export const syncPermission = async ({ discovery, i18n, metadataScanner, reflect
     }
 
     // write data to json file
-    await writeToTsFile('./src/permissions.ts', permissionsData)
+    await writeToTsFile('../db/admin-db/prisma/seeds/permissions.ts', permissionsData)
   } catch (err) {
     console.log('err: ', err)
     throw err

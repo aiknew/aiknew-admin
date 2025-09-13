@@ -5,7 +5,8 @@
     "@dotenvx/dotenvx": "catalog:common",
     "@nestjs/common": "catalog:api",
     "@nestjs/config": "catalog:api",
-    "@prisma/client": "6.9.0",
+    "@prisma/client": "catalog:api",
+    "prisma": "catalog:api",
     "@redis/client": "catalog:api",
     "dayjs": "catalog:common",
     "redis": "catalog:api"
@@ -16,8 +17,7 @@
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",
     "@types/node": "catalog:common",
-    "postgres": "^3.4.7",
-    "prisma": "catalog:api"
+    "postgres": "^3.4.7"
   },
   "prisma": {
     "schema": "./prisma",

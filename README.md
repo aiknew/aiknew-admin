@@ -32,12 +32,12 @@ Run in the apps/admin-api directory:
 pnpm env:prod:encrypt
 ```
 
-This command will encrypt your .env.production file, and generate a .env.keys file in the apps/admin-api directory, which contains the keys needed for decryption. Copy the value of DOTENV_PRIVATE_KEY_PRODUCTION from it, and fill it in the corresponding positions in the environment of the migrate and admin-api services in docker-compose.yaml in the project root directory.
+This command will encrypt your .env.production file, and generate a .env.keys file in the apps/admin-api directory, which contains the keys needed for decryption. Copy the value of DOTENV_PRIVATE_KEY_PRODUCTION from it, and fill it in the corresponding positions in the environment of the admin-api services in docker-compose.yaml in the project root directory.
 
 Run database migration and perform data initialization:
 
 ```shell
-docker compose --profile migrate run migrate
+docker compose run --rm admin-api /bin/sh -c "pnpm db:deploy:prod && pnpm db:seed:prod"
 ```
 
 Start docker compose:

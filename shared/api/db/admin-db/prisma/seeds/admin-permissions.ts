@@ -1,5 +1,5 @@
 import { prisma } from './prisma'
-import permissionsData from '../../../../permission-sync/src/permissions'
+import permissionsData from './permissions'
 import { AdminPermissionSource, RequestMethod } from '../../src/prisma-client'
 
 

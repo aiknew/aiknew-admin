@@ -287,6 +287,22 @@ export interface paths {
         patch: operations["AuthController_updateUserInfo"];
         trace?: never;
     };
+    "/admin/login-log": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["LoginLogController_pagination"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/auth-role": {
         parameters: {
             query?: never;
@@ -943,6 +959,18 @@ export interface components {
         UpdateUserInfoDto: {
             password: string;
             newPassword: string;
+        };
+        LoginLogDto: {
+            id: string;
+            userName: string;
+            ip: string;
+            location: string;
+            userAgent: string;
+            os: string;
+            browser: string;
+            /** Format: date-time */
+            createdAt: string;
+            isSuccess: boolean;
         };
         AuthRoleTranslationDto: {
             langKey: string;
@@ -2259,6 +2287,46 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    LoginLogController_pagination: {
+        parameters: {
+            query: {
+                currentPage: number;
+                pageSize: number;
+                userName?: string;
+                ip?: string;
+                location?: string;
+                os?: string;
+                browser?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["LoginLogDto"][];
+                        };
+                    };
+                };
             };
             /** @description Internal server error */
             500: {

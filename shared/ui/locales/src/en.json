@@ -198,5 +198,17 @@
     "orientation": "Orientation",
     "editTitle": "Edit Language",
     "addTitle": "Add Language"
+  },
+  "loginLog": {
+    "userName": "Username",
+    "ip": "IP Address",
+    "location": "Location",
+    "os": "Operating System",
+    "browser": "Browser",
+    "userAgent": "User Agent",
+    "createdAt": "Login Time",
+    "loginLogManagement": "Login Log Management",
+    "loginLogPagination": "Login Log Pagination",
+    "loginLogCreate": "Create Login Log"
   }
 }

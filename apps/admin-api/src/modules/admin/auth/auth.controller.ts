@@ -9,7 +9,6 @@ import {
   SuccessMsg,
   Authenticated,
   PermissionGroup,
-  Permission,
 } from '@aiknew/shared-api-decorators'
 import { ApiOperation } from '@nestjs/swagger'
 import { LoginBodyDto } from './dto/login-body.dto'
@@ -19,22 +18,23 @@ import { t } from '@aiknew/shared-api-utils'
 import { UserInfoDto } from './dto/user-info.dto'
 import { type AuthAdminRequest } from '@aiknew/shared-api-types'
 import { UpdateUserInfoDto } from './dto/update-user-info.dto'
+import { type Request } from 'express'
 
 @PermissionGroup({ name: 'admin-auth.adminAuthManagement' })
 @Controller('auth')
 export class AuthController {
   constructor(private service: AuthService) { }
 
-  @SuccessMsg(t('admin-auth.loginSuccess'))
   @Public()
+  @SuccessMsg(t('admin-auth.loginSuccess'))
   @AppApiUnauthorizedResponse()
   @AppApiCreatedResponse(LoginSuccessDto)
   @ApiOperation({
     security: [],
   })
   @Post('login')
-  login(@Body() loginBodyDto: LoginBodyDto): Promise<LoginSuccessDto> {
-    return this.service.userLogin(loginBodyDto)
+  login(@Body() loginBodyDto: LoginBodyDto, @Req() req: Request): Promise<LoginSuccessDto> {
+    return this.service.userLogin(loginBodyDto, req)
   }
 
   @Public()
@@ -46,8 +46,8 @@ export class AuthController {
     return this.service.generateCaptcha()
   }
 
-  @SuccessMsg(t('admin-auth.infoUpdated'))
   @Authenticated()
+  @SuccessMsg(t('admin-auth.infoUpdated'))
   @AppApiOkResponse(UserInfoDto)
   @Get('info')
   async info(@Req() req: AuthAdminRequest): Promise<UserInfoDto> {

@@ -256,6 +256,17 @@ export const settings: AdminRouteItem = {
             },
           ],
         },
+
+
+        {
+          component: 'settings/login-log/login-log',
+          icon: 'DataLine',
+          path: '/settings/login-log',
+          type: RouteType.MENU,
+          name: i18n.loginLog,
+          permissions: ['login-log:pagination'],
+          order: 350,
+        },
       ],
     },
   ],

@@ -116,6 +116,11 @@ export const i18n = {
     en: 'Admin Users',
     'zh-TW': '管理員帳號',
   },
+  loginLog: {
+    'zh-CN': '登陆日志',
+    en: 'Login Log',
+    'zh-TW': '登陸日誌',
+  },
   dictSettings: {
     'zh-CN': '字典管理',
     en: 'Dict Settings',

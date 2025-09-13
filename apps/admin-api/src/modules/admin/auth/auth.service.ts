@@ -14,6 +14,9 @@ import { AdminJWTPayload, AuthAdminUser } from '@aiknew/shared-api-types'
 import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { UpdateUserInfoDto } from './dto/update-user-info.dto'
 import { createHMAC } from '@aiknew/shared-api-utils'
+import { LoginLogService } from '../login-log/login-log.service'
+import { Request } from 'express'
+import { storeIP } from 'range_check'
 
 @Injectable()
 export class AuthService {
@@ -23,7 +26,8 @@ export class AuthService {
     private jwtService: JwtService,
     private redisService: RedisService,
     private i18n: I18nService,
-  ) {}
+    private loginLogService: LoginLogService,
+  ) { }
 
   get userModel(): PrismaService['adminUser'] {
     return this.prisma.adminUser
@@ -76,8 +80,31 @@ export class AuthService {
     })
   }
 
-  async userLogin(loginBodyDto: LoginBodyDto) {
+  private async recordLoginLog(data: { userName: string, userId: string, success: boolean }, req: Request) {
+    try {
+      const { success, userId, userName } = data
+
+      const ip = req.ip ||
+        req.socket?.remoteAddress ||
+        'unknown'
+
+      const userAgent = req.get('User-Agent') || req.headers['user-agent'] || 'unknown'
+
+      await this.loginLogService.record({
+        userName,
+        userId,
+        isSuccess: success,
+        ip: storeIP(ip),
+        userAgent,
+      })
+    } catch (error) {
+      console.error('record login log error: ', error)
+    }
+  }
+
+  async userLogin(loginBodyDto: LoginBodyDto, req: Request) {
     const { captchaCode, captchaKey, password, userName } = loginBodyDto
+
     try {
       await this.verifyCaptcha(captchaKey, captchaCode)
       const user = await this.validateUser(userName, password)
@@ -92,11 +119,15 @@ export class AuthService {
           sub: user.id,
           userName: user.userName,
         }
+
+        this.recordLoginLog({ userName, userId: user.id, success: true }, req)
+
         return {
           userInfo: user,
           access_token: this.jwtService.sign(tokenPayload),
         }
       } else {
+        this.recordLoginLog({ userId: "", userName: '', success: false }, req)
         throw new AppUnauthorizedException()
       }
     } finally {

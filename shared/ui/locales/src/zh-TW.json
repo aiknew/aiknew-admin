@@ -196,5 +196,17 @@
     "orientation": "方向",
     "editTitle": "編輯語言",
     "addTitle": "添加語言"
+  },
+  "loginLog": {
+    "userName": "用戶名稱",
+    "ip": "IP地址",
+    "location": "地理位置",
+    "os": "操作系統",
+    "browser": "瀏覽器",
+    "userAgent": "用戶代理",
+    "createdAt": "登錄時間",
+    "loginLogManagement": "登錄日誌管理",
+    "loginLogPagination": "登錄日誌分頁查詢",
+    "loginLogCreate": "創建登錄日誌"
   }
 }

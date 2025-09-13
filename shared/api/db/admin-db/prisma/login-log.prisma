@@ -1,0 +1,12 @@
+model LoginLog {
+  id        String   @id @default(cuid())
+  userName  String   @default("") @db.VarChar(20)
+  userId    String   @default("") @db.VarChar(50)
+  ip        String   @db.VarChar(45) // 支持IPv4和IPv6
+  location  String   @default("") @db.VarChar(100) // IP对应的物理地址
+  userAgent String   @default("") @db.VarChar(500) // 用户代理字符串
+  os        String   @default("") @db.VarChar(50) // 操作系统
+  browser   String   @default("") @db.VarChar(50) // 浏览器
+  isSuccess Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

@@ -196,5 +196,17 @@
     "orientation": "方向",
     "editTitle": "编辑语言",
     "addTitle": "添加语言"
+  },
+  "loginLog": {
+    "userName": "用户名",
+    "ip": "IP地址",
+    "location": "地理位置",
+    "os": "操作系统",
+    "browser": "浏览器",
+    "userAgent": "用户代理",
+    "createdAt": "登录时间",
+    "loginLogManagement": "登录日志管理",
+    "loginLogPagination": "登录日志分页查询",
+    "loginLogCreate": "创建登录日志"
   }
 }

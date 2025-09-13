@@ -1,28 +1,51 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { CreateLanguageDto } from './dto/create-language.dto'
 import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { UpdateLanguageDto } from './dto/update-language.dto'
 import {
   AppBadRequestException,
-  AppConflictException,
 } from '@aiknew/shared-api-exceptions'
 import { SystemSettingService } from '../system-setting/system-setting.service'
 import { SystemSettingKey } from '@aiknew/shared-api-enums'
+import { QueryLanguageDto } from './dto/query-language.dto'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 
 @Injectable()
 export class LanguageService {
   constructor(
     private prisma: PrismaService,
     private systemSettingService: SystemSettingService,
-  ) {}
+    private i18n: I18nService
+  ) { }
 
   get model(): PrismaService['language'] {
     return this.prisma.language
   }
 
-  async pagination(paginationDto: PaginationDto) {
-    return await this.model.paginate(paginationDto)
+  async pagination(query: QueryLanguageDto) {
+    const { currentPage, pageSize, key, name, orientation, status } = query
+
+    return await this.model.paginate(
+      { currentPage, pageSize },
+      {
+        where: {
+          key: {
+            contains: key,
+            mode: 'insensitive'
+          },
+          name: {
+            contains: name,
+            mode: 'insensitive'
+          },
+          orientation,
+          status
+        },
+        orderBy: [
+          { order: 'asc' },
+          { createdAt: 'desc' }
+        ]
+      }
+    )
   }
 
   async getEnabledLanguages() {
@@ -43,7 +66,9 @@ export class LanguageService {
         err instanceof Prisma.PrismaClientKnownRequestError &&
         err.code === 'P2002'
       ) {
-        throw new AppConflictException('The same language already exists.')
+        throw new AppBadRequestException(this.i18n.t('language.alreadyExist', {
+          lang: I18nContext.current()?.lang
+        }))
       }
 
       throw err
@@ -60,7 +85,9 @@ export class LanguageService {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
           case 'P2025':
-            throw new AppBadRequestException('Non-existent Language')
+            throw new AppBadRequestException(this.i18n.t('language.nonExistent', {
+              lang: I18nContext.current()?.lang
+            }))
         }
       }
 
@@ -79,7 +106,13 @@ export class LanguageService {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
           case 'P2025':
-            throw new AppBadRequestException('Non-existent Language')
+            throw new AppBadRequestException(this.i18n.t('language.nonExistent', {
+              lang: I18nContext.current()?.lang
+            }))
+          case 'P2003':
+            throw new AppBadRequestException(this.i18n.t('language.hasRelated', {
+              lang: I18nContext.current()?.lang
+            }))
         }
       }
 

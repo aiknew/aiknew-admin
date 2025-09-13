@@ -4,5 +4,8 @@
   "languageGetEnabled": "Get All Enabled Language",
   "languageCreate": "Create Language",
   "languageUpdate": "Update Language",
-  "languageDelete": "Delete Language"
+  "languageDelete": "Delete Language",
+  "alreadyExist": "Language already exists",
+  "nonExistent": "Language does not exist",
+  "hasRelated": "Language has related data and cannot be deleted"
 }

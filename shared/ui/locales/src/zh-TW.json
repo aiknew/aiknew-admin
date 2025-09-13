@@ -190,5 +190,11 @@
   "notFound": {
     "tips": "沒有找到該頁面",
     "backToHome": "回到首頁"
+  },
+  "lang": {
+    "key": "鍵",
+    "orientation": "方向",
+    "editTitle": "編輯語言",
+    "addTitle": "添加語言"
   }
 }

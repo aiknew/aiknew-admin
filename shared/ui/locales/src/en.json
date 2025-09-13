@@ -192,5 +192,11 @@
   "notFound": {
     "tips": "The page was not found",
     "backToHome": "Back to homepage"
+  },
+  "lang": {
+    "key": "Key",
+    "orientation": "Orientation",
+    "editTitle": "Edit Language",
+    "addTitle": "Add Language"
   }
 }

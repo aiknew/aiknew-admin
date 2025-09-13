@@ -4,5 +4,8 @@
   "languageGetEnabled": "取得所有啟用的語言",
   "languageCreate": "建立語言",
   "languageUpdate": "更新語言",
-  "languageDelete": "刪除語言"
+  "languageDelete": "刪除語言",
+  "alreadyExist": "語言已存在",
+  "nonExistent": "語言不存在",
+  "hasRelated": "語言有關聯數據，無法刪除"
 }

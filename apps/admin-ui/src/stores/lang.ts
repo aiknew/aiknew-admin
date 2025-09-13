@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { LanguageData } from '@/api/language'
+import { type LanguageDto } from '@/api/language'
 
 export const useLangStore = defineStore('lang', () => {
-  const enabledLangs = ref<LanguageData[]>([])
+  const enabledLangs = ref<LanguageDto[]>([])
 
   const getNameByKey = (key: string | undefined) => {
     if (!key) return undefined
@@ -13,6 +13,6 @@ export const useLangStore = defineStore('lang', () => {
 
   return {
     enabledLangs,
-    getNameByKey
+    getNameByKey,
   }
 })

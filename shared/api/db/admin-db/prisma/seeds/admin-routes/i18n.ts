@@ -86,6 +86,11 @@ export const i18n = {
     en: 'System Setting',
     'zh-TW': '系統設置',
   },
+  langSetting: {
+    'zh-CN': '语言设置',
+    en: 'Language Setting',
+    'zh-TW': '語言設置',
+  },
   storageSetting: {
     'zh-CN': '存储设置',
     en: 'Storage Setting',

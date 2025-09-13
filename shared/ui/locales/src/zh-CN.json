@@ -190,5 +190,11 @@
   "notFound": {
     "tips": "没有找到该页面",
     "backToHome": "回到首页"
+  },
+  "lang": {
+    "key": "键",
+    "orientation": "方向",
+    "editTitle": "编辑语言",
+    "addTitle": "添加语言"
   }
 }

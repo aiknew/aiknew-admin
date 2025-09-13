@@ -143,22 +143,6 @@ export interface paths {
         patch: operations["ArticleController_updateOne"];
         trace?: never;
     };
-    "/admin/language": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["LanguageController_pagination"];
-        put?: never;
-        post: operations["LanguageController_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/admin/language/enabled": {
         parameters: {
             query?: never;
@@ -169,6 +153,22 @@ export interface paths {
         get: operations["LanguageController_enabled"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/language": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["LanguageController_pagination"];
+        put?: never;
+        post: operations["LanguageController_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1872,11 +1872,45 @@ export interface operations {
             };
         };
     };
+    LanguageController_enabled: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["LanguageItemDto"][];
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
     LanguageController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
                 pageSize: number;
+                orientation?: "LTR" | "RTL";
+                key?: string;
+                name?: string;
+                status?: boolean;
             };
             header?: never;
             path?: never;
@@ -1942,36 +1976,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    LanguageController_enabled: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["LanguageItemDto"][];
-                    };
                 };
             };
             /** @description Internal server error */
@@ -3609,6 +3613,7 @@ type ReadonlyArray<T> = [
 ] extends [
     unknown[]
 ] ? Readonly<Exclude<T, undefined>> : Readonly<Exclude<T, undefined>[]>;
+export const pathsAdminLanguageGetParametersQueryOrientationValues: ReadonlyArray<paths["/admin/language"]["get"]["parameters"]["query"]["orientation"]> = ["LTR", "RTL"];
 export const responseStatusCodeValues: ReadonlyArray<components["schemas"]["ResponseStatusCode"]> = [-1, 0, 401, 403, 400];
 export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMethod"]> = ["GET", "POST", "PUT", "DELETE", "PATCH", "ALL", "OPTIONS", "HEAD", "SEARCH", "PROPFIND", "PROPPATCH", "MKCOL", "COPY", "MOVE", "LOCK", "UNLOCK"];
 export const adminPermissionSourceValues: ReadonlyArray<components["schemas"]["AdminPermissionSource"]> = ["BUILT_IN", "EXTERNAL"];

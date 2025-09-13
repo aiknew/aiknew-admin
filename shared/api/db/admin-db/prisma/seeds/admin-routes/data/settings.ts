@@ -110,6 +110,36 @@ export const settings: AdminRouteItem = {
       name: i18n.systemSetting,
       order: 305,
       children: [
+
+        {
+          component: 'settings/language/language-view',
+          icon: 'ChromeFilled',
+          path: '/settings/language',
+          type: RouteType.MENU,
+          name: i18n.langSetting,
+          permissions: ['language:pagination'],
+          order: 306,
+          children: [
+            {
+              key: 'add',
+              type: RouteType.BUTTON,
+              name: i18n.new,
+              permissions: ['language:create']
+            },
+            {
+              key: 'edit',
+              type: RouteType.BUTTON,
+              name: i18n.edit,
+              permissions: ['language:update']
+            },
+            {
+              key: 'delete',
+              type: RouteType.BUTTON,
+              name: i18n.delete,
+              permissions: ['language:delete']
+            },
+          ],
+        },
         {
           component: 'settings/storage-setting/storage-setting',
           icon: 'Setting',
@@ -117,7 +147,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.storageSetting,
           permissions: ['storage-setting:pagination', 'storage-setting:getAll'],
-          order: 306,
+          order: 310,
           children: [
             {
               key: 'add',
@@ -146,7 +176,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/dict-type',
           type: RouteType.MENU,
           permissions: ['dict-type:pagination', 'dict-type:getAll'],
-          order: 307,
+          order: 320,
           children: [
             {
               key: 'add',
@@ -175,7 +205,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/config',
           type: RouteType.MENU,
           permissions: ['config:pagination'],
-          order: 308,
+          order: 330,
           children: [
             {
               key: 'add',
@@ -204,7 +234,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.adminUsers,
           permissions: ['admin-user:pagination'],
-          order: 309,
+          order: 340,
           children: [
             {
               key: 'add',

@@ -220,6 +220,11 @@ export class AdminUserService {
           include: {
             translations: true,
           },
+
+          orderBy: [
+            { order: 'asc' },
+            { 'createdAt': 'desc' }
+          ]
         })
       } else {
         routes = await this.getUserRoutes(user.id)

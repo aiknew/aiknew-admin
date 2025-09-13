@@ -8,10 +8,12 @@ export const contentManagement: AdminRouteItem = {
   redirect: '/content/file',
   type: RouteType.GROUP,
   name: i18n.contentManagement,
+  order: 200,
   children: [
     {
       name: i18n.fileManagement,
       type: RouteType.SMALL_GROUP,
+      order: 100,
       children: [
         {
           component: 'content/file/file-resources',
@@ -20,6 +22,7 @@ export const contentManagement: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.fileManagement,
           permissions: ['upload-file:filesAndGroups', 'upload-file-group:findChildren'],
+          order: 101,
           children: [
             {
               key: 'upload-file',
@@ -64,6 +67,7 @@ export const contentManagement: AdminRouteItem = {
     {
       type: RouteType.SMALL_GROUP,
       name: i18n.articleManagement,
+      order: 102,
       children: [
         {
           component: 'content/article-category/article-category',
@@ -72,6 +76,7 @@ export const contentManagement: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.articleCategoryList,
           permissions: ['article-category:getAll', 'article-category:detail'],
+          order: 103,
           children: [
             {
               key: 'add',
@@ -100,6 +105,7 @@ export const contentManagement: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.articleList,
           permissions: ['article:pagination', 'article:detail'],
+          order: 104,
           children: [
             {
               key: 'add',

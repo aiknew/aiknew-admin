@@ -8,11 +8,13 @@ export const settings: AdminRouteItem = {
   redirect: '/settings/admin-user',
   type: RouteType.GROUP,
   name: i18n.settings,
+  order: 300,
   children: [
     {
       path: '/settings/permission',
       type: RouteType.SMALL_GROUP,
       name: i18n.permissionSettings,
+      order: 301,
       children: [
         {
           component: 'settings/auth-role/auth-role',
@@ -21,6 +23,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.characterSettings,
           permissions: ['auth-role:pagination', 'auth-role:getAll', 'auth-route:getChildren'],
+          order: 302,
           children: [
             {
               key: 'add',
@@ -49,6 +52,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.menuSettings,
           permissions: ['auth-route:getAll'],
+          order: 303,
           children: [
             {
               key: 'add',
@@ -77,6 +81,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.permissionSettings,
           permissions: ['permission:pagination', 'permission:getAll'],
+          order: 304,
           children: [
             {
               key: 'add',
@@ -103,6 +108,7 @@ export const settings: AdminRouteItem = {
     {
       type: RouteType.SMALL_GROUP,
       name: i18n.systemSetting,
+      order: 305,
       children: [
         {
           component: 'settings/storage-setting/storage-setting',
@@ -111,6 +117,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.storageSetting,
           permissions: ['storage-setting:pagination', 'storage-setting:getAll'],
+          order: 306,
           children: [
             {
               key: 'add',
@@ -139,6 +146,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/dict-type',
           type: RouteType.MENU,
           permissions: ['dict-type:pagination', 'dict-type:getAll'],
+          order: 307,
           children: [
             {
               key: 'add',
@@ -167,6 +175,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/config',
           type: RouteType.MENU,
           permissions: ['config:pagination'],
+          order: 308,
           children: [
             {
               key: 'add',
@@ -195,6 +204,7 @@ export const settings: AdminRouteItem = {
           type: RouteType.MENU,
           name: i18n.adminUsers,
           permissions: ['admin-user:pagination'],
+          order: 309,
           children: [
             {
               key: 'add',

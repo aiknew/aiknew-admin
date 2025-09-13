@@ -8,6 +8,7 @@ export const userInfo: AdminRouteItem = {
   path: '/account-info',
   type: RouteType.MENU,
   name: i18n.updateAccountInfo,
+  order: 500,
   children: [
     {
       key: 'update',

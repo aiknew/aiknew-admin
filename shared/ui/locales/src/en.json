@@ -167,7 +167,8 @@
   "articleCategory": {
     "articleCategoryName": "Article Category Name",
     "addTitle": "Add Article Category",
-    "editTitle": "Edit Article Category"
+    "editTitle": "Edit Article Category",
+    "nameRequired": "Article category name cannot be empty"
   },
   "filer": {
     "editFileDetailModalTitle": "Edit File",

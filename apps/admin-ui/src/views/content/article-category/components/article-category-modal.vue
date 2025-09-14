@@ -61,7 +61,18 @@ const { AppForm, formApi } = useAppForm({
         label: t('articleCategory.articleCategoryName'),
         name: 'name',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({
+                error: t('articleCategory.nameRequired')
+              })
+              .nonempty({
+                error: t('articleCategory.nameRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: {

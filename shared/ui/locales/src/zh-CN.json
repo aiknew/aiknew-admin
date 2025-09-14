@@ -165,7 +165,8 @@
   "articleCategory": {
     "articleCategoryName": "文章分类名称",
     "addTitle": "新增文章分类",
-    "editTitle": "编辑文章分类"
+    "editTitle": "编辑文章分类",
+    "nameRequired": "文章分类名称不能为空"
   },
   "filer": {
     "editFileDetailModalTitle": "修改文件",

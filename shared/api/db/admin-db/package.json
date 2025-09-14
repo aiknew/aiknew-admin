@@ -43,6 +43,7 @@
     "dev": "pnpm tsc --watch",
     "prebuild": "pnpm db:generate",
     "build": "pnpm tsc",
+    "db:migrate:deploy": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma migrate deploy",
     "db:migrate:dev": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma migrate dev",
     "db:deploy:prod": "pnpm prisma migrate deploy",
     "db:seed:prod": "pnpm prisma db seed",

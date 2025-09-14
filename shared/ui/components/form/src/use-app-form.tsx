@@ -178,32 +178,6 @@ export const useAppForm = <
     })
   })
 
-  watch(
-    () => fields,
-    (val) => {
-      // const defaultValues = generateDefaultVal(val)
-      const schemas = generateValidators(val)
-      form.update({
-        // defaultValues,
-        validators: {
-          onChange: schemas,
-          onSubmit: schemas,
-        },
-        onSubmit: async ({ value }) => {
-          onSubmit &&
-            onSubmit({
-              values: value,
-              i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
-              i18nFieldNames,
-            })
-        },
-      })
-    },
-    {
-      deep: true,
-    },
-  )
-
   type FormSlotProps = Parameters<
     ComponentSlots<typeof form.Field>['default']
   >[0]
@@ -373,31 +347,33 @@ export const useAppForm = <
     )
   }
 
+  const formKey = ref(0)
   const AppForm = defineComponent({
     setup(_, { slots }) {
       const renderFields = () => {
         const normalizeFields =
           typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
-        return normalizeFields
-          .filter((item) => resolveCondition(item.when))
-          .map((item) => {
-            if (isNormalField(item)) {
-              return (
-                <form.Field name={item.name} key={item.name}>
-                  {{
-                    default: (slotProps: FormSlotProps) => (
-                      <NormalFieldFormItem item={item} slotProps={slotProps} />
-                    ),
-                  }}
-                </form.Field>
-              )
-            }
 
-            return <ExcludeFieldFormItem item={item} />
-          })
+        const filterFields = normalizeFields.filter((item) =>
+          resolveCondition(item.when),
+        )
+        return filterFields.map((item) => {
+          if (isNormalField(item)) {
+            return (
+              <form.Field name={item.name} key={item.name}>
+                {{
+                  default: (slotProps: FormSlotProps) => (
+                    <NormalFieldFormItem item={item} slotProps={slotProps} />
+                  ),
+                }}
+              </form.Field>
+            )
+          }
+
+          return <ExcludeFieldFormItem item={item} />
+        })
       }
 
-      const formKey = ref(0)
       onLangChange(() => {
         formKey.value++
       })
@@ -430,6 +406,8 @@ export const useAppForm = <
           i18nValues: Prettify<GetFieldsWithTranslations<F>>,
           ...rest: Rest
         ) => void
+
+        recalculateFields: () => void
       }
 
       const extendedFormApi = form as ExtendFromApi
@@ -439,6 +417,10 @@ export const useAppForm = <
         ...rest: Rest
       ) => {
         form.reset(restoreI18nFields(i18nValues), ...rest)
+      }
+
+      extendedFormApi.recalculateFields = () => {
+        formKey.value++
       }
 
       return extendedFormApi

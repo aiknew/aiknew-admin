@@ -57,7 +57,6 @@ onMounted(() => {
 })
 
 const setType = (type: AuthRoute['type']) => {
-  console.log('setType: ', type)
   isButton.value = type === 'BUTTON'
   isMenu.value = type === 'MENU'
   isSmallGroup.value = type === 'SMALL_GROUP'
@@ -80,7 +79,6 @@ const { AppForm, formApi } = useAppForm({
             ],
             onChange(val: RouteType) {
               setType(val)
-              console.log('change: ', val)
             }
           }
         },
@@ -169,7 +167,13 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('authRoute.componentLabel'),
         name: 'component',
-        schema: z.string().nonempty().default(''),
+        schema: () =>
+          z
+            .string()
+            .nonempty({
+              error: t('authRoute.componentRequired')
+            })
+            .default(''),
         container: {
           bottomSlot: h(AppFormItemTips, { text: t('authRoute.componentTips') })
         }
@@ -189,14 +193,28 @@ const { AppForm, formApi } = useAppForm({
         as: 'ElInput',
         label: t('authRoute.pathLabel'),
         name: 'path',
-        schema: z.string().nonempty().default('')
+        schema: () =>
+          z
+            .string()
+            .nonempty({
+              error: t('authRoute.pathRequired')
+            })
+            .default('')
       },
       {
         when: isButton,
         as: 'ElInput',
         label: t('authRoute.keyLabel'),
         name: 'key',
-        schema: z.string().nonempty().default(''),
+        schema: () =>
+          z
+            .string({
+              error: t('authRoute.keyRequired')
+            })
+            .nonempty({
+              error: t('authRoute.keyRequired')
+            })
+            .default(''),
         container: {
           bottomSlot: h(AppFormItemTips, { text: t('authRoute.keyTips') })
         }
@@ -229,7 +247,16 @@ const { AppForm, formApi } = useAppForm({
         label: t('authRoute.routeNameLabel'),
         name: 'routeName',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string()
+              .nonempty({
+                error: t('authRoute.routeNameRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: 'ElInputNumber',
@@ -277,6 +304,7 @@ const edit = async (item: AuthRoute) => {
   modalRef.value?.setTitle(t('authRoute.editTitle'))
   modalRef.value?.show()
   selectedIcon.value = item.icon
+
   formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
@@ -285,6 +313,7 @@ const handleReset = () => {
   setDisabled(editRoute.value, false)
   modalRef.value?.close()
   formApi.reset()
+  setType('MENU')
   emit('close')
 }
 
@@ -295,7 +324,12 @@ defineExpose({
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+  <AppBasicModal
+    destroy-on-close
+    ref="modalRef"
+    @submit="formApi.handleSubmit"
+    @close="handleReset"
+  >
     <AppForm />
   </AppBasicModal>
 </template>

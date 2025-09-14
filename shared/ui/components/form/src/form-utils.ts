@@ -46,7 +46,7 @@ export type GetFieldsWithTranslations<
 > = {
   [Item in Fields[number]as Item['i18n'] extends true
   ? never
-  : GetFieldName<Item['name']>]: z.infer<Item['schema']>
+  : GetFieldName<Item['name']>]: z.infer<GetSchemaType<Item['schema']>>
 } & {
   translations: Prettify<
     {

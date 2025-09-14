@@ -19,6 +19,7 @@ import {
   type GetFieldsWithTranslations,
   isNormalField,
   type ExcludeField,
+  normalizeSchema,
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
 import { isDefined } from '@vueuse/core'
@@ -156,6 +157,26 @@ export const useAppForm = <
   })
 
   const formErrors = form.useStore((state) => state.errors)
+
+  onLangChange(() => {
+    const defaultValues = generateDefaultVal(fields)
+    const schemas = generateValidators(fields)
+    form.update({
+      defaultValues,
+      validators: {
+        onChange: schemas,
+        onSubmit: schemas,
+      },
+      onSubmit: async ({ value }) => {
+        onSubmit &&
+          onSubmit({
+            values: value,
+            i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
+            i18nFieldNames,
+          })
+      },
+    })
+  })
 
   watch(
     () => fields,
@@ -296,14 +317,14 @@ export const useAppForm = <
       Boolean(error.value.langKey) &&
       error.value.langKey !== activeFieldTab.value[item.name]
 
+    const schema = normalizeSchema(item.schema)
     return h(
       ElFormItem,
       {
         style: { display: toValue(item.hidden) ? 'none' : undefined },
         label: item.label,
         required: !(
-          item.schema instanceof z.ZodOptional ||
-          item.schema instanceof z.ZodNullable
+          schema instanceof z.ZodOptional || schema instanceof z.ZodNullable
         ),
         error: error.value.msg,
         class: { [DynamicFormItemStyles.isOk]: isNotCurrentFieldLangErr },

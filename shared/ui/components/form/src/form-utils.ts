@@ -17,13 +17,15 @@ import { WangEditor } from '@aiknew/shared-ui-components'
 
 type GetFieldName<N extends string | undefined> = N extends string ? N : never
 
+type GetSchemaType<T> = T extends (...args: any[]) => any ? ReturnType<T> : T
+
 export type Fields = Field<string, keyof Components>[]
 
 export type GetDefaultVals<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
     [Item in Fields[number]as GetFieldName<Item['name']>]: z.infer<
-      Item['schema']
+      GetSchemaType<Item['schema']>
     >
   }
 
@@ -32,7 +34,7 @@ export type GetI18nFields<
 > = {
     [Item in Fields[number]as Item['i18n'] extends true
     ? GetFieldName<Item['name']>
-    : never]: z.infer<Item['schema']>
+    : never]: z.infer<GetSchemaType<Item['schema']>>
   }
 
 export type GetI18nFieldNames<
@@ -109,6 +111,8 @@ export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
 
+export type FiledSchema = ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault> | (() => ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>)
+
 export type NormalField<N extends string, C extends keyof Components> = {
   hidden?: MaybeRefOrGetter<boolean>
   exclude?: false
@@ -118,7 +122,7 @@ export type NormalField<N extends string, C extends keyof Components> = {
   label: string
   name: N
   i18n?: boolean
-  schema: ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>
+  schema: FiledSchema
 }
 
 export type ExcludeField = {
@@ -142,6 +146,14 @@ export const isNormalField = (
   return !field.exclude
 }
 
+export const normalizeSchema = (schemaOrFn: FiledSchema): ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault> => {
+  if (typeof schemaOrFn === 'function') {
+    return schemaOrFn()
+  }
+
+  return schemaOrFn
+}
+
 export const generateDefaultVal = <
   T extends readonly Field<string, keyof Components>[],
 >(
@@ -153,7 +165,7 @@ export const generateDefaultVal = <
     if (isDefined(item.when) && !toValue(item.when)) continue
 
     if (isNormalField(item)) {
-      const res = item.schema.safeParse(undefined)
+      const res = (normalizeSchema(item.schema)).safeParse(undefined)
       if (res.success) {
         defaultValues[item.name] = res.data
       } else {
@@ -176,12 +188,13 @@ export const generateValidators = <
     if (isDefined(item.when) && !toValue(item.when)) continue
 
     if (isNormalField(item)) {
-      if ('unwrap' in item.schema) {
+      const schema = normalizeSchema(item.schema)
+      if ('unwrap' in schema) {
         schemas[item.name as keyof GetDefaultVals<T>] =
-          item.schema.unwrap() as ZodType
+          schema.unwrap() as ZodType
       } else {
         schemas[item.name as keyof GetDefaultVals<T>] =
-          item.schema
+          schema
       }
 
     }

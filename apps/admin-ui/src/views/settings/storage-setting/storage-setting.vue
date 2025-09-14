@@ -191,7 +191,7 @@ const handleResetQueryForm = () => {
       :table-data
       row-key="id"
     >
-      <el-table-column prop="id" label="ID" />
+      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
       <el-table-column prop="name" :label="t('name')" width="180" />
       <el-table-column prop="priority" :label="t('storageSetting.priority')" />
       <el-table-column prop="type" :label="t('type')" width="180" />

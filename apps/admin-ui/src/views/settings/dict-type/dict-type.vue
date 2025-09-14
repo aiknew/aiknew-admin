@@ -149,7 +149,13 @@ const handleResetQueryForm = () => {
       :table-data="dictTypeData"
     >
       <el-table-column prop="key" :label="t('dictType.key')" width="150" />
-      <el-table-column prop="name" :label="t('dictType.dictTypeName')" align="center">
+      <el-table-column
+        prop="name"
+        :label="t('dictType.dictTypeName')"
+        align="center"
+        width="150"
+        show-overflow-tooltip
+      >
         <template #default="{ row }: { row: DictType }">
           <span>{{ tField(row.translations, 'name').value }}</span>
         </template>

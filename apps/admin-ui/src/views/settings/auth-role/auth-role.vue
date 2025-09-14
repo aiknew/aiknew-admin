@@ -111,7 +111,7 @@ const handleResetQueryForm = () => {
       :table-data="authRoleData"
       row-key="id"
     >
-      <el-table-column prop="id" label="ID" />
+      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
       <el-table-column prop="name" :label="t('name')" min-width="120">
         <template #default="{ row }: { row: AuthRole }">
           <span>{{ tField(row.translations, 'roleName').value }}</span>

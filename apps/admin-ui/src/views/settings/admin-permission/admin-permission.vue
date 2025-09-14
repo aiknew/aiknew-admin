@@ -146,7 +146,7 @@ const handleSubmit = () => {
       lazy
       :load="loadPermissions"
     >
-      <el-table-column prop="id" label="ID" />
+      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
 
       <el-table-column :label="t('type')">
         <template #default="{ row }: { row: Permission | PermissionGroup }">

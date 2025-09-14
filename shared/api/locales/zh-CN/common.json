@@ -10,5 +10,6 @@
   "patchSuccess": "更新成功",
   "deleteSuccess": "删除成功",
   "authExpired": "登陆已失效",
-  "invalidAuth": "无权限操作"
+  "invalidAuth": "无权限操作",
+  "frequentRequest": "请求太频繁，请稍后再试"
 }

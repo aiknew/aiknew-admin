@@ -19,6 +19,7 @@ import { UserInfoDto } from './dto/user-info.dto'
 import { type AuthAdminRequest } from '@aiknew/shared-api-types'
 import { UpdateUserInfoDto } from './dto/update-user-info.dto'
 import { type Request } from 'express'
+import { Throttle } from '@nestjs/throttler'
 
 @PermissionGroup({ name: 'admin-auth.adminAuthManagement' })
 @Controller('auth')
@@ -26,6 +27,7 @@ export class AuthController {
   constructor(private service: AuthService) { }
 
   @Public()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @SuccessMsg(t('admin-auth.loginSuccess'))
   @AppApiUnauthorizedResponse()
   @AppApiCreatedResponse(LoginSuccessDto)

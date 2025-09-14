@@ -10,5 +10,6 @@
   "patchSuccess": "Update successful",
   "deleteSuccess": "Delete successfully",
   "authExpired": "Login has expired",
-  "invalidAuth": "Operation without permission"
+  "invalidAuth": "Operation without permission",
+  "frequentRequest": "Requests are too frequent, please try again later"
 }

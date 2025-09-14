@@ -40,7 +40,9 @@
     "dictLabel": "Dictionary Label",
     "dictValue": "Dictionary Value",
     "addDictTitle": "Add Dictionary Item",
-    "editDictTitle": "Edit Dictionary Item"
+    "editDictTitle": "Edit Dictionary Item",
+    "nameRequired": "Dictionary type name cannot be empty",
+    "keyRequired": "Dictionary type key cannot be empty"
   },
   "configView": {
     "key": "Key",

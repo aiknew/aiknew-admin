@@ -40,7 +40,9 @@
     "dictLabel": "字典標籤",
     "dictValue": "字典值",
     "addDictTitle": "新增字典項",
-    "editDictTitle": "編輯字典項"
+    "editDictTitle": "編輯字典項",
+    "nameRequired": "字典類型名稱不能為空",
+    "keyRequired": "字典類型鍵不能為空"
   },
   "configView": {
     "key": "配置鍵",

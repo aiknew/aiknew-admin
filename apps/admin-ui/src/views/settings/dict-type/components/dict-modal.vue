@@ -67,7 +67,18 @@ const { AppForm, formApi } = useAppForm({
         label: t('dictType.dictLabel'),
         name: 'label',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({
+                error: t('dictType.labelRequired')
+              })
+              .nonempty({
+                error: t('dictType.labelRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: {
@@ -78,7 +89,15 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('dictType.dictValue'),
         name: 'value',
-        schema: z.string().nonempty().default('')
+        schema: () =>
+          z
+            .string({
+              error: t('dictType.valueRequired')
+            })
+            .nonempty({
+              error: t('dictType.valueRequired')
+            })
+            .default('')
       },
       {
         as: {

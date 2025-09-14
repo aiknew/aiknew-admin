@@ -42,7 +42,9 @@
     "addDictTitle": "新增字典項",
     "editDictTitle": "編輯字典項",
     "nameRequired": "字典類型名稱不能為空",
-    "keyRequired": "字典類型鍵不能為空"
+    "keyRequired": "字典類型鍵不能為空",
+    "labelRequired": "標籤不能為空",
+    "valueRequired": "值不能為空"
   },
   "configView": {
     "key": "配置鍵",

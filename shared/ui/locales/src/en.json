@@ -135,6 +135,7 @@
     "permissionNameLabel": "permission Name",
     "permissionNameRequired": "Permission name cannot be empty",
     "permissionKeyRequired": "Permission key cannot be empty",
+    "groupNameRequired": "Group name cannot be empty",
     "addPermission": "Add permission",
     "editPermission": "Edit permission",
     "path": "Path",

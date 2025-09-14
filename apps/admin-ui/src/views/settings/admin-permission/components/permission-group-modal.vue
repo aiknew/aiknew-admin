@@ -32,7 +32,14 @@ const { AppForm, formApi } = useAppForm({
         label: t('adminPermission.permissionGroupName'),
         name: 'groupName',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({ error: t('adminPermission.groupNameRequired') })
+              .nonempty({ error: t('adminPermission.groupNameRequired') })
+              .default(''),
+            languages
+          )
       },
       {
         as: 'ElInputNumber',

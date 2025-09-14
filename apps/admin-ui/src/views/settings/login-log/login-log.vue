@@ -117,7 +117,12 @@ const handleResetQueryForm = () => {
     >
       <el-table-column prop="userName" :label="t('loginLog.userName')" width="120" />
       <el-table-column prop="ip" :label="t('loginLog.ip')" width="150" />
-      <el-table-column prop="location" :label="t('loginLog.location')" width="150" />
+      <el-table-column
+        prop="location"
+        :label="t('loginLog.location')"
+        width="200"
+        show-overflow-tooltip
+      />
       <el-table-column prop="os" :label="t('loginLog.os')" width="100" />
       <el-table-column prop="browser" :label="t('loginLog.browser')" width="100" />
       <el-table-column prop="createdAt" :label="t('loginLog.createdAt')" width="180" />

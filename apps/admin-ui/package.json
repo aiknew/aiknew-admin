@@ -86,6 +86,7 @@
     "typescript": "catalog:common",
     "unplugin-element-plus": "catalog:ui",
     "vite": "catalog:ui",
+    "vite-plugin-compression2": "^2.2.1",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vite-svg-loader": "catalog:ui",
     "vitest": "^3.2.4",

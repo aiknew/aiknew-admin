@@ -9,6 +9,7 @@ import svgLoader from 'vite-svg-loader'
 import tailwindcss from '@tailwindcss/vite'
 import { visualizer } from "rollup-plugin-visualizer"
 import { openApiToTypeScript } from './src/utils/vite-plugin-openapi-typescript'
+import { compression } from 'vite-plugin-compression2'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -31,7 +32,7 @@ export default defineConfig({
     exclude: ['colorette']
   },
   build: {
-    sourcemap: true,
+    sourcemap: false,
     target: 'esnext',
     rollupOptions: {
       output: {
@@ -53,12 +54,16 @@ export default defineConfig({
       source: 'http://localhost:3000/api-doc-json',
       desc: './src/types/open-api.ts'
     }) as import('vite').Plugin,
-    visualizer({
-      open: true,
-      sourcemap: true,
-      gzipSize: true,
-      brotliSize: true,
-    }),
+    // visualizer({
+    //   open: true,
+    //   sourcemap: false,
+    //   gzipSize: true,
+    //   brotliSize: true,
+    // }),
+    compression({
+      algorithms: ['gzip'],
+      threshold: 1000 // Only compress files larger than 1KB
+    })
   ],
   resolve: {
     alias: {

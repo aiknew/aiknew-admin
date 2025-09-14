@@ -91,7 +91,6 @@ const handleClick = ({
   }
 
   :deep(.el-icon) {
-    bottom: 1px;
   }
 
   .tab-item {

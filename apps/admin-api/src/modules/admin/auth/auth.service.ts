@@ -130,6 +130,9 @@ export class AuthService {
         this.recordLoginLog({ userId: "", userName: '', success: false }, req)
         throw new AppUnauthorizedException()
       }
+    } catch (err) {
+      this.recordLoginLog({ userId: "", userName: '', success: false }, req)
+      throw err
     } finally {
       await this.removeCaptchaCache(captchaKey)
     }

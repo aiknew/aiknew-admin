@@ -122,10 +122,10 @@ model AdminPermissionGroupTranslation {
 model AdminPermission {
   id              String                       @id @default(cuid(2))
   key             String                       @db.VarChar(100)
-  path            String?                      @db.VarChar(100)
+  path            String                       @default("") @db.VarChar(100)
   permissionGroup AdminPermissionGroup?        @relation(fields: [groupId], references: [id], onDelete: Restrict)
   groupId         String?
-  method          RequestMethod?               @default(GET)
+  method          RequestMethod                @default(GET)
   source          AdminPermissionSource
   order           Int                          @default(100)
   createdAt       DateTime                     @default(now())

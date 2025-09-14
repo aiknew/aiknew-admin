@@ -1,65 +1,67 @@
-基于 Nest.js, Prisma, Vue3, Element-Plus, Typescript 编写的后台管理系统, 采用 pnpm monorepo 架构，支持多语言文本，兼容移动端
+English | [简体中文](./README-zh.md)
 
-# 开发环境
+A admin dashboard developed using Nest.js, Prisma, Vue3, Element-Plus, and TypeScript,uses pnpm monorepo architecture, supporting multi-language text, and compatible with mobile devices.
 
-## 环境要求
+# Development Environment
 
-- Node.js22+
-- PNPM10+
-- Postgres17+
-- Redis7+
+## Environment Requirements
 
-在 apps/admin-api 下，复制 .env.example 文件，重命名为 .env，修改相应环境变量的值
+- Node.js 22+
+- PNPM 10+
+- Postgres 17+
+- Redis 7+
 
-在项目根目录下，运行
+In the `apps/admin-api` directory, copy the `.env.example` file and rename it to `.env`, then modify the corresponding environment variable values.
+
+In the project root directory, run:
 
 ```
-# 安装依赖项
+# Install dependencies
 pnpm install
 ```
 
 ```
-# 在项目根目录下运行
-pnpm db:migrate # 执行数据库迁移
-pnpm db:seed # 执行数据初始化
+# Run in the project root directory
+pnpm db:migrate  # Execute database migration
+pnpm db:seed     # Execute data initialization
 ```
 
 ```
-# 运行 admin-api
+# Run admin-api
 pnpm api
 ```
 
 ```
-# 运行 admin-ui
+# Run admin-ui
 pnpm admin
 ```
 
-# 部署注意事项
+# Deployment Notes
 
-在 apps/admin-api 下，复制 .env.example 文件，重命名为 .env.production，修改相应环境变量的值(与项目根目录下的 docker-compose.yaml 中的配置相对应)
+In the `apps/admin-api` directory, copy the `.env.example` file and rename it to `.env.production`, then modify the corresponding environment variable values (corresponding to the configuration in `docker-compose.yaml` in the project root directory).
 
-在 apps/admin-api 目录下运行：
+In the `apps/admin-api` directory, run:
 
 ```shell
-# 加密 .env.production 文件
+# Encrypt the .env.production file
 pnpm env:prod:encrypt
 ```
 
-该命令会加密您的 .env.production 文件，同时在 apps/admin-api 目录下会生成 .env.keys 文件，里面包含解密所需的密钥，复制里面的 DOTENV_PRIVATE_KEY_PRODUCTION 的值，填写在项目根目录的 docker-compose.yaml 中相应的位置。
+This command will encrypt your `.env.production` file, and simultaneously generate a `.env.keys` file in the `apps/admin-api` directory, which contains the key required for decryption. Copy the value of `DOTENV_PRIVATE_KEY_PRODUCTION` from inside it, and fill it in the corresponding position in the `docker-compose.yaml` file in the project root directory.
 
-运行数据库迁移，执行数据初始化：
+Run database migration and execute data initialization:
 
 ```shell
 docker compose run --rm admin-api /bin/sh -c "pnpm db:deploy:prod && pnpm db:seed:prod"
 ```
 
-启动 docker compose:
+Start Docker Compose:
 
 ```shell
 docker compose up -d
 ```
 
-启动成功后，即可访问：
+After successful startup, you can access:
 
 ```
 http://localhost:8080

@@ -1,3 +1,5 @@
+[English](./README.md) | 简体中文
+
 基于 Nest.js, Prisma, Vue3, Element-Plus, Typescript 编写的后台管理系统, 采用 pnpm monorepo 架构，支持多语言文本，兼容移动端
 
 # 开发环境

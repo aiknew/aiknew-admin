@@ -3,19 +3,17 @@ import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { computed, ref } from 'vue'
-import {
-  usePermissionAll,
-  usePermissionDelete,
-  usePermissionList,
-  type Permission,
-  type PermissionGroup
-} from '@/api/permission'
+import { usePermissionAll, usePermissionDelete, type Permission } from '@/api/permission'
 import { usePagination } from '@/composables'
 import { toReactive } from '@vueuse/core'
 import PermissionModal from './components/permission-modal.vue'
 import { useTemplateRef } from 'vue'
 import { tField } from '@aiknew/shared-ui-locales'
-import { usePermissionGroupDelete } from '@/api/permission-group'
+import {
+  usePermissionGroupDelete,
+  usePermissionGroupList,
+  type PermissionGroup
+} from '@/api/permission-group'
 import PermissionGroupModal from './components/permission-group-modal.vue'
 import type { RequestMethod } from '@aiknew/shared-enums'
 import { useI18n } from 'vue-i18n'
@@ -32,10 +30,10 @@ const groupId = ref('')
 const expandRowKeys = ref([])
 
 const {
-  data: permissionData,
-  refetch: refetchPermissionData,
-  isFetching: isFetchingPermissionData
-} = usePermissionList(toReactive({ currentPage, pageSize }))
+  data: groupsData,
+  refetch: refetchGroups,
+  isFetching
+} = usePermissionGroupList(toReactive({ currentPage, pageSize }))
 
 const { data: permissions, refetch: fetchPermissions } = usePermissionAll(groupId)
 
@@ -44,16 +42,7 @@ const { mutateAsync: deletePermissionGroup, isPending: isDeletingGroup } =
   usePermissionGroupDelete()
 
 const isLoading = computed(() => {
-  return isDeleting.value || isFetchingPermissionData.value || isDeletingGroup.value
-})
-
-const tableData = computed(() => {
-  return {
-    total: permissionData.value?.total ?? 0,
-    current: permissionData.value?.current ?? 1,
-    pageSize: permissionData.value?.pageSize ?? 10,
-    list: [...(permissionData.value?.groupList ?? []), ...(permissionData.value?.apiList ?? [])]
-  }
+  return isDeleting.value || isFetching.value || isDeletingGroup.value
 })
 
 const handleAddPermission = () => {
@@ -74,7 +63,7 @@ const handleAddPermissionGroup = () => {
 
 const refresh = () => {
   expandRowKeys.value = []
-  refetchPermissionData()
+  refetchGroups()
 }
 
 const handleDelete = async (row: Permission | PermissionGroup) => {
@@ -122,8 +111,6 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <AppContentBlock class="mb-6"> </AppContentBlock>
-
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
       <el-button class="ml-auto" type="primary" @click="handleAddPermission">{{
@@ -140,7 +127,7 @@ const handleSubmit = () => {
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
       :expand-row-keys
-      :table-data
+      :table-data="groupsData"
       row-key="id"
       tree
       lazy

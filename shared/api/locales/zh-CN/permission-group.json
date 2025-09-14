@@ -8,5 +8,6 @@
   "permissionGroupGetAll": "获取所有权限分组",
   "permissionGroupCreate": "创建权限分组",
   "permissionGroupUpdate": "更新权限分组",
-  "permissionGroupDelete": "删除权限分组"
+  "permissionGroupDelete": "删除权限分组",
+  "permissionGroupPagination": "获取权限分组列表"
 }

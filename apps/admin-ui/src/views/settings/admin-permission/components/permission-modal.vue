@@ -4,14 +4,9 @@ import { h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import {
-  usePermissionCreate,
-  usePermissionUpdate,
-  type Permission,
-  type PermissionGroup
-} from '@/api/permission'
+import { usePermissionCreate, usePermissionUpdate, type Permission } from '@/api/permission'
 import { RequestMethod } from '@aiknew/shared-enums'
-import { usePermissionGroupAll } from '@/api/permission-group'
+import { usePermissionGroupAll, type PermissionGroup } from '@/api/permission-group'
 import { tField } from '@aiknew/shared-ui-locales'
 import { useI18n } from 'vue-i18n'
 

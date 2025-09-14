@@ -1,20 +1,4 @@
 export interface paths {
-    "/admin/permission": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PermissionController_pagination"];
-        put?: never;
-        post: operations["PermissionController_createOne"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/admin/permission/all": {
         parameters: {
             query?: never;
@@ -25,6 +9,22 @@ export interface paths {
         get: operations["PermissionController_getAll"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/permission": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PermissionController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
@@ -86,9 +86,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["PermissionGroupController_getAll"];
+        get: operations["PermissionGroupController_pagination"];
         put?: never;
         post: operations["PermissionGroupController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/permission-group/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PermissionGroupController_getAll"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -737,19 +753,6 @@ export interface components {
             data: Record<string, never>;
             msg: string;
         };
-        PermissionGroupTranslationDto: {
-            langKey: string;
-            groupName: string;
-        };
-        PermissionGroupDto: {
-            id: string;
-            order: number;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            translations: components["schemas"]["PermissionGroupTranslationDto"][];
-        };
         /** @enum {string} */
         RequestMethod: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "ALL" | "OPTIONS" | "HEAD" | "SEARCH" | "PROPFIND" | "PROPPATCH" | "MKCOL" | "COPY" | "MOVE" | "LOCK" | "UNLOCK";
         /** @enum {string} */
@@ -772,13 +775,6 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
             translations: components["schemas"]["PermissionTranslationDto"][];
-        };
-        PermissionsAndGroupsDto: {
-            total: number;
-            current: number;
-            pageSize: number;
-            groupList: components["schemas"]["PermissionGroupDto"][];
-            permissionList: components["schemas"]["PermissionDto"][];
         };
         CreatePermissionDto: {
             method?: components["schemas"]["RequestMethod"];
@@ -822,6 +818,19 @@ export interface components {
             userName?: string;
             roles?: string[];
             password?: string;
+        };
+        PermissionGroupTranslationDto: {
+            langKey: string;
+            groupName: string;
+        };
+        PermissionGroupDto: {
+            id: string;
+            order: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            translations: components["schemas"]["PermissionGroupTranslationDto"][];
         };
         CreatePermissionGroupDto: {
             order?: number;
@@ -1316,11 +1325,10 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    PermissionController_pagination: {
+    PermissionController_getAll: {
         parameters: {
-            query: {
-                currentPage: number;
-                pageSize: number;
+            query?: {
+                groupId?: string;
             };
             header?: never;
             path?: never;
@@ -1334,7 +1342,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PermissionsAndGroupsDto"];
+                        data: components["schemas"]["PermissionDto"][];
                     };
                 };
             };
@@ -1368,38 +1376,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    PermissionController_getAll: {
-        parameters: {
-            query?: {
-                groupId?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PermissionDto"][];
-                    };
                 };
             };
             /** @description Internal server error */
@@ -1609,9 +1585,12 @@ export interface operations {
             };
         };
     };
-    PermissionGroupController_getAll: {
+    PermissionGroupController_pagination: {
         parameters: {
-            query?: never;
+            query: {
+                currentPage: number;
+                pageSize: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1624,7 +1603,9 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PermissionGroupDto"][];
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["PermissionGroupDto"][];
+                        };
                     };
                 };
             };
@@ -1658,6 +1639,36 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    PermissionGroupController_getAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PermissionGroupDto"][];
+                    };
                 };
             };
             /** @description Internal server error */

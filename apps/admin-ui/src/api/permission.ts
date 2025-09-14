@@ -1,16 +1,10 @@
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import { useApiData } from '@/composables/use-api'
 import { fetchClient } from '@/utils/openapi-fetch-client'
-import type { IPaginationQuery } from '@aiknew/shared-types'
-import { toValue, type Reactive, type Ref } from 'vue'
+import { toValue, type Ref } from 'vue'
 import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
 
-export type Permission = ApiGetData<'/admin/permission'>['permissionList'][number]
-
-type test = Permission['method']
-type foo = Permission['path']
-
-export type PermissionGroup = ApiGetData<'/admin/permission'>['groupList'][number]
+export type Permission = ApiGetData<'/admin/permission/all'>[number]
 
 export type PermissionsAndGroupsDto = ApiGetData<'/admin/permission'>
 
@@ -19,25 +13,6 @@ export type CreatePermissionDto = ApiPostReqBody<'/admin/permission'>
 export type UpdatePermissionDto = ApiPatchReqBody<'/admin/permission/{id}'>
 
 export type QueryPermissionDto = ApiGetQuery<'/admin/permission/all'>
-
-export const usePermissionList = (query: Reactive<IPaginationQuery>) => {
-  return useQuery({
-    queryKey: ['permission', query],
-    placeholderData: keepPreviousData,
-    queryFn: async () => {
-      return useApiData(() =>
-        fetchClient.GET('/admin/permission', {
-          params: {
-            query
-          },
-          showMsg: false
-        })
-      )
-    }
-  })
-}
-
-
 
 export const usePermissionAll = (groupId?: Ref<string>) => {
   return useQuery({

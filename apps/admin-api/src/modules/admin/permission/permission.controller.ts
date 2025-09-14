@@ -9,16 +9,16 @@ import {
   Query,
 } from '@nestjs/common'
 import { PermissionService } from './permission.service'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
+import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import {
   AppApiCreatedResponse,
   AppApiOkResponse,
+  AppApiPaginationResponse,
   Permission,
   PermissionGroup
 } from '@aiknew/shared-api-decorators'
 import { CreatePermissionDto } from './dto/create-permission.dto'
 import { UpdatePermissionDto } from './dto/update-permission.dto'
-import { PermissionsAndGroupsDto } from './dto/permissions-and-groups.dto'
 import { PermissionDto } from './dto/permission.dto'
 import { QueryPermissionDto } from './dto/query-permission.dto'
 
@@ -26,15 +26,6 @@ import { QueryPermissionDto } from './dto/query-permission.dto'
 @Controller('permission')
 export class PermissionController {
   constructor(private service: PermissionService) { }
-
-  @Get()
-  @Permission({ key: 'permission:pagination', name: 'permission.permissionPagination' })
-  @AppApiOkResponse(PermissionsAndGroupsDto)
-  async pagination(
-    @Query() query: PaginationDto,
-  ): Promise<PermissionsAndGroupsDto> {
-    return await this.service.pagination(query)
-  }
 
   @Get('all')
   @Permission({ key: 'permission:getAll', name: 'permission.permissionGetAll' })

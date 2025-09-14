@@ -41,64 +41,6 @@ export class PermissionService {
     })
   }
 
-  async pagination(paginationDto: PaginationDto) {
-    const { currentPage, pageSize } = paginationDto
-    const groups = await this.permissionGroupModel.paginate(paginationDto, {
-      include: {
-        translations: true
-      },
-      orderBy: [
-        {
-          order: 'asc'
-        },
-        {
-          createdAt: 'desc'
-        },
-      ]
-    })
-
-    const allGroupsCount = await this.permissionGroupModel.count()
-    const allApisCount = await this.model.count({
-      where: {
-        groupId: null
-      }
-    })
-
-
-    const skipNum = (currentPage - 1) * pageSize - allGroupsCount
-    const takeNum = pageSize - allGroupsCount
-
-    const permissions = await this.model.paginate(paginationDto, {
-      where: { groupId: null },
-      take: takeNum,
-      skip: skipNum < 0 ? 0 : skipNum,
-      include: {
-        translations: {
-          select: {
-            permissionName: true,
-            langKey: true,
-          },
-        },
-      },
-      orderBy: [
-        {
-          order: 'asc'
-        },
-        {
-          createdAt: 'desc'
-        },
-      ]
-    })
-
-    return {
-      total: allGroupsCount + allApisCount,
-      current: currentPage,
-      pageSize,
-      groupList: groups.list,
-      permissionList: permissions.list
-    }
-  }
-
   async createOne(data: CreatePermissionDto) {
     const { translations, ...permission } = data
     try {

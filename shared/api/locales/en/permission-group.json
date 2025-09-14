@@ -8,5 +8,6 @@
   "permissionGroupGetAll": "Get all permission groups",
   "permissionGroupCreate": "Create permission group",
   "permissionGroupUpdate": "Update permission group",
-  "permissionGroupDelete": "Delete permission group"
+  "permissionGroupDelete": "Delete permission group",
+  "permissionGroupPagination": "Get permission groups pagination"
 }

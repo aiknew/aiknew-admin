@@ -8,6 +8,7 @@ import {
 import { I18nContext, I18nService } from 'nestjs-i18n'
 import { AppBadRequestException, AppConflictException } from '@aiknew/shared-api-exceptions'
 import { UpdatePermissionGroupDto } from './dto/update-permission-group.dto'
+import { QueryPermissionGroupDto } from './dto/query-permission-group.dto'
 
 @Injectable()
 export class PermissionGroupService {
@@ -22,6 +23,19 @@ export class PermissionGroupService {
 
   get translationModel() {
     return this.prisma.adminPermissionGroupTranslation
+  }
+
+  async pagination(query: QueryPermissionGroupDto) {
+    return this.model.paginate(query, {
+      include: {
+        translations: true
+      },
+
+      orderBy: [
+        { order: 'asc' },
+        { createdAt: 'desc' }
+      ]
+    })
   }
 
   async getAll() {

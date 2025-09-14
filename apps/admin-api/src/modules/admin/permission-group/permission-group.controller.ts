@@ -6,24 +6,38 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common'
 import { PermissionGroupService } from './permission-group.service'
 import {
   AppApiCreatedResponse,
   AppApiOkResponse,
+  AppApiPaginationResponse,
   Permission,
   PermissionGroup,
 } from '@aiknew/shared-api-decorators'
 import { PermissionGroupDto } from './dto/permission-group.dto'
 import { CreatePermissionGroupDto } from './dto/create-permission-group.dto'
 import { UpdatePermissionGroupDto } from './dto/update-permission-group.dto'
+import { QueryPermissionGroupDto } from './dto/query-permission-group.dto'
+import { PaginationResponseDto } from '@aiknew/shared-api-dtos'
 
 @PermissionGroup({ name: 'permission-group.permissionGroupManagement' })
 @Controller('permission-group')
 export class PermissionGroupController {
   constructor(private service: PermissionGroupService) { }
 
+
   @Get()
+  @Permission({ key: 'permissionGroup:pagination', name: 'permission-group.permissionGroupPagination' })
+  @AppApiPaginationResponse(PermissionGroupDto)
+  async pagination(
+    @Query() query: QueryPermissionGroupDto
+  ): Promise<PaginationResponseDto<PermissionGroupDto[]>> {
+    return await this.service.pagination(query)
+  }
+
+  @Get('all')
   @Permission({ key: 'permissionGroup:getAll', name: 'permission-group.permissionGroupGetAll' })
   @AppApiOkResponse([PermissionGroupDto])
   async getAll(

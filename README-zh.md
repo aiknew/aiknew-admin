@@ -1,6 +1,13 @@
-# 开发
+基于 Nest.js, Prisma, Vue3, Element-Plus, Typescript 编写的后台管理系统, 采用 pnpm monorepo 架构，支持多语言文本，兼容移动端
 
-您需要先安装 postgres17+, redis7+, node.js22+,pnpm10+
+# 开发环境
+
+## 环境要求
+
+- Node.js22+
+- PNPM10+
+- Postgres17+
+- Redis7+
 
 在 apps/admin-api 下，复制 .env.example 文件，重命名为 .env，修改相应环境变量的值
 
@@ -21,7 +28,7 @@ pnpm api
 pnpm admin
 ```
 
-# 部署
+# 部署注意事项
 
 在 apps/admin-api 下，复制 .env.example 文件，重命名为 .env.production，修改相应环境变量的值(与项目根目录下的 docker-compose.yaml 中的配置相对应)
 

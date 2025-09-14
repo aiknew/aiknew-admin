@@ -162,7 +162,10 @@
     "editTitle": "Edit Article",
     "fakeViewCount": "Fake View Count",
     "fakeViewCountTips": "View Count = Real View Count + Fake View Count",
-    "content": "Article Content"
+    "content": "Article Content",
+    "titleRequired": "Article title cannot be empty",
+    "contentRequired": "Article content cannot be empty",
+    "articleCategoryIdRequired": "Please select an article category"
   },
   "articleCategory": {
     "articleCategoryName": "Article Category Name",

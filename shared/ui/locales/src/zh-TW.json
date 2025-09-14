@@ -160,7 +160,10 @@
     "editTitle": "編輯文章",
     "fakeViewCount": "虛擬瀏覽量",
     "fakeViewCountTips": "瀏覽量 = 真實瀏覽量 + 虛擬瀏覽量",
-    "content": "文章內容"
+    "content": "文章內容",
+    "titleRequired": "文章標題不能為空",
+    "contentRequired": "文章內容不能為空",
+    "articleCategoryIdRequired": "請選擇文章分類"
   },
   "articleCategory": {
     "articleCategoryName": "文章分類名稱",

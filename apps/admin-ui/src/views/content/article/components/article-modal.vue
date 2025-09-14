@@ -37,7 +37,18 @@ const { AppForm, formApi } = useAppForm({
         label: t('article.articleTitle'),
         name: 'title',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({
+                error: t('article.titleRequired')
+              })
+              .nonempty({
+                error: t('article.titleRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: {
@@ -55,14 +66,32 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('article.articleCategory'),
         name: 'articleCategoryId',
-        schema: z.number()
+        schema: () =>
+          z
+            .number({
+              error: t('article.articleCategoryIdRequired')
+            })
+            .min(1, {
+              error: t('article.articleCategoryIdRequired')
+            })
       },
       {
         as: 'WangEditor',
         label: t('article.content'),
         name: 'content',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({
+                error: t('article.contentRequired')
+              })
+              .nonempty({
+                error: t('article.contentRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: 'ElSwitch',

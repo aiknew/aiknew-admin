@@ -76,7 +76,9 @@
     "normalStatus": "正常",
     "disabledStatus": "禁用",
     "disabledUploadStatus": "禁用上传",
-    "priority": "优先级"
+    "priority": "优先级",
+    "nameRequired": "存储名称不能为空",
+    "hostnameRequired": "主机名不能为空"
   },
   "userInfo": {
     "userName": "管理员名称",

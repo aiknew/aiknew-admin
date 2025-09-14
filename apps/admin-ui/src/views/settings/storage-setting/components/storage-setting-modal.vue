@@ -64,13 +64,29 @@ const { AppForm, formApi } = useAppForm({
         as: 'ElInput',
         label: t('name'),
         name: 'name',
-        schema: z.string().nonempty().default('')
+        schema: () =>
+          z
+            .string({
+              error: t('storageSetting.nameRequired')
+            })
+            .nonempty({
+              error: t('storageSetting.nameRequired')
+            })
+            .default('')
       },
       {
         as: 'ElInput',
         label: t('storageSetting.hostname'),
         name: 'hostname',
-        schema: z.string().nonempty().default('')
+        schema: () =>
+          z
+            .string({
+              error: t('storageSetting.hostnameRequired')
+            })
+            .nonempty({
+              error: t('storageSetting.hostnameRequired')
+            })
+            .default('')
       },
       {
         when: isS3,

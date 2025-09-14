@@ -78,7 +78,9 @@
     "normalStatus": "Normal",
     "disabledStatus": "Disabled",
     "disabledUploadStatus": "Disabled Upload",
-    "priority": "Priority"
+    "priority": "Priority",
+    "nameRequired": "Storage name cannot be empty",
+    "hostnameRequired": "Hostname cannot be empty"
   },
   "useInfo": {
     "userName": "Username",

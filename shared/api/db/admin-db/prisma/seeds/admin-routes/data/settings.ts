@@ -80,7 +80,7 @@ export const settings: AdminRouteItem = {
           path: '/settings/permissions/permission',
           type: RouteType.MENU,
           name: i18n.permissionSettings,
-          permissions: ['permission:pagination', 'permissionGroup:pagination', 'permission:getAll'],
+          permissions: ['permission:pagination', 'permissionGroup:pagination', 'permission:getAll', 'permissionGroup:getAll'],
           order: 304,
           children: [
             {
@@ -182,19 +182,19 @@ export const settings: AdminRouteItem = {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
-              permissions: ['dict-type:create']
+              permissions: ['dict-type:create', 'dict:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
-              permissions: ['dict-type:update']
+              permissions: ['dict-type:update', 'dict:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
-              permissions: ['dict-type:delete']
+              permissions: ['dict-type:delete', 'dict:delete']
             },
           ],
         },

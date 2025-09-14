@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 import { I18nContext, I18nService } from 'nestjs-i18n'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
 import { AppUnauthorizedException } from '@aiknew/shared-api-exceptions'
 import { createHMAC } from '@aiknew/shared-api-utils'
 import { CreateAdminUserDto } from './dto/create-admin-user.dto'

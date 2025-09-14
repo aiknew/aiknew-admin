@@ -5,10 +5,10 @@ import { PermissionTranslationDto } from './permission-translation.dto'
 export class PermissionDto {
   id: string
 
-  path: string | null
+  path: string
 
   @ApiProperty({ enumName: 'RequestMethod', enum: RequestMethod })
-  method: RequestMethod | null
+  method: RequestMethod
 
   key: string
 

@@ -7,6 +7,9 @@ import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@
 
 export type Permission = ApiGetData<'/admin/permission'>['permissionList'][number]
 
+type test = Permission['method']
+type foo = Permission['path']
+
 export type PermissionGroup = ApiGetData<'/admin/permission'>['groupList'][number]
 
 export type PermissionsAndGroupsDto = ApiGetData<'/admin/permission'>

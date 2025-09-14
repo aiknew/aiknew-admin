@@ -760,10 +760,10 @@ export interface components {
             remark?: string | null;
         };
         PermissionDto: {
-            method: components["schemas"]["RequestMethod"] | null;
+            method: components["schemas"]["RequestMethod"];
             source: components["schemas"]["AdminPermissionSource"];
             id: string;
-            path: string | null;
+            path: string;
             key: string;
             groupId: string | null;
             order: number;
@@ -781,16 +781,16 @@ export interface components {
             permissionList: components["schemas"]["PermissionDto"][];
         };
         CreatePermissionDto: {
-            method?: components["schemas"]["RequestMethod"] | null;
-            path?: string | null;
+            method?: components["schemas"]["RequestMethod"];
+            path?: string;
             key: string;
             groupId?: string | null;
             order: number;
             translations: components["schemas"]["PermissionTranslationDto"][];
         };
         UpdatePermissionDto: {
-            method?: components["schemas"]["RequestMethod"] | null;
-            path?: string | null;
+            method?: components["schemas"]["RequestMethod"];
+            path?: string;
             key?: string;
             groupId?: string | null;
             order?: number;

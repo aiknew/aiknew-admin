@@ -50,13 +50,16 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('adminPermission.requestMethod'),
         name: 'method',
-        schema: z.enum(RequestMethod).nullable().optional().default(null).optional()
+        schema: z.enum(RequestMethod).optional().default('GET').optional()
       },
       {
         as: 'ElInput',
         name: 'key',
         label: t('adminPermission.permissionKey'),
-        schema: z.string().default('')
+        schema: () =>
+          z
+            .string({ error: t('adminPermission.permissionKeyRequired') })
+            .nonempty({ error: t('adminPermission.permissionKeyRequired') })
       },
       {
         as: {
@@ -74,20 +77,29 @@ const { AppForm, formApi } = useAppForm({
         },
         name: 'groupId',
         label: t('adminPermission.permissionGroup'),
-        schema: z.string().nullable().default(null)
+        schema: z.string().nullable().default(null).optional()
       },
       {
         as: 'ElInput',
         label: t('adminPermission.path'),
         name: 'path',
-        schema: z.string().optional().nullable().default(null).optional()
+        schema: z.string().default('').optional()
       },
       {
         as: 'ElInput',
         label: t('adminPermission.permissionNameLabel'),
         name: 'permissionName',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string()
+              .nonempty({
+                error: t('adminPermission.permissionNameRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: 'ElInputNumber',

@@ -132,6 +132,7 @@
     "requestMethod": "请求方法",
     "permissionNameRequired": "权限名称不能为空",
     "permissionNameLabel": "权限名称",
+    "permissionKeyRequired": "权限标识符不能为空",
     "addPermission": "新增权限",
     "editPermission": "编辑权限",
     "path": "请求路径",

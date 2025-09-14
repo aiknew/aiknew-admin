@@ -132,8 +132,9 @@
   },
   "adminPermission": {
     "requestMethod": "Request method",
-    "permissionNameRequired": "permission name cannot be empty",
     "permissionNameLabel": "permission Name",
+    "permissionNameRequired": "Permission name cannot be empty",
+    "permissionKeyRequired": "Permission key cannot be empty",
     "addPermission": "Add permission",
     "editPermission": "Edit permission",
     "path": "Path",

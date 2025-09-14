@@ -9,11 +9,11 @@ export class CreatePermissionDto {
   @ApiProperty({ enum: RequestMethod, enumName: 'RequestMethod' })
   @IsEnum(RequestMethod)
   @IsOptional()
-  method?: RequestMethod | null
+  method?: RequestMethod
 
   @IsString()
   @IsOptional()
-  path?: string | null
+  path?: string
 
   @IsString()
   key: string

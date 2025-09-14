@@ -146,26 +146,26 @@ export const settings: AdminRouteItem = {
           path: '/settings/storage-setting',
           type: RouteType.MENU,
           name: i18n.storageSetting,
-          permissions: ['storage-setting:pagination', 'storage-setting:getAll'],
+          permissions: ['file-storage:pagination', 'file-storage:getAll'],
           order: 310,
           children: [
             {
               key: 'add',
               type: RouteType.BUTTON,
               name: i18n.new,
-              permissions: ['storage-setting:create']
+              permissions: ['file-storage:create']
             },
             {
               key: 'edit',
               type: RouteType.BUTTON,
               name: i18n.edit,
-              permissions: ['storage-setting:update']
+              permissions: ['file-storage:update']
             },
             {
               key: 'delete',
               type: RouteType.BUTTON,
               name: i18n.delete,
-              permissions: ['storage-setting:delete']
+              permissions: ['file-storage:delete']
             },
           ],
         },
@@ -175,7 +175,7 @@ export const settings: AdminRouteItem = {
           icon: 'Notebook',
           path: '/settings/dict-type',
           type: RouteType.MENU,
-          permissions: ['dict-type:pagination', 'dict-type:getAll'],
+          permissions: ['dict-type:pagination', 'dict-type:getAll', 'dict:pagination'],
           order: 320,
           children: [
             {

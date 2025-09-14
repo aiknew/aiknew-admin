@@ -21,7 +21,7 @@ export const contentManagement: AdminRouteItem = {
           path: '/content/file',
           type: RouteType.MENU,
           name: i18n.fileManagement,
-          permissions: ['upload-file:filesAndGroups', 'upload-file-group:findChildren'],
+          permissions: ['upload-file:filesAndGroups', 'upload-file-group:findChildren', 'file-storage:getAll'],
           order: 101,
           children: [
             {

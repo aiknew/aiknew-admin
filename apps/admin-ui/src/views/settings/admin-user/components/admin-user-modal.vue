@@ -75,10 +75,11 @@ const { AppForm, formApi } = useAppForm({
         as: 'ElInput',
         label: t('adminUser.userName'),
         name: 'userName',
-        schema: z
-          .string({ message: t('adminUser.userNameRequired') })
-          .nonempty({ message: t('adminUser.userNameRequired') })
-          .default('')
+        schema: () =>
+          z
+            .string({ message: t('adminUser.userNameRequired') })
+            .nonempty({ message: t('adminUser.userNameRequired') })
+            .default('')
       },
       {
         as: 'ElInput',

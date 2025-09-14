@@ -34,48 +34,52 @@ const { AppForm, formApi } = useAppForm({
         label: t('configView.name'),
         name: 'name',
         i18n: true,
-        schema: buildI18nSchema(
-          z
-            .string({ message: t('configView.enterName') })
-            .min(1, { message: t('configView.nameRequired') })
-            .max(50, { message: t('configView.nameLengthExceeded') })
-            .default(''),
-          languages
-        )
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({ message: t('configView.enterName') })
+              .min(1, { message: t('configView.nameRequired') })
+              .max(50, { message: t('configView.nameLengthExceeded') })
+              .default(''),
+            languages
+          )
       },
       {
         as: 'ElInput',
         label: t('configView.key'),
         name: 'key',
-        schema: z
-          .string({ message: t('configView.enterKey') })
-          .min(1, { message: t('configView.keyRequired') })
-          .max(50, { message: t('configView.keyLengthExceeded') })
-          .default('')
+        schema: () =>
+          z
+            .string({ message: t('configView.enterKey') })
+            .min(1, { message: t('configView.keyRequired') })
+            .max(50, { message: t('configView.keyLengthExceeded') })
+            .default('')
       },
       {
         as: 'ElInput',
         label: t('configView.value'),
         name: 'value',
-        schema: z
-          .string({ message: t('configView.enterValue') })
-          .min(1, { message: t('configView.valueRequired') })
-          .max(200, { message: t('configView.valueLengthExceeded') })
-          .default('')
+        schema: () =>
+          z
+            .string({ message: t('configView.enterValue') })
+            .min(1, { message: t('configView.valueRequired') })
+            .max(200, { message: t('configView.valueLengthExceeded') })
+            .default('')
       },
       {
         as: 'ElInput',
         label: t('configView.remark'),
         name: 'remark',
         i18n: true,
-        schema: buildI18nSchema(
-          z
-            .string({ message: t('configView.enterRemark') })
-            .max(200, { message: t('configView.remarkLengthExceeded') })
-            .optional()
-            .default(''),
-          languages
-        )
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string({ message: t('configView.enterRemark') })
+              .max(200, { message: t('configView.remarkLengthExceeded') })
+              .optional()
+              .default(''),
+            languages
+          )
       }
     ] as const satisfies Fields,
   async onSubmit({ i18nValues }) {

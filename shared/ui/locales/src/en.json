@@ -206,7 +206,9 @@
     "key": "Key",
     "orientation": "Orientation",
     "editTitle": "Edit Language",
-    "addTitle": "Add Language"
+    "addTitle": "Add Language",
+    "nameRequired": "Language name cannot be empty",
+    "keyRequired": "Language key cannot be empty"
   },
   "loginLog": {
     "userName": "Username",

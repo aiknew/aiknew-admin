@@ -204,7 +204,9 @@
     "key": "键",
     "orientation": "方向",
     "editTitle": "编辑语言",
-    "addTitle": "添加语言"
+    "addTitle": "添加语言",
+    "nameRequired": "语言名称不能为空",
+    "keyRequired": "语言键不能为空"
   },
   "loginLog": {
     "userName": "用户名",

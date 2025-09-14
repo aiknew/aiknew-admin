@@ -41,7 +41,14 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('name'),
         name: 'name',
-        schema: z.string().nonempty()
+        schema: () =>
+          z
+            .string({
+              error: t('lang.nameRequired')
+            })
+            .nonempty({
+              error: t('lang.nameRequired')
+            })
       },
 
       {
@@ -50,7 +57,14 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('lang.key'),
         name: 'key',
-        schema: z.string().nonempty()
+        schema: () =>
+          z
+            .string({
+              error: t('lang.keyRequired')
+            })
+            .nonempty({
+              error: t('lang.keyRequired')
+            })
       },
 
       {
@@ -105,14 +119,14 @@ const { AppForm, formApi } = useAppForm({
 const add = () => {
   modalRef.value?.show()
   modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('lang.editTitle'))
+  modalRef.value?.setTitle(t('lang.addTitle'))
 }
 
 const edit = (item: LanguageDto) => {
   editKey.value = item.key
   editItem.value = item
   modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('lang.addTitle'))
+  modalRef.value?.setTitle(t('lang.editTitle'))
   modalRef.value?.show()
 
   formApi.reset(item, { keepDefaultValues: true })

@@ -158,7 +158,7 @@ const handleResetQueryForm = () => {
       row-key="id"
     >
       <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
-      <el-table-column prop="name" :label="t('name')" width="180">
+      <el-table-column prop="name" :label="t('name')">
         <template #default="{ row }: { row: AuthRoute }">
           <span>{{ tField(row.translations, 'routeName').value }}</span>
         </template>

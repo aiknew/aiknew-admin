@@ -110,7 +110,8 @@
     "addTitle": "新增角色",
     "editTitle": "编辑角色",
     "roleNameLabel": "角色名稱",
-    "permissionsLabel": "權限設置"
+    "permissionsLabel": "權限設置",
+    "roleNameRequired": "角色名稱不能為空"
   },
   "adminUser": {
     "addTitle": "新增管理員",

@@ -38,7 +38,16 @@ const { AppForm, formApi } = useAppForm({
         label: t('authRole.roleNameLabel'),
         name: 'roleName',
         i18n: true,
-        schema: buildI18nSchema(z.string().nonempty().default(''), languages)
+        schema: () =>
+          buildI18nSchema(
+            z
+              .string()
+              .nonempty({
+                error: t('authRole.roleNameRequired')
+              })
+              .default(''),
+            languages
+          )
       },
       {
         as: {

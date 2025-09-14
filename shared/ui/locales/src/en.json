@@ -112,7 +112,8 @@
     "addTitle": "Add Role",
     "editTitle": "Edit Role",
     "roleNameLabel": "Role name",
-    "permissionsLabel": "Permission settings"
+    "permissionsLabel": "Permission settings",
+    "roleNameRequired": "Role name cannot be empty"
   },
   "adminUser": {
     "addTitle": "Add Administrator",

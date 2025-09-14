@@ -67,6 +67,6 @@ export const checkUpdate = async () => {
 
 if (!import.meta.env.DEV) {
   checkUpdate();
-  setInterval(checkUpdate, 5 * 1000);
+  setInterval(checkUpdate, 5 * 60 * 1000);
 }
 

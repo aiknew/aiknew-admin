@@ -27,6 +27,8 @@
   "disabled": "disabled",
   "reset": "Reset",
   "remark": "Remark",
+  "success": "Success",
+  "failed": "Failed",
   "dictType": {
     "name": "Name",
     "key": "Key",

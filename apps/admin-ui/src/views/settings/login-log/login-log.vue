@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElFormItem } from 'element-plus'
+import { ElTableColumn, ElButton, ElFormItem, ElTag } from 'element-plus'
 import { AppTable } from '@aiknew/shared-ui-table'
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import z from 'zod'
-import { useLoginLogList, type QueryLoginLogDto } from '@/api/login-log'
+import { useLoginLogList, type LoginLogDto, type QueryLoginLogDto } from '@/api/login-log'
 import { toReactive } from '@vueuse/core'
 
 const { t } = useI18n()
@@ -125,6 +125,12 @@ const handleResetQueryForm = () => {
       />
       <el-table-column prop="os" :label="t('loginLog.os')" width="100" />
       <el-table-column prop="browser" :label="t('loginLog.browser')" width="100" />
+      <el-table-column prop="isSuccess" :label="t('status')">
+        <template #default="{ row }: { row: LoginLogDto }">
+          <el-tag v-if="row.isSuccess" type="success">{{ t('success') }}</el-tag>
+          <el-tag type="danger" v-else>{{ t('failed') }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="createdAt" :label="t('loginLog.createdAt')" width="180" />
       <el-table-column
         prop="userAgent"

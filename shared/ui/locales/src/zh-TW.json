@@ -27,6 +27,8 @@
   "disabled": "禁用",
   "reset": "重置",
   "remark": "備註",
+  "success": "成功",
+  "failed": "失败",
   "dictType": {
     "name": "名稱",
     "key": "鍵值",

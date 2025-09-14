@@ -10,6 +10,8 @@ import tailwindcss from '@tailwindcss/vite'
 import { visualizer } from "rollup-plugin-visualizer"
 import { openApiToTypeScript } from './src/utils/vite-plugin-openapi-typescript'
 import { compression } from 'vite-plugin-compression2'
+import * as path from 'node:path'
+import * as fs from 'node:fs'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -38,7 +40,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['@wangeditor-next/editor', '@wangeditor-next/editor-for-vue']
-        }
+        },
       }
     }
   },
@@ -63,7 +65,15 @@ export default defineConfig({
     compression({
       algorithms: ['gzip'],
       threshold: 1000 // Only compress files larger than 1KB
-    })
+    }),
+    {
+      name: 'generate-version',
+      closeBundle() {
+        const versionData = { version: Date.now() };
+        const filePath = path.resolve(__dirname, 'dist', 'version.json');
+        fs.writeFileSync(filePath, JSON.stringify(versionData));
+      }
+    }
   ],
   resolve: {
     alias: {

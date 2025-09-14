@@ -21,7 +21,7 @@ FROM nginx:stable-alpine
 
 COPY --from=builder /aiknew-admin/apps/admin-ui/dist /usr/share/nginx/html
 
-COPY apps/admin-ui/nginx.conf /etc/nginx/conf.d/default.conf
+COPY apps/admin-ui/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 

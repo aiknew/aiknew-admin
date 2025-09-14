@@ -29,6 +29,8 @@
   "remark": "Remark",
   "success": "Success",
   "failed": "Failed",
+  "updateVersionTitle": "A new version is available",
+  "updateVersionMsg": "Will refresh to use the new version immediately?",
   "dictType": {
     "name": "Name",
     "key": "Key",

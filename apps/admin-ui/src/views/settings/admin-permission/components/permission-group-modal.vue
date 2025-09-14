@@ -4,8 +4,11 @@ import { h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
 import { useLangStore } from '@/stores/lang'
-import { usePermissionGroupCreate, usePermissionGroupUpdate } from '@/api/permission-group'
-import type { PermissionGroup } from '@/api/permission'
+import {
+  usePermissionGroupCreate,
+  usePermissionGroupUpdate,
+  type PermissionGroup
+} from '@/api/permission-group'
 import { useI18n } from 'vue-i18n'
 
 interface Emits {

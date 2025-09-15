@@ -56,12 +56,12 @@ export default defineConfig({
       source: 'http://localhost:3000/api-doc-json',
       desc: './src/types/open-api.ts'
     }) as import('vite').Plugin,
-    visualizer({
-      open: true,
-      sourcemap: false,
-      gzipSize: true,
-      brotliSize: true,
-    }),
+    // visualizer({
+    //   open: true,
+    //   sourcemap: false,
+    //   gzipSize: true,
+    //   brotliSize: true,
+    // }),
     compression({
       algorithms: ['gzip'],
       threshold: 1000 // Only compress files larger than 1KB

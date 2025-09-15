@@ -74,7 +74,8 @@ const handleCheckItems = (row: DictType) => {
 
 const { AppForm: QueryForm, formApi } = useAppForm({
   formProps: {
-    inline: true
+    inline: true,
+    labelPosition: 'left'
   },
   fields() {
     return [

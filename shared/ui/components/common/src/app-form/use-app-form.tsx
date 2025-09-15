@@ -21,7 +21,7 @@ import {
   normalizeSchema,
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
-import { isDefined } from '@vueuse/core'
+import { isDefined, useWindowSize } from '@vueuse/core'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import { ElFormItem, ElForm } from 'element-plus'
 import z from 'zod'
@@ -377,9 +377,29 @@ export const useAppForm = <
         formKey.value++
       })
 
+      const { width } = useWindowSize()
+      const labelPosition = computed(() => {
+        if (width.value < 560) {
+          return 'top'
+        }
+
+        return 'left'
+      })
+
+      const mergedFormProps = computed(() => {
+        return {
+          'label-position': labelPosition.value,
+          ...formProps,
+        }
+      })
+
       return () => (
         <>
-          <ElForm {...formProps} label-width="auto" key={formKey.value}>
+          <ElForm
+            {...mergedFormProps.value}
+            label-width="auto"
+            key={formKey.value}
+          >
             {renderFields()}
 
             {slots.default?.()}

@@ -36,7 +36,8 @@ const isLoading = computed(() => {
 
 const { AppForm: QueryForm, formApi } = useAppForm({
   formProps: {
-    inline: true
+    inline: true,
+    labelPosition: 'left'
   },
   fields() {
     return [

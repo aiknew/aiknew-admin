@@ -42,3 +42,10 @@ onMounted(() => {
     </template>
   </el-popover>
 </template>
+
+<style>
+[id^='el-popper-container-'] {
+  position: relative;
+  z-index: 10000;
+}
+</style>

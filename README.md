@@ -2,6 +2,12 @@ English | [简体中文](./README-zh.md)
 
 A admin dashboard developed using Nest.js, Prisma, Vue3, Element-Plus, and TypeScript,uses pnpm monorepo architecture, supporting multi-language text, and compatible with mobile devices.
 
+[Online Demo](https://console.aiknew.org): https://console.aiknew.org
+
+username：admin
+
+password：admin
+
 # Development Environment
 
 ## Environment Requirements

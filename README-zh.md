@@ -2,6 +2,12 @@
 
 基于 Nest.js, Prisma, Vue3, Element-Plus, Typescript 编写的后台管理系统, 采用 pnpm monorepo 架构，支持多语言文本，兼容移动端
 
+[演示后台](https://console.aiknew.org): https://console.aiknew.org
+
+用户名：admin
+
+密码：admin
+
 # 开发环境
 
 ## 环境要求

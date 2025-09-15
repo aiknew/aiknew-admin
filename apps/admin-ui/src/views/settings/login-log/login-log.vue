@@ -124,8 +124,8 @@ const handleResetQueryForm = () => {
         width="200"
         show-overflow-tooltip
       />
-      <el-table-column prop="os" :label="t('loginLog.os')" width="100" />
-      <el-table-column prop="browser" :label="t('loginLog.browser')" width="100" />
+      <el-table-column prop="os" :label="t('loginLog.os')" width="150" />
+      <el-table-column prop="browser" :label="t('loginLog.browser')" width="180" />
       <el-table-column prop="isSuccess" :label="t('status')">
         <template #default="{ row }: { row: LoginLogDto }">
           <el-tag v-if="row.isSuccess" type="success">{{ t('success') }}</el-tag>

@@ -63,7 +63,8 @@
     "redis": "catalog:api",
     "reflect-metadata": "^0.2.2",
     "rxjs": "catalog:api",
-    "svg-captcha": "^1.4.0"
+    "svg-captcha": "^1.4.0",
+    "ua-parser-js": "^2.0.5"
   },
   "devDependencies": {
     "@aiknew/shared-api-types": "workspace:*",

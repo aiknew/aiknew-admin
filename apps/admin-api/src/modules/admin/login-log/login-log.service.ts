@@ -2,11 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@aiknew/shared-admin-db'
 import { CreateLoginLogDto } from './dto/create-login-log.dto'
 import { QueryLoginLogDto } from './dto/query-login-log.dto'
-import { catchError, firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios'
-import type { AxiosError } from 'axios'
 import { isPrivateIP } from 'range_check';
 import { ConfigService } from '@nestjs/config';
+import { UAParser } from 'ua-parser-js'
 
 @Injectable()
 export class LoginLogService {
@@ -91,33 +90,16 @@ export class LoginLogService {
   }
 
   parseUserAgent(userAgentString: string): { os: string, browser: string } {
-    let os = 'unknown'
-    let browser = 'unknown'
 
-    if (userAgentString.includes('Windows')) {
-      os = 'Windows'
-    } else if (userAgentString.includes('Mac OS X')) {
-      os = 'macOS'
-    } else if (userAgentString.includes('Linux')) {
-      os = 'Linux'
-    } else if (userAgentString.includes('Android')) {
-      os = 'Android'
-    } else if (userAgentString.includes('iOS')) {
-      os = 'iOS'
+    const { browser, os } = UAParser(userAgentString);
+
+    const toString = (strOrUndefined: string | undefined) => {
+      return strOrUndefined ?? ''
     }
 
-    if (userAgentString.includes('Chrome') && !userAgentString.includes('Edg')) {
-      browser = 'Chrome'
-    } else if (userAgentString.includes('Firefox')) {
-      browser = 'Firefox'
-    } else if (userAgentString.includes('Safari') && !userAgentString.includes('Chrome')) {
-      browser = 'Safari'
-    } else if (userAgentString.includes('Edg')) {
-      browser = 'Edge'
-    } else if (userAgentString.includes('Opera')) {
-      browser = 'Opera'
+    return {
+      browser: `${toString(browser.name)} ${toString(browser.version)}`,
+      os: `${toString(os.name)} ${toString(os.version)}`
     }
-
-    return { os, browser }
   }
 }

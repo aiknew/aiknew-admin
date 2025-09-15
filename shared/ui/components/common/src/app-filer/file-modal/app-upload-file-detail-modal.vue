@@ -111,6 +111,7 @@ const editFields = () =>
       as: {
         component: 'ElTreeSelect',
         props: {
+          style: { minWidth: '200px' },
           valueKey: 'id',
           nodeKey: 'id',
           lazy: true,

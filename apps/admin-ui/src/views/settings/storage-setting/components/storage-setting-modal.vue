@@ -2,7 +2,7 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import { useFileStorageCreate, useFileStorageUpdate, type FileStorage } from '@/api/file-storage'
 import { convertNullToUndefined } from '@aiknew/shared-utils'
 import { FileStorageStatus, StorageType } from '@aiknew/shared-enums'

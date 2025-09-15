@@ -13,7 +13,7 @@ import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
 import type { ILanguage } from '@aiknew/shared-types'
-import { WangEditor } from '@aiknew/shared-ui-components'
+import AppEditor from '../app-editor/app-editor.vue'
 
 type GetFieldName<N extends string | undefined> = N extends string ? N : never
 
@@ -76,7 +76,7 @@ export interface Components {
   ElRadio: ComponentPropsAndSlots<typeof ElRadio> &
   ComponentPropsAndSlots<typeof AppRadio>
   ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>
-  WangEditor: ComponentPropsAndSlots<typeof WangEditor>
+  AppEditor: ComponentPropsAndSlots<typeof AppEditor>
 }
 
 export type GetProps<C extends keyof Components> = Components[C]
@@ -88,7 +88,7 @@ export const components: Record<keyof Components, Component> = {
   ElTreeSelect,
   ElInputNumber,
   ElSwitch,
-  WangEditor,
+  AppEditor
 }
 
 type AsObject<T extends keyof Components> = {

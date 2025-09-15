@@ -40,6 +40,8 @@ catalogs:
     '@bprogress/vue': '^1.1.5'
     'color2k': '^2.0.3'
     'pinia': '^3.0.3'
+    '@tanstack/vue-form': '^1.19.5'
+    '@opentiny/fluent-editor': '^3.25.4'
   api:
     '@nestjs/common': ^11.0.1
     '@nestjs/swagger': ^11.1.4

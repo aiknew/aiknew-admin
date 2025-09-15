@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag, ElFormItem } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-table'
+import { AppTable } from '@aiknew/shared-ui-components'
 import { computed, ref } from 'vue'
 import { useConfigDelete, useConfigList, type Config, type QueryConfigDto } from '@/api/config'
 import { toReactive } from '@vueuse/core'
@@ -9,7 +9,7 @@ import { useTemplateRef } from 'vue'
 import ConfigModal from './components/config-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
 
 const configModalRef = useTemplateRef('configModalRef')

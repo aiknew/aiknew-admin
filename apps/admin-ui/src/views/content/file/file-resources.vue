@@ -2,7 +2,7 @@
 import { useUserStore } from '@/stores/user'
 import { useDebounceFn } from '@vueuse/core'
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { AppFileManager, type UploadStorage } from '@aiknew/shared-ui-filer'
+import { AppFileManager, type UploadStorage } from '@aiknew/shared-ui-components'
 import { computed, useTemplateRef, type Ref } from 'vue'
 import { localUploadFilePath, useUploadFileDelete, useUploadFilePresigned } from '@/api/upload-file'
 import { useUploadFilesAndGroups, useUploadFileUpdate } from '@/api/upload-file'

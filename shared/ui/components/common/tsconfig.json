@@ -4,6 +4,7 @@
     "module": "ESNext",
     "strict": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "declaration": true,
     "declarationMap": true,
     "moduleResolution": "bundler",
@@ -12,7 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@intlify/core-base": ["node_modules/@intlify/core-base"]
     },
     "types": ["vite/client", "node"]
   },

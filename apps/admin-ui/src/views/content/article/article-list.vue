@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElFormItem } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-table'
+import { AppTable } from '@aiknew/shared-ui-components'
 import { computed, ref } from 'vue'
 import { toReactive } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
@@ -9,7 +9,7 @@ import { useArticleDelete, useArticleList, type Article, type QueryArticleDto } 
 import ArticleModal from './components/article-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
 
 const { t } = useI18n()

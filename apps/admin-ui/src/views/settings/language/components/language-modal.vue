@@ -2,7 +2,7 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { useTemplateRef, ref, h } from 'vue'
 import { z } from 'zod'
-import { AppFormItemTips, useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { AppFormItemTips, useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import { useI18n } from 'vue-i18n'
 import { useEnabledLangList, useLangCreate, useLangUpdate, type LanguageDto } from '@/api/language'
 import { LanguageOrientation } from '@aiknew/shared-enums'

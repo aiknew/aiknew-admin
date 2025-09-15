@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref, useTemplateRef, watch } from 'vue'
-import { AppBasicModal } from '@aiknew/shared-ui-components'
+import AppBasicModal from '../../app-basic-modal.vue'
 import {
   ElMessage,
   ElUpload,

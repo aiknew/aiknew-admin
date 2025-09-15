@@ -2,7 +2,7 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { computed, h, ref, useTemplateRef, watch } from 'vue'
 import { z } from 'zod'
-import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import { useDictCreate, useDictUpdate, type Dict } from '@/api/dict'
 import { useLangStore } from '@/stores/lang'
 import { useI18n } from 'vue-i18n'

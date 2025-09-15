@@ -2,7 +2,7 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, computed, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import { useAdminUserCreate, useAdminUserUpdate, type AdminUser } from '@/api/admin-user'
 import { useAuthRoleAll, type AuthRole } from '@/api/auth-role'
 import { tField } from '@aiknew/shared-ui-locales'

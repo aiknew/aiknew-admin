@@ -2,7 +2,12 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { computed, h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import {
+  AppFormItemTips,
+  buildI18nSchema,
+  useAppForm,
+  type Fields
+} from '@aiknew/shared-ui-components'
 import { useLangStore } from '@/stores/lang'
 import {
   useArticleCategoryCreate,

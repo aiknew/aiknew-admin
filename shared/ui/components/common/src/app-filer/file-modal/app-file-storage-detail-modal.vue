@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { useAppForm } from '@aiknew/shared-ui-form'
+import AppBasicModal from '../../app-basic-modal.vue'
+import { useAppForm } from '../../app-form'
 import { h, reactive, useTemplateRef } from 'vue'
 import dayjs from 'dayjs'
 import type { FileStorageStatus, StorageType } from '@aiknew/shared-enums'

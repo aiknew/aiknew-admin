@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { computed, h, ref, useTemplateRef } from 'vue'
-import { AppBasicModal } from '@aiknew/shared-ui-components'
+import AppBasicModal from '../../app-basic-modal.vue'
 import { useFileType } from '../composables'
 import type {
   IUpdateUploadFile,
@@ -9,11 +9,7 @@ import type {
 } from '@aiknew/shared-types'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { filesize } from 'filesize'
-import {
-  AppFormItemTips,
-  type Fields,
-  useAppForm,
-} from '@aiknew/shared-ui-form'
+import { AppFormItemTips, type Fields, useAppForm } from '../../app-form'
 import z from 'zod'
 import { ElLink } from 'element-plus'
 import AppFileStorageDetailModal from './app-file-storage-detail-modal.vue'

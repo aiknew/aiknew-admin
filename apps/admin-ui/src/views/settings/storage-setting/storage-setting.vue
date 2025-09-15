@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElButton, ElPopconfirm, ElTag, ElFormItem } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-table'
+import { AppTable } from '@aiknew/shared-ui-components'
 import { computed, ref } from 'vue'
 import { toReactive } from '@vueuse/core'
 import StorageSettingModal from './components/storage-setting-modal.vue'
@@ -16,7 +16,7 @@ import { FileStorageStatus, StorageType } from '@aiknew/shared-enums'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import { h } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
 
 const { t } = useI18n()

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import { useUserInfoUpdate } from '@/api/auth'
 import z from 'zod'
 import { h, ref } from 'vue'

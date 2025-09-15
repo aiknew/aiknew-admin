@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElLink, ElTableColumn, ElButton, ElPopconfirm, ElSwitch, ElFormItem } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-table'
+import { AppTable } from '@aiknew/shared-ui-components'
 import { computed, ref } from 'vue'
 import { toReactive } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
@@ -16,7 +16,7 @@ import {
 import DictTypeModal from './components/dict-type-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
 import DictItemsDrawer from './components/dict-items-drawer.vue'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
 
 const { t } = useI18n()

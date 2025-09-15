@@ -3,7 +3,7 @@ import { ref, useTemplateRef } from 'vue'
 import AppFileManager, {
   type Props as FileManagerProps,
 } from './app-file-manager.vue'
-import { AppBasicModal } from '@aiknew/shared-ui-components'
+import AppBasicModal from '../app-basic-modal.vue'
 import type { IUploadFile } from '@aiknew/shared-types'
 import { useI18n } from 'vue-i18n'
 

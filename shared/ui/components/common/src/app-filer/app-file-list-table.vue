@@ -10,7 +10,7 @@ import {
   ElPopconfirm,
 } from 'element-plus'
 import { isFileItem, isGroupItem, type GroupPathItem } from './composables'
-import { AppTable } from '@aiknew/shared-ui-table'
+import { AppTable } from '../app-table'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import { useI18n } from 'vue-i18n'
 

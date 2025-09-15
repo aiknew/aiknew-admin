@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AppContentBlock } from '@aiknew/shared-ui-components'
 import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm, ElTag } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-table'
+import { AppTable } from '@aiknew/shared-ui-components'
 import { computed, ref } from 'vue'
 import { usePagination } from '@/composables'
 import { useTemplateRef } from 'vue'
@@ -14,7 +14,7 @@ import {
 } from '@/api/auth-route'
 import AuthRouteModal from './components/auth-route-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'

@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="P extends boolean = true">
 import { ElTable } from 'element-plus'
 import { useTemplateRef } from 'vue'
-import { AppPagination } from '@aiknew/shared-ui-components'
+import AppPagination from '../app-pagination.vue'
 import { computed } from 'vue'
 import type { IPaginationData } from '@aiknew/shared-types'
 

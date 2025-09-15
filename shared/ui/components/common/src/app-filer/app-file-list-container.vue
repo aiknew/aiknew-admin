@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
-import { AppPagination } from '@aiknew/shared-ui-components'
+import { useTemplateRef } from 'vue'
+import AppPagination from '../app-pagination.vue'
 import AppFileListTable from './app-file-list-table.vue'
 import { isFileItem, type GroupPathItem } from './composables'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'

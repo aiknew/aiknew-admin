@@ -2,7 +2,12 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { ref, h, useTemplateRef, computed } from 'vue'
 import { z } from 'zod'
-import { AppFormItemTips, buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-form'
+import {
+  AppFormItemTips,
+  buildI18nSchema,
+  useAppForm,
+  type Fields
+} from '@aiknew/shared-ui-components'
 import { useLangStore } from '@/stores/lang'
 import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
 import { useAuthRouteAll, type AuthRoute } from '@/api/auth-route'

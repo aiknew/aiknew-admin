@@ -78,6 +78,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': convertPath('./src')
-    }
+    },
+    dedupe: ['vue', 'element-plus']
   }
 })

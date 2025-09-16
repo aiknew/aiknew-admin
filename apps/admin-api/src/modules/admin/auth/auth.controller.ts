@@ -27,7 +27,7 @@ export class AuthController {
   constructor(private service: AuthService) { }
 
   @Public()
-  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @SuccessMsg(t('admin-auth.loginSuccess'))
   @AppApiUnauthorizedResponse()
   @AppApiCreatedResponse(LoginSuccessDto)

@@ -113,11 +113,11 @@ const { AppForm, formApi } = useAppForm({
         schema: z.number().default(10)
       }
     ] as const satisfies Fields,
-  async onSubmit({ i18nValues }) {
+  async onSubmit({ values }) {
     if (modalRef.value?.modalMode === 'add') {
-      await createPermission(i18nValues)
+      await createPermission(values)
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updatePermission({ id: editId.value, body: i18nValues })
+      await updatePermission({ id: editId.value, body: values })
     }
 
     emit('submit')

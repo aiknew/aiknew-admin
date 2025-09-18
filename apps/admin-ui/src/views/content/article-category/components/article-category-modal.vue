@@ -112,11 +112,11 @@ const { AppForm, formApi } = useAppForm({
         schema: z.number().default(10)
       }
     ] as const satisfies Fields,
-  onSubmit: async ({ i18nValues }) => {
+  onSubmit: async ({ values }) => {
     if (modalRef.value?.modalMode === 'add') {
-      await createArticleCategory(i18nValues)
+      await createArticleCategory(values)
     } else if (modalRef.value?.modalMode === 'edit' && editCategory.value) {
-      await updateArticleCategory({ id: editCategory.value.id, body: i18nValues })
+      await updateArticleCategory({ id: editCategory.value.id, body: values })
     }
 
     emit('submit')

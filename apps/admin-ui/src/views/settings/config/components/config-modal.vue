@@ -81,11 +81,11 @@ const { AppForm, formApi } = useAppForm({
           ).optional()
       }
     ] as const satisfies Fields,
-  async onSubmit({ i18nValues }) {
+  async onSubmit({ values }) {
     if (modalRef.value?.modalMode === 'add') {
-      await createConfig(i18nValues)
+      await createConfig(values)
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateConfig({ id: editId.value, body: i18nValues })
+      await updateConfig({ id: editId.value, body: values })
     }
 
     emit('submit', {

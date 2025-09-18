@@ -114,13 +114,13 @@ const { AppForm, formApi } = useAppForm({
         schema: z.array(z.string()).default([]).optional()
       }
     ] as const satisfies Fields,
-  async onSubmit({ i18nValues }) {
+  async onSubmit({ values }) {
     if (modalRef.value?.modalMode === 'add') {
-      if (typeof i18nValues.password === 'string') {
-        await createUser({ ...i18nValues, password: i18nValues.password })
+      if (typeof values.password === 'string') {
+        await createUser({ ...values, password: values.password })
       }
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateUser({ id: editId.value, body: i18nValues })
+      await updateUser({ id: editId.value, body: values })
     }
 
     emit('submit')

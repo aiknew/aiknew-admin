@@ -123,11 +123,11 @@ const { AppForm, formApi } = useAppForm({
         schema: z.number().default(10)
       }
     ] as const satisfies Fields,
-  async onSubmit({ i18nValues }) {
+  async onSubmit({ values }) {
     if (modalRef.value?.modalMode === 'add') {
-      await createFileStorage(i18nValues)
+      await createFileStorage(values)
     } else if (modalRef.value?.modalMode === 'edit') {
-      await updateFileStorage({ id: editId.value, body: i18nValues })
+      await updateFileStorage({ id: editId.value, body: values })
     }
 
     emit('submit')

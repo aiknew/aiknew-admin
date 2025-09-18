@@ -273,11 +273,11 @@ const { AppForm, formApi } = useAppForm({
         schema: z.number().default(10)
       }
     ] as const satisfies Fields,
-  async onSubmit({ i18nValues }) {
+  async onSubmit({ values }) {
     if (modalRef.value?.modalMode === 'add') {
-      await createRoute(i18nValues)
+      await createRoute(values)
     } else if (modalRef.value?.modalMode === 'edit' && editRoute.value) {
-      await updateRoute({ id: editRoute.value.id, body: i18nValues })
+      await updateRoute({ id: editRoute.value.id, body: values })
     }
 
     emit('submit')

@@ -104,11 +104,11 @@ const { AppForm, formApi } = useAppForm({
         schema: z.boolean().default(true)
       }
     ] as const satisfies Fields,
-  onSubmit: async ({ i18nValues }) => {
+  onSubmit: async ({ values }) => {
     if (modalRef.value?.modalMode === 'add') {
-      await createDictType(i18nValues)
+      await createDictType(values)
     } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
-      await updateDictType({ id: editId.value, body: i18nValues })
+      await updateDictType({ id: editId.value, body: values })
     }
 
     emit('submit')

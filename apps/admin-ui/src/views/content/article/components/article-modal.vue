@@ -124,11 +124,11 @@ const { AppForm, formApi } = useAppForm({
       }
     ] as const satisfies Fields,
   languages,
-  onSubmit: async ({ i18nValues }) => {
+  onSubmit: async ({ values }) => {
     if (modalRef.value?.modalMode === 'add') {
-      await createArticle(i18nValues)
+      await createArticle(values)
     } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
-      await updateArticle({ id: editId.value, body: i18nValues })
+      await updateArticle({ id: editId.value, body: values })
     }
 
     emit('submit')

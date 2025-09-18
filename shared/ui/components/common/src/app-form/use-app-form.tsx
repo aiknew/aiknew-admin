@@ -38,9 +38,9 @@ interface Props<F extends readonly Field<string, keyof Components>[]> {
   fields: F | (() => F)
   languages?: ILanguage[]
   onSubmit?: (data: {
-    values: Prettify<GetDefaultVals<F>>
+    values: Prettify<GetFieldsWithTranslations<F>>
+    rawValues: Prettify<GetDefaultVals<F>>
     i18nFieldNames: Prettify<GetI18nFieldNames<F>>[]
-    i18nValues: Prettify<GetFieldsWithTranslations<F>>
   }) => void
 }
 
@@ -150,8 +150,8 @@ export const useAppForm = <
     onSubmit: async ({ value }) => {
       onSubmit &&
         onSubmit({
-          values: value,
-          i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
+          values: resolveI18nFields(value, i18nFieldNames, languages),
+          rawValues: value,
           i18nFieldNames,
         })
     },

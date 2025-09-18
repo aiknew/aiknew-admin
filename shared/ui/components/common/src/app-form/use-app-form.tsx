@@ -126,8 +126,6 @@ export const useAppForm = <
   const fields = typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
   const defaultValues = generateDefaultVal(fields)
   const i18nFieldNames = getI18nFieldNames(fields)
-
-  const schemas = generateValidators<F>(fields)
   const activeFieldTab = ref<Record<string, string>>(
     fields
       .filter((item) => item.i18n)
@@ -138,7 +136,15 @@ export const useAppForm = <
         return o
       }, {} as Record<string, string>),
   )
+  const activeFields = computed<F>(() => {
+    const allFields =
+      typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
+    return allFields.filter((field) => resolveCondition(field.when)) as never
+  })
 
+  const schemas = computed(() => {
+    return generateValidators<F>(activeFields.value)
+  })
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
@@ -150,32 +156,26 @@ export const useAppForm = <
         })
     },
     validators: {
-      onChange: schemas,
-      onSubmit: schemas,
+      onChangeAsync: async ({ formApi }) => {
+        await new Promise((resolve) => {
+          // Asynchronous verification is used here to wait for the calculation attribute schemas to be updated before verification
+          const errors = formApi.parseValuesWithSchema(schemas.value)
+
+          if (errors) {
+            throw errors
+          }
+
+          resolve(undefined)
+        })
+      },
+      onSubmit: ({ formApi }) => {
+        const errors = formApi.parseValuesWithSchema(schemas.value)
+        return errors
+      },
     },
   })
 
   const formErrors = form.useStore((state) => state.errors)
-
-  onLangChange(() => {
-    const defaultValues = generateDefaultVal(fields)
-    const schemas = generateValidators(fields)
-    form.update({
-      defaultValues,
-      validators: {
-        onChange: schemas,
-        onSubmit: schemas,
-      },
-      onSubmit: async ({ value }) => {
-        onSubmit &&
-          onSubmit({
-            values: value,
-            i18nValues: resolveI18nFields(value, i18nFieldNames, languages),
-            i18nFieldNames,
-          })
-      },
-    })
-  })
 
   type FormSlotProps = Parameters<
     ComponentSlots<typeof form.Field>['default']
@@ -205,7 +205,8 @@ export const useAppForm = <
         const activeLangErrKey =
           fieldErrKey + `${activeFieldTab.value[item.name]}`
         if (formErrors.value.length > 0) {
-          const errObj = formErrors.value[0] ?? {}
+          const errObj: Record<string, Record<string, string>[]> =
+            formErrors.value[0] ?? {}
           const fieldErrs = Object.values(
             Object.keys(errObj).reduce((o, key) => {
               if (key.includes(fieldErrKey)) {
@@ -233,7 +234,8 @@ export const useAppForm = <
       }
 
       return {
-        msg: state.meta.errors[0]?.message,
+        msg: (state.meta.errors?.[0] as unknown as Record<string, string>)
+          ?.message,
       }
     })
 
@@ -346,17 +348,10 @@ export const useAppForm = <
     )
   }
 
-  const formKey = ref(0)
   const AppForm = defineComponent({
     setup(_, { slots }) {
       const renderFields = () => {
-        const normalizeFields =
-          typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
-
-        const filterFields = normalizeFields.filter((item) =>
-          resolveCondition(item.when),
-        )
-        return filterFields.map((item) => {
+        return activeFields.value.map((item) => {
           if (isNormalField(item)) {
             return (
               <form.Field name={item.name} key={item.name}>
@@ -373,6 +368,7 @@ export const useAppForm = <
         })
       }
 
+      const formKey = ref(0)
       onLangChange(() => {
         formKey.value++
       })
@@ -425,8 +421,6 @@ export const useAppForm = <
           i18nValues: Prettify<GetFieldsWithTranslations<F>>,
           ...rest: Rest
         ) => void
-
-        recalculateFields: () => void
       }
 
       const extendedFormApi = form as ExtendFromApi
@@ -436,10 +430,6 @@ export const useAppForm = <
         ...rest: Rest
       ) => {
         form.reset(restoreI18nFields(i18nValues), ...rest)
-      }
-
-      extendedFormApi.recalculateFields = () => {
-        formKey.value++
       }
 
       return extendedFormApi

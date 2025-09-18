@@ -379,7 +379,7 @@ export const useAppForm = <
           return 'top'
         }
 
-        return 'left'
+        return 'right'
       })
 
       const mergedFormProps = computed(() => {

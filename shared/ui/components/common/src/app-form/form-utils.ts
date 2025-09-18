@@ -1,5 +1,5 @@
 import { type StandardSchemaV1 } from '@tanstack/vue-form'
-import { z, ZodType, ZodDefault, ZodOptional, ZodNullable } from 'zod'
+import { z, ZodType, ZodDefault, ZodOptional, ZodNullable, ZodObject } from 'zod'
 import {
   ElInput,
   ElSwitch,
@@ -14,6 +14,8 @@ import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
 import type { ILanguage } from '@aiknew/shared-types'
 import AppEditor from '../app-editor/app-editor.vue'
+
+type GetValueFromRecordOrKeep<T> = T extends Record<string, infer V> ? V : T
 
 type GetFieldName<N extends string | undefined> = N extends string ? N : never
 
@@ -50,7 +52,7 @@ export type GetFieldsWithTranslations<
 } & {
   translations: Prettify<
     {
-      [K in GetI18nFieldNames<Fields>]: GetI18nFields<Fields>[K][keyof GetI18nFields<Fields>[K]]
+      [K in GetI18nFieldNames<Fields>]: GetValueFromRecordOrKeep<GetI18nFields<Fields>[K]>
     } & { langKey: string }
   >[]
 }
@@ -211,16 +213,21 @@ export const defineFields = <
   return reactive(items)
 }
 
-export const buildI18nSchema = <T extends ZodDefault<ZodType>>(
+export const buildI18nSchema = <T extends ZodDefault<ZodType> | ZodType>(
   schema: T,
   languages: ILanguage[],
-) => {
-  const res: Record<string, T> = {}
+): ZodObject<Readonly<{ [k: string]: T }>> => {
+  const schemas: Record<string, T> = {}
   const defaultVals: Record<string, z.infer<T>> = {}
   languages.forEach((lang) => {
-    res[lang.key] = schema
-    defaultVals[lang.key] = schema.parse(undefined)
+    schemas[lang.key] = schema
+
+    if (schema instanceof ZodDefault) {
+      defaultVals[lang.key] = schema.parse(undefined) as z.infer<T>
+    } else {
+      defaultVals[lang.key] = undefined as never
+    }
   })
 
-  return z.object(res).default(defaultVals)
+  return z.object(schemas).default(defaultVals) as never
 }

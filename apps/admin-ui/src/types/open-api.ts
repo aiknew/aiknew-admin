@@ -1285,11 +1285,10 @@ export interface components {
             status: boolean;
             translations?: components["schemas"]["DictTranslationDto"][];
         };
-        ConfigTranslationDto: {
+        Translation: {
+            remark: string;
             langKey: string;
             name: string;
-            /** @default  */
-            remark: string;
         };
         ConfigDto: {
             id: string;
@@ -1300,7 +1299,12 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            translations: components["schemas"]["ConfigTranslationDto"][];
+            translations: components["schemas"]["Translation"][];
+        };
+        ConfigTranslationDto: {
+            langKey: string;
+            name: string;
+            remark?: string;
         };
         CreateConfigDto: {
             key: string;

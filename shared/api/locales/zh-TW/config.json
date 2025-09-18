@@ -5,5 +5,6 @@
   "configCreate": "創建配置",
   "configUpdate": "更新配置",
   "configDelete": "刪除配置",
-  "cannotModifyBuiltIn": "不能修改系統內置的配置"
+  "cannotModifyBuiltIn": "不能修改系統內置的配置",
+  "keyExists": "配置的key已經存在"
 }

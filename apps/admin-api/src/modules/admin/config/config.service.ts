@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@aiknew/shared-admin-db'
+import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { CreateConfigDto } from './dto/create-config.dto'
 import { UpdateConfigDto } from './dto/update-config.dto'
 import { QueryConfigDto } from './dto/query-config.dto'
@@ -52,16 +52,31 @@ export class ConfigService {
   }
 
   async createOne(data: CreateConfigDto) {
-    const { translations, ...rest } = data
-    return this.model.create({
-      data: {
-        ...rest,
-        system: false,
-        translations: {
-          create: translations,
+    try {
+
+      const { translations, ...rest } = data
+      return await this.model.create({
+        data: {
+          ...rest,
+          system: false,
+          translations: {
+            create: translations,
+          },
         },
-      },
-    })
+      })
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code === 'P2002') {
+          throw new AppBadRequestException(
+            this.i18n.t('config.keyExists', {
+              lang: I18nContext?.current()?.lang,
+            }),
+          )
+        }
+      }
+
+      throw err
+    }
   }
 
   async isSystemConfig(id: string) {

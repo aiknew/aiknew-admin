@@ -9,5 +9,5 @@ export class ConfigTranslationDto {
 
   @IsString()
   @IsOptional()
-  remark?: string = ""
+  remark?: string
 }

@@ -74,12 +74,11 @@ const { AppForm, formApi } = useAppForm({
         schema: () =>
           buildI18nSchema(
             z
-              .string({ message: t('configView.enterRemark') })
+              .string()
               .max(200, { message: t('configView.remarkLengthExceeded') })
-              .optional()
-              .default(''),
+              .optional(),
             languages
-          )
+          ).optional()
       }
     ] as const satisfies Fields,
   async onSubmit({ i18nValues }) {

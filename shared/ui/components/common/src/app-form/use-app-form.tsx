@@ -158,7 +158,7 @@ export const useAppForm = <
     validators: {
       onChangeAsync: async ({ formApi }) => {
         await new Promise((resolve) => {
-          // Asynchronous verification is used here to wait for the calculation attribute schemas to be updated before verification
+          // Asynchronous validation is used here to wait for the computed schemas to be updated before validation
           const errors = formApi.parseValuesWithSchema(schemas.value)
 
           if (errors) {

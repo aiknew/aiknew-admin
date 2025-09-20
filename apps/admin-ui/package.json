@@ -21,6 +21,7 @@
     "@aiknew/shared-ui-layouts": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
     "@aiknew/shared-ui-components": "workspace:*",
+    "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
     "@bprogress/core": "catalog:ui",

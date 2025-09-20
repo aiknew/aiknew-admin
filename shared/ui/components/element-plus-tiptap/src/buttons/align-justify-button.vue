@@ -2,7 +2,7 @@
 import type { Editor } from '@tiptap/vue-3'
 import { AlignJustify } from 'lucide-vue-next'
 
-interface Props {
+export interface Props {
   editor: Editor
 }
 

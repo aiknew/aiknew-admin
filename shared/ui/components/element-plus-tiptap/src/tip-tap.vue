@@ -8,17 +8,37 @@ import { TextStyleKit } from '@tiptap/extension-text-style'
 import { TableKit } from '@tiptap/extension-table'
 import { CharacterCount } from '@tiptap/extensions'
 import ToolBar from './tool-bar.vue'
+import { type buttons } from './buttons'
 
 interface Props {
   modelValue: string
   limit?: number
+  toolbar?: (buttons | buttons[])[]
 }
 
 interface Emits {
   (e: 'update:modelValue', content: string): void
 }
 
-const { modelValue, limit = 500 } = defineProps<Props>()
+const {
+  modelValue,
+  limit = 500,
+  toolbar = [
+    ['bold', 'italic', 'underline', 'font-size'],
+    ['link', 'strike', 'highlight'],
+    ['heading-1', 'heading-2', 'heading-3'],
+    [
+      'bullet-list',
+      'ordered-list',
+      'blockquote',
+      'code-block',
+      'horizontal-rule',
+    ],
+    ['align-left', 'align-center', 'align-right', 'align-justify'],
+    ['table'],
+    ['undo', 'redo'],
+  ],
+} = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const editor = useEditor({
@@ -79,7 +99,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="border border-gray-300 rounded-lg overflow-hidden">
-    <tool-bar v-if="editor" :editor="editor" />
+    <tool-bar v-if="editor" :toolbar :editor="editor" />
     <editor-content :editor="editor" />
     <div
       v-if="editor"

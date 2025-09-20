@@ -11,10 +11,10 @@
   "peerDependencies": {
     "@aiknew/shared-enums": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
     "@element-plus/icons-vue": "catalog:ui",
-    "@opentiny/fluent-editor": "catalog:ui",
     "@tanstack/vue-form": "catalog:ui",
     "@vueuse/core": "catalog:ui",
     "dayjs": "catalog:common",

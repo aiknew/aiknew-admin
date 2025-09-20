@@ -104,9 +104,6 @@ catalogs:
     '@intlify/unplugin-vue-i18n':
       specifier: ^6.0.5
       version: 6.0.8
-    '@opentiny/fluent-editor':
-      specifier: ^3.25.4
-      version: 3.25.4
     '@tailwindcss/vite':
       specifier: ^4.1.13
       version: 4.1.13
@@ -431,9 +428,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: catalog:ui
         version: 2.3.1(vue@3.5.17(typescript@5.8.3))
-      '@opentiny/fluent-editor':
-        specifier: catalog:ui
-        version: 3.25.4
       '@tailwindcss/vite':
         specifier: catalog:ui
         version: 4.1.13(vite@7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.20.5)(yaml@2.8.0))
@@ -1089,6 +1083,9 @@ importers:
 
   shared/ui/components/common:
     dependencies:
+      '@aiknew/element-plus-tiptap':
+        specifier: workspace:*
+        version: link:../element-plus-tiptap
       '@aiknew/shared-enums':
         specifier: workspace:*
         version: link:../../../enums
@@ -1104,9 +1101,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: catalog:ui
         version: 2.3.1(vue@3.5.17(typescript@5.9.2))
-      '@opentiny/fluent-editor':
-        specifier: catalog:ui
-        version: 3.25.4
       '@tanstack/vue-form':
         specifier: catalog:ui
         version: 1.19.5(vue@3.5.17(typescript@5.9.2))
@@ -2797,9 +2791,6 @@ packages:
 
   '@one-ini/wasm@0.1.1':
     resolution: {integrity: sha512-XuySG1E38YScSJoMlqovLru4KTUNSjgVTIjyh7qMX6aNN5HY5Ct5LhRJdxO79JtTzKfzV/bnWpz+zquYrISsvw==}
-
-  '@opentiny/fluent-editor@3.25.4':
-    resolution: {integrity: sha512-jdXXsBq2AIy9e8L8RkNXVo0ittDhfG7ELVs4lGUmnewIvdNOs64axttj2GGfW9Lup95oeMqdoOW0kf09GAx0Vw==}
 
   '@oxc-project/types@0.89.0':
     resolution: {integrity: sha512-yuo+ECPIW5Q9mSeNmCDC2im33bfKuwW18mwkaHMQh8KakHYDzj4ci/q7wxf2qS3dMlVVCIyrs3kFtH5LmnlYnw==}
@@ -5459,9 +5450,6 @@ packages:
   eventemitter2@6.4.7:
     resolution: {integrity: sha512-tYUSVOGeQPKt/eC1ABfhHy5Xd96N3oIijJvN3O9+TsC28T5V9yX9oEfEK5faP0EFSNVOG97qtAS68GBrQB2hDg==}
 
-  eventemitter3@5.0.1:
-    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
-
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
@@ -6536,18 +6524,11 @@ packages:
       lodash: '*'
       lodash-es: '*'
 
-  lodash.clonedeep@4.5.0:
-    resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
-
   lodash.includes@4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
 
   lodash.isboolean@3.0.3:
     resolution: {integrity: sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==}
-
-  lodash.isequal@4.5.0:
-    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
-    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
 
   lodash.isinteger@4.0.4:
     resolution: {integrity: sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==}
@@ -6997,9 +6978,6 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
 
-  parchment@3.0.0:
-    resolution: {integrity: sha512-HUrJFQ/StvgmXRcQ1ftY6VEZUq3jA2t9ncFN4F84J/vN0/FPpQF+8FKXb3l6fLces6q0uOHj6NJn+2xvZnxO6A==}
-
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -7374,14 +7352,6 @@ packages:
   quick-lru@5.1.1:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
-
-  quill-delta@5.1.0:
-    resolution: {integrity: sha512-X74oCeRI4/p0ucjb5Ma8adTXd9Scumz367kkMK5V/IatcX6A0vlgLgKbzXWy5nZmCGeNJm2oQX0d2Eqj+ZIlCA==}
-    engines: {node: '>= 12.0.0'}
-
-  quill@2.0.3:
-    resolution: {integrity: sha512-xEYQBqfYx/sfb33VJiKnSJp8ehloavImQ2A6564GAbqG55PGw1dAWUn1MUbQB62t0azawUS2CZZhWCjO8gRvTw==}
-    engines: {npm: '>=8.2.3'}
 
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
@@ -10699,11 +10669,6 @@ snapshots:
 
   '@one-ini/wasm@0.1.1': {}
 
-  '@opentiny/fluent-editor@3.25.4':
-    dependencies:
-      lodash-es: 4.17.21
-      quill: 2.0.3
-
   '@oxc-project/types@0.89.0': {}
 
   '@oxlint/darwin-arm64@0.16.12':
@@ -13856,8 +13821,6 @@ snapshots:
 
   eventemitter2@6.4.7: {}
 
-  eventemitter3@5.0.1: {}
-
   events@3.3.0: {}
 
   execa@4.1.0:
@@ -15184,13 +15147,9 @@ snapshots:
       lodash: 4.17.21
       lodash-es: 4.17.21
 
-  lodash.clonedeep@4.5.0: {}
-
   lodash.includes@4.3.0: {}
 
   lodash.isboolean@3.0.3: {}
-
-  lodash.isequal@4.5.0: {}
 
   lodash.isinteger@4.0.4: {}
 
@@ -15622,8 +15581,6 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
-  parchment@3.0.0: {}
-
   parent-module@1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -15942,19 +15899,6 @@ snapshots:
   queue-microtask@1.2.3: {}
 
   quick-lru@5.1.1: {}
-
-  quill-delta@5.1.0:
-    dependencies:
-      fast-diff: 1.3.0
-      lodash.clonedeep: 4.5.0
-      lodash.isequal: 4.5.0
-
-  quill@2.0.3:
-    dependencies:
-      eventemitter3: 5.0.1
-      lodash-es: 4.17.21
-      parchment: 3.0.0
-      quill-delta: 5.1.0
 
   randombytes@2.1.0:
     dependencies:

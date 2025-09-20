@@ -2,7 +2,7 @@
 import type { Editor } from '@tiptap/vue-3'
 import { Heading3 } from 'lucide-vue-next'
 
-interface Props {
+export interface Props {
   editor: Editor
 }
 

@@ -3,7 +3,7 @@ import type { Editor } from '@tiptap/vue-3'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { ElInputNumber } from 'element-plus'
 
-interface Props {
+export interface Props {
   editor: Editor
 }
 

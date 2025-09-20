@@ -13,7 +13,7 @@ import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
 import type { ILanguage } from '@aiknew/shared-types'
-import AppEditor from '../app-editor/app-editor.vue'
+import AppEditor from '../app-editor.vue'
 
 type GetValueFromRecordOrKeep<T> = T extends Record<string, infer V> ? V : T
 

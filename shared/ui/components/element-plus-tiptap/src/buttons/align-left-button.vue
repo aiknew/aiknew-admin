@@ -2,7 +2,7 @@
 import type { Editor } from '@tiptap/vue-3'
 import { AlignLeft } from 'lucide-vue-next'
 
-interface Props {
+export interface Props {
   editor: Editor
 }
 

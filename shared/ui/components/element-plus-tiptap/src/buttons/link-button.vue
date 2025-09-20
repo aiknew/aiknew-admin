@@ -4,7 +4,7 @@ import { Link } from 'lucide-vue-next'
 import { ElDropdown, ElDropdownMenu, ElButton, ElInput } from 'element-plus'
 import { ref, useTemplateRef } from 'vue';
 
-interface Props {
+export interface Props {
   editor: Editor
 }
 

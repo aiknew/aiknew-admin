@@ -498,6 +498,9 @@ importers:
       '@playwright/test':
         specifier: ^1.53.1
         version: 1.53.1
+      '@tailwindcss/typography':
+        specifier: ^0.5.18
+        version: 0.5.18(tailwindcss@4.1.10)
       '@tsconfig/node22':
         specifier: ^22.0.2
         version: 22.0.2
@@ -3584,6 +3587,11 @@ packages:
   '@tailwindcss/oxide@4.1.13':
     resolution: {integrity: sha512-CPgsM1IpGRa880sMbYmG1s4xhAy3xEt1QULgTJGQmZUeNgXFR7s1YxYygmJyBGtou4SyEosGAGEeYqY7R53bIA==}
     engines: {node: '>= 10'}
+
+  '@tailwindcss/typography@0.5.18':
+    resolution: {integrity: sha512-dDIgwZOlf+tVkZ7A029VvQ1+ngKATENDjMEx2N35s2yPjfTS05RWSM8ilhEWSa5DMJ6ci2Ha9WNZEd2GQjrdQg==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
 
   '@tailwindcss/vite@4.1.13':
     resolution: {integrity: sha512-0PmqLQ010N58SbMTJ7BVJ4I2xopiQn/5i6nlb4JmxzQf8zcS5+m2Cv6tqh+sfDwtIdjoEnOvwsGQ1hkUi8QEHQ==}
@@ -7147,6 +7155,10 @@ packages:
 
   pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+    engines: {node: '>=4'}
+
+  postcss-selector-parser@6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
     engines: {node: '>=4'}
 
   postcss-selector-parser@6.1.2:
@@ -11468,6 +11480,11 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.13
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.13
 
+  '@tailwindcss/typography@0.5.18(tailwindcss@4.1.10)':
+    dependencies:
+      postcss-selector-parser: 6.0.10
+      tailwindcss: 4.1.10
+
   '@tailwindcss/vite@4.1.13(vite@7.0.0(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sass-embedded@1.89.2)(terser@5.41.0)(tsx@4.20.5)(yaml@2.8.0))':
     dependencies:
       '@tailwindcss/node': 4.1.13
@@ -15730,6 +15747,11 @@ snapshots:
       fsevents: 2.3.2
 
   pluralize@8.0.0: {}
+
+  postcss-selector-parser@6.0.10:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
 
   postcss-selector-parser@6.1.2:
     dependencies:

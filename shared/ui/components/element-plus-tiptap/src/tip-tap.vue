@@ -7,6 +7,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import { TextStyleKit } from '@tiptap/extension-text-style'
 import { TableKit } from '@tiptap/extension-table'
 import { CharacterCount } from '@tiptap/extensions'
+import ToolBar from './tool-bar.vue'
 
 interface Props {
   modelValue: string
@@ -49,7 +50,7 @@ const editor = useEditor({
   ],
   editorProps: {
     attributes: {
-      class: 'max-w-none focus:outline-none p-4 min-h-[200px]',
+      class: 'prose max-w-none focus:outline-none p-4 min-h-[200px]',
     },
   },
 })
@@ -78,6 +79,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="border border-gray-300 rounded-lg overflow-hidden">
+    <tool-bar v-if="editor" :editor="editor" />
     <editor-content :editor="editor" />
     <div
       v-if="editor"

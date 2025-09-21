@@ -5,7 +5,7 @@ import AppFileModal, {
 } from './app-file-modal.vue'
 import { ElImage, ElButton, ElIcon } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import type { IUploadFile } from '@aiknew/shared-types'
+import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
 
 export interface Props extends FileModalProps {}
 
@@ -15,6 +15,15 @@ const imgRefs = ref<Set<InstanceType<typeof ElImage>>>(new Set())
 const selectedFiles = defineModel<IUploadFile[]>({
   default: [],
 })
+const query = defineModel<IUploadFileQuery>('query', {
+  default: {
+    currentPage: 1,
+    pageSize: 10,
+    keyword: '',
+    parentId: '0',
+  },
+})
+
 const previewList = computed(() => {
   return selectedFiles.value.map((item) => `/${item.filePath}`) ?? []
 })
@@ -76,7 +85,7 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
       <el-image
         :ref="(instance: any) => setImgRef(instance, index)"
         style="width: 100px; height: 100px"
-        :src="`/${item.filePath}`"
+        :src="`${item.filePath}`"
         :preview-src-list="previewList"
         show-progress
         :initial-index="index"
@@ -92,6 +101,7 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
 
     <AppFileModal
       ref="fileModal"
+      v-model="query"
       v-bind="$props"
       @submit="handleFileModalSubmit"
     />

@@ -14,7 +14,7 @@ import { SearchScopeEnum } from './enums'
 import { useI18n } from 'vue-i18n'
 
 export interface Props {
-  searchKeyword: string
+  searchKeyword: string | undefined
   searchScope: SearchScopeEnum
   selectedCount: number
   currentGroupId: string | undefined

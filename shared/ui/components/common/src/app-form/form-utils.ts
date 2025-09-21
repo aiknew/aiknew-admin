@@ -13,7 +13,6 @@ import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
 import type { ILanguage } from '@aiknew/shared-types'
-import AppEditor from '../app-editor.vue'
 
 type GetValueFromRecordOrKeep<T> = T extends Record<string, infer V> ? V : T
 
@@ -78,7 +77,6 @@ export interface Components {
   ElRadio: ComponentPropsAndSlots<typeof ElRadio> &
   ComponentPropsAndSlots<typeof AppRadio>
   ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>
-  AppEditor: ComponentPropsAndSlots<typeof AppEditor>
 }
 
 export type GetProps<C extends keyof Components> = Components[C]['props']
@@ -92,7 +90,6 @@ export const components: Record<keyof Components, Component> = {
   ElTreeSelect,
   ElInputNumber,
   ElSwitch,
-  AppEditor
 }
 
 export type AsObject<T extends (Component | DefineComponent | keyof Components)> = {

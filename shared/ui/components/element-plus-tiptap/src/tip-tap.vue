@@ -8,12 +8,13 @@ import { TextStyleKit } from '@tiptap/extension-text-style'
 import { TableKit } from '@tiptap/extension-table'
 import { CharacterCount } from '@tiptap/extensions'
 import ToolBar from './tool-bar.vue'
-import { type buttons } from './buttons'
+import { ToolBarProp } from './types'
+import Image from '@tiptap/extension-image'
 
 interface Props {
   modelValue: string
   limit?: number
-  toolbar?: (buttons | buttons[])[]
+  toolbar?: ToolBarProp
 }
 
 interface Emits {
@@ -67,10 +68,12 @@ const editor = useEditor({
     CharacterCount.configure({
       limit,
     }),
+    Image,
   ],
   editorProps: {
     attributes: {
-      class: 'prose max-w-none focus:outline-none p-4 min-h-[200px]',
+      class:
+        'prose max-w-none focus:outline-none p-4 min-h-[200px] max-h-[500px] overflow-y-scroll',
     },
   },
 })
@@ -99,7 +102,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="border border-gray-300 rounded-lg overflow-hidden">
-    <tool-bar v-if="editor" :toolbar :editor="editor" />
+    <tool-bar class="border-b" v-if="editor" :toolbar :editor="editor" />
     <editor-content :editor="editor" />
     <div
       v-if="editor"

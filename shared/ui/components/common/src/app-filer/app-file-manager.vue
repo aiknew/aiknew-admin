@@ -10,8 +10,8 @@ import type {
 } from '@aiknew/shared-types'
 import { computed, onMounted, type Ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { type SharedProps } from './types/props'
 import { FileStatus } from '@aiknew/shared-enums'
+import type { SharedProps } from './types'
 
 export interface Props extends SharedProps {
   filesAndGroupsData: IUploadFilesAndGroupsData | undefined
@@ -25,8 +25,17 @@ export interface Emits {
   (e: 'refresh'): void
 }
 
+const query = defineModel<IUploadFileQuery>({
+  default: {
+    currentPage: 1,
+    keyword: '',
+    pageSize: 10,
+    parentId: '0',
+  },
+})
+
 const {
-  storages: storage,
+  storages,
   filesAndGroupsData,
   deleteSelected,
   deleteFile,
@@ -50,16 +59,12 @@ const refresh = () => {
 
 const {
   // vars
-  currentGroupId,
   currentEditGroupId,
   currentGroupPathIds,
   currentGroupPath,
   filesAndGroups,
   selectedCount,
-  currentPage,
-  pageSize,
   total,
-  searchKeyword,
   searchScope,
   selectedFiles,
 
@@ -84,7 +89,10 @@ const {
   AppUploadFileModal,
   AppUploadFileGroupModal,
   AppUploadFileDetailModal,
-} = useFileManager(computed(() => filesAndGroupsData ?? { ...defaultData }))
+} = useFileManager(
+  computed(() => filesAndGroupsData ?? { ...defaultData }),
+  query,
+)
 
 const loadGroupTreeNode = (
   node: Node,
@@ -100,14 +108,6 @@ onMounted(() => {
 
 defineExpose({
   selectedFiles,
-  query: computed<IUploadFileQuery>(() => {
-    return {
-      currentPage: currentPage.value,
-      pageSize: pageSize.value,
-      keyword: searchKeyword.value,
-      parentId: currentGroupId.value,
-    }
-  }),
   clearSelected: handleClearSelected,
 })
 </script>
@@ -126,9 +126,9 @@ defineExpose({
         @jump="handleJumpToGroup"
       />
       <AppFileOperations
-        v-model:search-keyword="searchKeyword"
+        v-model:search-keyword="query.keyword"
         v-model:search-scope="searchScope"
-        :current-group-id
+        :current-group-id="query.parentId"
         :selected-count="selectedCount"
         @upload="handleUpload"
         @add-group="handleAddGroup"
@@ -148,8 +148,8 @@ defineExpose({
   <AppFileListContainer
     ref="appFileListContainer"
     :files-and-groups
-    v-model:currentPage="currentPage"
-    v-model:pageSize="pageSize"
+    v-model:currentPage="query.currentPage"
+    v-model:pageSize="query.pageSize"
     :total="total"
     :current-group-path
     @delete-group="execute(deleteGroup.bind(null, $event), refresh)"
@@ -170,12 +170,12 @@ defineExpose({
     :storages
     :before-upload
     ref="appUploadFileModal"
-    :current-group-id
+    :current-group-id="query.parentId"
     @close="refresh"
   />
   <AppUploadFileGroupModal
     ref="appUploadFileGroupModal"
-    :current-group-id
+    :current-group-id="query.parentId"
     :default-expanded-tree-node-keys="currentGroupPathIds"
     :create-file-group
     :update-file-group

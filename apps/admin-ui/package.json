@@ -17,9 +17,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-enums": "workspace:*",
     "@aiknew/shared-ui-components": "workspace:*",
+    "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-ui-layouts": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
@@ -43,7 +43,8 @@
     "vue": "catalog:ui",
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui",
-    "zod": "catalog:ui"
+    "zod": "catalog:ui",
+    "lucide-vue-next": "catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",

@@ -10,11 +10,11 @@ defineProps<Props>()
 </script>
 
 <template>
-  <button
+  <div
     @click="editor.chain().focus().toggleBulletList().run()"
     :class="{ 'btn-active': editor.isActive('bulletList') }"
     class="p-2 rounded hover:bg-gray-200 cursor-pointer"
   >
     <List class="w-4 h-4" />
-  </button>
+  </div>
 </template>

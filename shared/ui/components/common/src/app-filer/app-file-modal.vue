@@ -4,7 +4,7 @@ import AppFileManager, {
   type Props as FileManagerProps,
 } from './app-file-manager.vue'
 import AppBasicModal from '../app-basic-modal.vue'
-import type { IUploadFile } from '@aiknew/shared-types'
+import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
 import { useI18n } from 'vue-i18n'
 
 export interface Props extends FileManagerProps {}
@@ -13,6 +13,15 @@ export interface Emits {
   (e: 'submit', selectedFiles: IUploadFile[]): void
   (e: 'close'): void
 }
+
+const query = defineModel<IUploadFileQuery>({
+  default: {
+    currentPage: 1,
+    keyword: '',
+    pageSize: 10,
+    parentId: '0',
+  },
+})
 
 const { t } = useI18n()
 defineProps<FileManagerProps>()
@@ -48,6 +57,6 @@ defineExpose({
 
 <template>
   <AppBasicModal ref="modal" @submit="onSubmit" @close="handleReset">
-    <AppFileManager ref="fileManager" v-bind="$props" />
+    <AppFileManager v-model="query" ref="fileManager" v-bind="$props" />
   </AppBasicModal>
 </template>

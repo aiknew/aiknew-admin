@@ -1,6 +1,5 @@
-import AppFileManager from './app-file-manager.vue'
-import AppFileModal from './app-file-modal.vue'
-import AppFileSelect from './app-file-select.vue'
+export { default as AppFileManager, type Props as FileManagerProps } from './app-file-manager.vue'
+export { default as AppFileModal, type Props as FileModalProps } from './app-file-modal.vue'
+export { default as AppFileSelect, type Props as FileSelectProps } from './app-file-select.vue'
 export type * from './types'
 
-export { AppFileManager, AppFileModal, AppFileSelect }

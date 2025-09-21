@@ -34,6 +34,23 @@ export const buildTree = <T>(
   return result
 }
 
+
+export function convertNullToUndefined<T>(
+  obj: T,
+): Prettify<DeepNullToUndefined<T>> {
+  const result = {} as any
+  for (const key in obj) {
+    const value = obj[key]
+    result[key] =
+      value === null
+        ? undefined
+        : typeof value === 'object'
+          ? convertNullToUndefined(value)
+          : value
+  }
+  return result
+}
+
 export const execute = async (...fnArr: Function[]) => {
   for (const fn of fnArr) {
     await fn()
@@ -48,22 +65,9 @@ export type NullToUndefined<T> = T extends null ? undefined : T
 
 export type DeepNullToUndefined<T> = {
   [K in keyof T]: T[K] extends object
-    ? DeepNullToUndefined<T[K]>
-    : NullToUndefined<T[K]>
+  ? DeepNullToUndefined<T[K]>
+  : NullToUndefined<T[K]>
 }
 
-export function convertNullToUndefined<T>(
-  obj: T,
-): Prettify<DeepNullToUndefined<T>> {
-  const result = {} as any
-  for (const key in obj) {
-    const value = obj[key]
-    result[key] =
-      value === null
-        ? undefined
-        : typeof value === 'object'
-        ? convertNullToUndefined(value)
-        : value
-  }
-  return result
-}
+export type MaybeArray<T> = T | T[]
+

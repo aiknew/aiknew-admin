@@ -11,7 +11,6 @@ import { tField } from '@aiknew/shared-ui-locales'
 import { useI18n } from 'vue-i18n'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
-import { TipTap } from '@aiknew/element-plus-tiptap'
 
 const { t } = useI18n()
 const query = ref<QueryArticleDto>({
@@ -93,13 +92,10 @@ const handleResetQueryForm = () => {
     pageSize: 10
   }
 }
-
-const content = ref('')
 </script>
 
 <template>
   <AppContentBlock class="mb-6">
-    <TipTap v-model="content" />
     <QueryForm>
       <el-form-item>
         <el-button type="primary" @click="formApi.handleSubmit">

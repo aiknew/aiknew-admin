@@ -10,11 +10,11 @@ defineProps<Props>()
 </script>
 
 <template>
-  <button
+  <div
     @click="editor.chain().focus().toggleBlockquote().run()"
     :class="{ 'btn-active': editor.isActive('blockquote') }"
     class="p-2 rounded hover:bg-gray-200 cursor-pointer"
   >
     <Quote class="w-4 h-4" />
-  </button>
+  </div>
 </template>

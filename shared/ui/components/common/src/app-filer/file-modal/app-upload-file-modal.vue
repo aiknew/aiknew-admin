@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, ref, useTemplateRef, watch } from 'vue'
+import { type Ref, ref, useTemplateRef, watch, watchEffect } from 'vue'
 import AppBasicModal from '../../app-basic-modal.vue'
 import {
   ElMessage,
@@ -32,27 +32,26 @@ const uploadURL = ref<string | undefined>()
 const selectedStorageId = ref<string | undefined>(undefined)
 const isLoading = ref(false)
 
-watch(
-  selectedStorageId,
-  async (storageId) => {
-    isLoading.value = true
-    const storage = storages.find((item) => item.id === storageId)
-    const url = storage?.uploadURL
+const updateURL = async (storageId: string | undefined) => {
+  const storage = storages.find((item) => item.id === storageId)
+  const url = storage?.uploadURL
 
-    if (typeof url === 'function') {
-      const ret = url(extraData, uploadHeaders, {
-        currentGroupId,
-        selectedStorageId: selectedStorageId.value,
-      })
-      uploadURL.value = isPromise(ret) ? await ret : ret
-    } else {
-      uploadURL.value = url
-    }
+  if (typeof url === 'function') {
+    const ret = url(extraData, uploadHeaders, {
+      currentGroupId,
+      selectedStorageId: selectedStorageId.value,
+    })
+    uploadURL.value = isPromise(ret) ? await ret : ret
+  } else {
+    uploadURL.value = url
+  }
+}
 
-    isLoading.value = false
-  },
-  { immediate: true },
-)
+watchEffect(async () => {
+  isLoading.value = true
+  await updateURL(selectedStorageId.value)
+  isLoading.value = false
+})
 
 const onBeforeUpload = () => {
   return beforeUpload && beforeUpload(extraData)

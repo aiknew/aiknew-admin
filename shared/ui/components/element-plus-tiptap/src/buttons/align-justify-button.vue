@@ -10,11 +10,11 @@ defineProps<Props>()
 </script>
 
 <template>
-  <button
+  <div
     @click="editor.chain().focus().setTextAlign('justify').run()"
     :class="{ 'btn-active': editor.isActive({ textAlign: 'justify' }) }"
     class="p-2 rounded hover:bg-gray-200 cursor-pointer"
   >
     <AlignJustify class="w-4 h-4" />
-  </button>
+  </div>
 </template>

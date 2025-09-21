@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { AppFileManager } from '@aiknew/shared-ui-components'
-import { ref } from 'vue'
 import { useFileLogic } from '@/composables/use-file-logic'
 import type { IUploadFileQuery } from '@aiknew/shared-types'
-
-// const fileManagerRef = useTemplateRef('fileManager')
-
-// const query = computed(() => {
-//   return fileManagerRef.value?.query
-// })
+import { AppFileSelect } from '@aiknew/shared-ui-components'
+import { ref } from 'vue'
 
 const query = ref<IUploadFileQuery>({
   currentPage: 1,
@@ -34,10 +27,10 @@ const {
 </script>
 
 <template>
-  <AppContentBlock>
-    <AppFileManager
+  <div>
+    <AppFileSelect
       ref="fileManager"
-      v-model="query"
+      v-model:query="query"
       :storages
       :before-upload
       :delete-group
@@ -50,5 +43,5 @@ const {
       :update-file
       @refresh="fetchFilesAndGroups"
     />
-  </AppContentBlock>
+  </div>
 </template>

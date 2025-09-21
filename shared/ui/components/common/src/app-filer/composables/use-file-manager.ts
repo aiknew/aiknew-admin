@@ -1,5 +1,5 @@
 import { useFileData } from './use-file-data'
-import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
+import type { IUploadFile, IUploadFileGroup, IUploadFileQuery } from '@aiknew/shared-types'
 import { type Ref, useTemplateRef } from 'vue'
 import AppFileOperations from '../app-file-operations.vue'
 import AppUploadFileModal from '../file-modal/app-upload-file-modal.vue'
@@ -15,6 +15,7 @@ import type { IUploadFilesAndGroupsData } from '@aiknew/shared-types'
 
 export const useFileManager = (
   filesAndGroupsData: Ref<IUploadFilesAndGroupsData>,
+  query: Ref<IUploadFileQuery>
 ) => {
   const appUploadFileModalRef =
     useTemplateRef<InstanceType<typeof AppUploadFileModal>>(
@@ -32,9 +33,6 @@ export const useFileManager = (
   >('appFileListContainer')
 
   const {
-    searchKeyword,
-    currentPage,
-    pageSize,
     total,
     filesAndGroups,
     searchScope,
@@ -47,7 +45,6 @@ export const useFileManager = (
   const {
     currentGroupPathIds,
     currentGroupPath,
-    currentGroupId,
     currentGroupName,
     jumpToGroup,
     enterGroup,
@@ -55,7 +52,7 @@ export const useFileManager = (
     backToGroup,
     backToUpper,
     forwardToGroup,
-  } = useFileGroupPath(searchScope)
+  } = useFileGroupPath(searchScope, query)
 
   const handleUpload = () => {
     appUploadFileModalRef.value?.show()
@@ -100,7 +97,7 @@ export const useFileManager = (
     const currentGroup = { groupId: item.id, groupName: item.groupName }
 
     // clear search keyword
-    searchKeyword.value = ''
+    query.value.keyword = ''
 
     if (searchScope.value === SearchScopeEnum.ALL) {
       enterGroupFromAllList([
@@ -134,17 +131,13 @@ export const useFileManager = (
   return {
     // vars
     appUploadFileModalRef,
-    currentGroupId,
     currentEditGroupId,
     currentGroupPathIds,
     currentGroupPath,
     filesAndGroups,
     selectedCount,
-    currentPage,
-    pageSize,
     total,
     SearchScopeEnum,
-    searchKeyword,
     searchScope,
     selectedFiles,
 

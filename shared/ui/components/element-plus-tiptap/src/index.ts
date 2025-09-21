@@ -1,5 +1,2 @@
-import TipTap from "./tip-tap.vue"
-
-export {
-  TipTap
-}
+export { default as TipTap } from "./tip-tap.vue"
+export * from './types'

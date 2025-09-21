@@ -23,13 +23,11 @@ export const isFileItem = (item: unknown): item is IUploadFile => {
 export const useFileData = (
   filesAndGroupsData: Ref<IUploadFilesAndGroupsData>,
 ) => {
+
   const searchScope = ref<SearchScopeEnum>(SearchScopeEnum.CURRENT_GROUP)
-  const searchKeyword = ref('')
   const selectedFiles = ref<IUploadFile[]>([])
   const currentEditGroupId = ref<string>()
 
-  const currentPage = computed<number>(() => filesAndGroupsData.value.current)
-  const pageSize = computed<number>(() => filesAndGroupsData.value.pageSize)
   const total = computed<number>(() => filesAndGroupsData.value.total)
   const fileList = computed<IUploadFile[]>(() =>
     filesAndGroupsData.value.fileList.map((file) => {
@@ -53,14 +51,11 @@ export const useFileData = (
   }
 
   return {
-    currentPage,
-    pageSize,
     total,
     fileList,
     groupList,
     filesAndGroups,
     searchScope,
-    searchKeyword,
     selectedFiles,
     selectedCount,
     currentEditGroupId,

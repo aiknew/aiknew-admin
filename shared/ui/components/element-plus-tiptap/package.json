@@ -11,6 +11,7 @@
   "dependencies": {
     "@tiptap/core": "^3.4.4",
     "@tiptap/extension-highlight": "^3.4.4",
+    "@tiptap/extension-image": "^3.4.4",
     "@tiptap/extension-table": "^3.4.4",
     "@tiptap/extension-text-align": "^3.4.4",
     "@tiptap/extension-text-style": "^3.4.4",
@@ -18,7 +19,7 @@
     "@tiptap/pm": "^3.4.4",
     "@tiptap/starter-kit": "^3.4.4",
     "@tiptap/vue-3": "^3.4.4",
-    "lucide-vue-next": "^0.544.0"
+    "lucide-vue-next": "catalog:ui"
   },
   "peerDependencies": {
     "element-plus": "catalog:ui",
@@ -27,6 +28,7 @@
     "vue-i18n": "catalog:ui"
   },
   "devDependencies": {
+    "@aiknew/shared-utils": "workspace:*",
     "@types/node": "catalog:common",
     "@vitejs/plugin-vue": "catalog:ui",
     "@vitejs/plugin-vue-jsx": "catalog:ui",

@@ -14,6 +14,7 @@ import { useArticleCategoryAll, type ArticleCategory } from '@/api/article-categ
 import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'
+import AdminEditor from '@/components/editor/admin-editor.vue'
 
 interface Emits {
   (e: 'submit'): void
@@ -81,7 +82,7 @@ const { AppForm, formApi } = useAppForm({
             })
       },
       {
-        as: 'AppEditor',
+        as: AdminEditor,
         label: t('article.content'),
         name: 'content',
         i18n: true,

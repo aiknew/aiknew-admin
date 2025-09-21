@@ -10,7 +10,10 @@ defineProps<Props>()
 </script>
 
 <template>
-  <button @click="editor.chain().focus().undo().run()" class="p-2 rounded hover:bg-gray-200 cursor-pointer">
+  <div
+    @click="editor.chain().focus().undo().run()"
+    class="p-2 rounded hover:bg-gray-200 cursor-pointer"
+  >
     <Undo class="w-4 h-4" />
-  </button>
+  </div>
 </template>

@@ -1,5 +1,7 @@
 import {
+  Component,
   computed,
+  DefineComponent,
   defineComponent,
   h,
   ref,
@@ -19,6 +21,7 @@ import {
   isNormalField,
   type ExcludeField,
   normalizeSchema,
+  AsObject,
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
 import { isDefined, useWindowSize } from '@vueuse/core'
@@ -33,7 +36,12 @@ import { isObject } from 'element-plus/es/utils/types.mjs'
 import AppFormItemContainer from './components/app-form-item-container.vue'
 import { onLangChange } from '@aiknew/shared-ui-locales'
 
-interface Props<F extends readonly Field<string, keyof Components>[]> {
+interface Props<
+  F extends readonly Field<
+    string,
+    keyof Components | Component | DefineComponent
+  >[],
+> {
   formProps?: ComponentProps<typeof ElForm>
   fields: F | (() => F)
   languages?: ILanguage[]
@@ -49,7 +57,10 @@ const resolveCondition = (when?: MaybeRefOrGetter<boolean>) => {
 }
 
 const getI18nFieldNames = <
-  F extends readonly Field<string, keyof Components>[],
+  F extends readonly Field<
+    string,
+    keyof Components | Component | DefineComponent
+  >[],
 >(
   fieldsArr: F,
 ): Prettify<GetI18nFieldNames<F>>[] => {
@@ -57,7 +68,10 @@ const getI18nFieldNames = <
 }
 
 const resolveI18nFields = <
-  F extends readonly Field<string, keyof Components>[],
+  F extends readonly Field<
+    string,
+    keyof Components | Component | DefineComponent
+  >[],
 >(
   values: GetDefaultVals<F>,
   i18nFieldNames: string[],
@@ -89,7 +103,10 @@ const resolveI18nFields = <
 }
 
 const restoreI18nFields = <
-  F extends readonly Field<string, keyof Components>[],
+  F extends readonly Field<
+    string,
+    keyof Components | Component | DefineComponent
+  >[],
 >(
   i18nValues: Prettify<GetFieldsWithTranslations<F>>,
 ): GetDefaultVals<F> => {
@@ -118,7 +135,10 @@ const restoreI18nFields = <
 }
 
 export const useAppForm = <
-  F extends readonly Field<string, keyof Components>[],
+  F extends readonly Field<
+    string,
+    keyof Components | Component | DefineComponent
+  >[],
 >(
   props: Props<F>,
 ) => {
@@ -185,7 +205,7 @@ export const useAppForm = <
     item,
     slotProps,
   }: {
-    item: Field<string, keyof Components>
+    item: Field<string, keyof Components | Component | DefineComponent>
     slotProps: FormSlotProps
   }) => {
     if (!isNormalField(item)) {
@@ -194,7 +214,6 @@ export const useAppForm = <
 
     const { field, state } = slotProps
     const handleChange = field.handleChange
-    const compProps = typeof item.as === 'string' ? {} : item.as.props || {}
     type FieldErr = {
       msg: string | undefined
       langKey?: string | undefined
@@ -239,8 +258,51 @@ export const useAppForm = <
       }
     })
 
-    const compStr = typeof item.as === 'string' ? item.as : item.as.component
-    const compSlots = typeof item.as === 'string' ? undefined : item.as.slots
+    const isAsObject = (
+      as: typeof item.as,
+    ): as is AsObject<keyof Components | Component | DefineComponent> => {
+      return (
+        typeof as !== 'string' &&
+        'component' in as &&
+        Object.keys(as).length <= 3
+      )
+    }
+
+    const resolvedProps = (as: typeof item.as) => {
+      if (isAsObject(as)) {
+        return as.props ?? {}
+      }
+
+      return {}
+    }
+
+    const resolvedSlots = (as: typeof item.as) => {
+      if (isAsObject(as)) {
+        return as.slots ?? undefined
+      }
+
+      return undefined
+    }
+
+    const resolvedComp = (as: typeof item.as) => {
+      if (typeof as === 'string') {
+        return components[as]
+      }
+
+      if (isAsObject(as)) {
+        if (typeof as.component === 'string') {
+          return components[as.component]
+        }
+
+        return as.component
+      }
+
+      return as
+    }
+
+    const compProps = resolvedProps(item.as)
+    const compSlots = resolvedSlots(item.as)
+    const comp = resolvedComp(item.as)
     const DynamicComp = () => {
       if (item.i18n) {
         return h(
@@ -263,7 +325,7 @@ export const useAppForm = <
             setLangVal: (val: unknown) => void
           }) => {
             return h(
-              components[compStr],
+              comp,
               {
                 name: item.name,
                 modelValue: value,
@@ -276,7 +338,7 @@ export const useAppForm = <
         )
       } else {
         return h(
-          components[compStr],
+          comp,
           {
             name: item.name,
             modelValue: state.value,

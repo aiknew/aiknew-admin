@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/vue-3'
 import { BUTTON_MAP } from './buttons'
-import { ToolBarProp } from './types'
+import { type ToolBarProp } from './types'
 
 interface Props {
   editor: Editor

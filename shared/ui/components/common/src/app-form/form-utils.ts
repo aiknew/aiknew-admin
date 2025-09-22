@@ -8,7 +8,7 @@ import {
   ElSelectV2,
   ElTreeSelect,
 } from 'element-plus'
-import { reactive, toValue, type MaybeRefOrGetter, type Component, DefineComponent } from 'vue'
+import { reactive, toValue, type MaybeRefOrGetter, type Component, type DefineComponent } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'

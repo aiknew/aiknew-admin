@@ -39,7 +39,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['@opentiny/fluent-editor', '@element-plus/icons-vue']
+          vendor: ['@element-plus/icons-vue']
         },
       }
     }

@@ -1,4 +1,4 @@
-import { IUploadFileQuery } from '@aiknew/shared-types'
+import type { IUploadFileQuery } from '@aiknew/shared-types'
 import { SearchScopeEnum } from '../enums'
 import { computed, type Ref, ref, watch } from 'vue'
 

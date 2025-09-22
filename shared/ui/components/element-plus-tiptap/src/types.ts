@@ -1,5 +1,5 @@
-import { MaybeArray } from "@aiknew/shared-utils";
-import { buttons } from "./buttons";
+import { type MaybeArray } from "@aiknew/shared-utils";
+import { type buttons } from "./buttons";
 import type { Editor } from "@tiptap/core";
 import type { Component, DefineComponent } from "vue";
 

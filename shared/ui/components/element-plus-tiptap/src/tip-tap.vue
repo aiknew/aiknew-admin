@@ -8,7 +8,7 @@ import { TextStyleKit } from '@tiptap/extension-text-style'
 import { TableKit } from '@tiptap/extension-table'
 import { CharacterCount } from '@tiptap/extensions'
 import ToolBar from './tool-bar.vue'
-import { ToolBarProp } from './types'
+import { type ToolBarProp } from './types'
 import Image from '@tiptap/extension-image'
 
 interface Props {

@@ -1,7 +1,7 @@
 import {
-  Component,
+  type Component,
   computed,
-  DefineComponent,
+  type DefineComponent,
   defineComponent,
   h,
   ref,
@@ -21,7 +21,7 @@ import {
   isNormalField,
   type ExcludeField,
   normalizeSchema,
-  AsObject,
+  type AsObject,
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
 import { isDefined, useWindowSize } from '@vueuse/core'

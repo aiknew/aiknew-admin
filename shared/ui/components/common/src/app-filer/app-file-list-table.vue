@@ -16,6 +16,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface Props {
   currentGroupPath: GroupPathItem[]
+  selectLimit?: number
 }
 
 export interface Emits {
@@ -30,7 +31,7 @@ export interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-const { currentGroupPath } = defineProps<Props>()
+const { currentGroupPath, selectLimit } = defineProps<Props>()
 const { t } = useI18n()
 
 const loading = ref(false)
@@ -64,13 +65,27 @@ const setRowClassName = ({ row }: { row: IUploadFile | IUploadFileGroup }) => {
 
 // Disable group item selection
 const handleSelectable = (row: IUploadFile | IUploadFileGroup) => {
-  return isFileItem(row)
+  const isLimited =
+    typeof selectLimit === 'undefined'
+      ? false
+      : selectLimit <= selectedFiles.value.length
+
+  const isSelectedRow = selectedFiles.value.some((item) => item.id === row.id)
+
+  return isFileItem(row) && (!isLimited || isSelectedRow)
 }
 
 // Only FileItem is selectable
 const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
   const isCanceled = selectedFiles.value.length > selection.length
-  selectedFiles.value = selection
+  selectedFiles.value = selection.slice(0, selectLimit)
+
+  if (typeof selectLimit !== 'undefined') {
+    selection.slice(selectLimit).forEach((item) => {
+      appTableRef.value?.toggleRowSelection(item, false)
+    })
+  }
+
   if (isCanceled) {
     currentGroupPath.forEach((item) =>
       selectedGroups.value.delete(item.groupId),
@@ -82,7 +97,8 @@ const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
       ...currentGroupPath.map((item) => item.groupId),
     ])
   }
-  emit('select', selection)
+
+  emit('select', selectedFiles.value)
 }
 
 const permissionType = (row: IUploadFile | IUploadFileGroup) => {
@@ -103,6 +119,7 @@ const deletePermission = (row: IUploadFile | IUploadFileGroup) => {
 
 const clearSelection = () => {
   appTableRef.value?.clearSelection()
+  selectedFiles.value = []
   selectedGroups.value = new Set()
 }
 

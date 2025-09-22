@@ -166,7 +166,9 @@
     "content": "Article Content",
     "titleRequired": "Article title cannot be empty",
     "contentRequired": "Article content cannot be empty",
-    "articleCategoryIdRequired": "Please select an article category"
+    "articleCategoryIdRequired": "Please select an article category",
+    "coverImg": "Cover image",
+    "coverImgRequired": "Please select a cover image"
   },
   "articleCategory": {
     "articleCategoryName": "Article Category Name",

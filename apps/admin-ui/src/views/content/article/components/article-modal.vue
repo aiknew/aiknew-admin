@@ -15,6 +15,7 @@ import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'
 import AdminEditor from '@/components/editor/admin-editor.vue'
+import AdminFileSelect from '@/components/file/admin-file-select.vue'
 
 interface Emits {
   (e: 'submit'): void
@@ -55,6 +56,27 @@ const { AppForm, formApi } = useAppForm({
               .default(''),
             languages
           )
+      },
+      {
+        as: {
+          component: AdminFileSelect,
+          props: {
+            selectLimit: 1
+          }
+        },
+        label: t('article.coverImg'),
+        name: 'coverImageId',
+        schema: z
+          .array(
+            z.object({
+              id: z.string(),
+              filePath: z.string()
+            }),
+            {
+              error: t('article.coverImgRequired')
+            }
+          )
+          .optional()
       },
       {
         as: {
@@ -126,10 +148,11 @@ const { AppForm, formApi } = useAppForm({
     ] as const satisfies Fields,
   languages,
   onSubmit: async ({ values }) => {
+    const coverImageId = values.coverImageId?.[0]?.id
     if (modalRef.value?.modalMode === 'add') {
-      await createArticle(values)
+      await createArticle({ ...values, coverImageId })
     } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
-      await updateArticle({ id: editId.value, body: values })
+      await updateArticle({ id: editId.value, body: { ...values, coverImageId } })
     }
 
     emit('submit')
@@ -149,7 +172,8 @@ const edit = (item: Article) => {
   modalRef.value?.setTitle(t('article.editTitle'))
   modalRef.value?.show()
 
-  formApi.resetI18nValues(item, { keepDefaultValues: true })
+  const coverImageId = item.coverImage ? [item.coverImage] : undefined
+  formApi.resetI18nValues({ ...item, coverImageId }, { keepDefaultValues: true })
 }
 
 const handleReset = () => {

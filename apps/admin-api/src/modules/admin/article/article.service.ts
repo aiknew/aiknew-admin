@@ -41,6 +41,19 @@ export class ArticleService {
       },
       include: {
         translations: true,
+        coverImage: {
+          include: {
+            storage: {
+              select: {
+                id: true,
+                hostname: true,
+                bucket: true,
+                endpoint: true,
+                type: true
+              }
+            }
+          }
+        }
       },
       orderBy: [
         { order: 'asc' },
@@ -54,6 +67,7 @@ export class ArticleService {
       where: { id },
       include: {
         translations: true,
+        coverImage: true
       },
     })
 

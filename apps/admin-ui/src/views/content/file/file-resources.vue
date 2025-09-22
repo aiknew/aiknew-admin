@@ -5,12 +5,6 @@ import { ref } from 'vue'
 import { useFileLogic } from '@/composables/use-file-logic'
 import type { IUploadFileQuery } from '@aiknew/shared-types'
 
-// const fileManagerRef = useTemplateRef('fileManager')
-
-// const query = computed(() => {
-//   return fileManagerRef.value?.query
-// })
-
 const query = ref<IUploadFileQuery>({
   currentPage: 1,
   pageSize: 10,
@@ -37,7 +31,7 @@ const {
   <AppContentBlock>
     <AppFileManager
       ref="fileManager"
-      v-model="query"
+      v-model:query="query"
       :storages
       :before-upload
       :delete-group

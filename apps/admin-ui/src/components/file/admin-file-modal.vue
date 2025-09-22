@@ -4,10 +4,15 @@ import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
 import { AppFileModal } from '@aiknew/shared-ui-components'
 import { ref, useTemplateRef } from 'vue'
 
+interface Props {
+  selectLimit?: number
+}
+
 interface Emits {
   (e: 'submit', files: IUploadFile[]): void
 }
 
+const { selectLimit } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const fileModalRef = useTemplateRef('fileModal')
@@ -49,7 +54,8 @@ defineExpose({
 <template>
   <AppFileModal
     ref="fileModal"
-    v-model="query"
+    v-model:query="query"
+    :select-limit
     :storages
     :before-upload
     :delete-group

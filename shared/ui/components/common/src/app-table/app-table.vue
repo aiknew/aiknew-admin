@@ -58,10 +58,29 @@ const updateKeyChildren = <T>(key: string, data: T[]) => {
   elTableRef.value?.updateKeyChildren(key, data)
 }
 
+const doLayout = () => {
+  elTableRef.value?.doLayout()
+}
+
+const getSelectionRows = () => {
+  elTableRef.value?.getSelectionRows()
+}
+
+const toggleRowSelection = (
+  row: unknown,
+  selected?: boolean,
+  ignoreSelectable = true,
+) => {
+  elTableRef.value?.toggleRowSelection(row, selected, ignoreSelectable)
+}
+
 defineExpose({
   clearSelection,
   toggleRowExpansion,
   updateKeyChildren,
+  doLayout,
+  getSelectionRows,
+  toggleRowSelection,
 })
 </script>
 

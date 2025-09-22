@@ -165,7 +165,9 @@
     "content": "文章內容",
     "titleRequired": "文章標題不能為空",
     "contentRequired": "文章內容不能為空",
-    "articleCategoryIdRequired": "請選擇文章分類"
+    "articleCategoryIdRequired": "請選擇文章分類",
+    "coverImg": "封面圖",
+    "coverImgRequired": "請選擇封面圖"
   },
   "articleCategory": {
     "articleCategoryName": "文章分類名稱",

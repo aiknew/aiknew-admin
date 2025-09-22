@@ -845,6 +845,26 @@ export interface components {
             title: string;
             content: string;
         };
+        /** @enum {string} */
+        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
+        /** @enum {string} */
+        FileStatus: "NORMAL" | "MISSING";
+        CoverImage: {
+            channel: components["schemas"]["UploadFileChannel"];
+            status: components["schemas"]["FileStatus"];
+            createdAt: string;
+            updatedAt: string;
+            id: string;
+            fileName: string;
+            filePath: string;
+            fileExt: string;
+            fileSize: number;
+            groupId: string;
+            mime: string;
+            originalName: string;
+            uploaderId: string;
+            order: number;
+        };
         ArticleDto: {
             id: number;
             order: number;
@@ -853,6 +873,8 @@ export interface components {
             fakeViewCount: number;
             articleCategoryId: number;
             translations: components["schemas"]["ArticleTranslationDto"][];
+            coverImage: components["schemas"]["CoverImage"] | null;
+            coverImageId: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -863,6 +885,7 @@ export interface components {
             status: boolean;
             fakeViewCount: number;
             articleCategoryId: number;
+            coverImageId?: string | null;
             translations: components["schemas"]["ArticleTranslationDto"][];
         };
         UpdateArticleDto: {
@@ -870,6 +893,7 @@ export interface components {
             status?: boolean;
             fakeViewCount?: number;
             articleCategoryId?: number;
+            coverImageId?: string | null;
             translations?: components["schemas"]["ArticleTranslationDto"][];
         };
         /** @enum {string} */
@@ -1071,10 +1095,6 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
-        /** @enum {string} */
-        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
-        /** @enum {string} */
-        FileStatus: "NORMAL" | "MISSING";
         /** @enum {string} */
         StorageType: "LOCAL" | "S3";
         /** @enum {string} */
@@ -3700,12 +3720,12 @@ export const pathsAdminLanguageGetParametersQueryOrientationValues: ReadonlyArra
 export const responseStatusCodeValues: ReadonlyArray<components["schemas"]["ResponseStatusCode"]> = [-1, 0, 401, 403, 400];
 export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMethod"]> = ["GET", "POST", "PUT", "DELETE", "PATCH", "ALL", "OPTIONS", "HEAD", "SEARCH", "PROPFIND", "PROPPATCH", "MKCOL", "COPY", "MOVE", "LOCK", "UNLOCK"];
 export const adminPermissionSourceValues: ReadonlyArray<components["schemas"]["AdminPermissionSource"]> = ["BUILT_IN", "EXTERNAL"];
+export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
+export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
 export const languageOrientationValues: ReadonlyArray<components["schemas"]["LanguageOrientation"]> = ["LTR", "RTL"];
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const systemSettingKeyValues: ReadonlyArray<components["schemas"]["SystemSettingKey"]> = ["LANGUAGE", "STORAGE"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
-export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
-export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
 export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];

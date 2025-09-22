@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
+import { useTemplateRef } from 'vue'
 import AppFileManager, {
   type Props as FileManagerProps,
 } from './app-file-manager.vue'
@@ -14,7 +14,7 @@ export interface Emits {
   (e: 'close'): void
 }
 
-const query = defineModel<IUploadFileQuery>({
+const queryModel = defineModel<IUploadFileQuery>('query', {
   default: {
     currentPage: 1,
     keyword: '',
@@ -57,6 +57,10 @@ defineExpose({
 
 <template>
   <AppBasicModal ref="modal" @submit="onSubmit" @close="handleReset">
-    <AppFileManager v-model="query" ref="fileManager" v-bind="$props" />
+    <AppFileManager
+      v-model:query="queryModel"
+      ref="fileManager"
+      v-bind="$props"
+    />
   </AppBasicModal>
 </template>

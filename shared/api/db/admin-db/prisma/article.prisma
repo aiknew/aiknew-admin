@@ -9,6 +9,8 @@ model Article {
   translations      ArticleTranslation[]
   category          ArticleCategory      @relation(fields: [articleCategoryId], references: [id])
   articleCategoryId Int
+  coverImage        UploadFile? @relation(fields: [coverImageId], references: [id])
+  coverImageId      String?
 }
 
 model ArticleTranslation {

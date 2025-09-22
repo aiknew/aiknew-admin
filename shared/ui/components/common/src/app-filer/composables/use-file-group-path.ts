@@ -14,8 +14,7 @@ export const useFileGroupPath = (searchScope: Ref<SearchScopeEnum>, query: Ref<I
   const backwardStack = ref<GroupPathItem[][]>([])
   const currentStack = ref<GroupPathItem[]>([topGroup])
 
-  watch(() => currentStack, (val) => {
-    console.log('currentStack: ', val)
+  watch(() => currentStack, () => {
     if (searchScope.value === SearchScopeEnum.ALL) {
       query.value.parentId = undefined
       return

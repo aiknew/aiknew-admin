@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common'
 import { ArticleService } from './article.service'
-import { PaginationDto, PaginationResponseDto } from '@aiknew/shared-api-dtos'
+import { PaginationResponseDto } from '@aiknew/shared-api-dtos'
 import {
   AppApiCreatedResponse,
   AppApiOkResponse,

@@ -8,6 +8,7 @@ import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 export interface Props {
   filesAndGroups: (IUploadFile | IUploadFileGroup)[]
   currentGroupPath: GroupPathItem[]
+  selectLimit?: number
 }
 
 export interface Emits {
@@ -28,7 +29,7 @@ const currentPage = defineModel<number>('currentPage', { default: 1 })
 const pageSize = defineModel<number>('pageSize', { default: 10 })
 const total = defineModel<number>('total', { default: 0 })
 const emit = defineEmits<Emits>()
-defineProps<Props>()
+const { selectLimit } = defineProps<Props>()
 
 const appFileListTableRef = useTemplateRef('appFileListTable')
 
@@ -71,6 +72,7 @@ defineExpose({
       ref="appFileListTable"
       row-key="id"
       height="60vh"
+      :select-limit
       :data="filesAndGroups"
       :current-group-path
       @select="$emit('select', $event)"

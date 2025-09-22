@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, ValidateNested } from 'class-validator'
+import { IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
 import { ArticleTranslationDto } from './article-translation.dto'
 import { ValidateTranslations } from '../../../../common/validators'
 import { Type } from 'class-transformer'
@@ -15,6 +15,11 @@ export class CreateArticleDto {
 
   @IsNumber()
   articleCategoryId: number
+
+
+  @IsString()
+  @IsOptional()
+  coverImageId?: string | null
 
   @ValidateNested()
   @ValidateTranslations(ArticleTranslationDto)

@@ -1,21 +1,35 @@
 <script lang="ts" setup>
-import { computed, ref, useTemplateRef } from 'vue'
+import { computed, ref, useTemplateRef, watch } from 'vue'
 import AppFileModal, {
   type Props as FileModalProps,
 } from './app-file-modal.vue'
 import { ElImage, ElButton, ElIcon } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
+import { resolveURL } from '@aiknew/shared-ui-utils'
 
 export interface Props extends FileModalProps {}
 
-defineProps<Props>()
+const {
+  beforeUpload,
+  createFileGroup,
+  deleteFile,
+  deleteGroup,
+  deleteSelected,
+  filesAndGroupsData,
+  loadGroupNode,
+  storages,
+  updateFile,
+  updateFileGroup,
+  selectLimit,
+} = defineProps<Props>()
+
 const fileModalRef = useTemplateRef('fileModal')
 const imgRefs = ref<Set<InstanceType<typeof ElImage>>>(new Set())
-const selectedFiles = defineModel<IUploadFile[]>({
+const selected = defineModel<IUploadFile[]>('selected', {
   default: [],
 })
-const query = defineModel<IUploadFileQuery>('query', {
+const queryModel = defineModel<IUploadFileQuery>('query', {
   default: {
     currentPage: 1,
     pageSize: 10,
@@ -24,8 +38,28 @@ const query = defineModel<IUploadFileQuery>('query', {
   },
 })
 
+const resolveImgSrc = (item: IUploadFile) => {
+  if (item.filePath.startsWith(item.storage.hostname)) {
+    return item.filePath
+  }
+
+  return resolveURL(item.storage.hostname, item.filePath)
+}
+
 const previewList = computed(() => {
-  return selectedFiles.value.map((item) => `/${item.filePath}`) ?? []
+  return selected.value.map((item) => resolveImgSrc(item)) ?? []
+})
+
+const showMoreBtn = computed(() => {
+  if (typeof selectLimit === 'undefined') return true
+
+  return selected.value.length < selectLimit
+})
+
+const restSelectLimit = computed(() => {
+  if (typeof selectLimit === 'undefined') return undefined
+
+  return selectLimit - selected.value.length
 })
 
 const setImgRef = (instance: InstanceType<typeof ElImage>, index: number) => {
@@ -50,29 +84,22 @@ const handleClickPreview = (index: number) => {
 }
 
 const handleDelete = (index: number) => {
-  selectedFiles.value.splice(index, 1)
+  const items = [...selected.value]
+  items.splice(index, 1)
+  selected.value = [...items]
 }
 
 const handleFileModalSubmit = (data: IUploadFile[]) => {
-  data.forEach((item) => {
-    const exists = selectedFiles.value.some(
-      (selected) => selected.id === item.id,
-    )
-    if (!exists) {
-      selectedFiles.value.push(item)
-    }
-  })
+  selected.value = data.filter(
+    (item) => !selected.value.some((selected) => selected.id === item.id),
+  )
 }
 </script>
 
 <template>
   <div class="app-file-select">
     <!-- selected file list -->
-    <div
-      class="image-container"
-      v-for="(item, index) in selectedFiles"
-      :key="index"
-    >
+    <div class="image-container" v-for="(item, index) in selected" :key="index">
       <div class="image-mask">
         <el-button icon="Search" circle @click="handleClickPreview(index)" />
         <el-button
@@ -85,7 +112,7 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
       <el-image
         :ref="(instance: any) => setImgRef(instance, index)"
         style="width: 100px; height: 100px"
-        :src="`${item.filePath}`"
+        :src="resolveImgSrc(item)"
         :preview-src-list="previewList"
         show-progress
         :initial-index="index"
@@ -93,7 +120,7 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
       />
     </div>
     <!-- select more button -->
-    <div class="select-more-btn" @click="handleSelectMore">
+    <div class="select-more-btn" v-show="showMoreBtn" @click="handleSelectMore">
       <el-icon size="30px" color="var(--el-text-color-secondary)">
         <Plus />
       </el-icon>
@@ -101,8 +128,18 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
 
     <AppFileModal
       ref="fileModal"
-      v-model="query"
-      v-bind="$props"
+      v-model:query="queryModel"
+      :select-limit="restSelectLimit"
+      :before-upload
+      :create-file-group
+      :delete-file
+      :delete-group
+      :delete-selected
+      :files-and-groups-data
+      :load-group-node
+      :storages
+      :update-file
+      :update-file-group
       @submit="handleFileModalSubmit"
     />
   </div>

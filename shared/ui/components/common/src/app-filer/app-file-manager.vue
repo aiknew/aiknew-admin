@@ -18,6 +18,7 @@ export interface Props extends SharedProps {
   deleteFile: (item: IUploadFile) => void
   deleteGroup: (item: IUploadFileGroup) => void
   beforeUpload?: (extraFormData: Ref<Record<string, unknown>>) => void
+  selectLimit?: number
 }
 
 export interface Emits {
@@ -25,7 +26,7 @@ export interface Emits {
   (e: 'refresh'): void
 }
 
-const query = defineModel<IUploadFileQuery>({
+const queryModel = defineModel<IUploadFileQuery>('query', {
   default: {
     currentPage: 1,
     keyword: '',
@@ -42,6 +43,7 @@ const {
   loadGroupNode,
   updateFile,
   beforeUpload,
+  selectLimit,
 } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
@@ -91,7 +93,7 @@ const {
   AppUploadFileDetailModal,
 } = useFileManager(
   computed(() => filesAndGroupsData ?? { ...defaultData }),
-  query,
+  queryModel,
 )
 
 const loadGroupTreeNode = (
@@ -126,9 +128,9 @@ defineExpose({
         @jump="handleJumpToGroup"
       />
       <AppFileOperations
-        v-model:search-keyword="query.keyword"
+        v-model:search-keyword="queryModel.keyword"
         v-model:search-scope="searchScope"
-        :current-group-id="query.parentId"
+        :current-group-id="queryModel.parentId"
         :selected-count="selectedCount"
         @upload="handleUpload"
         @add-group="handleAddGroup"
@@ -147,9 +149,10 @@ defineExpose({
 
   <AppFileListContainer
     ref="appFileListContainer"
+    :select-limit
     :files-and-groups
-    v-model:currentPage="query.currentPage"
-    v-model:pageSize="query.pageSize"
+    v-model:currentPage="queryModel.currentPage"
+    v-model:pageSize="queryModel.pageSize"
     :total="total"
     :current-group-path
     @delete-group="execute(deleteGroup.bind(null, $event), refresh)"
@@ -170,12 +173,12 @@ defineExpose({
     :storages
     :before-upload
     ref="appUploadFileModal"
-    :current-group-id="query.parentId"
+    :current-group-id="queryModel.parentId"
     @close="refresh"
   />
   <AppUploadFileGroupModal
     ref="appUploadFileGroupModal"
-    :current-group-id="query.parentId"
+    :current-group-id="queryModel.parentId"
     :default-expanded-tree-node-keys="currentGroupPathIds"
     :create-file-group
     :update-file-group

@@ -165,7 +165,9 @@
     "content": "文章内容",
     "titleRequired": "文章标题不能为空",
     "contentRequired": "文章内容不能为空",
-    "articleCategoryIdRequired": "请选择文章分类"
+    "articleCategoryIdRequired": "请选择文章分类",
+    "coverImg": "封面图",
+    "coverImgRequired": "请选择封面图"
   },
   "articleCategory": {
     "articleCategoryName": "文章分类名称",

@@ -225,9 +225,13 @@ export const useAppForm = <
           }
 
           if (fieldErrs?.length) {
+            const langKey = fieldErrs[0].path?.[1] ?? ''
+            const langName =
+              languages.find((lang) => lang.key === langKey)?.name ?? ''
+
             return {
-              msg: fieldErrs[0].message,
-              langKey: fieldErrs[0].path?.[1] as string,
+              msg: `[${langName}]: ${fieldErrs[0].message}`,
+              langKey,
             }
           }
         }

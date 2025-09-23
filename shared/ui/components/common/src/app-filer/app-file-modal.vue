@@ -11,6 +11,7 @@ export interface Props extends FileManagerProps {}
 
 export interface Emits {
   (e: 'submit', selectedFiles: IUploadFile[]): void
+  (e: 'refresh'): void
   (e: 'close'): void
 }
 
@@ -61,6 +62,7 @@ defineExpose({
       v-model:query="queryModel"
       ref="fileManager"
       v-bind="$props"
+      @refresh="$emit('refresh')"
     />
   </AppBasicModal>
 </template>

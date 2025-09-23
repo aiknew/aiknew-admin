@@ -10,6 +10,10 @@ import { resolveURL } from '@aiknew/shared-ui-utils'
 
 export interface Props extends FileModalProps {}
 
+interface Emits {
+  (e: 'refresh'): void
+}
+
 const {
   beforeUpload,
   createFileGroup,
@@ -23,6 +27,7 @@ const {
   updateFileGroup,
   selectLimit,
 } = defineProps<Props>()
+defineEmits<Emits>()
 
 const fileModalRef = useTemplateRef('fileModal')
 const imgRefs = ref<Set<InstanceType<typeof ElImage>>>(new Set())
@@ -141,6 +146,7 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
       :update-file
       :update-file-group
       @submit="handleFileModalSubmit"
+      @refresh="$emit('refresh')"
     />
   </div>
 </template>

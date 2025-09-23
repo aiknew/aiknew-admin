@@ -1,4 +1,5 @@
 import {
+  type Component,
   computed,
   defineComponent,
   h,
@@ -254,12 +255,12 @@ export const useAppForm = <
       return as.slots
     }
 
-    const resolvedComp = (as: typeof item.as) => {
+    const resolvedComp = (as: typeof item.as): Component => {
       if (typeof as === 'string') {
-        return components[as]
+        return components[as] as Component
       }
 
-      return components[as.component]
+      return components[as.component] as Component
     }
 
     const compProps = resolvedProps(item.as)

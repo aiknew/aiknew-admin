@@ -10,7 +10,7 @@ Object.assign(components, {
 
 // Extend Components Interface
 declare module '@aiknew/shared-ui-components' {
-  interface Components {
+  interface ExtraComponents {
     AdminFileSelect: ComponentPropsAndSlots<typeof AdminFileSelect>
     AdminEditor: ComponentPropsAndSlots<typeof AdminEditor>
   }

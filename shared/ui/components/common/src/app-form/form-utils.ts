@@ -8,7 +8,7 @@ import {
   ElSelectV2,
   ElTreeSelect,
 } from 'element-plus'
-import { reactive, toValue, type MaybeRefOrGetter, type Component, Ref } from 'vue'
+import { reactive, toValue, type MaybeRefOrGetter, type Component, type Ref } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
@@ -69,7 +69,7 @@ export type ComponentPropsAndSlots<T> = {
   slots: ComponentSlots<T>
 }
 
-export interface Components {
+export interface BaseComponents {
   ElInput: ComponentPropsAndSlots<typeof ElInput>
   ElInputNumber: ComponentPropsAndSlots<typeof ElInputNumber>
   ElSelectV2: ComponentPropsAndSlots<typeof ElSelectV2>
@@ -79,11 +79,15 @@ export interface Components {
   ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>
 }
 
+export interface ExtraComponents { }
+
+export interface Components extends BaseComponents, ExtraComponents { }
+
 export type GetProps<C extends keyof Components> = Components[C]['props']
 
 export type GetSlots<C extends keyof Components> = Components[C]['slots']
 
-export const components: Record<keyof Components, Component> = {
+export const components: Record<keyof BaseComponents, Component> & Partial<Record<keyof ExtraComponents, Component>> = {
   ElRadio: AppRadio,
   ElInput,
   ElSelectV2,

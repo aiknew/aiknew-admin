@@ -123,6 +123,14 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
   </el-row>
 </template>
 
+<style>
+.file-operations .el-select__wrapper,
+.file-operations .el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset !important;
+}
+</style>
+
 <style scoped lang="scss">
 .file-operations {
   width: 100%;

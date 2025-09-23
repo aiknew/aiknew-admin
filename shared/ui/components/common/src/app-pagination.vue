@@ -41,3 +41,10 @@ useResizeObserver(
     />
   </div>
 </template>
+
+<style>
+.el-select__wrapper {
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset !important;
+}
+</style>

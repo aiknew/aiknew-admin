@@ -52,3 +52,10 @@ onUnmounted(() => {
     </template>
   </el-input-number>
 </template>
+
+<style>
+.el-input__wrapper {
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+    inset !important;
+}
+</style>

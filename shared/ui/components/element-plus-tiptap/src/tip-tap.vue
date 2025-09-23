@@ -10,6 +10,8 @@ import { CharacterCount } from '@tiptap/extensions'
 import ToolBar from './tool-bar.vue'
 import { type ToolBarProp } from './types'
 import Image from '@tiptap/extension-image'
+import { type Extensions } from '@tiptap/core'
+import { HTMLToProseMirrorNode } from './utils'
 
 interface Props {
   modelValue: string
@@ -42,6 +44,24 @@ const {
 } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
+const extensions: Extensions = [
+  StarterKit.configure({
+    heading: {
+      levels: [1, 2, 3],
+    },
+  }),
+  Highlight,
+  TextAlign.configure({
+    types: ['heading', 'paragraph'],
+  }),
+  TextStyleKit,
+  TableKit,
+  CharacterCount.configure({
+    limit,
+  }),
+  Image,
+]
+
 const editor = useEditor({
   content: modelValue,
   onUpdate: () => {
@@ -53,23 +73,7 @@ const editor = useEditor({
     // JSON
     // this.$emit('update:modelValue', this.editor.getJSON())
   },
-  extensions: [
-    StarterKit.configure({
-      heading: {
-        levels: [1, 2, 3],
-      },
-    }),
-    Highlight,
-    TextAlign.configure({
-      types: ['heading', 'paragraph'],
-    }),
-    TextStyleKit,
-    TableKit,
-    CharacterCount.configure({
-      limit,
-    }),
-    Image,
-  ],
+  extensions,
   editorProps: {
     attributes: {
       class:
@@ -95,7 +99,15 @@ watch(
   },
 )
 
-const getChars = () => {
+const getChars = (html?: string) => {
+  if (html) {
+    return (
+      editor.value?.storage.characterCount.characters({
+        node: HTMLToProseMirrorNode(html, extensions),
+      }) ?? 0
+    )
+  }
+
   return editor.value?.storage.characterCount.characters() ?? 0
 }
 

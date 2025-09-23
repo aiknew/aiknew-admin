@@ -121,8 +121,8 @@ const { AppForm, formApi } = useAdminForm({
                 error: t('article.contentRequired')
               })
               .refine(
-                () => {
-                  return editorRef.value.getChars() > 0
+                (html: string) => {
+                  return editorRef.value.getChars(html) > 0
                 },
                 {
                   error: t('article.contentRequired')

@@ -31,8 +31,8 @@ const model = defineModel<string>({ default: '' })
 const tiptapRef = useTemplateRef('tiptapRef')
 
 defineExpose({
-  getChars: () => {
-    return tiptapRef.value?.getChars()
+  getChars: (html?: string) => {
+    return tiptapRef.value?.getChars(html)
   }
 })
 </script>

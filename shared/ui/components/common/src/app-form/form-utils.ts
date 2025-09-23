@@ -8,7 +8,7 @@ import {
   ElSelectV2,
   ElTreeSelect,
 } from 'element-plus'
-import { reactive, toValue, type MaybeRefOrGetter, type Component, type DefineComponent } from 'vue'
+import { reactive, toValue, type MaybeRefOrGetter, type Component } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
@@ -20,10 +20,10 @@ type GetFieldName<N extends string | undefined> = N extends string ? N : never
 
 type GetSchemaType<T> = T extends (...args: any[]) => any ? ReturnType<T> : T
 
-export type Fields = Field<string, keyof Components | Component | DefineComponent>[]
+export type Fields = Field<string, keyof Components>[]
 
 export type GetDefaultVals<
-  Fields extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  Fields extends readonly Field<string, keyof Components>[],
 > = {
     [Item in Fields[number]as GetFieldName<Item['name']>]: z.infer<
       GetSchemaType<Item['schema']>
@@ -31,7 +31,7 @@ export type GetDefaultVals<
   }
 
 export type GetI18nFields<
-  Fields extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  Fields extends readonly Field<string, keyof Components>[],
 > = {
     [Item in Fields[number]as Item['i18n'] extends true
     ? GetFieldName<Item['name']>
@@ -39,11 +39,11 @@ export type GetI18nFields<
   }
 
 export type GetI18nFieldNames<
-  Fields extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  Fields extends readonly Field<string, keyof Components>[],
 > = keyof GetI18nFields<Fields>
 
 export type GetFieldsWithTranslations<
-  Fields extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  Fields extends readonly Field<string, keyof Components>[],
 > = {
   [Item in Fields[number]as Item['i18n'] extends true
   ? never
@@ -57,7 +57,7 @@ export type GetFieldsWithTranslations<
 }
 
 export type GetValidators<
-  Fields extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  Fields extends readonly Field<string, keyof Components>[],
 > = {
     [Item in Fields[number]as GetFieldName<Item['name']>]: ReturnType<
       Item['schema'] extends ZodDefault ? Item['schema']['unwrap'] : never
@@ -92,10 +92,10 @@ export const components: Record<keyof Components, Component> = {
   ElSwitch,
 }
 
-export type AsObject<T extends (Component | DefineComponent | keyof Components)> = {
+export type AsObject<T extends keyof Components> = {
   component: T
-  props?: T extends keyof Components ? GetProps<T> : ComponentProps<T>
-  slots?: T extends keyof Components ? GetSlots<T> : ComponentSlots<T>
+  props?: Components[T]['props']
+  slots?: Components[T]['slots']
 }
 
 type CommonContainer = {
@@ -114,7 +114,7 @@ export type Prettify<T> = {
 
 export type FiledSchema = ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault> | (() => ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>)
 
-export type NormalField<N extends string, C extends keyof Components | Component | DefineComponent> = {
+export type NormalField<N extends string, C extends keyof Components> = {
   hidden?: MaybeRefOrGetter<boolean>
   exclude?: false
   when?: MaybeRefOrGetter<boolean>
@@ -137,13 +137,13 @@ export type ExcludeField = {
   schema?: never
 }
 
-export type Field<N extends string, C extends keyof Components | Component | DefineComponent> =
+export type Field<N extends string, C extends keyof Components> =
   | NormalField<N, C>
   | ExcludeField
 
 export const isNormalField = (
-  field: NormalField<string, keyof Components | Component | DefineComponent> | ExcludeField,
-): field is NormalField<string, keyof Components | Component | DefineComponent> => {
+  field: NormalField<string, keyof Components> | ExcludeField,
+): field is NormalField<string, keyof Components> => {
   return !field.exclude
 }
 
@@ -156,7 +156,7 @@ export const normalizeSchema = (schemaOrFn: FiledSchema): ZodType | ZodDefault |
 }
 
 export const generateDefaultVal = <
-  T extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  T extends readonly Field<string, keyof Components>[],
 >(
   fields: T,
 ): GetDefaultVals<T> => {
@@ -179,7 +179,7 @@ export const generateDefaultVal = <
 }
 
 export const generateValidators = <
-  T extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  T extends readonly Field<string, keyof Components>[],
   R = StandardSchemaV1<GetDefaultVals<T>>,
 >(
   fields: T,
@@ -205,7 +205,7 @@ export const generateValidators = <
 }
 
 export const defineFields = <
-  const T extends readonly Field<string, keyof Components | Component | DefineComponent>[],
+  const T extends readonly Field<string, keyof Components>[],
 >(
   ...items: T
 ) => {

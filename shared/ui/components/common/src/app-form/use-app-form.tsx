@@ -1,7 +1,5 @@
 import {
-  type Component,
   computed,
-  type DefineComponent,
   defineComponent,
   h,
   ref,
@@ -36,12 +34,7 @@ import { isObject } from 'element-plus/es/utils/types.mjs'
 import AppFormItemContainer from './components/app-form-item-container.vue'
 import { onLangChange } from '@aiknew/shared-ui-locales'
 
-interface Props<
-  F extends readonly Field<
-    string,
-    keyof Components | Component | DefineComponent
-  >[],
-> {
+interface Props<F extends readonly Field<string, keyof Components>[]> {
   formProps?: ComponentProps<typeof ElForm>
   fields: F | (() => F)
   languages?: ILanguage[]
@@ -57,10 +50,7 @@ const resolveCondition = (when?: MaybeRefOrGetter<boolean>) => {
 }
 
 const getI18nFieldNames = <
-  F extends readonly Field<
-    string,
-    keyof Components | Component | DefineComponent
-  >[],
+  F extends readonly Field<string, keyof Components>[],
 >(
   fieldsArr: F,
 ): Prettify<GetI18nFieldNames<F>>[] => {
@@ -68,10 +58,7 @@ const getI18nFieldNames = <
 }
 
 const resolveI18nFields = <
-  F extends readonly Field<
-    string,
-    keyof Components | Component | DefineComponent
-  >[],
+  F extends readonly Field<string, keyof Components>[],
 >(
   values: GetDefaultVals<F>,
   i18nFieldNames: string[],
@@ -103,10 +90,7 @@ const resolveI18nFields = <
 }
 
 const restoreI18nFields = <
-  F extends readonly Field<
-    string,
-    keyof Components | Component | DefineComponent
-  >[],
+  F extends readonly Field<string, keyof Components>[],
 >(
   i18nValues: Prettify<GetFieldsWithTranslations<F>>,
 ): GetDefaultVals<F> => {
@@ -135,10 +119,7 @@ const restoreI18nFields = <
 }
 
 export const useAppForm = <
-  F extends readonly Field<
-    string,
-    keyof Components | Component | DefineComponent
-  >[],
+  F extends readonly Field<string, keyof Components>[],
 >(
   props: Props<F>,
 ) => {
@@ -205,7 +186,7 @@ export const useAppForm = <
     item,
     slotProps,
   }: {
-    item: Field<string, keyof Components | Component | DefineComponent>
+    item: Field<string, keyof Components>
     slotProps: FormSlotProps
   }) => {
     if (!isNormalField(item)) {
@@ -258,30 +239,20 @@ export const useAppForm = <
       }
     })
 
-    const isAsObject = (
-      as: typeof item.as,
-    ): as is AsObject<keyof Components | Component | DefineComponent> => {
-      return (
-        typeof as !== 'string' &&
-        'component' in as &&
-        Object.keys(as).length <= 3
-      )
-    }
-
     const resolvedProps = (as: typeof item.as) => {
-      if (isAsObject(as)) {
-        return as.props ?? {}
+      if (typeof as === 'string') {
+        return
       }
 
-      return {}
+      return as.props
     }
 
     const resolvedSlots = (as: typeof item.as) => {
-      if (isAsObject(as)) {
-        return as.slots ?? undefined
+      if (typeof as === 'string') {
+        return
       }
 
-      return undefined
+      return as.slots
     }
 
     const resolvedComp = (as: typeof item.as) => {
@@ -289,15 +260,7 @@ export const useAppForm = <
         return components[as]
       }
 
-      if (isAsObject(as)) {
-        if (typeof as.component === 'string') {
-          return components[as.component]
-        }
-
-        return as.component
-      }
-
-      return as
+      return components[as.component]
     }
 
     const compProps = resolvedProps(item.as)

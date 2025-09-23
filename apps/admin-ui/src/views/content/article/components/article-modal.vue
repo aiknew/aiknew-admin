@@ -2,20 +2,14 @@
 import { AppBasicModal } from '@aiknew/shared-ui-components'
 import { computed, h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
-import {
-  AppFormItemTips,
-  buildI18nSchema,
-  useAppForm,
-  type Fields
-} from '@aiknew/shared-ui-components'
+import { AppFormItemTips, buildI18nSchema, type Fields } from '@aiknew/shared-ui-components'
 import { useLangStore } from '@/stores/lang'
 import { useArticleCreate, useArticleUpdate, type Article } from '@/api/article'
 import { useArticleCategoryAll, type ArticleCategory } from '@/api/article-category'
 import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'
-import AdminEditor from '@/components/editor/admin-editor.vue'
-import AdminFileSelect from '@/components/file/admin-file-select.vue'
+import { useAdminForm } from '@/composables/use-admin-form'
 
 interface Emits {
   (e: 'submit'): void
@@ -36,7 +30,7 @@ const categoriesTree = computed(() => {
 })
 
 const languages = langStore.enabledLangs
-const { AppForm, formApi } = useAppForm({
+const { AppForm, formApi } = useAdminForm({
   fields: () =>
     [
       {
@@ -59,7 +53,7 @@ const { AppForm, formApi } = useAppForm({
       },
       {
         as: {
-          component: AdminFileSelect,
+          component: 'AdminFileSelect',
           props: {
             selectLimit: 1
           }
@@ -104,7 +98,10 @@ const { AppForm, formApi } = useAppForm({
             })
       },
       {
-        as: AdminEditor,
+        as: {
+          component: 'AdminEditor',
+          props: {}
+        },
         label: t('article.content'),
         name: 'content',
         i18n: true,

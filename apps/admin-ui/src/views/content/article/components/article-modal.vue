@@ -60,17 +60,21 @@ const { AppForm, formApi } = useAdminForm({
         },
         label: t('article.coverImg'),
         name: 'coverImageId',
-        schema: z
-          .array(
-            z.object({
-              id: z.string(),
-              filePath: z.string()
-            }),
-            {
-              error: t('article.coverImgRequired')
-            }
-          )
-          .optional()
+        schema: z.optional(
+          z
+            .array(
+              z
+                .object({
+                  id: z.string(),
+                  filePath: z.string()
+                })
+                .optional(),
+              {
+                error: t('article.coverImgRequired')
+              }
+            )
+            .optional()
+        )
       },
       {
         as: {

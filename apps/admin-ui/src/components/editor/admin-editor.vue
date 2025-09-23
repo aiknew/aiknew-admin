@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TipTap, type ToolBarProp } from '@aiknew/element-plus-tiptap'
-import { defineAsyncComponent, h } from 'vue'
+import { defineAsyncComponent, h, useTemplateRef } from 'vue'
 
 export type ToolBar = ToolBarProp
 
@@ -28,8 +28,15 @@ const {
 } = defineProps<Props>()
 
 const model = defineModel<string>({ default: '' })
+const tiptapRef = useTemplateRef('tiptapRef')
+
+defineExpose({
+  getChars: () => {
+    return tiptapRef.value?.getChars()
+  }
+})
 </script>
 
 <template>
-  <TipTap v-model="model" :toolbar />
+  <TipTap ref="tiptapRef" v-model="model" :toolbar />
 </template>

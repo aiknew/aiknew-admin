@@ -8,4 +8,8 @@
     box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
       inset !important;
   }
+
+  :global(div.element-plus-tiptap) {
+    border-color: var(--color-gray-300) !important;
+  }
 }

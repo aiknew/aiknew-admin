@@ -8,7 +8,7 @@ import {
   ElSelectV2,
   ElTreeSelect,
 } from 'element-plus'
-import { reactive, toValue, type MaybeRefOrGetter, type Component } from 'vue'
+import { reactive, toValue, type MaybeRefOrGetter, type Component, Ref } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
@@ -96,6 +96,7 @@ export type AsObject<T extends keyof Components> = {
   component: T
   props?: Components[T]['props']
   slots?: Components[T]['slots']
+  ref?: Ref<T>
 }
 
 type CommonContainer = {

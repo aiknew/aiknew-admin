@@ -25,6 +25,8 @@ const { mutateAsync: createArticle } = useArticleCreate()
 const { mutateAsync: updateArticle } = useArticleUpdate()
 const { data: articleCategories } = useArticleCategoryAll()
 
+const editorRef = ref()
+
 const categoriesTree = computed(() => {
   return buildTree(articleCategories.value, 'id', 'parentId')
 })
@@ -104,7 +106,7 @@ const { AppForm, formApi } = useAdminForm({
       {
         as: {
           component: 'AdminEditor',
-          props: {}
+          ref: editorRef
         },
         label: t('article.content'),
         name: 'content',
@@ -118,6 +120,14 @@ const { AppForm, formApi } = useAdminForm({
               .nonempty({
                 error: t('article.contentRequired')
               })
+              .refine(
+                () => {
+                  return editorRef.value.getChars() > 0
+                },
+                {
+                  error: t('article.contentRequired')
+                }
+              )
               .default(''),
             languages
           )

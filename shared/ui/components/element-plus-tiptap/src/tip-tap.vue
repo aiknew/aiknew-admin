@@ -95,13 +95,23 @@ watch(
   },
 )
 
+const getChars = () => {
+  return editor.value?.storage.characterCount.characters() ?? 0
+}
+
 onBeforeUnmount(() => {
   editor.value?.destroy()
+})
+
+defineExpose({
+  getChars,
 })
 </script>
 
 <template>
-  <div class="border border-gray-300 rounded-lg overflow-hidden">
+  <div
+    class="element-plus-tiptap border border-gray-300 rounded-lg overflow-hidden"
+  >
     <tool-bar class="border-b" v-if="editor" :toolbar :editor="editor" />
     <editor-content :editor="editor" />
     <div
@@ -110,16 +120,20 @@ onBeforeUnmount(() => {
     >
       <span
         :class="{
-          'text-red-500': editor.storage.characterCount.characters() >= limit,
+          'text-red-500': getChars() >= limit,
         }"
       >
-        {{ editor.storage.characterCount.characters() }} / {{ limit }} 字符
+        {{ getChars() }} / {{ limit }} 字符
       </span>
     </div>
   </div>
 </template>
 
 <style lang="scss">
+.el-form-item.is-error .element-plus-tiptap {
+  border-color: var(--el-color-danger);
+}
+
 .tiptap {
   /* Table-specific styling */
   table {

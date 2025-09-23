@@ -19,7 +19,6 @@ import {
   isNormalField,
   type ExcludeField,
   normalizeSchema,
-  type AsObject,
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
 import { isDefined, useWindowSize } from '@vueuse/core'
@@ -293,6 +292,7 @@ export const useAppForm = <
                 name: item.name,
                 modelValue: value,
                 'onUpdate:modelValue': setLangVal,
+                ref: typeof item.as !== 'string' ? item.as.ref : undefined,
                 ...compProps,
               },
               compSlots,
@@ -306,6 +306,7 @@ export const useAppForm = <
             name: item.name,
             modelValue: state.value,
             'onUpdate:modelValue': handleChange,
+            ref: typeof item.as !== 'string' ? item.as.ref : undefined,
             ...compProps,
           },
           compSlots,

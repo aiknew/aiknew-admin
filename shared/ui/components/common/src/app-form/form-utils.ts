@@ -9,7 +9,7 @@ import {
   ElTreeSelect,
 } from 'element-plus'
 import { reactive, toValue, type MaybeRefOrGetter, type Component, type Ref } from 'vue'
-import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
+import type { ComponentProps, ComponentSlots, ComponentType } from 'vue-component-type-helpers'
 import AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
 import type { ILanguage } from '@aiknew/shared-types'
@@ -65,6 +65,7 @@ export type GetValidators<
   }
 
 export type ComponentPropsAndSlots<T> = {
+  component: T
   props: ComponentProps<T>
   slots: ComponentSlots<T>
 }
@@ -100,7 +101,7 @@ export type AsObject<T extends keyof Components> = {
   component: T
   props?: Components[T]['props']
   slots?: Components[T]['slots']
-  ref?: Ref<T>
+  ref?: Ref<InstanceType<Components[T]['component']> | undefined>
 }
 
 type CommonContainer = {

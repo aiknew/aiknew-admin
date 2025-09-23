@@ -10,6 +10,7 @@ import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'
 import { useAdminForm } from '@/composables/use-admin-form'
+import type AdminEditor from '@/components/editor/admin-editor.vue'
 
 interface Emits {
   (e: 'submit'): void
@@ -20,12 +21,11 @@ const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useI18n()
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modalRef')
+const editorRef = ref<InstanceType<typeof AdminEditor>>()
 const editId = ref<number>()
 const { mutateAsync: createArticle } = useArticleCreate()
 const { mutateAsync: updateArticle } = useArticleUpdate()
 const { data: articleCategories } = useArticleCategoryAll()
-
-const editorRef = ref()
 
 const categoriesTree = computed(() => {
   return buildTree(articleCategories.value, 'id', 'parentId')
@@ -122,7 +122,8 @@ const { AppForm, formApi } = useAdminForm({
               })
               .refine(
                 (html: string) => {
-                  return editorRef.value.getChars(html) > 0
+                  const count = editorRef.value?.getChars(html) ?? 0
+                  return count > 0
                 },
                 {
                   error: t('article.contentRequired')

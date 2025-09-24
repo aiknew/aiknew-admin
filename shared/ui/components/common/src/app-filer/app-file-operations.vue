@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Search } from '@element-plus/icons-vue'
 import {
   ElRow,
   ElCol,
@@ -23,7 +22,6 @@ export interface Props {
 export interface Emits {
   (e: 'add-group'): void
   (e: 'upload'): void
-  (e: 'search'): void
   (e: 'delete-selected'): void
   (e: 'clear-selected'): void
   (e: 'update:searchKeyword', value: string): void
@@ -37,12 +35,10 @@ const { t } = useI18n()
 const hasSelected = computed(() => selectedCount > 0)
 const handleInput = (val: string) => {
   emit('update:searchKeyword', val)
-  emit('search')
 }
 
 const handleChangeSearchScope = (val: SearchScopeEnum) => {
   emit('update:searchScope', val)
-  emit('search')
 }
 </script>
 
@@ -73,10 +69,6 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
               :value="SearchScopeEnum.CURRENT_GROUP"
             ></el-option>
           </el-select>
-        </template>
-
-        <template #append>
-          <el-button @click="$emit('search')" :icon="Search" />
         </template>
       </el-input>
     </el-col>

@@ -1,6 +1,6 @@
 import type { IUploadFileQuery } from '@aiknew/shared-types'
 import { SearchScopeEnum } from '../enums'
-import { computed, type Ref, ref, watch } from 'vue'
+import { computed, type Ref, ref, watchEffect } from 'vue'
 
 export interface GroupPathItem {
   groupId: string
@@ -14,14 +14,14 @@ export const useFileGroupPath = (searchScope: Ref<SearchScopeEnum>, query: Ref<I
   const backwardStack = ref<GroupPathItem[][]>([])
   const currentStack = ref<GroupPathItem[]>([topGroup])
 
-  watch(() => currentStack, () => {
+  watchEffect(() => {
     if (searchScope.value === SearchScopeEnum.ALL) {
       query.value.parentId = undefined
       return
     }
 
     query.value.parentId = currentStack.value[currentStack.value.length - 1].groupId
-  }, { deep: true })
+  })
 
   const currentGroupName = computed(() => {
     return currentStack.value[currentStack.value.length - 1].groupName

@@ -142,7 +142,6 @@ defineExpose({
             refresh,
           )
         "
-        @search="refresh"
       />
     </el-space>
   </div>
@@ -158,13 +157,13 @@ defineExpose({
     @delete-group="execute(deleteGroup.bind(null, $event), refresh)"
     @delete-file="execute(deleteFile.bind(null, $event), refresh)"
     @edit-group="handleEditGroup"
-    @click-group="execute(handleClickGroup.bind(null, $event), refresh)"
+    @click-group="execute(handleClickGroup.bind(null, $event))"
     @click-file="handleClickFile"
     @edit-file="handleEditFIle"
     @select="handleSelectFile"
-    @back-to-previous-group="execute(backToGroup, refresh)"
-    @back-to-upper-group="execute(backToUpper, refresh)"
-    @forward-to-next-group="execute(forwardToGroup, refresh)"
+    @back-to-previous-group="execute(backToGroup)"
+    @back-to-upper-group="execute(backToUpper)"
+    @forward-to-next-group="execute(forwardToGroup)"
     @refresh="refresh"
   />
 

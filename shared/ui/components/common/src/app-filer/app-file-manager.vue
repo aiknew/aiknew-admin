@@ -8,10 +8,11 @@ import type {
   IUploadFileGroup,
   IUploadFilesAndGroupsData,
 } from '@aiknew/shared-types'
-import { computed, onMounted, type Ref } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { FileStatus } from '@aiknew/shared-enums'
 import type { SharedProps } from './types'
+import { useDebounceFn } from '@vueuse/core'
 
 export interface Props extends SharedProps {
   filesAndGroupsData: IUploadFilesAndGroupsData | undefined
@@ -104,6 +105,16 @@ const loadGroupTreeNode = (
   loadGroupNode(currentEditGroupId, node, resolve, reject)
 }
 
+const searchKeyword = ref(queryModel.value.keyword)
+const updateQueryKeyword = useDebounceFn((keyword: string) => {
+  queryModel.value.keyword = keyword
+}, 200)
+
+const handleUpdateKeyword = (keyword: string) => {
+  searchKeyword.value = keyword
+  updateQueryKeyword(keyword)
+}
+
 onMounted(() => {
   emit('refresh')
 })
@@ -128,10 +139,11 @@ defineExpose({
         @jump="handleJumpToGroup"
       />
       <AppFileOperations
-        v-model:search-keyword="queryModel.keyword"
         v-model:search-scope="searchScope"
         :current-group-id="queryModel.parentId"
         :selected-count="selectedCount"
+        :search-keyword
+        @update:search-keyword="handleUpdateKeyword"
         @upload="handleUpload"
         @add-group="handleAddGroup"
         @clear-selected="handleClearSelected"

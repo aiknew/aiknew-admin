@@ -1,6 +1,7 @@
 <script lang="ts" setup generic="LANG extends string">
-import localeSVG from './icons/locale.svg'
+import { Globe } from 'lucide-vue-next'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
+import AppIcon from './app-icon.vue'
 
 export interface Props<LANG extends string> {
   languages: LANG[]
@@ -17,18 +18,18 @@ defineEmits<Emits<LANG>>()
 
 <template>
   <div class="flex items-center">
-    <el-dropdown @command="$emit('switchLang', $event)">
-      <span class="outline-0 cursor-pointer">
-        <localeSVG width="19" height="19" />
-      </span>
+    <ElDropdown @command="$emit('switchLang', $event)">
+      <AppIcon>
+        <Globe :size="19" />
+      </AppIcon>
       <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item v-for="val in languages" :key="val" :command="val">
+        <ElDropdownMenu>
+          <ElDropdownItem v-for="val in languages" :key="val" :command="val">
             <span :class="{ active: val === currentLanguage }">{{ val }}</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
+          </ElDropdownItem>
+        </ElDropdownMenu>
       </template>
-    </el-dropdown>
+    </ElDropdown>
   </div>
 </template>
 

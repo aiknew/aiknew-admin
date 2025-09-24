@@ -6,10 +6,21 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-them-primary: var(--el-color-primary);
+  --color-theme-primary: var(--el-color-primary);
+  --color-theme-primary-light-3: var(--el-color-primary-light-3);
+  --color-theme-primary-light-5: var(--el-color-primary-light-5);
+  --color-theme-primary-light-7: var(--el-color-primary-light-7);
+  --color-theme-primary-light-8: var(--el-color-primary-light-8);
+  --color-theme-primary-light-9: var(--el-color-primary-light-9);
+  --color-theme-primary-dark-2: var(--el-color-primary-dark-2);
   --color-theme-bg-page: var(--el-bg-color-page);
   --color-theme-bg-overlay: var(--el-bg-color-overlay);
   --color-theme-bg: var(--el-bg-color);
   --color-theme-border: var(--el-border-color);
   --color-theme-border-light: var(--app-border-color-light);
+  --color-theme-text-primary: var(--el-text-color-primary);
+  --color-theme-text-regular: var(--el-text-color-regular);
+  --color-theme-text-secondary: var(--el-text-color-secondary);
+  --color-theme-text-placeholder: var(--el-text-color-placeholder);
+  --color-theme-text-disabled: var(--el-text-color-disabled);
 }

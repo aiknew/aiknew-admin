@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ElIcon } from 'element-plus'
-import { Expand, Fold, Refresh } from '@element-plus/icons-vue'
 import AppRoutePath from './app-route-path.vue'
 import { type RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { type Ref } from 'vue'
+import { RotateCw, ListCollapse } from 'lucide-vue-next'
+import AppIcon from './app-icon.vue'
 
 export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
@@ -26,24 +27,25 @@ defineEmits(['update:expandMenu', 'refresh'])
 
     <!-- menu expand button -->
     <div
-      class="flex cursor-pointer items-center justify-center"
+      class="flex cursor-pointer items-center justify-center relative top-[1px] text-theme-text-primary"
       @click="$emit('update:expandMenu', !expandMenu)"
     >
-      <el-icon v-show="!expandMenu" :size="26">
-        <Expand />
-      </el-icon>
-      <el-icon v-show="expandMenu" :size="26">
-        <Fold />
-      </el-icon>
+      <AppIcon v-show="!expandMenu">
+        <ListCollapse :size="20" />
+      </AppIcon>
+
+      <AppIcon v-show="expandMenu">
+        <ListCollapse style="transform: rotate(180deg)" :size="20" />
+      </AppIcon>
     </div>
 
     <!-- route path -->
     <AppRoutePath class="hidden sm:block" :current-route />
 
     <!-- refresh button -->
-    <el-icon class="cursor-pointer ml-1.5 sm:ml-0" @click="$emit('refresh')"
-      ><Refresh
-    /></el-icon>
+    <AppIcon class="ml-1.5 sm:ml-0 relative" @click="$emit('refresh')">
+      <RotateCw :size="19" />
+    </AppIcon>
 
     <!-- operations -->
     <div class="ml-auto flex items-center">

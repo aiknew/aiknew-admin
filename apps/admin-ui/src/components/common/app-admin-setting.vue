@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ElDrawer, ElIcon, ElText } from 'element-plus'
-import { Setting } from '@element-plus/icons-vue'
+import { ElDrawer, ElText } from 'element-plus'
+import { Settings } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AppThemeSelect from './app-theme-select/app-theme-select.vue'
+import { AppIcon } from '@aiknew/shared-ui-components'
 
 const show = ref(false)
 const { t } = useI18n()
@@ -11,7 +12,9 @@ const { t } = useI18n()
 
 <template>
   <div class="flex cursor-pointer items-center" @click="show = true">
-    <el-icon size="20"><Setting /></el-icon>
+    <AppIcon>
+      <Settings :size="20" />
+    </AppIcon>
     <el-drawer v-model="show" :with-header="false">
       <div>
         <el-text tag="b">{{ t('themeColor') }}</el-text>

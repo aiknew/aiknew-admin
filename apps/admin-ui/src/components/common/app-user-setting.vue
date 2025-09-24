@@ -14,7 +14,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <div class="cursor-pointer">
+  <div class="cursor-pointer px-1">
     <el-dropdown>
       <el-avatar icon="UserFilled" :size="30" />
       <template #dropdown>

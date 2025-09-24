@@ -52,3 +52,9 @@ const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
     <div ref="moreRight" class="route-path__more more-right"></div>
   </div>
 </template>
+
+<style scoped>
+:deep(.el-breadcrumb) {
+  line-height: initial;
+}
+</style>

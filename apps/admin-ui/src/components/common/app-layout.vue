@@ -28,7 +28,7 @@ const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | und
 <template>
   <AppBasicLayout :routes :current-route="router.currentRoute">
     <template #operations>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1">
         <AppDarkModeSwitcher />
 
         <AppLanguageSwitcher

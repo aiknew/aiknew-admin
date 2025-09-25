@@ -4,6 +4,7 @@ import { AppFileManager } from '@aiknew/shared-ui-components'
 import { ref } from 'vue'
 import { useFileLogic } from '@/composables/use-file-logic'
 import type { IUploadFileQuery } from '@aiknew/shared-types'
+import { useUserStore } from '@/stores'
 
 const query = ref<IUploadFileQuery>({
   currentPage: 1,
@@ -11,6 +12,9 @@ const query = ref<IUploadFileQuery>({
   keyword: '',
   parentId: '0'
 })
+
+const authRoutePath = '/content/file'
+const { checkPermission } = useUserStore()
 
 const {
   beforeUpload,
@@ -42,6 +46,12 @@ const {
       :update-file-group
       :load-group-node
       :update-file
+      :show-add-group="checkPermission('add-group', authRoutePath)"
+      :show-edit-file="checkPermission('edit-file', authRoutePath)"
+      :show-edit-group="checkPermission('edit-group', authRoutePath)"
+      :show-delete-file="checkPermission('delete-file', authRoutePath)"
+      :show-delete-group="checkPermission('delete-group', authRoutePath)"
+      :show-upload-file="checkPermission('upload-file', authRoutePath)"
       @refresh="fetchFilesAndGroups"
     />
   </AppContentBlock>

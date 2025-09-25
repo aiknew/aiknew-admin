@@ -1,11 +1,4 @@
-import type {
-  ICreateUploadFileGroup,
-  IUpdateUploadFile,
-  IUploadFileGroup,
-  IUploadFile,
-} from '@aiknew/shared-types'
 import type { Ref } from 'vue'
-import type Node from 'element-plus/es/components/tree/src/model/node'
 
 export interface UploadStorage {
   id: string
@@ -22,24 +15,18 @@ export interface UploadStorage {
   ) => Promise<string> | string)
 }
 
-export interface SharedProps {
-  storages: UploadStorage[]
-  deleteSelected: (selectedFiles: IUploadFile[]) => Promise<unknown>
-  createFileGroup: (data: ICreateUploadFileGroup) => Promise<unknown>
-  updateFileGroup: (data: {
-    id: string
-    body: Partial<ICreateUploadFileGroup>
-  }) => Promise<unknown>
-  loadGroupNode: (
-    currentEditGroupId: Ref<string | undefined>,
-    node: Node,
-    resolve: (
-      data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[],
-    ) => void,
-    reject: () => void,
-  ) => void
-  updateFile: (data: {
-    id: string
-    body: IUpdateUploadFile
-  }) => Promise<unknown>
+export type Storages = UploadStorage[]
+
+
+export interface PermissionOpts {
+  showEditFile?: boolean
+  showEditGroup?: boolean
+  showDeleteFile?: boolean
+  showDeleteGroup?: boolean
+  showUploadFile?: boolean
+  showAddGroup?: boolean
 }
+
+export interface ListPermissions extends Pick<PermissionOpts, 'showEditFile' | 'showEditGroup' | 'showDeleteFile' | 'showDeleteGroup'> { }
+
+export interface OperationPermissions extends Pick<PermissionOpts, 'showDeleteFile' | 'showUploadFile' | 'showAddGroup'> { }

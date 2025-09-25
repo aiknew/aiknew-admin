@@ -7,19 +7,40 @@ import type {
   IUploadFile,
   IUploadFileGroup,
   IUploadFilesAndGroupsData,
+  ICreateUploadFileGroup,
+  IUpdateUploadFile,
 } from '@aiknew/shared-types'
 import { computed, onMounted, ref, type Ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { FileStatus } from '@aiknew/shared-enums'
-import type { SharedProps } from './types'
+import type { PermissionOpts, Storages } from './types'
 import { useDebounceFn } from '@vueuse/core'
 
-export interface Props extends SharedProps {
+export interface Props extends PermissionOpts {
+  selectLimit?: number
   filesAndGroupsData: IUploadFilesAndGroupsData | undefined
+  storages: Storages
+  deleteSelected: (selectedFiles: IUploadFile[]) => Promise<unknown>
+  createFileGroup: (data: ICreateUploadFileGroup) => Promise<unknown>
+  updateFileGroup: (data: {
+    id: string
+    body: Partial<ICreateUploadFileGroup>
+  }) => Promise<unknown>
+  loadGroupNode: (
+    currentEditGroupId: Ref<string | undefined>,
+    node: Node,
+    resolve: (
+      data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[],
+    ) => void,
+    reject: () => void,
+  ) => void
+  updateFile: (data: {
+    id: string
+    body: IUpdateUploadFile
+  }) => Promise<unknown>
   deleteFile: (item: IUploadFile) => void
   deleteGroup: (item: IUploadFileGroup) => void
   beforeUpload?: (extraFormData: Ref<Record<string, unknown>>) => void
-  selectLimit?: number
 }
 
 export interface Emits {
@@ -45,6 +66,16 @@ const {
   updateFile,
   beforeUpload,
   selectLimit,
+
+  /**
+   * permissions
+   */
+  showAddGroup = true,
+  showDeleteFile = true,
+  showDeleteGroup = true,
+  showEditFile = true,
+  showEditGroup = true,
+  showUploadFile = true,
 } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
@@ -143,6 +174,9 @@ defineExpose({
         :current-group-id="queryModel.parentId"
         :selected-count="selectedCount"
         :search-keyword
+        :show-add-group
+        :show-delete-file
+        :show-upload-file
         @update:search-keyword="handleUpdateKeyword"
         @upload="handleUpload"
         @add-group="handleAddGroup"
@@ -160,12 +194,16 @@ defineExpose({
 
   <AppFileListContainer
     ref="appFileListContainer"
-    :select-limit
-    :files-and-groups
     v-model:currentPage="queryModel.currentPage"
     v-model:pageSize="queryModel.pageSize"
+    :select-limit
+    :files-and-groups
     :total="total"
     :current-group-path
+    :show-delete-file
+    :show-delete-group
+    :show-edit-file
+    :show-edit-group
     @delete-group="execute(deleteGroup.bind(null, $event), refresh)"
     @delete-file="execute(deleteFile.bind(null, $event), refresh)"
     @edit-group="handleEditGroup"

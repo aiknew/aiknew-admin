@@ -97,7 +97,9 @@ const handleResetQueryForm = () => {
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAdd">{{ t('add') }}</el-button>
+      <el-button v-permission:add class="ml-auto" type="primary" @click="handleAdd">{{
+        t('add')
+      }}</el-button>
     </div>
 
     <AppTable

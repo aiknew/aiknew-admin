@@ -13,8 +13,9 @@ import { isFileItem, isGroupItem, type GroupPathItem } from './composables'
 import { AppTable } from '../app-table'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import { useI18n } from 'vue-i18n'
+import { ListPermissions } from './types'
 
-export interface Props {
+export interface Props extends ListPermissions {
   currentGroupPath: GroupPathItem[]
   selectLimit?: number
 }
@@ -31,7 +32,18 @@ export interface Emits {
 }
 
 const emit = defineEmits<Emits>()
-const { currentGroupPath, selectLimit } = defineProps<Props>()
+const {
+  currentGroupPath,
+  selectLimit,
+
+  /**
+   * permissions
+   */
+  showDeleteFile = true,
+  showDeleteGroup = true,
+  showEditFile = true,
+  showEditGroup = true,
+} = defineProps<Props>()
 const { t } = useI18n()
 
 const loading = ref(false)
@@ -101,20 +113,20 @@ const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
   emit('select', selectedFiles.value)
 }
 
-const permissionType = (row: IUploadFile | IUploadFileGroup) => {
+const editPermission = (row: IUploadFile | IUploadFileGroup) => {
   if (isGroupItem(row)) {
-    return '-group'
+    return showEditGroup
   }
 
-  return '-file'
-}
-
-const editPermission = (row: IUploadFile | IUploadFileGroup) => {
-  return 'edit' + permissionType(row)
+  return showEditFile
 }
 
 const deletePermission = (row: IUploadFile | IUploadFileGroup) => {
-  return 'delete' + permissionType(row)
+  if (isGroupItem(row)) {
+    return showDeleteGroup
+  }
+
+  return showDeleteFile
 }
 
 const clearSelection = () => {
@@ -186,7 +198,7 @@ defineExpose({
       <el-table-column :label="t('operations')" width="130">
         <template #default="{ row }">
           <el-button
-            v-permission:[editPermission(row)]="'/content/file'"
+            v-if="editPermission(row)"
             type="primary"
             size="small"
             icon="Edit"
@@ -198,9 +210,8 @@ defineExpose({
             @confirm="$emit('delete-item', row)"
           >
             <template #reference>
-              <!-- TODO: permission control remove -->
               <el-button
-                v-permission:[deletePermission(row)]="'/content/file'"
+                v-if="deletePermission(row)"
                 type="danger"
                 icon="Delete"
                 size="small"

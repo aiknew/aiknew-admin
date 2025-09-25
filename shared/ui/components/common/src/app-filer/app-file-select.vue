@@ -26,6 +26,12 @@ const {
   updateFile,
   updateFileGroup,
   selectLimit,
+  showAddGroup,
+  showDeleteFile,
+  showDeleteGroup,
+  showEditFile,
+  showEditGroup,
+  showUploadFile,
 } = defineProps<Props>()
 defineEmits<Emits>()
 
@@ -145,6 +151,12 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
       :storages
       :update-file
       :update-file-group
+      :show-add-group
+      :show-delete-group
+      :show-edit-file
+      :show-edit-group
+      :show-upload-file
+      :show-delete-file
       @submit="handleFileModalSubmit"
       @refresh="$emit('refresh')"
     />

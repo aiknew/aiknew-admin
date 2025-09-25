@@ -41,6 +41,22 @@ export const useUserStore = defineStore('user', () => {
     router.push({ name: 'Login' })
   }
 
+  const checkPermission = (key: string, route?: string) => {
+    let routeId: string | undefined
+
+    if (route) {
+      routeId = userInfo.value.routes.find((item) => item.path === route)?.id
+    } else {
+      routeId = router.currentRoute.value.meta.id
+    }
+
+    const hasPermission = userInfo.value.routes.some((item) => {
+      return item.type === 'BUTTON' && item.parentId === routeId && item.key === key
+    })
+
+    return hasPermission
+  }
+
   return {
     accessToken,
     userInfo,
@@ -48,6 +64,7 @@ export const useUserStore = defineStore('user', () => {
     userName,
     login,
     logout,
-    registerRoutes
+    registerRoutes,
+    checkPermission
   }
 })

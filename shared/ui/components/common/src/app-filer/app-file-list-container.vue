@@ -4,8 +4,9 @@ import AppPagination from '../app-pagination.vue'
 import AppFileListTable from './app-file-list-table.vue'
 import { isFileItem, type GroupPathItem } from './composables'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
+import { ListPermissions } from './types'
 
-export interface Props {
+export interface Props extends ListPermissions {
   filesAndGroups: (IUploadFile | IUploadFileGroup)[]
   currentGroupPath: GroupPathItem[]
   selectLimit?: number
@@ -29,7 +30,17 @@ const currentPage = defineModel<number>('currentPage', { default: 1 })
 const pageSize = defineModel<number>('pageSize', { default: 10 })
 const total = defineModel<number>('total', { default: 0 })
 const emit = defineEmits<Emits>()
-const { selectLimit } = defineProps<Props>()
+const {
+  selectLimit,
+
+  /**
+   * permissions
+   */
+  showDeleteFile = true,
+  showDeleteGroup = true,
+  showEditFile = true,
+  showEditGroup = true,
+} = defineProps<Props>()
 
 const appFileListTableRef = useTemplateRef('appFileListTable')
 
@@ -75,6 +86,10 @@ defineExpose({
       :select-limit
       :data="filesAndGroups"
       :current-group-path
+      :show-delete-file
+      :show-delete-group
+      :show-edit-file
+      :show-edit-group
       @select="$emit('select', $event)"
       @delete-item="deleteItem"
       @edit-item="editItem"

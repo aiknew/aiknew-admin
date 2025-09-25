@@ -11,8 +11,9 @@ import {
 } from 'element-plus'
 import { SearchScopeEnum } from './enums'
 import { useI18n } from 'vue-i18n'
+import { OperationPermissions } from './types'
 
-export interface Props {
+export interface Props extends OperationPermissions {
   searchKeyword: string | undefined
   searchScope: SearchScopeEnum
   selectedCount: number
@@ -28,7 +29,15 @@ export interface Emits {
   (e: 'update:searchScope', value: SearchScopeEnum): void
 }
 
-const { selectedCount } = defineProps<Props>()
+const {
+  selectedCount,
+  /**
+   * permissions
+   */
+  showAddGroup = true,
+  showDeleteFile = true,
+  showUploadFile = true,
+} = defineProps<Props>()
 const emit = defineEmits<Emits>()
 const { t } = useI18n()
 
@@ -81,9 +90,8 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
         </span>
         <el-button
           type="danger"
-          v-show="hasSelected"
+          v-if="showDeleteFile && hasSelected"
           @click="$emit('delete-selected')"
-          v-permission:delete-file="'/content/file'"
         >
           {{ t('filer.deleteSelected') }}
         </el-button>
@@ -96,17 +104,15 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
           {{ t('filer.clearSelected') }}
         </el-button>
         <el-button
-          v-show="currentGroupId"
+          v-if="showUploadFile && currentGroupId"
           type="primary"
           @click="$emit('upload')"
-          v-permission:upload-file="'/content/file'"
         >
           {{ t('filer.uploadFile') }}
         </el-button>
         <el-button
-          v-show="currentGroupId"
+          v-if="showAddGroup && currentGroupId"
           @click="$emit('add-group')"
-          v-permission:add-group="'/content/file'"
         >
           {{ t('filer.createGroup') }}
         </el-button>

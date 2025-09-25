@@ -8,13 +8,13 @@ import {
   ElSelectV2,
   ElFormItem,
 } from 'element-plus'
-import type { SharedProps } from '../types'
+import type { Storages } from '../types'
 import { isPromise } from 'element-plus/es/utils/types.mjs'
 import { useI18n } from 'vue-i18n'
 
 export interface Props {
   currentGroupId: string | undefined
-  storages: SharedProps['storages']
+  storages: Storages
   beforeUpload?: (extraFormData: Ref<Record<string, unknown>>) => void
 }
 

@@ -11,7 +11,7 @@ import {
 } from 'element-plus'
 import { SearchScopeEnum } from './enums'
 import { useI18n } from 'vue-i18n'
-import { OperationPermissions } from './types'
+import type { OperationPermissions } from './types'
 
 export interface Props extends OperationPermissions {
   searchKeyword: string | undefined

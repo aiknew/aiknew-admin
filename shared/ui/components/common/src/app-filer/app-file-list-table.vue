@@ -13,7 +13,7 @@ import { isFileItem, isGroupItem, type GroupPathItem } from './composables'
 import { AppTable } from '../app-table'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
 import { useI18n } from 'vue-i18n'
-import { ListPermissions } from './types'
+import type { ListPermissions } from './types'
 
 export interface Props extends ListPermissions {
   currentGroupPath: GroupPathItem[]

@@ -4,7 +4,7 @@ import AppPagination from '../app-pagination.vue'
 import AppFileListTable from './app-file-list-table.vue'
 import { isFileItem, type GroupPathItem } from './composables'
 import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
-import { ListPermissions } from './types'
+import type { ListPermissions } from './types'
 
 export interface Props extends ListPermissions {
   filesAndGroups: (IUploadFile | IUploadFileGroup)[]

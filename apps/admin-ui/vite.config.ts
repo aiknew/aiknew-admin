@@ -12,6 +12,7 @@ import { openApiToTypeScript } from './src/utils/vite-plugin-openapi-typescript'
 import { compression } from 'vite-plugin-compression2'
 import * as path from 'node:path'
 import * as fs from 'node:fs'
+import { ADMIN_API_PORT } from '@aiknew/shared-constants'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -22,11 +23,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: `http://localhost:${ADMIN_API_PORT}`,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/files': {
-        target: 'http://localhost:3000'
+        target: `http://localhost:${ADMIN_API_PORT}`,
       }
     }
   },
@@ -53,7 +54,7 @@ export default defineConfig({
     svgLoader(),
     tailwindcss(),
     openApiToTypeScript({
-      source: 'http://localhost:3000/api-doc-json',
+      source: `http://localhost:${ADMIN_API_PORT}/api-doc-json`,
       desc: './src/types/open-api.ts'
     }) as import('vite').Plugin,
     // visualizer({

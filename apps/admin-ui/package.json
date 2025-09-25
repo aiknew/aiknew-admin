@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@aiknew/shared-enums": "workspace:*",
+    "@aiknew/shared-constants": "workspace:*",
     "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-ui-layouts": "workspace:*",

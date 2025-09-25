@@ -27,6 +27,11 @@ pnpm install
 ```
 
 ```
+# 初次运行,需要先构建所有共享包
+pnpm build
+```
+
+```
 # 在项目根目录下运行
 pnpm db:migrate # 执行数据库迁移
 pnpm db:seed # 执行数据初始化

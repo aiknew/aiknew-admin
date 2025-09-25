@@ -27,6 +27,11 @@ pnpm install
 ```
 
 ```
+# For the first run, you need to build all shared packages first
+pnpm build
+```
+
+```
 # Run in the project root directory
 pnpm db:migrate  # Execute database migration
 pnpm db:seed     # Execute data initialization

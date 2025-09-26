@@ -34,7 +34,7 @@ export class LanguageController {
   @Get('enabled')
   @AppApiOkResponse([LanguageItemDto])
   enabled(): Promise<LanguageItemDto[]> {
-    return this.languageService.getEnabledLangs()
+    return this.languageService.getEnabledLanguages()
   }
 
   @Permission({ key: 'language:pagination', name: 'language.languagePagination' })

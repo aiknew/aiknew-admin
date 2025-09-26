@@ -1,12 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { CreateLanguageDto } from './dto/create-language.dto'
 import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { UpdateLanguageDto } from './dto/update-language.dto'
 import {
   AppBadRequestException,
 } from '@aiknew/shared-api-exceptions'
-import { SystemSettingService } from '../system-setting/system-setting.service'
-import { SystemSettingKey } from '@aiknew/shared-api-enums'
 import { QueryLanguageDto } from './dto/query-language.dto'
 import { I18nContext, I18nService } from 'nestjs-i18n'
 
@@ -14,7 +12,6 @@ import { I18nContext, I18nService } from 'nestjs-i18n'
 export class LanguageService {
   constructor(
     private prisma: PrismaService,
-    private systemSettingService: SystemSettingService,
     private i18n: I18nService
   ) { }
 
@@ -147,30 +144,4 @@ export class LanguageService {
     }
   }
 
-  async getEnabledLangs() {
-    const setting = await this.systemSettingService.getSystemSetting(
-      SystemSettingKey.LANGUAGE,
-    )
-
-    if (setting?.enableMultilingual) {
-      return this.model.findMany({
-        where: {
-          status: true,
-        },
-      })
-    }
-
-    // single language
-    const lang = await this.model.findUnique({
-      where: {
-        key: setting?.mainLanguage,
-      },
-    })
-
-    if (!lang) {
-      throw new BadRequestException()
-    }
-
-    return [lang]
-  }
 }

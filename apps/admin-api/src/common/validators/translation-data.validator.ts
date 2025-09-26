@@ -61,7 +61,7 @@ export class TranslationsConstraint implements ValidatorConstraintInterface {
       }
 
       // check if all enabled language keys are present in the request data
-      const enabledLangs = await this.languageService.getEnabledLangs()
+      const enabledLangs = await this.languageService.getEnabledLanguages()
       const enabledLangKeys = enabledLangs.map((lang) => lang.key)
       const langKeysInRequestData = new Set(data.map((item) => item.langKey))
       for (const key of enabledLangKeys) {

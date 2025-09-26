@@ -66,11 +66,3 @@ model WebUser {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
-
-model SystemSetting {
-  id        String   @id @default(cuid())
-  key       String   @unique @db.VarChar(20)
-  value     Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}

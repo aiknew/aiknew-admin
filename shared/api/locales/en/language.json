@@ -7,5 +7,6 @@
   "languageDelete": "Delete Language",
   "alreadyExist": "Language already exists",
   "nonExistent": "Language does not exist",
-  "hasRelated": "Language has related data and cannot be deleted"
+  "hasRelated": "Language has related data and cannot be deleted",
+  "atLeastOne": "At least one language must be enabled"
 }

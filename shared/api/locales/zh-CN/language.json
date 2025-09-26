@@ -7,5 +7,6 @@
   "languageDelete": "删除语言",
   "alreadyExist": "语言已存在",
   "nonExistent": "语言不存在",
-  "hasRelated": "语言有关联数据，无法删除"
+  "hasRelated": "语言有关联数据，无法删除",
+  "atLeastOne": "至少启用一个语言"
 }

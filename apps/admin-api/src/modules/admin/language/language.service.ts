@@ -75,8 +75,28 @@ export class LanguageService {
     }
   }
 
+  async getEnabledCount(exceptKey?: string) {
+    return await this.model.count({
+      where: {
+        status: true,
+        NOT: {
+          key: exceptKey
+        }
+      }
+    })
+  }
+
+
   async updateLanguage(key: string, data: UpdateLanguageDto) {
     try {
+      const status = data.status
+
+      if (!status && (await this.getEnabledCount(key)) === 0) {
+        throw new AppBadRequestException(this.i18n.t('language.atLeastOne', {
+          lang: I18nContext.current()?.lang
+        }))
+      }
+
       await this.model.update({
         where: { key },
         data,
@@ -97,6 +117,13 @@ export class LanguageService {
 
   async removeLanguage(key: string) {
     try {
+
+      if ((await this.getEnabledCount(key)) === 0) {
+        throw new AppBadRequestException(this.i18n.t('language.atLeastOne', {
+          lang: I18nContext.current()?.lang
+        }))
+      }
+
       await this.model.delete({
         where: {
           key,

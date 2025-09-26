@@ -79,34 +79,34 @@ export class ConfigService {
     }
   }
 
-  async isSystemConfig(id: string) {
-    const config = await this.model.findUniqueOrThrow({
+  async updateOne(id: string, data: UpdateConfigDto) {
+    const { translations, key, value } = data
+    let system = false
+
+    const config = await this.model.findUnique({
       where: { id },
-      select: {
-        system: true
-      }
     })
 
-    return Boolean(config.system)
-  }
+    if (config?.system) {
+      system = true
 
-  async updateOne(id: string, data: UpdateConfigDto) {
-    if (await this.isSystemConfig(id)) {
-      throw new AppBadRequestException(
-        this.i18n.t('config.cannotModifyBuiltIn', {
-          lang: I18nContext?.current()?.lang,
-        }),
-      )
+      if (config.key !== key) {
+        throw new AppBadRequestException(
+          this.i18n.t('config.cannotModifyBuiltIn', {
+            lang: I18nContext?.current()?.lang,
+          }),
+        )
+      }
     }
 
-    const { translations, ...rest } = data
     return this.model.update({
       where: {
         id,
       },
       data: {
-        ...rest,
-        system: false,
+        key,
+        value,
+        system,
         translations: translations && {
           deleteMany: {},
           create: translations,

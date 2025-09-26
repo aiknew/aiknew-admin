@@ -168,13 +168,7 @@ const handleResetQueryForm = () => {
 
           <el-popconfirm :title="t('deleteConfirm')" @confirm="() => handleDelete(scope.row)">
             <template #reference>
-              <el-button
-                v-permission:delete
-                v-if="!scope.row.system"
-                type="danger"
-                icon="Delete"
-                size="small"
-              />
+              <el-button v-permission:delete type="danger" icon="Delete" size="small" />
             </template>
           </el-popconfirm>
         </template>

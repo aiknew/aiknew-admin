@@ -5,6 +5,6 @@
   "configCreate": "Create Config",
   "configUpdate": "Update Config",
   "configDelete": "Delete Config",
-  "cannotModifyBuiltIn": "Cannot modify system built-in configuration",
+  "cannotModifyBuiltIn": "Cannot modify the built-in keys of the system",
   "keyExists": "Config key already exists"
 }

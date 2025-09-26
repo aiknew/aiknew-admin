@@ -207,38 +207,6 @@ export interface paths {
         patch: operations["LanguageController_update"];
         trace?: never;
     };
-    "/admin/system-setting/{key}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["SystemSettingController_getSetting"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/system-setting": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["SystemSettingController_setSetting"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/admin/auth/login": {
         parameters: {
             query?: never;
@@ -925,21 +893,6 @@ export interface components {
             status?: boolean;
             order?: number;
         };
-        LanguageSettingDto: {
-            /** @default true */
-            enableMultilingual: boolean;
-            /** @default en */
-            mainLanguage: string;
-        };
-        StorageSettingDto: {
-            currentStorage: string;
-        };
-        SystemSettingDto: {
-            LANGUAGE?: components["schemas"]["LanguageSettingDto"];
-            STORAGE?: components["schemas"]["StorageSettingDto"];
-        };
-        /** @enum {string} */
-        SystemSettingKey: "LANGUAGE" | "STORAGE";
         /** @enum {string} */
         RouteType: "GROUP" | "SMALL_GROUP" | "MENU" | "BUTTON";
         AuthRouteTranslationDto: {
@@ -2122,77 +2075,6 @@ export interface operations {
                 };
             };
             /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    SystemSettingController_getSetting: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                key: components["schemas"]["SystemSettingKey"];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["SystemSettingDto"];
-                    };
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    SystemSettingController_setSetting: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SystemSettingDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -3725,7 +3607,6 @@ export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]
 export const languageOrientationValues: ReadonlyArray<components["schemas"]["LanguageOrientation"]> = ["LTR", "RTL"];
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
-export const systemSettingKeyValues: ReadonlyArray<components["schemas"]["SystemSettingKey"]> = ["LANGUAGE", "STORAGE"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
 export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];

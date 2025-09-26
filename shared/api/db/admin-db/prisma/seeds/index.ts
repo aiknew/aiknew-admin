@@ -10,7 +10,7 @@ const isSeed = async () => {
   try {
 
     const count = await prisma.config.count({
-      where: { key: 'seed' }
+      where: { key: 'seed', value: 'true' }
     })
 
     return Boolean(count)
@@ -28,8 +28,12 @@ const isSeed = async () => {
 
 const markSeed = async () => {
   const languages = await prisma.language.findMany()
-  await prisma.config.create({
-    data: {
+  await prisma.config.upsert({
+    where: {
+      key: 'seed'
+    },
+
+    create: {
       key: 'seed',
       value: "true",
       system: true,
@@ -42,15 +46,21 @@ const markSeed = async () => {
           }
         })
       }
-
     },
+
+    update: {
+      system: true,
+      value: 'true'
+    }
   })
 }
 
 
 async function main() {
   if (await isSeed()) {
-    console.log(`It's already seeds, skip it.`)
+    console.log(`##################################`)
+    console.log(`Data has been initialized, skipped`)
+    console.log(`##################################`)
     return
   }
   await createSuperAdmin()

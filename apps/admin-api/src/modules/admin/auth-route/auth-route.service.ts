@@ -53,22 +53,21 @@ export class AuthRouteService {
   }
 
   async getAll(query?: QueryAuthRouteDto) {
-    const where: Record<string, unknown> = {}
-    if (query?.name) {
-      where.translations = {
-        some: {
-          routeName: {
-            contains: query.name,
-            mode: 'insensitive'
-          }
-        }
-      }
-    }
-    if (query?.type) {
-      where.type = query.type
-    }
     const routes = await this.model.findMany({
-      where,
+      where: {
+        translations: {
+          some: {
+            routeName: {
+              contains: query?.name,
+              mode: 'insensitive'
+            }
+          }
+        },
+        type: query?.type,
+        id: {
+          contains: query?.id
+        }
+      },
       include: {
         translations: true,
         permissions: {

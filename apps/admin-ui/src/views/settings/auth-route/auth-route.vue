@@ -14,10 +14,11 @@ import {
 } from '@/api/auth-route'
 import AuthRouteModal from './components/auth-route-modal.vue'
 import { tField } from '@aiknew/shared-ui-locales'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
+import { type Fields } from '@aiknew/shared-ui-components'
 import z from 'zod'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'
+import { useAdminForm } from '@/composables/use-admin-form'
 
 const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
@@ -81,13 +82,19 @@ const handleSubmit = () => {
   refresh()
 }
 
-const { AppForm: QueryForm, formApi } = useAppForm({
+const { AppForm: QueryForm, formApi } = useAdminForm({
   formProps: {
     inline: true,
     labelPosition: 'left'
   },
   fields() {
     return [
+      {
+        as: 'ElInput',
+        label: 'id',
+        name: 'id',
+        schema: z.string().default('').optional()
+      },
       {
         as: {
           component: 'ElInput'

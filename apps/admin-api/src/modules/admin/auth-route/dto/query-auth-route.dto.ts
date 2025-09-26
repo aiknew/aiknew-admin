@@ -5,6 +5,10 @@ import { ApiProperty } from '@nestjs/swagger'
 export class QueryAuthRouteDto {
   @IsOptional()
   @IsString()
+  id?: string
+
+  @IsOptional()
+  @IsString()
   name?: string
 
   @IsOptional()

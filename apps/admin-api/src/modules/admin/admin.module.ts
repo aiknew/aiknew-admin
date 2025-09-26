@@ -7,7 +7,6 @@ import { PermissionModule } from './permission/permission.module'
 import { PermissionGroupModule } from './permission-group/permission-group.module'
 import { AuthRoleModule } from './auth-role/auth-role.module'
 import { AdminRouteModule } from './auth-route/auth-route.module'
-import { SystemSettingModule } from './system-setting/system-setting.module'
 import { UploadFileGroupModule } from './upload-file-group/upload-file-group.module'
 import { UploadFileModule } from './upload-file/upload-file.module'
 import { ArticleCategoryModule } from './article-category/article-category.module'
@@ -29,7 +28,6 @@ const adminModules = [
   AuthModule,
   AuthRoleModule,
   AdminRouteModule,
-  SystemSettingModule,
   UploadFileModule,
   UploadFileGroupModule,
   ArticleCategoryModule,

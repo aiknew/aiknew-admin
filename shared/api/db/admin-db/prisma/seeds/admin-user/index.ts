@@ -1,5 +1,5 @@
-import { createHMAC } from '../../../../utils/src/index'
-import { prisma } from './prisma'
+import { createHMAC } from '../../../../../utils/src/index'
+import { prisma } from '../prisma'
 
 // Create default super admin user
 export const createSuperAdmin = async () => {

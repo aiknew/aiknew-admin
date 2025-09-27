@@ -1,8 +1,8 @@
-import { prisma } from './prisma'
-import { createDefaultLangs } from './languages'
-import { createAdminRoutes, createAdminPermissions, createAdminSuperUser } from './admin-data'
 import { Prisma } from '../../src/prisma-client'
-import { createFileStorage } from './file-storage'
+import { prisma } from './prisma'
+import { createDefaultLangs } from './common-data/languages'
+import { createAdminRoutes, createAdminPermissions, createAdminSuperUser } from './admin-data'
+import { createFileStorage } from './common-data/file-storage'
 
 const isSeed = async () => {
   try {

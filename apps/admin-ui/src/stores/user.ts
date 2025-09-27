@@ -45,12 +45,12 @@ export const useUserStore = defineStore('user', () => {
     let routeId: string | undefined
 
     if (route) {
-      routeId = userInfo.value.routes.find((item) => item.path === route)?.id
+      routeId = userInfo.value?.routes.find((item) => item.path === route)?.id
     } else {
       routeId = router.currentRoute.value.meta.id
     }
 
-    const hasPermission = userInfo.value.routes.some((item) => {
+    const hasPermission = userInfo.value?.routes.some((item) => {
       return item.type === 'BUTTON' && item.parentId === routeId && item.key === key
     })
 

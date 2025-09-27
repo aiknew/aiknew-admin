@@ -2,6 +2,10 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["./*"],
+  "include": [
+    "./*",
+    "admin-permissions/index.ts",
+    "admin-permissions/permissions.ts"
+  ],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

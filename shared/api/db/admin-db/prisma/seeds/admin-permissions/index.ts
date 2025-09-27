@@ -1,6 +1,6 @@
-import { prisma } from './prisma'
+import { prisma } from '../prisma'
 import permissionsData from './permissions'
-import { AdminPermissionSource, RequestMethod } from '../../src/prisma-client'
+import { AdminPermissionSource, RequestMethod } from '../../../src/prisma-client'
 
 
 const handleOrphanPermissions = async (groupId: string, permissionKeys: string[]) => {

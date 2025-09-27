@@ -15,7 +15,7 @@ COPY apps/admin-api/nest-cli.json apps/admin-api/tsconfig.* apps/admin-api/webpa
 COPY apps/admin-api/package.json ./apps/admin-api/
 COPY --exclude=ui/* shared/ ./shared/
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY apps/admin-api/src ./apps/admin-api/src
 
@@ -45,7 +45,7 @@ COPY --from=builder /aiknew-admin/apps/admin-api/dist ./apps/admin-api/dist
 COPY --from=builder /aiknew-admin/shared/api/db/ ./shared/api/db/ 
 COPY --from=builder /aiknew-admin/shared/api/utils/ ./shared/api/utils/ 
 
-RUN pnpm install --frozen-lockfile --production
+RUN pnpm install --frozen-lockfile --production --ignore-scripts
 
 RUN mkdir -p /aiknew-admin/apps/admin-api/logs /aiknew-admin/apps/admin-api/public/files && \
     chown -R node:node /aiknew-admin/apps/admin-api/logs /aiknew-admin/apps/admin-api/public  /aiknew-admin/node_modules

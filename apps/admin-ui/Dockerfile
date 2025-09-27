@@ -11,7 +11,7 @@ COPY apps/admin-ui/package.json ./apps/admin-ui/
 COPY --exclude=api/* shared/ ./shared/
 COPY shared/api/db/admin-db/ ./shared/api/db/admin-db/
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY apps/admin-ui/ ./apps/admin-ui/
 

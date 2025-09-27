@@ -33,7 +33,7 @@ model AdminUserRole {
 }
 
 model AdminRole {
-  id           String                 @id @default(cuid(2))
+  id           String                 @id @default(ulid())
   order        Int                    @default(100)
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
@@ -56,7 +56,7 @@ model AdminRoleTranslation {
 }
 
 model AdminRoute {
-  id           String                  @id @default(cuid(2))
+  id           String                  @id @default(ulid())
   icon         String                  @default("") @db.VarChar(20)
   redirect     String                  @default("") @db.VarChar(50)
   hidden       Boolean                 @default(false)
@@ -65,7 +65,7 @@ model AdminRoute {
   key          String                  @default("") @db.VarChar(20) // the permission identifier of the button
   status       Boolean                 @default(true)
   path         String                  @unique @default(nanoid()) @db.VarChar(100) // route path
-  parentId     String                  @default("0") @db.VarChar(30)
+  parentId     String?
   order        Int                     @default(100)
   createdAt    DateTime                @default(now())
   updatedAt    DateTime                @updatedAt
@@ -97,7 +97,7 @@ model AdminRoleRoute {
 }
 
 model AdminPermissionGroup {
-  id              String                            @id @default(cuid(2))
+  id              String                            @id @default(ulid())
   order           Int                               @default(100)
   controllerName  String?                           @unique @db.VarChar(100)
   source          AdminPermissionSource             @default(EXTERNAL)
@@ -120,7 +120,7 @@ model AdminPermissionGroupTranslation {
 }
 
 model AdminPermission {
-  id              String                       @id @default(cuid(2))
+  id              String                       @id @default(ulid())
   key             String                       @db.VarChar(100)
   path            String                       @default("") @db.VarChar(100)
   permissionGroup AdminPermissionGroup?        @relation(fields: [groupId], references: [id], onDelete: Restrict)

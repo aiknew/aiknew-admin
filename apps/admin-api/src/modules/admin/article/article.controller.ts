@@ -39,7 +39,7 @@ export class ArticleController {
   @Get(':id')
   @Permission({ key: 'article:detail', name: 'article.articleDetail' })
   @AppApiOkResponse(ArticleDto)
-  async detail(@Param('id') id: number): Promise<ArticleDto> {
+  async detail(@Param('id') id: string): Promise<ArticleDto> {
     return this.articleService.getDetail(id)
   }
 
@@ -53,14 +53,14 @@ export class ArticleController {
   @Patch(':id')
   @Permission({ key: 'article:update', name: 'article.articleUpdate' })
   @AppApiOkResponse()
-  async updateOne(@Param('id') id: number, @Body() data: UpdateArticleDto) {
+  async updateOne(@Param('id') id: string, @Body() data: UpdateArticleDto) {
     return this.articleService.updateOne(id, data)
   }
 
   @Delete(':id')
   @Permission({ key: 'article:delete', name: 'article.articleDelete' })
   @AppApiOkResponse()
-  async deleteOne(@Param('id') id: number) {
+  async deleteOne(@Param('id') id: string) {
     return this.articleService.deleteOne(id)
   }
 }

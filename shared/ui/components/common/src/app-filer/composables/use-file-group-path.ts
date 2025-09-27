@@ -3,11 +3,11 @@ import { SearchScopeEnum } from '../enums'
 import { computed, type Ref, ref, watchEffect } from 'vue'
 
 export interface GroupPathItem {
-  groupId: string
+  groupId: string | null
   groupName: string
 }
 
-const topGroup = { groupId: '0', groupName: 'Top' }
+const topGroup = { groupId: null, groupName: 'Top' }
 
 export const useFileGroupPath = (searchScope: Ref<SearchScopeEnum>, query: Ref<IUploadFileQuery>) => {
   const forwardStack = ref<GroupPathItem[][]>([])

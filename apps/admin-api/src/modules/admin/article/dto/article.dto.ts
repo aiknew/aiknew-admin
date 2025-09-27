@@ -5,7 +5,7 @@ import { ArticleTranslationDto } from './article-translation.dto'
 class CoverImage extends OmitType(UploadFileDto, ['uploader', 'storage']) { }
 
 export class ArticleDto {
-  id: number
+  id: string
 
   order: number
 
@@ -15,7 +15,7 @@ export class ArticleDto {
 
   fakeViewCount: number
 
-  articleCategoryId: number
+  articleCategoryId: string
 
   translations: ArticleTranslationDto[]
 

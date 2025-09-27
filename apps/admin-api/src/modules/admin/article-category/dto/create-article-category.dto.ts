@@ -3,6 +3,8 @@ import {
   IsBoolean,
   IsNumber,
   IsOptional,
+  IsString,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator'
 import { ValidateTranslations } from '../../../../common/validators'
@@ -17,8 +19,9 @@ export class CreateArticleCategoryDto {
   @IsOptional()
   order?: number
 
-  @IsNumber()
-  parentId: number
+  @ValidateIf((_, value) => value !== null)
+  @IsString()
+  parentId: string | null
 
   @ValidateNested()
   @ValidateTranslations(ArticleCategoryTranslationDto)

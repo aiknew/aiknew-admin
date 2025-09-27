@@ -234,5 +234,23 @@ export const buildI18nSchema = <T extends ZodDefault<ZodType> | ZodType>(
     }
   })
 
-  return z.object(schemas).default(defaultVals) as never
+  return z.object(schemas).default(defaultVals as never) as never
+}
+
+export const isNullableSchema = (schema: z.ZodTypeAny) => {
+  try {
+    schema.parse(null)
+    return true
+  } catch {
+    return false
+  }
+}
+
+export const isOptionalSchema = (schema: z.ZodTypeAny) => {
+  try {
+    schema.parse(undefined)
+    return true
+  } catch {
+    return false
+  }
 }

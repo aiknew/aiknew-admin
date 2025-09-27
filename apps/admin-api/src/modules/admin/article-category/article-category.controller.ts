@@ -54,7 +54,7 @@ export class ArticleCategoryController {
   @Permission({ key: 'article-category:update', name: 'article-category.articleCategoryUpdate' })
   @AppApiOkResponse()
   async updateOne(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() data: UpdateArticleCategoryDto,
   ) {
     await this.articleCategoryService.updateOne(id, data)
@@ -66,7 +66,7 @@ export class ArticleCategoryController {
   @Delete(':id')
   @Permission({ key: 'article-category:delete', name: 'article-category.articleCategoryDelete' })
   @AppApiOkResponse()
-  async deleteOne(@Param('id') id: number) {
+  async deleteOne(@Param('id') id: string) {
     await this.articleCategoryService.deleteOne(id)
   }
 }

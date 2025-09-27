@@ -22,7 +22,7 @@ const langStore = useLangStore()
 const { t } = useI18n()
 const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modalRef')
 const editorRef = ref<InstanceType<typeof AdminEditor>>()
-const editId = ref<number>()
+const editId = ref<string>()
 const { mutateAsync: createArticle } = useArticleCreate()
 const { mutateAsync: updateArticle } = useArticleUpdate()
 const { data: articleCategories } = useArticleCategoryAll()
@@ -96,7 +96,7 @@ const { AppForm, formApi } = useAdminForm({
         name: 'articleCategoryId',
         schema: () =>
           z
-            .number({
+            .string({
               error: t('article.articleCategoryIdRequired')
             })
             .min(1, {

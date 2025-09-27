@@ -27,7 +27,7 @@ export class S3Service {
     private readonly prisma: PrismaService,
     private readonly fileStorageService: FileStorageService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   get model(): PrismaService['uploadFile'] {
     return this.prisma.uploadFile
@@ -136,24 +136,30 @@ export class S3Service {
   }
 
   async temporaryDeleteS3FileFromDB(data: {
-    groupId: string
+    groupId: string | null
     originalName: string
     fileStorageId: string
   }) {
     const { groupId, originalName, fileStorageId } = data
     try {
+      const file = await this.model.findFirstOrThrow({
+        where: {
+          groupId,
+          originalName,
+          fileStorageId
+        }
+      })
+
       await this.model.update({
         where: {
-          originalName_groupId_fileStorageId: {
-            groupId,
-            originalName,
-            fileStorageId,
-          },
+          id: file.id
         },
+
         data: {
           deletedAt: new Date(),
         },
       })
+
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         if (err.code === 'P2025') {
@@ -165,7 +171,7 @@ export class S3Service {
   }
 
   async deleteS3File(data: {
-    groupId: string
+    groupId: string | null
     originalName: string
     bucket: string
     key: string

@@ -22,7 +22,7 @@ export interface IUploadFile {
   filePath: string
   fileExt: string
   fileSize: number
-  groupId: string
+  groupId: string | null
   mime: string
   originalName: string
   uploaderId: string
@@ -48,7 +48,7 @@ export interface IUploadFileGroup {
 
   groupName: string
 
-  parentId: string
+  parentId: string | null
 
   order: number
 
@@ -72,7 +72,7 @@ export interface IUploadFilesAndGroupsData {
 }
 
 export interface IUpdateUploadFile {
-  groupId?: string
+  groupId?: string | null
 
   originalName?: string
 
@@ -82,7 +82,7 @@ export interface IUpdateUploadFile {
 export interface ICreateUploadFileGroup {
   groupName: string
 
-  parentId: string
+  parentId: string | null
 
   order: number
 }
@@ -106,5 +106,5 @@ export interface IUploadFileQuery {
 
   keyword?: string
 
-  parentId?: string
+  parentId?: string | null
 }

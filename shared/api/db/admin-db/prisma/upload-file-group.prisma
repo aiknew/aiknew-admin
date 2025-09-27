@@ -1,7 +1,7 @@
 model UploadFileGroup {
-  id          String                @id @default(cuid())
+  id          String                @id @default(ulid())
   groupName   String                @db.VarChar(50)
-  parentId    String                @default("0")
+  parentId    String?
   order       Int                   @default(10)
   createdAt   DateTime              @default(now())
   updatedAt   DateTime              @updatedAt

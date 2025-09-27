@@ -33,20 +33,6 @@ const langStore = useLangStore()
 const { t } = useI18n()
 const { data: permissions, refetch: getAllApis } = usePermissionAll()
 const editRoute = ref<AuthRoute>()
-const routesTree = computed(() => {
-  return [
-    {
-      id: '0',
-      translations: langStore.enabledLangs.map((lang) => {
-        return {
-          langKey: lang.key,
-          routeName: t('top')
-        }
-      }),
-      children: routes
-    }
-  ]
-})
 
 const showIcons = ref(false)
 const selectedIcon = ref('')
@@ -95,11 +81,13 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { minWidth: '180px' },
+            placeholder: t('selectParent'),
+            clearable: true,
+            style: { minWidth: '260px' },
             valueKey: 'id',
             nodeKey: 'id',
             checkStrictly: true,
-            data: routesTree.value,
+            data: routes,
             props: {
               label: (data: AuthRoute) => tField(data.translations, 'routeName').value
             }
@@ -107,7 +95,7 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('parent'),
         name: 'parentId',
-        schema: z.string().default('0')
+        schema: z.string().optional().nullable().default(null)
       },
       {
         when: computed(() => !(isButton.value || isSmallGroup.value)),
@@ -274,6 +262,10 @@ const { AppForm, formApi } = useAppForm({
       }
     ] as const satisfies Fields,
   async onSubmit({ values }) {
+    if (values.parentId === undefined) {
+      values.parentId = null
+    }
+
     if (modalRef.value?.modalMode === 'add') {
       await createRoute(values)
     } else if (modalRef.value?.modalMode === 'edit' && editRoute.value) {

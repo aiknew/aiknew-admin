@@ -11,8 +11,8 @@ import z from 'zod'
 import { useI18n } from 'vue-i18n'
 
 export interface Props {
-  currentGroupId: string | undefined
-  defaultExpandedTreeNodeKeys: string[]
+  currentGroupId: string | undefined | null
+  defaultExpandedTreeNodeKeys: (string | null)[]
   loadGroupTreeNode: (
     node: Node,
     resolve: (
@@ -71,6 +71,8 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElTreeSelect',
           props: {
+            placeholder: t('selectParent'),
+            clearable: true,
             style: { minWidth: '200px' },
             valueKey: 'id',
             nodeKey: 'id',
@@ -85,7 +87,7 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('parent'),
         name: 'parentId',
-        schema: z.string(),
+        schema: z.string().optional().nullable().default(null),
       },
       {
         as: 'ElInputNumber',
@@ -98,6 +100,10 @@ const { AppForm, formApi } = useAppForm({
       },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
+    if (values.parentId === undefined) {
+      values.parentId = null
+    }
+
     switch (modalRef.value?.modalMode) {
       case 'add':
         await createFileGroup(values)
@@ -121,7 +127,7 @@ const add = () => {
 
   nextTick(() => {
     formApi.reset({
-      parentId: currentGroupId ?? '0',
+      parentId: currentGroupId ?? null,
       order: 10,
       groupName: '',
     })

@@ -2,7 +2,7 @@ import { contentManagement, settings, userInfo } from './data'
 import { prisma } from '../prisma'
 import { AdminRouteItem } from './types'
 
-const createRoute = (items: AdminRouteItem[], parentId: string) => {
+const createRoute = (items: AdminRouteItem[], parentId: string | null) => {
   items.forEach(async (item) => {
     let { name, children, redirect, permissions, ...data } = item
 
@@ -67,7 +67,7 @@ export const createAdminRoutes = async () => {
     `TRUNCATE TABLE "AdminRoute" RESTART IDENTITY CASCADE;`,
   )
 
-  createRoute([userInfo], '0')
-  createRoute([contentManagement], '0')
-  createRoute([settings], '0')
+  createRoute([userInfo], null)
+  createRoute([contentManagement], null)
+  createRoute([settings], null)
 }

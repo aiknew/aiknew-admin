@@ -44,7 +44,7 @@ export const useArticleCategoryCreate = () => {
 export const useArticleCategoryUpdate = () => {
   return useMutation({
     mutationKey: ['update-article-category'],
-    mutationFn: ({ id, body }: { id: number; body: UpdateArticleCategoryDto }) => {
+    mutationFn: ({ id, body }: { id: string; body: UpdateArticleCategoryDto }) => {
       return useApiData(() =>
         fetchClient.PATCH('/admin/article-category/{id}', {
           params: {
@@ -62,7 +62,7 @@ export const useArticleCategoryUpdate = () => {
 export const useArticleCategoryDelete = () => {
   return useMutation({
     mutationKey: ['delete-article-category'],
-    mutationFn: (id: number) => {
+    mutationFn: (id: string) => {
       return useApiData(() =>
         fetchClient.DELETE('/admin/article-category/{id}', {
           params: {

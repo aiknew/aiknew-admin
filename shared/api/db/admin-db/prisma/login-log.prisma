@@ -1,12 +1,12 @@
 model LoginLog {
-  id        String   @id @default(cuid())
+  id        String   @id @default(ulid())
   userName  String   @default("") @db.VarChar(20)
   userId    String   @default("") @db.VarChar(50)
-  ip        String   @db.VarChar(45) // 支持IPv4和IPv6
-  location  String   @default("") @db.VarChar(100) // IP对应的物理地址
-  userAgent String   @default("") @db.VarChar(500) // 用户代理字符串
-  os        String   @default("") @db.VarChar(50) // 操作系统
-  browser   String   @default("") @db.VarChar(50) // 浏览器
+  ip        String   @db.VarChar(45) // Supports IPv4 and IPv6
+  location  String   @default("") @db.VarChar(100)
+  userAgent String   @default("") @db.VarChar(500)
+  os        String   @default("") @db.VarChar(50)
+  browser   String   @default("") @db.VarChar(50)
   isSuccess Boolean  @default(false)
   createdAt DateTime @default(now())
 }

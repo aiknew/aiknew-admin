@@ -1,8 +1,8 @@
 model ArticleCategory {
-  id           Int                          @id @default(autoincrement())
+  id           String                       @id @default(ulid())
   order        Int                          @default(10)
   status       Boolean                      @default(true)
-  parentId     Int                          @default(0)
+  parentId     String?
   createdAt    DateTime                     @default(now())
   updatedAt    DateTime                     @updatedAt
   translations ArticleCategoryTranslation[]
@@ -10,7 +10,7 @@ model ArticleCategory {
 }
 
 model ArticleCategoryTranslation {
-  articleCategoryId Int
+  articleCategoryId String
   articleCategory   ArticleCategory @relation(fields: [articleCategoryId], references: [id])
   langKey           String
   langs             Language        @relation(fields: [langKey], references: [key])

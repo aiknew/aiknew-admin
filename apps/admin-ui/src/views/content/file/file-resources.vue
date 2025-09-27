@@ -10,7 +10,7 @@ const query = ref<IUploadFileQuery>({
   currentPage: 1,
   pageSize: 10,
   keyword: '',
-  parentId: '0'
+  parentId: null
 })
 
 const authRoutePath = '/content/file'

@@ -32,7 +32,7 @@ const handleClickPath = (index: number) => {
       <div
         class="path-item"
         v-for="(item, index) in groupPath"
-        :key="item.groupId"
+        :key="item.groupId ?? Symbol('top')"
       >
         <span class="path-name" @click="handleClickPath(index)">
           {{ item.groupName }}

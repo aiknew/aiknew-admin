@@ -17,7 +17,7 @@ export interface Props extends OperationPermissions {
   searchKeyword: string | undefined
   searchScope: SearchScopeEnum
   selectedCount: number
-  currentGroupId: string | undefined
+  currentGroupId: string | undefined | null
 }
 
 export interface Emits {
@@ -38,6 +38,7 @@ const {
   showDeleteFile = true,
   showUploadFile = true,
 } = defineProps<Props>()
+
 const emit = defineEmits<Emits>()
 const { t } = useI18n()
 
@@ -104,16 +105,13 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
           {{ t('filer.clearSelected') }}
         </el-button>
         <el-button
-          v-if="showUploadFile && currentGroupId"
+          v-if="showUploadFile"
           type="primary"
           @click="$emit('upload')"
         >
           {{ t('filer.uploadFile') }}
         </el-button>
-        <el-button
-          v-if="showAddGroup && currentGroupId"
-          @click="$emit('add-group')"
-        >
+        <el-button v-if="showAddGroup" @click="$emit('add-group')">
           {{ t('filer.createGroup') }}
         </el-button>
       </el-space>

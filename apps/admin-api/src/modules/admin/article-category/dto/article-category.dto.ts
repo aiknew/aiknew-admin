@@ -1,13 +1,13 @@
 import { ArticleCategoryTranslationDto } from './article-category-translation.dto'
 
 export class ArticleCategoryDto {
-  id: number
+  id: string
 
   order: number
 
   status: boolean
 
-  parentId: number
+  parentId: string | null
 
   translations: ArticleCategoryTranslationDto[]
 

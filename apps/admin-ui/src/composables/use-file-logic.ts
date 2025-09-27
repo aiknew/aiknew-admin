@@ -133,10 +133,6 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
     resolve: (data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[]) => void,
     reject: () => void
   ) => {
-    // resolve the top level group
-    if (!node.key && node.level == 0) {
-      return resolve([{ id: '0', groupName: t('top'), parentId: '', ancestors: [], order: 0 }])
-    }
 
     // check if the group was disabled
     if (node.disabled) {
@@ -144,7 +140,7 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
     }
 
     // fetch from the server api
-    fetchChildren(String(node.key ?? '0'))
+    fetchChildren(String(node.key ?? null))
       .then((data) => {
         resolve(
           data.map((item) => {

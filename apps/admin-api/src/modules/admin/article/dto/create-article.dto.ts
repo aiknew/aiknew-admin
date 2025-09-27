@@ -13,8 +13,8 @@ export class CreateArticleDto {
   @IsNumber()
   fakeViewCount: number
 
-  @IsNumber()
-  articleCategoryId: number
+  @IsString()
+  articleCategoryId: string
 
 
   @IsString()

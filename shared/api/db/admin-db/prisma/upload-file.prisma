@@ -21,7 +21,7 @@ enum FileStorageStatus {
 }
 
 model FileStorage {
-  id         String            @id @default(cuid(2))
+  id         String            @id @default(ulid())
   name       String            @db.VarChar(20)
   type       StorageType
   UploadFile UploadFile[]
@@ -37,7 +37,7 @@ model FileStorage {
 }
 
 model UploadFile {
-  id              String            @id @default(cuid())
+  id              String            @id @default(ulid())
   channel         UploadFileChannel
   fileName        String            @db.VarChar(50)
   filePath        String            @db.VarChar(200)
@@ -47,7 +47,7 @@ model UploadFile {
   mime            String            @db.VarChar(50)
   originalName    String            @db.VarChar(255)
   order           Int               @default(10)
-  groupId         String            @default("0")
+  groupId         String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?

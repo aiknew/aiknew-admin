@@ -99,14 +99,16 @@ const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
   }
 
   if (isCanceled) {
-    currentGroupPath.forEach((item) =>
-      selectedGroups.value.delete(item.groupId),
+    currentGroupPath.forEach(
+      (item) => item.groupId && selectedGroups.value.delete(item.groupId),
     )
   } else {
     selectedGroups.value = new Set([
       ...selectedGroups.value,
-      ...selection.map((item) => item.groupId!),
-      ...currentGroupPath.map((item) => item.groupId),
+      ...selection.map((item) => item.groupId).filter((item) => item !== null),
+      ...(currentGroupPath
+        .filter((item) => typeof item.groupId === 'string')
+        .map((item) => item.groupId) as string[]),
     ])
   }
 

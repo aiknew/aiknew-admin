@@ -60,8 +60,9 @@ export class CreateAuthRouteDto {
   @ValidateIf((o) => isSpecificTypes(o, ['MENU']))
   path: string
 
+  @ValidateIf((_, value) => value !== null)
   @IsString()
-  parentId: string
+  parentId: string | null
 
   @IsNumber()
   order: number

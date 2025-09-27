@@ -5,7 +5,7 @@ export class UploadFileGroupDto {
 
   groupName: string
 
-  parentId: string
+  parentId: string | null
 
   order: number
 

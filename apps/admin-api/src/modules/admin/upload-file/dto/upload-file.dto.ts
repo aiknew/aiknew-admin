@@ -44,7 +44,7 @@ export class UploadFileDto implements IUploadFile {
 
   fileSize: number
 
-  groupId: string
+  groupId: string | null
 
   mime: string
 

@@ -25,25 +25,20 @@ export class UploadFileGroupService {
   protected maxLevel = 100
   // The cache key of all file groups data
   protected groupsCacheKey = 'all-file-groups'
-  // The top level group
-  protected topLevelGroup = {
-    id: '0',
-    groupName: 'Top',
-    parentId: '',
-    order: 0,
-    children: [],
-  }
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) {}
+  ) { }
 
   get model(): PrismaService['uploadFileGroup'] {
     return this.prisma[UploadFileGroupService.modelName]
   }
 
-  async findChildren(parentId: string) {
+  async findChildren(parentId: string | null) {
+    if (parentId === 'null') {
+      parentId = null
+    }
     return await this.model.findMany({
       where: {
         parentId,
@@ -90,10 +85,10 @@ export class UploadFileGroupService {
   }
 
   async createPaths(
-    group: { id: string; parentId: string },
+    group: { id: string; parentId: string | null },
     tx: ExtendedPrismaTransactionClient,
   ) {
-    if (group.parentId !== '0') {
+    if (group.parentId !== null) {
       const ancestors = await tx[
         UploadFileGroupService.fileGroupPathModelName
       ].findMany({

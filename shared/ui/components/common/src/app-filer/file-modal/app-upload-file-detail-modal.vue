@@ -22,7 +22,7 @@ export interface Emits {
 }
 
 export interface Props {
-  defaultExpandedTreeNodeKeys: string[]
+  defaultExpandedTreeNodeKeys: (string | null)[]
   loadGroupTreeNode: (
     node: Node,
     resolve: (
@@ -111,6 +111,8 @@ const editFields = () =>
       as: {
         component: 'ElTreeSelect',
         props: {
+          placeholder: t('selectParent'),
+          clearable: true,
           style: { minWidth: '200px' },
           valueKey: 'id',
           nodeKey: 'id',
@@ -125,7 +127,7 @@ const editFields = () =>
       },
       label: t('filer.fileGroup'),
       name: 'groupId',
-      schema: z.string().default('0'),
+      schema: z.string().optional().nullable().default(null),
     },
     {
       as: 'ElInputNumber',
@@ -268,6 +270,10 @@ const fields = computed(() => {
 const { AppForm, formApi } = useAppForm({
   fields: () => fields.value,
   async onSubmit({ values }) {
+    if (values.groupId === undefined) {
+      values.groupId = null
+    }
+
     await updateFile({ id: editFileId.value, body: values })
     handleReset()
     emit('submit')

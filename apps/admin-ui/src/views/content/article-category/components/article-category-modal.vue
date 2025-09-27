@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { computed, h, ref, useTemplateRef } from 'vue'
+import { h, ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import {
   AppFormItemTips,
@@ -33,20 +33,6 @@ const langStore = useLangStore()
 const { t } = useI18n()
 const modalRef = useTemplateRef('modal')
 const editCategory = ref<ArticleCategory>()
-const categoriesTree = computed(() => {
-  return [
-    {
-      id: 0,
-      translations: langStore.enabledLangs.map((item) => {
-        return {
-          langKey: item.key,
-          name: t('top')
-        }
-      }),
-      children: categories
-    }
-  ]
-})
 
 const { mutateAsync: createArticleCategory } = useArticleCategoryCreate()
 const { mutateAsync: updateArticleCategory } = useArticleCategoryUpdate()
@@ -83,11 +69,13 @@ const { AppForm, formApi } = useAppForm({
         as: {
           component: 'ElTreeSelect',
           props: {
-            style: { width: '200px' },
+            placeholder: t('selectParent'),
+            clearable: true,
+            style: { width: '260px' },
             valueKey: 'id',
             nodeKey: 'id',
             checkStrictly: true,
-            data: categoriesTree.value,
+            data: categories,
             props: {
               label: (data: ArticleCategory) => tField(data.translations, 'name').value
             }
@@ -95,7 +83,7 @@ const { AppForm, formApi } = useAppForm({
         },
         label: t('parent'),
         name: 'parentId',
-        schema: z.number().default(0)
+        schema: z.string().optional().nullable().default(null)
       },
       {
         as: {
@@ -113,6 +101,10 @@ const { AppForm, formApi } = useAppForm({
       }
     ] as const satisfies Fields,
   onSubmit: async ({ values }) => {
+    if (values.parentId === undefined) {
+      values.parentId = null
+    }
+
     if (modalRef.value?.modalMode === 'add') {
       await createArticleCategory(values)
     } else if (modalRef.value?.modalMode === 'edit' && editCategory.value) {

@@ -62,7 +62,7 @@ export class ArticleService {
     })
   }
 
-  async getDetail(id: number) {
+  async getDetail(id: string) {
     const detail = await this.model.findUnique({
       where: { id },
       include: {
@@ -111,7 +111,7 @@ export class ArticleService {
     }
   }
 
-  async updateOne(id: number, data: UpdateArticleDto) {
+  async updateOne(id: string, data: UpdateArticleDto) {
     const { translations, ...info } = data
     await this.model.update({
       where: { id },
@@ -125,7 +125,7 @@ export class ArticleService {
     })
   }
 
-  async deleteOne(articleId: number) {
+  async deleteOne(articleId: string) {
     const deleteTranslations = this.translationModel.deleteMany({
       where: { articleId },
     })

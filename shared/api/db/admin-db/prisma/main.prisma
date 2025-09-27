@@ -45,7 +45,7 @@ model Language {
 }
 
 model AdminUser {
-  id            String          @id @default(cuid())
+  id            String          @id @default(ulid())
   userName      String          @unique() @db.VarChar(20)
   password      String          @db.VarChar(100)
   super         Boolean         @default(false)
@@ -58,7 +58,7 @@ model AdminUser {
 }
 
 model WebUser {
-  id            String   @id @default(cuid())
+  id            String   @id @default(ulid())
   userName      String   @unique() @db.VarChar(20)
   password      String   @db.VarChar(100)
   tokenVersion  Int      @default(0)

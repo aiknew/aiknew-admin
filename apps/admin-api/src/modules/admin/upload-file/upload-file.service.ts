@@ -25,7 +25,7 @@ export class FileService {
     private readonly i18n: I18nService,
     private readonly fileStorageService: FileStorageService,
     private readonly s3Service: S3Service,
-  ) {}
+  ) { }
 
   get model(): PrismaService['uploadFile'] {
     return this.prisma[FileService.modelName]
@@ -44,7 +44,7 @@ export class FileService {
         keyword,
       } = queryUploadFileDto
       const fileWhereInput: Prisma.UploadFileWhereInput = {
-        groupId: parentId,
+        groupId: typeof parentId === 'undefined' ? null : parentId,
         originalName: { contains: keyword },
         deletedAt: null,
         storage: {
@@ -54,7 +54,7 @@ export class FileService {
         },
       }
       const groupWhereInput: Prisma.UploadFileGroupWhereInput = {
-        parentId,
+        parentId: typeof parentId === 'undefined' ? null : parentId,
         groupName: { contains: keyword },
       }
 

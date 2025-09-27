@@ -1,10 +1,8 @@
-import { IsNumber, IsOptional } from 'class-validator'
-import { Type } from 'class-transformer'
+import { IsOptional, IsString } from 'class-validator'
 import { PaginationDto } from '@aiknew/shared-api-dtos'
 
 export class QueryUploadFileGroupDto extends PaginationDto {
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  @Type(() => Number)
-  parentId?: number
+  parentId?: string
 }

@@ -20,6 +20,8 @@ import {
   isNormalField,
   type ExcludeField,
   normalizeSchema,
+  isOptionalSchema,
+  isNullableSchema,
 } from './form-utils'
 import { useForm } from '@tanstack/vue-form'
 import { isDefined, useWindowSize } from '@vueuse/core'
@@ -329,9 +331,7 @@ export const useAppForm = <
       {
         style: { display: toValue(item.hidden) ? 'none' : undefined },
         label: item.label,
-        required: !(
-          schema instanceof z.ZodOptional || schema instanceof z.ZodNullable
-        ),
+        required: !(isOptionalSchema(schema) || isNullableSchema(schema)),
         error: error.value.msg,
         class: { [DynamicFormItemStyles.isOk]: isNotCurrentFieldLangErr },
       },

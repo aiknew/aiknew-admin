@@ -1,5 +1,5 @@
 model DictType {
-  id           String                @id @default(cuid(2))
+  id           String                @id @default(ulid())
   key          String                @unique
   order        Int                   @default(10)
   status       Boolean               @default(true)
@@ -21,7 +21,7 @@ model DictTypeTranslation {
 }
 
 model Dict {
-  id           String            @id @default(cuid(2))
+  id           String            @id @default(ulid())
   value        String            @db.VarChar(50)
   dictTypeId   String
   dictType     DictType          @relation(fields: [dictTypeId], references: [id])

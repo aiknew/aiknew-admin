@@ -120,7 +120,7 @@ const handleResetQueryForm = () => {
       :table-data="articleData"
       row-key="id"
     >
-      <el-table-column prop="id" label="ID" width="180" />
+      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
       <el-table-column prop="title" :label="t('title')">
         <template #default="{ row }: { row: Article }">
           <span>{{ tField(row.translations, 'title').value }}</span>

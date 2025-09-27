@@ -22,7 +22,7 @@ export class AuthRouteDto {
 
   path: string
 
-  parentId: string
+  parentId: string | null
 
   order: number
 

@@ -63,7 +63,7 @@ export class ArticleCategoryService {
     })
   }
 
-  async updateOne(id: number, data: UpdateArticleCategoryDto) {
+  async updateOne(id: string, data: UpdateArticleCategoryDto) {
     const { translations, ...info } = data
     await this.model.update({
       where: { id },
@@ -77,7 +77,7 @@ export class ArticleCategoryService {
     })
   }
 
-  async countChildren(parentId: number) {
+  async countChildren(parentId: string) {
     return this.model.count({
       where: {
         parentId,
@@ -85,7 +85,7 @@ export class ArticleCategoryService {
     })
   }
 
-  async deleteOne(id: number) {
+  async deleteOne(id: string) {
     try {
       if (await this.countChildren(id)) {
         throw new AppConflictException(

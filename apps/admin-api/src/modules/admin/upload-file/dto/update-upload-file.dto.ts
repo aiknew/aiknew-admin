@@ -1,10 +1,11 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsNumber, IsOptional, IsString, ValidateIf } from 'class-validator'
 import type { IUpdateUploadFile } from '@aiknew/shared-types'
 
 export class UpdateUploadFileDto implements IUpdateUploadFile {
   @IsOptional()
+  @ValidateIf((_, value) => value !== null)
   @IsString()
-  groupId?: string
+  groupId?: string | null
 
   @IsOptional()
   @IsString()

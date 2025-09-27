@@ -827,19 +827,19 @@ export interface components {
             filePath: string;
             fileExt: string;
             fileSize: number;
-            groupId: string;
+            groupId: string | null;
             mime: string;
             originalName: string;
             uploaderId: string;
             order: number;
         };
         ArticleDto: {
-            id: number;
+            id: string;
             order: number;
             status: boolean;
             realViewCount: number;
             fakeViewCount: number;
-            articleCategoryId: number;
+            articleCategoryId: string;
             translations: components["schemas"]["ArticleTranslationDto"][];
             coverImage: components["schemas"]["CoverImage"] | null;
             coverImageId: string | null;
@@ -852,7 +852,7 @@ export interface components {
             order: number;
             status: boolean;
             fakeViewCount: number;
-            articleCategoryId: number;
+            articleCategoryId: string;
             coverImageId?: string | null;
             translations: components["schemas"]["ArticleTranslationDto"][];
         };
@@ -860,7 +860,7 @@ export interface components {
             order?: number;
             status?: boolean;
             fakeViewCount?: number;
-            articleCategoryId?: number;
+            articleCategoryId?: string;
             coverImageId?: string | null;
             translations?: components["schemas"]["ArticleTranslationDto"][];
         };
@@ -909,7 +909,7 @@ export interface components {
             key: string;
             status: boolean;
             path: string;
-            parentId: string;
+            parentId: string | null;
             order: number;
             /** Format: date-time */
             createdAt: string;
@@ -992,7 +992,7 @@ export interface components {
             key: string;
             status: boolean;
             path: string;
-            parentId: string;
+            parentId: string | null;
             order: number;
             /** Format: date-time */
             createdAt: string;
@@ -1011,7 +1011,7 @@ export interface components {
             key: string;
             status: boolean;
             path: string;
-            parentId: string;
+            parentId: string | null;
             order: number;
             translations: components["schemas"]["AuthRouteTranslationDto"][];
         };
@@ -1025,7 +1025,7 @@ export interface components {
             key?: string;
             status?: boolean;
             path?: string;
-            parentId?: string;
+            parentId?: string | null;
             order?: number;
             translations?: components["schemas"]["AuthRouteTranslationDto"][];
         };
@@ -1040,7 +1040,7 @@ export interface components {
         UploadFileGroupDto: {
             id: string;
             groupName: string;
-            parentId: string;
+            parentId: string | null;
             order: number;
             ancestors: components["schemas"]["UploadFileGroupPathDto"][];
             /** Format: date-time */
@@ -1071,7 +1071,7 @@ export interface components {
             filePath: string;
             fileExt: string;
             fileSize: number;
-            groupId: string;
+            groupId: string | null;
             mime: string;
             originalName: string;
             uploaderId: string;
@@ -1089,22 +1089,22 @@ export interface components {
             fileList: components["schemas"]["UploadFileDto"][];
         };
         CreateUploadFileDto: {
-            groupId?: string;
+            groupId?: string | null;
             fileStorageId: string;
         };
         UpdateUploadFileDto: {
-            groupId?: string;
+            groupId?: string | null;
             originalName?: string;
             order?: number;
         };
         CreateUploadFileGroupDto: {
             groupName: string;
-            parentId: string;
+            parentId: string | null;
             order: number;
         };
         UpdateUploadFileGroupDto: {
             groupName?: string;
-            parentId?: string;
+            parentId?: string | null;
             order?: number;
         };
         FileStorageDto: {
@@ -1172,10 +1172,10 @@ export interface components {
             name: string;
         };
         ArticleCategoryDto: {
-            id: number;
+            id: string;
             order: number;
             status: boolean;
-            parentId: number;
+            parentId: string | null;
             translations: components["schemas"]["ArticleCategoryTranslationDto"][];
             /** Format: date-time */
             createdAt: string;
@@ -1185,13 +1185,13 @@ export interface components {
         CreateArticleCategoryDto: {
             status?: boolean;
             order?: number;
-            parentId: number;
+            parentId: string | null;
             translations: components["schemas"]["ArticleCategoryTranslationDto"][];
         };
         UpdateArticleCategoryDto: {
             status?: boolean;
             order?: number;
-            parentId?: number;
+            parentId?: string | null;
             translations?: components["schemas"]["ArticleCategoryTranslationDto"][];
         };
         DictTypeTranslationDto: {
@@ -1797,7 +1797,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                id: string;
             };
             cookie?: never;
         };
@@ -1829,7 +1829,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                id: string;
             };
             cookie?: never;
         };
@@ -1859,7 +1859,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                id: string;
             };
             cookie?: never;
         };
@@ -2422,6 +2422,7 @@ export interface operations {
         parameters: {
             query?: {
                 type?: components["schemas"]["RouteType"];
+                id?: string;
                 name?: string;
             };
             header?: never;
@@ -2552,7 +2553,7 @@ export interface operations {
             query: {
                 currentPage: number;
                 pageSize: number;
-                parentId?: string;
+                parentId?: string | null;
                 keyword?: string;
             };
             header?: never;
@@ -3102,7 +3103,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                id: string;
             };
             cookie?: never;
         };
@@ -3132,7 +3133,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                id: string;
             };
             cookie?: never;
         };

@@ -31,6 +31,7 @@
   "failed": "失败",
   "updateVersionTitle": "有新版本可用",
   "updateVersionMsg": "是否立即刷新使用新版本？",
+  "selectParent": "请选择上级, 留空则默认为顶级",
   "dictType": {
     "name": "名称",
     "key": "键值",

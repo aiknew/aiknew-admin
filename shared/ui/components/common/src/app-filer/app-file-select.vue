@@ -45,7 +45,7 @@ const queryModel = defineModel<IUploadFileQuery>('query', {
     currentPage: 1,
     pageSize: 10,
     keyword: '',
-    parentId: '0',
+    parentId: null,
   },
 })
 

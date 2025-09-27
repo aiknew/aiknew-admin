@@ -10,7 +10,7 @@ export interface UploadStorage {
     uploadHeaders: Ref<Record<string, unknown>>,
     info: {
       selectedStorageId: string | undefined
-      currentGroupId: string | undefined
+      currentGroupId: string | undefined | null
     },
   ) => Promise<string> | string)
 }

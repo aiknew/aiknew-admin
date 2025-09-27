@@ -16,9 +16,12 @@
   },
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.2",
   "devDependencies": {
     "tsdown": "^0.14.1",
     "typescript": "catalog:common"
+  },
+  "packageManager": "pnpm@10.6.2",
+  "engines": {
+    "node": ">=22.19"
   }
 }

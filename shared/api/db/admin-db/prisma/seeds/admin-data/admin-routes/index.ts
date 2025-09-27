@@ -1,5 +1,5 @@
 import { contentManagement, settings, userInfo } from './data'
-import { prisma } from '../prisma'
+import { prisma } from '../../prisma'
 import { AdminRouteItem } from './types'
 
 const createRoute = (items: AdminRouteItem[], parentId: string | null) => {

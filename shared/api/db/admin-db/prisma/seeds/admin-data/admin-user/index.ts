@@ -1,8 +1,8 @@
-import { createHMAC } from '../../../../../utils/src/index'
-import { prisma } from '../prisma'
+import { createHMAC } from '../../../../../../utils/src/index'
+import { prisma } from '../../prisma'
 
 // Create default super admin user
-export const createSuperAdmin = async () => {
+export const createAdminSuperUser = async () => {
   if (!process.env.SUPER_ADMIN_USER_PASSWORD) {
     throw new Error('required SUPER_ADMIN_USER_PASSWORD environment variable')
   }

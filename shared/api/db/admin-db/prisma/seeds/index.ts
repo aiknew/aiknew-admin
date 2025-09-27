@@ -1,9 +1,7 @@
 import { prisma } from './prisma'
-import { createSuperAdmin } from './admin-user'
 import { createDefaultLangs } from './languages'
-import { createAdminRoutes } from './admin-routes'
+import { createAdminRoutes, createAdminPermissions, createAdminSuperUser } from './admin-data'
 import { Prisma } from '../../src/prisma-client'
-import { createAdminPermissions } from './admin-permissions'
 import { createFileStorage } from './file-storage'
 
 const isSeed = async () => {
@@ -63,11 +61,14 @@ async function main() {
     console.log(`##################################`)
     return
   }
-  await createSuperAdmin()
   await createDefaultLangs()
+
+  await createAdminSuperUser()
   await createAdminPermissions()
   await createAdminRoutes()
+
   await createFileStorage()
+
   await markSeed()
 }
 

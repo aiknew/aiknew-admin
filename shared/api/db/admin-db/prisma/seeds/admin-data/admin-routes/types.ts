@@ -1,4 +1,4 @@
-import { RouteType } from '../../../src/prisma-client'
+import { RouteType } from '../../../../src/prisma-client'
 import { i18n } from './i18n'
 
 type AdminRouteItemBase = {

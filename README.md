@@ -27,6 +27,11 @@ pnpm install
 ```
 
 ```
+# Build all sub packages
+pnpm build
+```
+
+```
 # Run in the project root directory
 pnpm db:migrate  # Execute database migration
 pnpm db:seed     # Execute data initialization

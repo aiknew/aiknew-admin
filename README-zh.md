@@ -27,6 +27,11 @@ pnpm install
 ```
 
 ```
+# 构建所有子包
+pnpm build
+```
+
+```
 # 在项目根目录下运行
 pnpm db:migrate # 执行数据库迁移
 pnpm db:seed # 执行数据初始化

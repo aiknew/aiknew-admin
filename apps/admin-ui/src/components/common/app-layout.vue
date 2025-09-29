@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppBasicLayout } from '@aiknew/shared-ui-layouts'
+import { AppHorizontalLayout } from '@aiknew/shared-ui-layouts'
 import { AppLanguageSwitcher, AppRouteTab, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
 import AppUserSetting from './app-user-setting.vue'
 import { onBeforeRouteUpdate, useRoute, useRouter, type LocationQueryRaw } from 'vue-router'
@@ -26,7 +26,7 @@ const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | und
 </script>
 
 <template>
-  <AppBasicLayout :routes :current-route="router.currentRoute">
+  <component :is="AppHorizontalLayout" :routes :current-route="router.currentRoute">
     <template #operations>
       <div class="flex items-center gap-1">
         <AppDarkModeSwitcher />
@@ -51,5 +51,5 @@ const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | und
         @remove="routeHistoryStore.removeHistory"
       />
     </template>
-  </AppBasicLayout>
+  </component>
 </template>

@@ -82,6 +82,7 @@ const getRouteName = (meta?: CustomRouteMeta) => {
 .menu-title {
   user-select: none;
   line-height: 1.5;
+  min-width: 120px;
 }
 
 .el-menu--collapse

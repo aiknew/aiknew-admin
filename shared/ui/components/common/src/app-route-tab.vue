@@ -37,7 +37,7 @@ const handleClick = ({
 </script>
 
 <template>
-  <div class="route-tab border-top">
+  <div class="route-tab border-b border-theme-border-light">
     <el-tabs
       v-model="currentRoutePath"
       type="card"

@@ -33,7 +33,7 @@ useResizeObserver(
     <el-pagination
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
-      class="mt-4 ml-auto"
+      class="mt-4 ml-auto flex flex-wrap"
       background
       :pager-count="5"
       :layout="paginationLayout"

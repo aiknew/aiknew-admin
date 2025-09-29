@@ -11,48 +11,59 @@ export interface Props {
   routes: RouteRecordRaw[]
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expand?: boolean
+  showAppName?: boolean
 }
 
 export interface Emits {
   (e: 'update:expand', expand: boolean): void
 }
 
-const { expand = true, routes, currentRoute } = defineProps<Props>()
+const {
+  expand = true,
+  routes,
+  currentRoute,
+  showAppName = true,
+} = defineProps<Props>()
 defineEmits<Emits>()
 </script>
 
 <template>
-  <aside
-    class="linear fixed top-0 left-0 z-10 inline-flex flex-col h-full min-h-screen shrink-0 origin-center overflow-x-hidden border-r border-theme-border-light bg-theme-bg transition md:relative"
-    :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
-  >
-    <!-- Logo And App Name -->
-    <div class="w-full h-[70px] flex px-[32px] items-center gap-2">
-      <span class="size-8 rounded-full bg-theme-primary"></span>
-      <Transition name="app-name">
-        <span v-show="expand"> Aiknew Admin </span>
-      </Transition>
-    </div>
-
-    <!-- Menu -->
-    <div class="px-4">
-      <el-menu
-        class="border-r-0!"
-        :default-active="currentRoute.value.fullPath"
-        :collapse="!expand"
-        router
+  <div class="min-h-screen bg-theme-bg">
+    <aside
+      class="linear fixed top-0 left-0 z-10 inline-flex flex-col h-full shrink-0 origin-center overflow-x-hidden border-r border-theme-border-light bg-theme-bg transition md:relative"
+      :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
+    >
+      <!-- Logo And App Name -->
+      <div
+        v-if="showAppName"
+        class="w-full h-[70px] flex px-[32px] items-center gap-2 shrink-0"
       >
-        <AppRecursiveMenu :routes />
-      </el-menu>
-    </div>
-  </aside>
+        <span class="size-8 rounded-full bg-theme-primary"></span>
+        <Transition name="app-name">
+          <span v-show="expand"> Aiknew Admin </span>
+        </Transition>
+      </div>
 
-  <!-- Mask layer -->
-  <div
-    class="fixed top-0 left-0 z-5 h-full w-full bg-black opacity-10 md:hidden"
-    :class="[expand ? 'block' : 'hidden']"
-    @click="$emit('update:expand', false)"
-  ></div>
+      <!-- Menu -->
+      <div class="px-4">
+        <el-menu
+          class="border-r-0!"
+          :default-active="currentRoute.value.fullPath"
+          :collapse="!expand"
+          router
+        >
+          <AppRecursiveMenu :routes />
+        </el-menu>
+      </div>
+    </aside>
+
+    <!-- Mask layer -->
+    <div
+      class="fixed top-0 left-0 z-5 h-full w-full bg-black opacity-10 md:hidden"
+      :class="[expand ? 'block' : 'hidden']"
+      @click="$emit('update:expand', false)"
+    ></div>
+  </div>
 </template>
 
 <style>
@@ -61,7 +72,7 @@ defineEmits<Emits>()
 }
 
 .app-name-enter-active {
-  transition: opacity 1.2s ease;
+  transition: opacity 2s ease;
 }
 
 .app-name-leave-active {
@@ -73,6 +84,8 @@ defineEmits<Emits>()
   opacity: 0;
 }
 
+.app-name-enter-active,
+.app-name-enter-from,
 .app-name-left-from,
 .app-name-leave-active {
   left: 72px;

@@ -85,29 +85,31 @@ defineExpose({
 </script>
 
 <template>
-  <!-- custom table header -->
-  <div class="table-header">
-    <slot name="header"> </slot>
+  <div class="grid">
+    <!-- custom table header -->
+    <div class="table-header">
+      <slot name="header"> </slot>
+    </div>
+
+    <!-- table -->
+    <el-table
+      class="app-table"
+      ref="elTable"
+      :data="list"
+      v-bind="$attrs"
+      size="large"
+    >
+      <slot name="default"></slot>
+    </el-table>
+
+    <!-- pagination -->
+    <AppPagination
+      v-if="pagination"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :total
+    />
   </div>
-
-  <!-- table -->
-  <el-table
-    class="app-table"
-    ref="elTable"
-    :data="list"
-    v-bind="$attrs"
-    size="large"
-  >
-    <slot name="default"></slot>
-  </el-table>
-
-  <!-- pagination -->
-  <AppPagination
-    v-if="pagination"
-    v-model:current-page="currentPage"
-    v-model:page-size="pageSize"
-    :total
-  />
 </template>
 
 <style>

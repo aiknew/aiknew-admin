@@ -14,7 +14,6 @@ export const i18n = {
     en: 'Update account information',
     'zh-TW': '更新賬戶信息',
   },
-
   fileManagement: {
     'zh-CN': '文件管理',
     en: 'File management',

@@ -1,4 +1,4 @@
-import { contentManagement, settings, userInfo } from './data'
+import { contentManagement, settings, userInfo } from './routes'
 import { prisma } from '../../prisma'
 import { AdminRouteItem } from './types'
 

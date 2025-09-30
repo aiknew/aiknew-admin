@@ -1,5 +1,5 @@
-import { RouteType } from '../../../../src/prisma-client'
 import { i18n } from './i18n'
+import { RouteType } from '../../../../src/prisma-client'
 
 type AdminRouteItemBase = {
   icon?: string
@@ -15,3 +15,10 @@ type AdminRouteItemBase = {
 }
 
 export type AdminRouteItem = AdminRouteItemBase & { name: (typeof i18n)[keyof typeof i18n]; children?: AdminRouteItem[], permissions?: string[] }
+
+
+export const defineRouteItem = (item: AdminRouteItem) => {
+  return item
+}
+
+export { RouteType }

@@ -1,8 +1,7 @@
-import { AdminRouteItem } from '../types'
-import { RouteType } from '../../../../../src/prisma-client'
-import { i18n } from '../i18n'
+import { defineRouteItem, RouteType } from '../../types'
+import { i18n } from '../../i18n'
 
-export const userInfo: AdminRouteItem = {
+export const userInfo = defineRouteItem({
   component: 'settings/user-info/user-info',
   hidden: true,
   path: '/account-info',
@@ -16,4 +15,4 @@ export const userInfo: AdminRouteItem = {
       name: i18n.edit,
     },
   ],
-} as const
+})

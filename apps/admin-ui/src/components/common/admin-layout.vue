@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { AppHorizontalLayout } from '@aiknew/shared-ui-layouts'
 import { AppLanguageSwitcher, AppRouteTab, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
 import AppUserSetting from './app-user-setting.vue'
 import { onBeforeRouteUpdate, useRoute, useRouter, type LocationQueryRaw } from 'vue-router'
@@ -7,10 +6,12 @@ import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locale
 import { useRouteHistoryStore } from '@/stores/route-history'
 import AppAdminSetting from './app-admin-setting.vue'
 import { ref } from 'vue'
+import { useLayoutSetting } from '@/stores/layout-setting'
+import { AppLayout } from '@aiknew/shared-ui-components'
 
 const router = useRouter()
 const route = useRoute()
-
+const layoutStore = useLayoutSetting()
 const currentRoutePath = ref(route.fullPath)
 const routeHistoryStore = useRouteHistoryStore()
 
@@ -26,7 +27,7 @@ const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | und
 </script>
 
 <template>
-  <component :is="AppHorizontalLayout" :routes :current-route="router.currentRoute">
+  <AppLayout :layout="layoutStore.currentLayout" :routes :current-route="router.currentRoute">
     <template #operations>
       <div class="flex items-center gap-1">
         <AppDarkModeSwitcher />
@@ -51,5 +52,5 @@ const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | und
         @remove="routeHistoryStore.removeHistory"
       />
     </template>
-  </component>
+  </AppLayout>
 </template>

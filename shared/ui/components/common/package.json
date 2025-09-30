@@ -11,6 +11,7 @@
   "peerDependencies": {
     "@aiknew/shared-enums": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
+    "@aiknew/shared-ui-constants": "workspace:*",
     "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
@@ -27,7 +28,8 @@
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui",
     "zod": "catalog:ui",
-    "lucide-vue-next": "catalog:ui"
+    "lucide-vue-next": "catalog:ui",
+    "@bprogress/core": "catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",

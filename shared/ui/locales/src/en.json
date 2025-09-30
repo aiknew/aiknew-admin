@@ -32,6 +32,8 @@
   "updateVersionTitle": "A new version is available",
   "updateVersionMsg": "Will refresh to use the new version immediately?",
   "selectParent": "Please select the upper level, leave it blank and default to the top level",
+  "themeColor": "Theme Color",
+  "pageLayout": "Page Layout",
   "dictType": {
     "name": "Name",
     "key": "Key",

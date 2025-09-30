@@ -11,19 +11,13 @@ export interface Props {
   routes: RouteRecordRaw[]
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expand?: boolean
-  showAppName?: boolean
 }
 
 export interface Emits {
   (e: 'update:expand', expand: boolean): void
 }
 
-const {
-  expand = true,
-  routes,
-  currentRoute,
-  showAppName = true,
-} = defineProps<Props>()
+const { expand = true, routes, currentRoute } = defineProps<Props>()
 defineEmits<Emits>()
 </script>
 
@@ -33,16 +27,8 @@ defineEmits<Emits>()
       class="linear fixed top-0 left-0 z-10 inline-flex flex-col h-full shrink-0 origin-center overflow-x-hidden border-r border-theme-border-light bg-theme-bg transition md:relative"
       :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
     >
-      <!-- Logo And App Name -->
-      <div
-        v-if="showAppName"
-        class="w-full h-[70px] flex px-[32px] items-center gap-2 shrink-0"
-      >
-        <span class="size-8 rounded-full bg-theme-primary"></span>
-        <Transition name="app-name">
-          <span v-show="expand"> Aiknew Admin </span>
-        </Transition>
-      </div>
+      <!-- Title -->
+      <slot name="title" :expand></slot>
 
       <!-- Menu -->
       <div class="px-4">

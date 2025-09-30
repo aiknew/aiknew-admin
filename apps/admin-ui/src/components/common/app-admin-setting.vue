@@ -3,8 +3,9 @@ import { ElDrawer, ElText } from 'element-plus'
 import { Settings } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import AppThemeSelect from './app-theme-select/app-theme-select.vue'
 import { AppIcon } from '@aiknew/shared-ui-components'
+import AppThemeSelect from './app-theme-select/app-theme-select.vue'
+import AppLayoutSelect from './app-layout-select.vue'
 
 const show = ref(false)
 const { t } = useI18n()
@@ -15,21 +16,18 @@ const { t } = useI18n()
     <AppIcon>
       <Settings :size="20" />
     </AppIcon>
-    <el-drawer v-model="show" :with-header="false">
+    <ElDrawer v-model="show" :with-header="false">
       <div>
-        <el-text tag="b">{{ t('themeColor') }}</el-text>
+        <div>
+          <ElText tag="b">{{ t('pageLayout') }}</ElText>
+          <AppLayoutSelect />
+        </div>
 
-        <AppThemeSelect />
+        <div class="mt-8">
+          <ElText tag="b">{{ t('themeColor') }}</ElText>
+          <AppThemeSelect />
+        </div>
       </div>
-    </el-drawer>
+    </ElDrawer>
   </div>
 </template>
-
-<i18n lang="yaml">
-en:
-  themeColor: Theme color
-zh-TW:
-  themeColor: 主題顏色
-zh-CN:
-  themeColor: 主题颜色
-</i18n>

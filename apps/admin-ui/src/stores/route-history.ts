@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import { shallowRef } from 'vue'
 import { isNavigationFailure, NavigationFailureType, type RouteRecordNormalized } from 'vue-router'
 
-export const useRouteHistoryStore = defineStore('route-history', () => {
+export const useRouteHistoryStore = defineStore('routeHistory', () => {
   const routeHistory = shallowRef<RouteHistory[]>([])
 
   const _getRedirectedLocation = (

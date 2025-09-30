@@ -60,7 +60,7 @@ const handleRefresh = async () => {
 
     <div
       :class="[
-        'flex',
+        'flex w-full',
         { 'bg-theme-bg-page': horizontalLayout },
         { 'horizontal-wrapper': horizontalLayout },
         { grow: horizontalLayout },

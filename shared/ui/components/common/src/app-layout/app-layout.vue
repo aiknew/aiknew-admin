@@ -40,11 +40,18 @@ const handleRefresh = async () => {
 </script>
 
 <template>
-  <div
-    class="flex w-full min-h-[100vh] shrink grow overflow-hidden"
-    :class="{ 'flex-col': horizontalLayout }"
-  >
-    <div class="w-full" v-if="horizontalLayout">
+  <div class="flex w-full min-h-[100vh] overflow-hidden">
+    <!-- basic layout - aside -->
+    <div v-if="basicLayout">
+      <AppAside v-model:expand="expandMenu" :routes :current-route>
+        <template #title="{ expand }">
+          <AppLogo :expand title="Aiknew Admin" />
+        </template>
+      </AppAside>
+    </div>
+
+    <div class="flex flex-col grow">
+      <!-- header -->
       <AppHeader
         v-model:expand-menu="expandMenu"
         :current-route
@@ -56,65 +63,23 @@ const handleRefresh = async () => {
       </AppHeader>
 
       <slot name="top"></slot>
-    </div>
 
-    <div
-      :class="[
-        'flex w-full',
-        { 'bg-theme-bg-page': horizontalLayout },
-        { 'horizontal-wrapper': horizontalLayout },
-        { grow: horizontalLayout },
-      ]"
-    >
-      <AppAside
-        :class="{ 'horizontal-aside': horizontalLayout }"
-        v-model:expand="expandMenu"
-        :routes
-        :current-route
-      >
-        <template v-if="basicLayout" #title="{ expand }">
-          <AppLogo :expand title="Aiknew Admin" />
-        </template>
-      </AppAside>
-
-      <div
-        class="flex shrink grow flex-col overflow-hidden"
-        :class="{ 'min-h-[100vh]': basicLayout }"
-      >
-        <div v-if="basicLayout">
-          <AppHeader
-            v-model:expand-menu="expandMenu"
+      <!-- main -->
+      <div class="flex grow p-4 bg-theme-bg-page gap-4">
+        <!-- horizontal-layout aside -->
+        <div class="flex" v-if="horizontalLayout">
+          <AppAside
+            class="py-4 rounded-xl min-h-0! grow"
+            v-model:expand="expandMenu"
+            :routes
             :current-route
-            @refresh="handleRefresh"
-          >
-            <template #operations>
-              <slot name="operations"></slot>
-            </template>
-          </AppHeader>
-
-          <slot name="top"></slot>
+          />
         </div>
 
-        <main
-          class="w-full shrink grow bg-theme-bg-page"
-          :class="{ 'p-4': basicLayout }"
-          :key="mainKey"
-        >
+        <main class="w-full shrink grow bg-theme-bg-page" :key="mainKey">
           <RouterView />
         </main>
       </div>
     </div>
   </div>
 </template>
-
-<style>
-@reference "tailwindcss";
-
-.horizontal-wrapper {
-  @apply h-full w-full p-4 gap-4;
-}
-
-.horizontal-aside {
-  @apply min-h-0! py-4 rounded-xl;
-}
-</style>

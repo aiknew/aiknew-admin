@@ -6,9 +6,10 @@ import { tField } from '@aiknew/shared-ui-locales'
 
 export interface Props {
   routes: RouteRecordRaw[]
+  minWidth?: string
 }
 
-const { routes } = defineProps<Props>()
+const { routes, minWidth = '120px' } = defineProps<Props>()
 
 const hasChildren = (children: Array<RouteRecordRaw> | undefined) =>
   Array.isArray(children) && children.length !== 0
@@ -82,7 +83,7 @@ const getRouteName = (meta?: CustomRouteMeta) => {
 .menu-title {
   user-select: none;
   line-height: 1.5;
-  min-width: 120px;
+  min-width: v-bind('minWidth');
 }
 
 .el-menu--collapse

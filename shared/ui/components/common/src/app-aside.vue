@@ -34,7 +34,7 @@ defineEmits<Emits>()
       <div class="px-4">
         <el-menu
           class="border-r-0!"
-          :default-active="currentRoute.value.fullPath"
+          :default-active="currentRoute.value.path"
           :collapse="!expand"
           router
         >

@@ -32,14 +32,13 @@ router.beforeEach((to) => {
 
 router.beforeResolve((to) => {
   if (
-    to?.fullPath &&
     to?.meta?.translations &&
     !inherentRoutes.some((item) => item.path === to.path)
   ) {
     const routeHistoryStore = useRouteHistoryStore()
     routeHistoryStore.addHistory(
       {
-        path: to.fullPath,
+        path: to.path,
         meta: {
           name: to.meta.translations ? tField(to.meta.translations, 'routeName') : '',
           icon: to.meta.icon

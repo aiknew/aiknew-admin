@@ -12,13 +12,13 @@ import { AppLayout } from '@aiknew/shared-ui-components'
 const router = useRouter()
 const route = useRoute()
 const layoutStore = useLayoutSetting()
-const currentRoutePath = ref(route.fullPath)
+const currentRoutePath = ref(route.path)
 const routeHistoryStore = useRouteHistoryStore()
 
 const routes = router.getRoutes().find((route) => route.name === 'Index')?.children ?? []
 
 onBeforeRouteUpdate((to) => {
-  currentRoutePath.value = to.fullPath
+  currentRoutePath.value = to.path
 })
 
 const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | undefined }) => {

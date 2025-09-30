@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ElIcon } from 'element-plus'
 import AppRoutePath from './app-route-path.vue'
 import { type RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { type Ref } from 'vue'

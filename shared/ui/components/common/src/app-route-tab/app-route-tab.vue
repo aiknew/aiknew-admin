@@ -60,7 +60,7 @@ const handleCloseItem = (path: string) => {
       ref="tabRef"
     >
       <div
-        class="bg-theme-bg z-10 w-[28px] border-r border-gray-100 absolute top-0 left-0 cursor-pointer h-full flex items-center justify-center select-none"
+        class="bg-theme-bg z-10 w-[28px] border-r border-gray-100 dark:border-theme-border absolute top-0 left-0 cursor-pointer h-full flex items-center justify-center select-none"
         @click="handleScroll('left')"
       >
         <ChevronLeft :stroke-width="1" color="#999" />
@@ -77,7 +77,7 @@ const handleCloseItem = (path: string) => {
       />
 
       <div
-        class="bg-theme-bg z-10 w-[28px] border-l border-gray-100 absolute top-0 right-0 cursor-pointer h-full flex items-center justify-center select-none"
+        class="bg-theme-bg z-10 w-[28px] border-l border-gray-100 dark:border-theme-border absolute top-0 right-0 cursor-pointer h-full flex items-center justify-center select-none"
         @click="handleScroll('right')"
       >
         <ChevronRight :stroke-width="1" color="#999" />

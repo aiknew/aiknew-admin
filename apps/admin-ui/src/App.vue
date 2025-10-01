@@ -26,3 +26,9 @@ watch(data, () => {
     </el-config-provider>
   </ProgressProvider>
 </template>
+
+<style>
+.el-overlay {
+  z-index: 5000 !important;
+}
+</style>

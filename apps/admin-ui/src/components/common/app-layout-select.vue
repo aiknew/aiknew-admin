@@ -6,7 +6,7 @@ const layoutStore = useLayoutSetting()
 </script>
 
 <template>
-  <div class="mt-3 flex gap-4">
+  <div class="mt-3 flex flex-wrap gap-4">
     <!-- Vertical Layout -->
     <div
       @click="layoutStore.setLayout('vertical')"

@@ -1,5 +1,6 @@
 export const Layouts = {
-  basic: 'basic',
-  horizontal: 'horizontal'
+  vertical: 'vertical',
+  horizontal: 'horizontal',
+  mixed: 'mixed'
 } as const
 

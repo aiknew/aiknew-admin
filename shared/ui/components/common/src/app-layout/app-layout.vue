@@ -21,8 +21,8 @@ const { currentRoute, routes, layout } = defineProps<Props>()
 const expandMenu = ref(true)
 const mainKey = ref(0)
 
-const basicLayout = computed(() => {
-  return layout === Layouts.basic
+const verticalLayout = computed(() => {
+  return layout === Layouts.vertical
 })
 
 const horizontalLayout = computed(() => {
@@ -41,8 +41,8 @@ const handleRefresh = async () => {
 
 <template>
   <div class="flex w-full min-h-[100vh] overflow-hidden">
-    <!-- basic layout - aside -->
-    <div v-if="basicLayout">
+    <!-- Vertical layout - aside -->
+    <div v-if="verticalLayout">
       <AppAside v-model:expand="expandMenu" :routes :current-route>
         <template #title="{ expand }">
           <AppLogo :expand title="Aiknew Admin" />
@@ -66,7 +66,7 @@ const handleRefresh = async () => {
 
       <!-- main -->
       <div class="flex grow p-4 bg-theme-bg-page gap-4">
-        <!-- horizontal-layout aside -->
+        <!-- Horizontal-layout aside -->
         <div class="flex" v-if="horizontalLayout">
           <AppAside
             class="py-4 rounded-xl min-h-0! grow"

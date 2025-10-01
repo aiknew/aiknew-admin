@@ -3,10 +3,10 @@ import { computed, ref } from 'vue'
 import { Layouts } from '@aiknew/shared-ui-constants'
 
 export const useLayoutSetting = defineStore('layoutSetting', () => {
-  const currentLayout = ref<keyof typeof Layouts>('basic')
+  const currentLayout = ref<keyof typeof Layouts>('vertical')
 
-  const isBasic = computed(() => {
-    return currentLayout.value === Layouts.basic
+  const isVertical = computed(() => {
+    return currentLayout.value === Layouts.vertical
   })
 
   const isHorizontal = computed(() => {
@@ -20,7 +20,7 @@ export const useLayoutSetting = defineStore('layoutSetting', () => {
   return {
     layoutList: Object.keys(Layouts),
     currentLayout,
-    isBasic,
+    isVertical,
     isHorizontal,
     setLayout,
   }

@@ -32,6 +32,7 @@
     "@bprogress/core": "catalog:ui"
   },
   "devDependencies": {
+    "tailwind-scrollbar": "catalog:ui",
     "@aiknew/shared-ts-config": "workspace:*",
     "@aiknew/shared-types": "workspace:*",
     "@aiknew/shared-ui-types": "workspace:*",

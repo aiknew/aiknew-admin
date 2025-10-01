@@ -85,7 +85,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="grid">
+  <div>
     <!-- custom table header -->
     <div class="table-header">
       <slot name="header"> </slot>

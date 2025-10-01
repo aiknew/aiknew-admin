@@ -24,3 +24,5 @@
   --color-theme-text-placeholder: var(--el-text-color-placeholder);
   --color-theme-text-disabled: var(--el-text-color-disabled);
 }
+
+@plugin 'tailwind-scrollbar';

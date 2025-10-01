@@ -50,7 +50,7 @@ const handleRefresh = async () => {
       </AppAside>
     </div>
 
-    <div class="flex flex-col grow">
+    <div class="flex flex-col grow min-w-0">
       <!-- header -->
       <AppHeader
         v-model:expand-menu="expandMenu"
@@ -76,7 +76,10 @@ const handleRefresh = async () => {
           />
         </div>
 
-        <main class="w-full shrink grow bg-theme-bg-page" :key="mainKey">
+        <main
+          class="w-full shrink grow bg-theme-bg-page min-w-0"
+          :key="mainKey"
+        >
           <RouterView />
         </main>
       </div>

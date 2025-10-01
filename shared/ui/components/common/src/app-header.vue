@@ -17,7 +17,7 @@ defineEmits(['update:expandMenu', 'refresh'])
 
 <template>
   <header
-    class="bg-white dark:bg-theme-bg h-[70px] flex min-h-10 items-center p-3 border-b border-theme-border-light"
+    class="bg-theme-bg h-[70px] flex min-h-10 items-center p-3 border-b border-theme-border-light"
   >
     <!-- menu expand button -->
     <div

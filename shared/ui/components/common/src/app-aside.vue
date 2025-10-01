@@ -57,6 +57,12 @@ defineEmits<Emits>()
   min-width: 200px;
 }
 
+.el-menu-item,
+.el-sub-menu,
+.el-sub-menu__title {
+  border-radius: 8px;
+}
+
 .app-name-enter-active {
   transition: opacity 2s ease;
 }

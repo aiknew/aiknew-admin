@@ -17,11 +17,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@aiknew/shared-enums": "workspace:*",
+    "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-constants": "workspace:*",
+    "@aiknew/shared-enums": "workspace:*",
     "@aiknew/shared-ui-components": "workspace:*",
     "@aiknew/shared-ui-constants": "workspace:*",
-    "@aiknew/element-plus-tiptap": "workspace:*",
     "@aiknew/shared-ui-locales": "workspace:*",
     "@aiknew/shared-ui-utils": "workspace:*",
     "@aiknew/shared-utils": "workspace:*",
@@ -37,6 +37,7 @@
     "dayjs": "catalog:common",
     "element-plus": "catalog:ui",
     "lodash-es": "catalog:common",
+    "lucide-vue-next": "catalog:ui",
     "openapi-fetch": "^0.13.8",
     "pathe": "catalog:common",
     "pinia": "catalog:ui",
@@ -44,8 +45,7 @@
     "vue": "catalog:ui",
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui",
-    "zod": "catalog:ui",
-    "lucide-vue-next": "catalog:ui"
+    "zod": "catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",
@@ -80,6 +80,7 @@
     "rollup-plugin-visualizer": "^6.0.3",
     "sass-embedded": "^1.89.2",
     "start-server-and-test": "^2.0.12",
+    "tailwind-scrollbar": "catalog:ui",
     "typescript": "catalog:common",
     "unplugin-element-plus": "catalog:ui",
     "vite": "catalog:ui",

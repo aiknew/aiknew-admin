@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppLanguageSwitcher, AppRouteTab, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
+import { AppLanguageSwitcher, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
 import AppUserSetting from './app-user-setting.vue'
 import { onBeforeRouteUpdate, useRoute, useRouter, type LocationQueryRaw } from 'vue-router'
 import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locales'
@@ -7,7 +7,7 @@ import { useRouteHistoryStore } from '@/stores/route-history'
 import AppAdminSetting from './app-admin-setting.vue'
 import { ref } from 'vue'
 import { useLayoutSetting } from '@/stores/layout-setting'
-import { AppLayout } from '@aiknew/shared-ui-components'
+import { AppLayout, AppRouteTab } from '@aiknew/shared-ui-components'
 
 const router = useRouter()
 const route = useRoute()

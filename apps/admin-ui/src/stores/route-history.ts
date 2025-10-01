@@ -3,9 +3,10 @@ import { tField } from '@aiknew/shared-ui-locales'
 import type { RouteHistory } from '@aiknew/shared-ui-types'
 import { defineStore } from 'pinia'
 import { shallowRef } from 'vue'
-import { isNavigationFailure, NavigationFailureType, type RouteRecordNormalized } from 'vue-router'
+import { isNavigationFailure, NavigationFailureType, useRoute, type RouteRecordNormalized } from 'vue-router'
 
 export const useRouteHistoryStore = defineStore('routeHistory', () => {
+  const currentRoute = useRoute()
   const routeHistory = shallowRef<RouteHistory[]>([])
 
   const _getRedirectedLocation = (
@@ -62,13 +63,17 @@ export const useRouteHistoryStore = defineStore('routeHistory', () => {
     }
   }
 
-  const removeHistory = (routePath: string) => {
-    routeHistory.value = routeHistory.value.filter((item) => item.path !== routePath)
-    if (routeHistory.value.length) {
-      router.push(routeHistory.value[routeHistory.value.length - 1])
-    } else {
-      _redirectToHome()
+  const removeHistory = (removePath: string) => {
+    routeHistory.value = routeHistory.value.filter((item) => item.path !== removePath)
+
+    if (!routeHistory.value.length) {
+      return _redirectToHome()
     }
+
+    if (removePath === currentRoute.path) {
+      router.push(routeHistory.value[routeHistory.value.length - 1])
+    }
+
   }
 
   return {

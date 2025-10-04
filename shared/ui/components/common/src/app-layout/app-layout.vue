@@ -2,6 +2,8 @@
 import AppLogo from '../app-logo.vue'
 import AppAside from '../app-aside.vue'
 import AppHeader from '../app-header.vue'
+import AppRecursiveMenu from '../app-recursive-menu.vue'
+import { ElMenu } from 'element-plus'
 import { computed, nextTick, type Ref, ref } from 'vue'
 import {
   type RouteLocationNormalizedLoadedGeneric,
@@ -27,6 +29,14 @@ const verticalLayout = computed(() => {
 
 const horizontalLayout = computed(() => {
   return layout === Layouts.horizontal
+})
+
+const mixedLayout = computed(() => {
+  return layout === Layouts.mixed
+})
+
+const showExpandBtn = computed(() => {
+  return verticalLayout.value || mixedLayout.value
 })
 
 const handleRefresh = async () => {
@@ -55,6 +65,7 @@ const handleRefresh = async () => {
       <AppHeader
         v-model:expand-menu="expandMenu"
         :current-route
+        :show-expand-btn
         @refresh="handleRefresh"
       >
         <template #operations>
@@ -62,12 +73,24 @@ const handleRefresh = async () => {
         </template>
       </AppHeader>
 
+      <!-- Horizontal Menu -->
+      <div class="bg-amber-200 hidden md:block" v-if="horizontalLayout">
+        <el-menu
+          mode="horizontal"
+          :default-active="currentRoute.value.path"
+          :collapse="false"
+          router
+        >
+          <AppRecursiveMenu min-width="unset" :routes />
+        </el-menu>
+      </div>
+
       <slot name="top"></slot>
 
       <!-- main -->
       <div class="flex grow p-4 bg-theme-bg-page gap-4">
         <!-- Horizontal-layout aside -->
-        <div class="flex" v-if="horizontalLayout">
+        <div class="flex" v-if="mixedLayout">
           <AppAside
             class="py-4 rounded-xl min-h-0! grow"
             v-model:expand="expandMenu"
@@ -86,3 +109,9 @@ const handleRefresh = async () => {
     </div>
   </div>
 </template>
+
+<style>
+.el-menu--horizontal {
+  --el-menu-horizontal-height: 50px;
+}
+</style>

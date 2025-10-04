@@ -33,7 +33,7 @@ defineEmits<Emits>()
       <!-- Menu -->
       <div class="px-4">
         <el-menu
-          class="border-r-0!"
+          class="app-aside-menu border-r-0!"
           :default-active="currentRoute.value.path"
           :collapse="!expand"
           router
@@ -52,41 +52,21 @@ defineEmits<Emits>()
   </div>
 </template>
 
-<style>
+<style lang="scss">
 [id^='el-popper-container-'] {
   position: relative;
   z-index: 5000;
 }
 
-.el-menu-item {
-  min-width: 200px;
-}
+.app-aside-menu {
+  .el-menu-item {
+    min-width: 200px;
+  }
 
-.el-menu-item,
-.el-sub-menu,
-.el-sub-menu__title {
-  border-radius: 8px;
-}
-
-.app-name-enter-active {
-  transition: opacity 2s ease;
-}
-
-.app-name-leave-active {
-  transition: opacity 0.7s ease;
-}
-
-.app-name-enter-from,
-.app-name-leave-to {
-  opacity: 0;
-}
-
-.app-name-enter-active,
-.app-name-enter-from,
-.app-name-left-from,
-.app-name-leave-active {
-  left: 72px;
-  position: absolute;
-  width: 200px;
+  .el-menu-item,
+  .el-sub-menu,
+  .el-sub-menu__title {
+    border-radius: 8px;
+  }
 }
 </style>

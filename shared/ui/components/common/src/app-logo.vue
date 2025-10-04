@@ -15,3 +15,27 @@ const { expand = true } = defineProps<Props>()
     </Transition>
   </div>
 </template>
+
+<style>
+.app-name-enter-active {
+  transition: opacity 2s ease;
+}
+
+.app-name-leave-active {
+  transition: opacity 0.7s ease;
+}
+
+.app-name-enter-from,
+.app-name-leave-to {
+  opacity: 0;
+}
+
+.app-name-enter-active,
+.app-name-enter-from,
+.app-name-left-from,
+.app-name-leave-active {
+  left: 72px;
+  position: absolute;
+  width: 200px;
+}
+</style>

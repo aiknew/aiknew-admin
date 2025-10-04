@@ -8,9 +8,14 @@ import AppIcon from './app-icon.vue'
 export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expandMenu: boolean
+  showExpandBtn?: boolean
 }
 
-const { expandMenu = true, currentRoute } = defineProps<Props>()
+const {
+  expandMenu = true,
+  currentRoute,
+  showExpandBtn = true,
+} = defineProps<Props>()
 
 defineEmits(['update:expandMenu', 'refresh'])
 </script>
@@ -21,6 +26,7 @@ defineEmits(['update:expandMenu', 'refresh'])
   >
     <!-- menu expand button -->
     <div
+      v-show="showExpandBtn"
       class="flex cursor-pointer items-center justify-center relative top-[1px] text-theme-text-primary"
       @click="$emit('update:expandMenu', !expandMenu)"
     >

@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { Layouts } from '@aiknew/shared-ui-constants'
+import { useStorage } from '@vueuse/core'
 
 export const useLayoutSetting = defineStore('layoutSetting', () => {
-  const currentLayout = ref<keyof typeof Layouts>('vertical')
+  const currentLayout = useStorage<keyof typeof Layouts>('layout', 'vertical')
 
   const isVertical = computed(() => {
     return currentLayout.value === Layouts.vertical

@@ -176,7 +176,7 @@ const { AppForm, formApi } = useAppForm({
         as: 'ElSwitch',
         label: t('authRoute.statusLabel'),
         name: 'status',
-        schema: z.boolean().default(false),
+        schema: z.boolean().default(true),
         container: {
           bottomSlot: h(AppFormItemTips, { text: t('authRoute.statusTips') })
         }

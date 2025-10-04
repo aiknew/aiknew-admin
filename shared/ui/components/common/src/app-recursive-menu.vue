@@ -64,17 +64,20 @@ const getRouteName = (meta?: CustomRouteMeta) => {
       :index="route.path"
       :key="route.name"
     >
-      <router-link
-        :to="route.path"
-        class="flex w-full h-full items-center content-start"
-      >
-        <el-icon v-if="route.meta?.icon">
-          <component :is="route.meta.icon" />
-        </el-icon>
-        <span class="menu-title">
-          {{ getRouteName(route.meta) }}
-        </span>
-      </router-link>
+      <el-icon v-if="route.meta?.icon">
+        <component :is="route.meta.icon" />
+      </el-icon>
+
+      <template #title>
+        <router-link
+          :to="route.path"
+          class="flex w-full h-full items-center content-start"
+        >
+          <span class="menu-title">
+            {{ getRouteName(route.meta) }}
+          </span>
+        </router-link>
+      </template>
     </el-menu-item>
   </template>
 </template>
@@ -84,6 +87,11 @@ const getRouteName = (meta?: CustomRouteMeta) => {
   user-select: none;
   line-height: 1.5;
   min-width: v-bind('minWidth');
+}
+
+.el-menu--collapse .menu-title,
+.el-menu--collapse .el-menu-item {
+  min-width: unset !important;
 }
 
 .el-menu--collapse

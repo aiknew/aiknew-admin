@@ -262,6 +262,7 @@ const { AppForm, formApi } = useAppForm({
       }
     ] as const satisfies Fields,
   async onSubmit({ values }) {
+    values.icon = selectedIcon.value
     if (values.parentId === undefined) {
       values.parentId = null
     }

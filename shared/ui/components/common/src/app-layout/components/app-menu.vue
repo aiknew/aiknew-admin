@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {
-  RouteLocationNormalizedLoadedGeneric,
+  type RouteLocationNormalizedLoadedGeneric,
   useRouter,
   type RouteRecordRaw,
 } from 'vue-router'
 import AppMenuItem from './app-menu-item.vue'
 import { tField } from '@aiknew/shared-ui-locales'
-import { computed, Ref } from 'vue'
-import { RouteType } from '@aiknew/shared-types'
+import { type Ref } from 'vue'
+import type { RouteType } from '@aiknew/shared-types'
 
 interface Props {
   routes: RouteRecordRaw[]
@@ -29,7 +29,9 @@ const isActive = (path: string) => {
   )
 }
 
-const handleClick = (path: string, type: RouteType) => {
+const handleClick = (path: string, type: RouteType | undefined) => {
+  if (!type) return
+
   if (type === 'MENU') {
     router.push(path)
   } else {

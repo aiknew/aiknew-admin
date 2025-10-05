@@ -17,6 +17,7 @@ import { createHMAC } from '@aiknew/shared-api-utils'
 import { LoginLogService } from '../login-log/login-log.service'
 import { Request } from 'express'
 import { storeIP } from 'range_check'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,7 @@ export class AuthService {
     private redisService: RedisService,
     private i18n: I18nService,
     private loginLogService: LoginLogService,
+    private configService: ConfigService
   ) { }
 
   get userModel(): PrismaService['adminUser'] {
@@ -64,7 +66,7 @@ export class AuthService {
     const user = await this.userModel.findUnique({
       where: {
         id: requestUser.userId,
-        password: createHMAC(data.password),
+        password: createHMAC(data.password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
       },
     })
 
@@ -75,7 +77,7 @@ export class AuthService {
     await this.userModel.update({
       where: { id: requestUser.userId },
       data: {
-        password: createHMAC(data.newPassword),
+        password: createHMAC(data.newPassword, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
       },
     })
   }

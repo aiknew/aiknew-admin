@@ -1,11 +1,11 @@
 import { createHmac } from 'crypto'
 
-export const createHMAC = (data: string) => {
+export const createHMAC = (data: string, secret: string | undefined) => {
   if (!data) throw new Error('data is required')
-  if (!process.env.ADMIN_USER_PASSWORD_SECRET)
-    throw new Error('ADMIN_USER_PASSWORD_SECRET is required')
+  if (!secret)
+    throw new Error('createHMAC: SECRET is required')
 
-  const hmac = createHmac('sha256', process.env.ADMIN_USER_PASSWORD_SECRET, {
+  const hmac = createHmac('sha256', secret, {
     encoding: 'utf-8',
   })
   hmac.update(data)

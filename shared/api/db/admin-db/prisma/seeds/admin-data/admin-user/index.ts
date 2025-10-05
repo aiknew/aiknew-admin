@@ -10,7 +10,7 @@ export const createAdminSuperUser = async () => {
     throw new Error('required SUPER_ADMIN_USER_NAME environment variable')
   }
 
-  const password = createHMAC(process.env.SUPER_ADMIN_USER_PASSWORD)
+  const password = createHMAC(process.env.SUPER_ADMIN_USER_PASSWORD, process.env.ADMIN_USER_PASSWORD_SECRET)
   await prisma.adminUser.upsert({
     where: { userName: process.env.SUPER_ADMIN_USER_NAME },
     update: {},

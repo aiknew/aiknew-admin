@@ -8,6 +8,7 @@ import { AdminPermission, Prisma, PrismaService } from '@aiknew/shared-admin-db'
 import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
 import { RedisService } from '@aiknew/shared-api-redis'
 import { QueryAdminUserDto } from './dto/query-admin-user.dto'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class AdminUserService {
@@ -19,6 +20,7 @@ export class AdminUserService {
     private prisma: PrismaService,
     private i18n: I18nService,
     private redisService: RedisService,
+    private configService: ConfigService
   ) { }
 
   get model() {
@@ -202,7 +204,7 @@ export class AdminUserService {
       const user = await this.model.findFirstOrThrow({
         where: {
           userName,
-          password: createHMAC(password),
+          password: createHMAC(password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
         },
         omit: {
           password: true,
@@ -301,7 +303,7 @@ export class AdminUserService {
       return await this.model.create({
         data: {
           userName,
-          password: createHMAC(password),
+          password: createHMAC(password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
           roles: {
             create: roles && this.constructRelatedRoles(roles),
           },
@@ -329,7 +331,7 @@ export class AdminUserService {
       return await this.model.update({
         data: {
           userName,
-          password: password?.trim() ? createHMAC(password) : undefined,
+          password: password?.trim() ? createHMAC(password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')) : undefined,
           roles: {
             deleteMany: {},
             create: this.constructRelatedRoles(roles ?? []),

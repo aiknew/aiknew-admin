@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": ["**/node_modules/*", "**/dist/*", "**/generated/prisma/*"],
+  "dictionaries": ["custom"],
+  "dictionaryDefinitions": [
+    { "name": "custom", "path": "./.cspell/custom-words.txt", "addWords": true }
+  ],
+  "cache": {
+    "cacheLocation": ".cspell/"
+  }
+}

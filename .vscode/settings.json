@@ -37,23 +37,6 @@
     "apps/admin/**/*.*": "admin - ${filename}.${extname}",
     "apps/api/**/*.*": "api - ${filename}.${extname}"
   },
-  "cSpell.words": [
-    "aiknew",
-    "autoincrement",
-    "bprogress",
-    "cuid",
-    "dotenvx",
-    "dtos",
-    "isready",
-    "nodenext",
-    "pathe",
-    "popconfirm",
-    "prefault",
-    "Previewable",
-    "tiptap",
-    "tsdown",
-    "vueuse"
-  ],
   "typescript.tsdk": "node_modules/.pnpm/typescript@5.8.2/node_modules/typescript/lib",
   "typescript.tsserver.maxTsServerMemory": 4096,
   "typescript.tsserver.nodePath": "node",

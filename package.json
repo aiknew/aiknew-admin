@@ -11,11 +11,13 @@
     "build": "pnpm -r build",
     "clean": "pnpm -r clean",
     "api": "pnpm --filter '@aiknew/admin-api' start:dev",
-    "admin": "pnpm --filter '@aiknew/admin-ui' dev"
+    "admin": "pnpm --filter '@aiknew/admin-ui' dev",
+    "spell-lint": "cspell lint --words-only --cache --gitignore --color '(apps/|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' "
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cspell": "^9.2.1",
     "tsdown": "^0.14.1",
     "typescript": "catalog:common"
   },

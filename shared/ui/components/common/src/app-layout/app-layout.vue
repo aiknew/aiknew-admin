@@ -3,6 +3,7 @@ import AppLogo from '../app-logo.vue'
 import AppAside from '../app-aside.vue'
 import AppHeader from '../app-header.vue'
 import AppRecursiveMenu from '../app-recursive-menu.vue'
+import AppMenu from './components/app-menu.vue'
 import { ElMenu } from 'element-plus'
 import { computed, nextTick, type Ref, ref } from 'vue'
 import {
@@ -11,17 +12,31 @@ import {
 } from 'vue-router'
 import { BProgress } from '@bprogress/core'
 import { Layouts } from '@aiknew/shared-ui-constants'
+import { useWindowSize } from '@vueuse/core'
 
 interface Props {
   routes: RouteRecordRaw[]
+  topLevelRouteMap: Map<string, string[]>
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   layout: keyof typeof Layouts
 }
 
 const { currentRoute, routes, layout } = defineProps<Props>()
-
+const { width } = useWindowSize()
 const expandMenu = ref(true)
 const mainKey = ref(0)
+const activeTopLevelMenuPath = ref<string>(currentRoute.value.path)
+
+const topLevelRoutes = computed<RouteRecordRaw[]>(() => {
+  return routes.filter((item) => !item.meta?.hidden)
+})
+
+const secondLevelRoutes = computed(() => {
+  return (
+    routes.find((item) => item.path === activeTopLevelMenuPath.value)
+      ?.children ?? []
+  )
+})
 
 const verticalLayout = computed(() => {
   return layout === Layouts.vertical
@@ -36,7 +51,15 @@ const mixedLayout = computed(() => {
 })
 
 const showExpandBtn = computed(() => {
+  if (width.value < 768) {
+    return true
+  }
+
   return verticalLayout.value || mixedLayout.value
+})
+
+const showVerticalAside = computed(() => {
+  return verticalLayout.value || width.value < 768
 })
 
 const handleRefresh = async () => {
@@ -47,12 +70,16 @@ const handleRefresh = async () => {
 
   BProgress.done()
 }
+
+const handleActiveTopLevelMenu = (path: string) => {
+  activeTopLevelMenuPath.value = path
+}
 </script>
 
 <template>
   <div class="flex w-full min-h-[100vh] overflow-hidden">
-    <!-- Vertical layout - aside -->
-    <div v-if="verticalLayout">
+    <!-- Vertical Layout Aside -->
+    <div v-if="showVerticalAside">
       <AppAside v-model:expand="expandMenu" :routes :current-route>
         <template #title="{ expand }">
           <AppLogo :expand title="Aiknew Admin" />
@@ -73,28 +100,44 @@ const handleRefresh = async () => {
         </template>
       </AppHeader>
 
-      <!-- Horizontal Menu -->
-      <div class="bg-amber-200 hidden md:block" v-if="horizontalLayout">
+      <!-- Horizontal Layout Menu -->
+      <div class="hidden md:block" v-if="horizontalLayout">
         <el-menu
           mode="horizontal"
           :default-active="currentRoute.value.path"
           :collapse="false"
           router
         >
-          <AppRecursiveMenu min-width="unset" :routes />
+          <AppRecursiveMenu
+            min-width="unset"
+            :routes="horizontalLayout ? routes : topLevelRoutes"
+          />
         </el-menu>
+      </div>
+
+      <!-- Mixed Layout Menu -->
+      <div v-if="mixedLayout && !showVerticalAside">
+        <AppMenu
+          :routes
+          :top-level-route-map
+          :current-route
+          @active="handleActiveTopLevelMenu"
+        />
       </div>
 
       <slot name="top"></slot>
 
       <!-- main -->
       <div class="flex grow p-4 bg-theme-bg-page gap-4">
-        <!-- Horizontal-layout aside -->
-        <div class="flex" v-if="mixedLayout">
+        <!-- Mixed Layout Aside -->
+        <div
+          class="flex"
+          v-if="mixedLayout && !showVerticalAside && secondLevelRoutes.length"
+        >
           <AppAside
             class="py-4 rounded-xl min-h-0! grow"
             v-model:expand="expandMenu"
-            :routes
+            :routes="secondLevelRoutes"
             :current-route
           />
         </div>
@@ -113,5 +156,13 @@ const handleRefresh = async () => {
 <style>
 .el-menu--horizontal {
   --el-menu-horizontal-height: 50px;
+}
+
+.el-menu--horizontal > .el-menu-item {
+  border-bottom: unset !important;
+}
+
+.el-menu--horizontal > .el-sub-menu.is-active .el-sub-menu__title {
+  border-bottom: unset !important;
 }
 </style>

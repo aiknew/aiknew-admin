@@ -17,6 +17,27 @@ const routeHistoryStore = useRouteHistoryStore()
 
 const routes = router.getRoutes().find((route) => route.name === 'Index')?.children ?? []
 
+const flattenChildrenRecursive = (nodes: unknown): string[] => {
+  const result = []
+
+  if (nodes && Array.isArray(nodes)) {
+    for (const node of nodes) {
+      result.push(node?.path ?? '')
+      result.push(...flattenChildrenRecursive(node.children))
+    }
+  }
+
+  return result
+}
+
+const topLevelRouteMap = new Map(
+  routes
+    .filter((item) => !item.meta?.hidden)
+    .map((item) => {
+      return [item.path, flattenChildrenRecursive(item.children)]
+    })
+)
+
 onBeforeRouteUpdate((to) => {
   currentRoutePath.value = to.path
 })
@@ -27,7 +48,12 @@ const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | und
 </script>
 
 <template>
-  <AppLayout :layout="layoutStore.currentLayout" :routes :current-route="router.currentRoute">
+  <AppLayout
+    :layout="layoutStore.currentLayout"
+    :top-level-route-map
+    :routes
+    :current-route="router.currentRoute"
+  >
     <template #operations>
       <div class="flex items-center gap-1">
         <AppDarkModeSwitcher />

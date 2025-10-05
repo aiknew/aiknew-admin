@@ -11,13 +11,21 @@ export interface Props {
   routes: RouteRecordRaw[]
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expand?: boolean
+  menuMode?: 'vertical' | 'horizontal'
+  menuMinWidth?: string
 }
 
 export interface Emits {
   (e: 'update:expand', expand: boolean): void
 }
 
-const { expand = true, routes, currentRoute } = defineProps<Props>()
+const {
+  expand = true,
+  routes,
+  currentRoute,
+  menuMode = 'vertical',
+  menuMinWidth = '120px',
+} = defineProps<Props>()
 defineEmits<Emits>()
 </script>
 
@@ -33,12 +41,13 @@ defineEmits<Emits>()
       <!-- Menu -->
       <div class="px-4">
         <el-menu
+          :mode="menuMode"
           class="app-aside-menu border-r-0!"
           :default-active="currentRoute.value.path"
           :collapse="!expand"
           router
         >
-          <AppRecursiveMenu :routes />
+          <AppRecursiveMenu :routes :min-width="menuMinWidth" />
         </el-menu>
       </div>
     </aside>

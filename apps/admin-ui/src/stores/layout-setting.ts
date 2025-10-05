@@ -14,6 +14,10 @@ export const useLayoutSetting = defineStore('layoutSetting', () => {
     return currentLayout.value === Layouts.horizontal
   })
 
+  const isMixed = computed(() => {
+    return currentLayout.value === Layouts.mixed
+  })
+
   const setLayout = (layout: keyof typeof Layouts) => {
     currentLayout.value = layout
   }
@@ -22,6 +26,7 @@ export const useLayoutSetting = defineStore('layoutSetting', () => {
     layoutList: Object.keys(Layouts),
     currentLayout,
     isVertical,
+    isMixed,
     isHorizontal,
     setLayout,
   }

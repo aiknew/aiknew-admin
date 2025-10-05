@@ -94,6 +94,10 @@ const getRouteName = (meta?: CustomRouteMeta) => {
   min-width: unset !important;
 }
 
+.el-menu--collapse .el-menu-item-group__title {
+  padding: 7px 0 7px 0;
+}
+
 .el-menu--collapse
   > .el-menu-item-group
   > ul

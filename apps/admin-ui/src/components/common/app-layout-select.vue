@@ -27,12 +27,28 @@ const layoutStore = useLayoutSetting()
     >
       <div class="bg-theme-primary h-[16%]"></div>
       <div class="flex grow flex-col">
-        <div class="bg-theme-primary h-full w-[16%]"></div>
         <div class="grow"></div>
       </div>
 
       <Check
         v-show="layoutStore.isHorizontal"
+        class="text-theme-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+      />
+    </div>
+
+    <!-- Mixed Layout -->
+    <div
+      @click="layoutStore.setLayout('mixed')"
+      class="bg-theme-bg-page relative flex size-15 flex-col"
+    >
+      <div class="bg-theme-primary h-[16%]"></div>
+      <div class="flex grow flex-col">
+        <div class="bg-theme-primary h-full w-[16%]"></div>
+        <div class="grow"></div>
+      </div>
+
+      <Check
+        v-show="layoutStore.isMixed"
         class="text-theme-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform"
       />
     </div>

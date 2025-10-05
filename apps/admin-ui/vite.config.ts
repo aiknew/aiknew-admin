@@ -80,6 +80,6 @@ export default defineConfig({
     alias: {
       '@': convertPath('./src')
     },
-    dedupe: ['vue', 'element-plus']
+    dedupe: ['vue', 'vue-router', 'element-plus']
   }
 })

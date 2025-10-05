@@ -31,4 +31,8 @@ watch(data, () => {
 .el-overlay {
   z-index: 5000 !important;
 }
+
+.el-message {
+  z-index: 5001 !important;
+}
 </style>

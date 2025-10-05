@@ -1,11 +1,12 @@
-import AdminEditor from "@/components/editor/admin-editor.vue";
-import AdminFileSelect from "@/components/file/admin-file-select.vue";
+import type AdminEditor from "@/components/editor/admin-editor.vue";
+import type AdminFileSelect from "@/components/file/admin-file-select.vue";
 import { useAppForm, components, type ComponentPropsAndSlots } from "@aiknew/shared-ui-components";
+import { defineAsyncComponent } from "vue";
 
 // Install business-specific components
 Object.assign(components, {
-  AdminFileSelect,
-  AdminEditor
+  AdminFileSelect: defineAsyncComponent(() => import('@/components/file/admin-file-select.vue')),
+  AdminEditor: defineAsyncComponent(() => import('@/components/editor/admin-editor.vue'))
 })
 
 // Extend Components Interface

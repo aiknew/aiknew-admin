@@ -1,6 +1,6 @@
 import { type StandardSchemaV1 } from '@tanstack/vue-form'
 import { z, ZodType, ZodDefault, ZodOptional, ZodNullable, ZodObject } from 'zod'
-import {
+import type {
   ElInput,
   ElSwitch,
   ElRadio,
@@ -8,9 +8,15 @@ import {
   ElSelectV2,
   ElTreeSelect,
 } from 'element-plus'
-import { reactive, toValue, type MaybeRefOrGetter, type Component, type Ref } from 'vue'
-import type { ComponentProps, ComponentSlots, ComponentType } from 'vue-component-type-helpers'
-import AppRadio from './components/app-radio.vue'
+import 'element-plus/es/components/input/style/css'
+import 'element-plus/es/components/switch/style/css'
+import 'element-plus/es/components/radio/style/css'
+import 'element-plus/es/components/input-number/style/css'
+import 'element-plus/es/components/select-v2/style/css'
+import 'element-plus/es/components/tree-select/style/css'
+import { reactive, toValue, type MaybeRefOrGetter, type Component, type Ref, defineAsyncComponent } from 'vue'
+import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
+import type AppRadio from './components/app-radio.vue'
 import { isDefined } from '@vueuse/core'
 import type { ILanguage } from '@aiknew/shared-types'
 
@@ -89,12 +95,12 @@ export type GetProps<C extends keyof Components> = Components[C]['props']
 export type GetSlots<C extends keyof Components> = Components[C]['slots']
 
 export const components: Record<keyof BaseComponents, Component> & Partial<Record<keyof ExtraComponents, Component>> = {
-  ElRadio: AppRadio,
-  ElInput,
-  ElSelectV2,
-  ElTreeSelect,
-  ElInputNumber,
-  ElSwitch,
+  ElRadio: defineAsyncComponent(() => import('./components/app-radio.vue')),
+  ElInput: defineAsyncComponent(() => import('element-plus/es/components/input/index')),
+  ElSelectV2: defineAsyncComponent(() => import('element-plus/es/components/select-v2/index')),
+  ElTreeSelect: defineAsyncComponent(() => import('element-plus/es/components/tree-select/index')),
+  ElInputNumber: defineAsyncComponent(() => import('element-plus/es/components/input-number/index')),
+  ElSwitch: defineAsyncComponent(() => import('element-plus/es/components/switch/index')),
 }
 
 export type AsObject<T extends keyof Components> = {

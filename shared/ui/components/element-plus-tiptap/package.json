@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@aiknew/shared-utils": "workspace:*",
+    "@aiknew/shared-ts-config": "workspace:*",
     "@types/node": "catalog:common",
     "@vitejs/plugin-vue": "catalog:ui",
     "@vitejs/plugin-vue-jsx": "catalog:ui",

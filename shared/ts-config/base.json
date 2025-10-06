@@ -1,22 +1,20 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "experimentalDecorators": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "moduleDetection": "force",
+    "target": "esnext",
     "declaration": true,
-    "sourceMap": true,
     "declarationMap": true,
+    "sourceMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": false,
-    "lib": ["esnext", "dom"]
-  }
+    "useUnknownInCatchVariables": true,
+    "lib": ["esnext"]
+  },
+  "exclude": ["node_modules", "dist"]
 }

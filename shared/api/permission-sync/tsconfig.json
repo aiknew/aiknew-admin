@@ -3,7 +3,5 @@
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "dist"
-  },
-  "include": ["src/sync.ts"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  }
 }

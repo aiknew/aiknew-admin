@@ -36,7 +36,7 @@ import { isObject } from 'element-plus/es/utils/types.mjs'
 import AppFormItemContainer from './components/app-form-item-container.vue'
 import { onLangChange } from '@aiknew/shared-ui-locales'
 
-interface Props<F extends readonly Field<string, keyof Components>[]> {
+export interface Props<F extends readonly Field<string, keyof Components>[]> {
   formProps?: ComponentProps<typeof ElForm>
   fields: F | (() => F)
   languages?: ILanguage[]

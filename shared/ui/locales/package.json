@@ -26,5 +26,8 @@
     "zod": "catalog:ui",
     "element-plus": "catalog:ui",
     "dayjs": "catalog:common"
+  },
+  "devDependencies": {
+    "@aiknew/shared-ts-config": "workspace:*"
   }
 }

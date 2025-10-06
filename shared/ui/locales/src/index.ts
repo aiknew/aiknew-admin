@@ -1,4 +1,4 @@
-import { computed, watch, type App } from 'vue'
+import { computed, type App } from 'vue'
 import { createI18n } from 'vue-i18n'
 import en from './en.json'
 import zhCN from './zh-CN.json'

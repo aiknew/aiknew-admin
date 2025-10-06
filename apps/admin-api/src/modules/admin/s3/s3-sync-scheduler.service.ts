@@ -88,7 +88,7 @@ export class S3SyncSchedulerService {
             },
           })
         } catch (err) {
-          if (err.name === 'NotFound') {
+          if (typeof err === 'object' && err && 'name' in err && err.name === 'NotFound') {
             await this.fileModel.update({
               where: {
                 id: file.id,

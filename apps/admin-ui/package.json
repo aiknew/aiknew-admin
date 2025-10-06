@@ -50,6 +50,7 @@
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",
     "@aiknew/shared-ui-types": "workspace:*",
+    "@aiknew/shared-ts-config": "workspace:*",
     "@intlify/unplugin-vue-i18n": "catalog:ui",
     "@playwright/test": "^1.53.1",
     "@tailwindcss/typography": "^0.5.18",

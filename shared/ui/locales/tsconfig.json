@@ -1,13 +1,11 @@
 {
+  "extends": "@aiknew/shared-ts-config/vue.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "outDir": "dist"
   },

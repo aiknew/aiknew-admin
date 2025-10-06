@@ -4,6 +4,6 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */
+    "outDir": "./dist"
   }
 }

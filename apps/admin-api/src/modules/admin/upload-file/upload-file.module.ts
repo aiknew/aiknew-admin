@@ -1,8 +1,8 @@
-import { forwardRef, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { FileService } from './upload-file.service'
 import { MulterModule } from '@nestjs/platform-express'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { diskStorage, FileFilterCallback } from 'multer'
+import { diskStorage } from 'multer'
 import { extname } from 'node:path'
 import { randomBytes } from 'node:crypto'
 import { I18nContext } from 'nestjs-i18n'
@@ -41,7 +41,7 @@ import { S3Service } from '../s3/s3.service'
         fileFilter(
           req: Request,
           file: Express.Multer.File,
-          callback: FileFilterCallback,
+          callback: (error: Error | null, acceptFile: boolean) => void,
         ) {
           file.originalname = Buffer.from(file.originalname, 'latin1').toString(
             'utf8',
@@ -62,4 +62,4 @@ import { S3Service } from '../s3/s3.service'
     S3Service,
   ],
 })
-export class UploadFileModule {}
+export class UploadFileModule { }

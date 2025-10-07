@@ -1,3 +1,4 @@
+// oxlint-disable no-duplicate-enum-values 
 export interface paths {
     "/admin/permission/all": {
         parameters: {
@@ -35,7 +36,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -67,7 +70,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -115,7 +120,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -147,7 +154,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get: operations["ArticleController_detail"];
@@ -195,7 +204,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                key: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -323,7 +334,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -371,7 +384,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -419,7 +434,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -435,7 +452,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         /** Get all children group by parent group id */
@@ -500,7 +519,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -516,7 +537,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                storageId: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -584,7 +607,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -634,7 +659,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -666,7 +693,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -698,7 +727,9 @@ export interface paths {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: string;
+            };
             cookie?: never;
         };
         get?: never;
@@ -1330,6 +1361,86 @@ export interface components {
     headers: never;
     pathItems: never;
 }
+export type ResponseStatusCode = components['schemas']['ResponseStatusCode'];
+export type ResponseJson = components['schemas']['ResponseJson'];
+export type RequestMethod = components['schemas']['RequestMethod'];
+export type AdminPermissionSource = components['schemas']['AdminPermissionSource'];
+export type PermissionTranslationDto = components['schemas']['PermissionTranslationDto'];
+export type PermissionDto = components['schemas']['PermissionDto'];
+export type CreatePermissionDto = components['schemas']['CreatePermissionDto'];
+export type UpdatePermissionDto = components['schemas']['UpdatePermissionDto'];
+export type PaginationResponseDto = components['schemas']['PaginationResponseDto'];
+export type AdminUserDto = components['schemas']['AdminUserDto'];
+export type CreateAdminUserDto = components['schemas']['CreateAdminUserDto'];
+export type UpdateAdminUserDto = components['schemas']['UpdateAdminUserDto'];
+export type PermissionGroupTranslationDto = components['schemas']['PermissionGroupTranslationDto'];
+export type PermissionGroupDto = components['schemas']['PermissionGroupDto'];
+export type CreatePermissionGroupDto = components['schemas']['CreatePermissionGroupDto'];
+export type UpdatePermissionGroupDto = components['schemas']['UpdatePermissionGroupDto'];
+export type ArticleTranslationDto = components['schemas']['ArticleTranslationDto'];
+export type UploadFileChannel = components['schemas']['UploadFileChannel'];
+export type FileStatus = components['schemas']['FileStatus'];
+export type CoverImage = components['schemas']['CoverImage'];
+export type ArticleDto = components['schemas']['ArticleDto'];
+export type CreateArticleDto = components['schemas']['CreateArticleDto'];
+export type UpdateArticleDto = components['schemas']['UpdateArticleDto'];
+export type LanguageOrientation = components['schemas']['LanguageOrientation'];
+export type LanguageItemDto = components['schemas']['LanguageItemDto'];
+export type CreateLanguageDto = components['schemas']['CreateLanguageDto'];
+export type UpdateLanguageDto = components['schemas']['UpdateLanguageDto'];
+export type RouteType = components['schemas']['RouteType'];
+export type AuthRouteTranslationDto = components['schemas']['AuthRouteTranslationDto'];
+export type UserInfoRoutesDto = components['schemas']['UserInfoRoutesDto'];
+export type UserInfoDto = components['schemas']['UserInfoDto'];
+export type LoginSuccessDto = components['schemas']['LoginSuccessDto'];
+export type LoginBodyDto = components['schemas']['LoginBodyDto'];
+export type CaptchaDto = components['schemas']['CaptchaDto'];
+export type UpdateUserInfoDto = components['schemas']['UpdateUserInfoDto'];
+export type LoginLogDto = components['schemas']['LoginLogDto'];
+export type AuthRoleTranslationDto = components['schemas']['AuthRoleTranslationDto'];
+export type AuthRoleDto = components['schemas']['AuthRoleDto'];
+export type CreateAuthRoleDto = components['schemas']['CreateAuthRoleDto'];
+export type UpdateAuthRoleDto = components['schemas']['UpdateAuthRoleDto'];
+export type AuthRouteDto = components['schemas']['AuthRouteDto'];
+export type CreateAuthRouteDto = components['schemas']['CreateAuthRouteDto'];
+export type UpdateAuthRouteDto = components['schemas']['UpdateAuthRouteDto'];
+export type UploadFileGroupPathDto = components['schemas']['UploadFileGroupPathDto'];
+export type UploadFileGroupDto = components['schemas']['UploadFileGroupDto'];
+export type StorageType = components['schemas']['StorageType'];
+export type FileStorageStatus = components['schemas']['FileStorageStatus'];
+export type CorrespondingFileStorage = components['schemas']['CorrespondingFileStorage'];
+export type UploadFileDto = components['schemas']['UploadFileDto'];
+export type UploadFilesAndGroupsDto = components['schemas']['UploadFilesAndGroupsDto'];
+export type CreateUploadFileDto = components['schemas']['CreateUploadFileDto'];
+export type UpdateUploadFileDto = components['schemas']['UpdateUploadFileDto'];
+export type CreateUploadFileGroupDto = components['schemas']['CreateUploadFileGroupDto'];
+export type UpdateUploadFileGroupDto = components['schemas']['UpdateUploadFileGroupDto'];
+export type FileStorageDto = components['schemas']['FileStorageDto'];
+export type OmitTypeClass = components['schemas']['OmitTypeClass'];
+export type CreateFileStorageDto = components['schemas']['CreateFileStorageDto'];
+export type UpdateFileStorageDto = components['schemas']['UpdateFileStorageDto'];
+export type PresignedDataDto = components['schemas']['PresignedDataDto'];
+export type ArticleCategoryTranslationDto = components['schemas']['ArticleCategoryTranslationDto'];
+export type ArticleCategoryDto = components['schemas']['ArticleCategoryDto'];
+export type CreateArticleCategoryDto = components['schemas']['CreateArticleCategoryDto'];
+export type UpdateArticleCategoryDto = components['schemas']['UpdateArticleCategoryDto'];
+export type DictTypeTranslationDto = components['schemas']['DictTypeTranslationDto'];
+export type DictTypeDto = components['schemas']['DictTypeDto'];
+export type CreateDictTypeDto = components['schemas']['CreateDictTypeDto'];
+export type UpdateDictTypeDto = components['schemas']['UpdateDictTypeDto'];
+export type DictTranslationDto = components['schemas']['DictTranslationDto'];
+export type DictDto = components['schemas']['DictDto'];
+export type CreateDictDto = components['schemas']['CreateDictDto'];
+export type UpdateDictDto = components['schemas']['UpdateDictDto'];
+export type Translation = components['schemas']['Translation'];
+export type ConfigDto = components['schemas']['ConfigDto'];
+export type ConfigTranslationDto = components['schemas']['ConfigTranslationDto'];
+export type CreateConfigDto = components['schemas']['CreateConfigDto'];
+export type UpdateConfigDto = components['schemas']['UpdateConfigDto'];
+export type NationCount = components['schemas']['NationCount'];
+export type TimesCount = components['schemas']['TimesCount'];
+export type HomeStatisticsDto = components['schemas']['HomeStatisticsDto'];
+export type PaginationDto = components['schemas']['PaginationDto'];
 export type $defs = Record<string, never>;
 export interface operations {
     PermissionController_getAll: {
@@ -3671,3 +3782,75 @@ export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schem
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
 export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];
+export enum ApiPaths {
+    PermissionController_getAll = "/admin/permission/all",
+    PermissionController_createOne = "/admin/permission",
+    PermissionController_updateOne = "/admin/permission/{id}",
+    PermissionController_deleteOne = "/admin/permission/{id}",
+    AdminUserController_pagination = "/admin/admin-user",
+    AdminUserController_createOne = "/admin/admin-user",
+    AdminUserController_updateOne = "/admin/admin-user/{id}",
+    AdminUserController_deleteOne = "/admin/admin-user/{id}",
+    PermissionGroupController_pagination = "/admin/permission-group",
+    PermissionGroupController_createOne = "/admin/permission-group",
+    PermissionGroupController_getAll = "/admin/permission-group/all",
+    PermissionGroupController_updateOne = "/admin/permission-group/{id}",
+    PermissionGroupController_deleteOne = "/admin/permission-group/{id}",
+    ArticleController_pagination = "/admin/article",
+    ArticleController_createOne = "/admin/article",
+    ArticleController_detail = "/admin/article/{id}",
+    ArticleController_updateOne = "/admin/article/{id}",
+    ArticleController_deleteOne = "/admin/article/{id}",
+    LanguageController_enabled = "/admin/language/enabled",
+    LanguageController_pagination = "/admin/language",
+    LanguageController_create = "/admin/language",
+    LanguageController_update = "/admin/language/{key}",
+    LanguageController_remove = "/admin/language/{key}",
+    AuthController_login = "/admin/auth/login",
+    AuthController_captcha = "/admin/auth/captcha",
+    AuthController_info = "/admin/auth/info",
+    AuthController_updateUserInfo = "/admin/auth/update",
+    LoginLogController_pagination = "/admin/login-log",
+    AuthRoleController_pagination = "/admin/auth-role",
+    AuthRoleController_createOne = "/admin/auth-role",
+    AuthRoleController_getAll = "/admin/auth-role/all",
+    AuthRoleController_updateOne = "/admin/auth-role/{id}",
+    AuthRoleController_deleteOne = "/admin/auth-role/{id}",
+    AuthRouteController_getAll = "/admin/auth-route/all",
+    AuthRouteController_createOne = "/admin/auth-route",
+    AuthRouteController_updateOne = "/admin/auth-route/{id}",
+    AuthRouteController_deleteOne = "/admin/auth-route/{id}",
+    UploadFileController_filesAndGroups = "/admin/upload-file/filesAndGroups",
+    UploadFileController_create = "/admin/upload-file",
+    UploadFileController_update = "/admin/upload-file/{id}",
+    UploadFileController_deleteFile = "/admin/upload-file/{id}",
+    UploadFileGroupController_findChildren = "/admin/upload-file-group/{id}",
+    UploadFileGroupController_update = "/admin/upload-file-group/{id}",
+    UploadFileGroupController_deleteGroup = "/admin/upload-file-group/{id}",
+    UploadFileGroupController_create = "/admin/upload-file-group",
+    FileStorageController_pagination = "/admin/file-storage",
+    FileStorageController_createOne = "/admin/file-storage",
+    FileStorageController_getAll = "/admin/file-storage/all",
+    FileStorageController_updateOne = "/admin/file-storage/{id}",
+    FileStorageController_deleteOne = "/admin/file-storage/{id}",
+    S3Controller_s3WebhookPost = "/admin/s3/webhook/{storageId}",
+    S3Controller_uploadToS3 = "/admin/s3/presigned",
+    ArticleCategoryController_getAll = "/admin/article-category/all",
+    ArticleCategoryController_createOne = "/admin/article-category",
+    ArticleCategoryController_updateOne = "/admin/article-category/{id}",
+    ArticleCategoryController_deleteOne = "/admin/article-category/{id}",
+    DictTypeController_pagination = "/admin/dict-type",
+    DictTypeController_createOne = "/admin/dict-type",
+    DictTypeController_getAll = "/admin/dict-type/all",
+    DictTypeController_updateOne = "/admin/dict-type/{id}",
+    DictTypeController_deleteOne = "/admin/dict-type/{id}",
+    DictController_pagination = "/admin/dict",
+    DictController_createOne = "/admin/dict",
+    DictController_updateOne = "/admin/dict/{id}",
+    DictController_deleteOne = "/admin/dict/{id}",
+    ConfigController_pagination = "/admin/config",
+    ConfigController_createOne = "/admin/config",
+    ConfigController_updateOne = "/admin/config/{id}",
+    ConfigController_deleteOne = "/admin/config/{id}",
+    DashboardController_getHomeStatistics = "/admin/dashboard/home-statistics"
+}

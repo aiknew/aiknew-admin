@@ -24,8 +24,13 @@ export function openApiToTypeScript({
       openapiTS(source, {
         enum: false,
         enumValues: true,
+        defaultNonNullable: true,
+        makePathsEnum: true,
+        generatePathParams: true,
+        rootTypes: true,
+        rootTypesNoSchemaPrefix: true,
       })
-        .then((ast) => fs.writeFileSync(desc, astToString(ast)))
+        .then((ast) => fs.writeFileSync(desc, '// oxlint-disable no-duplicate-enum-values \n' + astToString(ast)))
         .catch((err) => {
           console.error('generate open-api types file error: ', err)
         })

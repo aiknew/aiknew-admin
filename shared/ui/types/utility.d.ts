@@ -115,3 +115,13 @@ export type PatchReqBody<Paths, P extends keyof Paths> = Paths extends {
   ? B
   : never
   : never
+
+
+
+export type MakeOptionalIfHasUndefined<T> = {
+  [K in keyof T as K]+?: Exclude<T[K], undefined>
+} & {
+  [K in keyof T as undefined extends T[K] ? never : K]-?: T[K]
+} extends infer O
+  ? { [K in keyof O]: O[K] }
+  : never

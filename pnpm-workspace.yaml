@@ -26,7 +26,7 @@ catalogs:
     element-plus: ^2.11.1
     'unplugin-element-plus': '^0.9.1'
     '@element-plus/icons-vue': ^2.3.1
-    openapi-typescript: ^7.8.0
+    openapi-typescript: ^7.9.1
     zod: ^4.1.11
     vue-component-type-helpers: ^2.2.10
     vue-i18n: ^11.1.11

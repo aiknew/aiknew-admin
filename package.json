@@ -12,14 +12,16 @@
     "clean": "pnpm -r clean",
     "api": "pnpm --filter '@aiknew/admin-api' start:dev",
     "admin": "pnpm --filter '@aiknew/admin-ui' dev",
-    "spell-lint": "cspell lint --words-only --cache --gitignore --color '(apps/|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' "
+    "spell-lint": "cspell lint --words-only --cache --gitignore --color '(apps/|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' ",
+    "gen:types": "pnpm openapi-typescript http://localhost:3000/api-doc-json --enum-values -o ./apps/admin-ui/src/types/open-api.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "cspell": "^9.2.1",
     "tsdown": "^0.14.1",
-    "typescript": "catalog:common"
+    "typescript": "catalog:common",
+    "openapi-typescript": "catalog:ui"
   },
   "packageManager": "pnpm@10.6.2",
   "engines": {

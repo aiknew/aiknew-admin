@@ -58,6 +58,13 @@ The project is fully typed with TypeScript and includes configurations for Docke
       pnpm admin
       ```
 
+#### Development Notes
+
+- To generate open api typescript types from admin-api:
+  ```
+  pnpm gen:types
+  ```
+
 ### Building for Production
 
 - To build all packages in the monorepo, run the following from the root directory:

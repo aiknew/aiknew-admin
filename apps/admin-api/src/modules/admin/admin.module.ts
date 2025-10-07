@@ -18,6 +18,7 @@ import { DictModule } from './dict/dict.module'
 import { ConfigModule } from './config/config.module'
 import { LoginLogModule } from './login-log/login-log.module'
 import { adminBasePath } from '../../common/constants'
+import { DashboardModule } from './dashboard/dashboard.module';
 
 const adminModules = [
   PermissionModule,
@@ -36,7 +37,8 @@ const adminModules = [
   S3Module,
   DictModule,
   ConfigModule,
-  LoginLogModule
+  LoginLogModule,
+  DashboardModule,
 ]
 
 @Module({

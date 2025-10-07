@@ -1,4 +1,4 @@
-import { contentManagement, settings, userInfo } from './routes'
+import { contentManagement, settings, userInfo, homePage } from './routes'
 import { prisma } from '../../prisma'
 import { AdminRouteItem } from './types'
 
@@ -67,6 +67,7 @@ export const createAdminRoutes = async () => {
     `TRUNCATE TABLE "AdminRoute" RESTART IDENTITY CASCADE;`,
   )
 
+  createRoute([homePage], null)
   createRoute([userInfo], null)
   createRoute([contentManagement], null)
   createRoute([settings], null)

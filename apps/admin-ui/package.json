@@ -45,7 +45,9 @@
     "vue": "catalog:ui",
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui",
-    "zod": "catalog:ui"
+    "zod": "catalog:ui",
+    "echarts": "catalog:ui",
+    "vue-echarts": "catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-types": "workspace:*",

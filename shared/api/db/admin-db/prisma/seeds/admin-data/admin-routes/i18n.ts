@@ -130,4 +130,9 @@ export const i18n = {
     en: 'Config Settings',
     'zh-TW': '配置管理',
   },
+  homePage: {
+    'zh-CN': '主页',
+    en: 'Home',
+    'zh-TW': '主頁',
+  },
 } as const

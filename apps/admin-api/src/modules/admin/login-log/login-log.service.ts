@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@aiknew/shared-admin-db'
-import { CreateLoginLogDto } from './dto/create-login-log.dto'
 import { QueryLoginLogDto } from './dto/query-login-log.dto'
+import { LoginLogDto } from './dto/login-log.dto'
 import { HttpService } from '@nestjs/axios'
 import { isPrivateIP } from 'range_check';
 import { ConfigService } from '@nestjs/config';
@@ -50,23 +50,28 @@ export class LoginLogService {
     })
   }
 
-  async record(data: Omit<CreateLoginLogDto, 'os' | 'browser' | 'location'>) {
+  async record(data: Omit<LoginLogDto, 'os' | 'browser' | 'location' | 'nation' | 'id' | 'createdAt'>) {
     const { browser, os } = this.parseUserAgent(data.userAgent)
+    const { location, nation } = await this.getIpLocation(data.ip)
 
     return this.model.create({
       data: {
         ...data,
         browser,
         os,
-        location: await this.getIpLocation(data.ip)
+        location,
+        nation
       },
     })
   }
 
-  async getIpLocation(ip: string): Promise<string> {
+  async getIpLocation(ip: string): Promise<{ location: string, nation: string }> {
 
     if (isPrivateIP(ip)) {
-      return ''
+      return {
+        location: '',
+        nation: ''
+      }
     }
 
     let url = 'https://api.ip2location.io/?ip='
@@ -78,15 +83,20 @@ export class LoginLogService {
     }
 
     let location = ''
+    let nation = ''
 
     try {
       const res = await this.httpService.axiosRef.get(url + ip)
       location = res.data.city_name + ' ' + res.data.region_name + ' ' + res.data.country_name
+      nation = res.data.country_name
     } catch (err) {
       console.log('get ip location error: ', err)
     }
 
-    return location
+    return {
+      location,
+      nation
+    }
   }
 
   parseUserAgent(userAgentString: string): { os: string, browser: string } {

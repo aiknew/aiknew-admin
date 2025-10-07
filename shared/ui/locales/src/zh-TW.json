@@ -236,5 +236,13 @@
     "loginLogManagement": "登錄日誌管理",
     "loginLogPagination": "登錄日誌分頁查詢",
     "loginLogCreate": "創建登錄日誌"
+  },
+  "homePage": {
+    "loginsInLast30Days": "最近30天登陸次數",
+    "loginCount": "登陸次數",
+    "accessSource": "訪問來源",
+    "loginsInLast7Days": "最近7天登陸次數",
+    "aboutProject": "關於本項目",
+    "aboutProjectDescription": "aiknew-admin 是一個基於 pnpm monorepo 構建的現代化後台管理系統模板。前端採用 Vue 3、Vite 和 Element-Plus，後端則由 Nest.js 和 Prisma 驅動, 前後端統一使用 TypeScript 編寫。它內置了完整的用戶、角色、權限管理，後台支持多語言和兼容移動端。這個項目旨在提供一個開箱即用的後台管理系統解决方案，幫助開發者快速搭建自己的應用。"
   }
 }

@@ -1,7 +1,10 @@
 aiknew
+autoresize
+bprogress
 dtos
-vueuse
+echarts
+Popconfirm
 Previewable
 tiptap
-bprogress
-Popconfirm
+Vite
+vueuse

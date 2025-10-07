@@ -710,6 +710,22 @@ export interface paths {
         patch: operations["ConfigController_updateOne"];
         trace?: never;
     };
+    "/admin/dashboard/home-statistics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["DashboardController_getHomeStatistics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -949,8 +965,10 @@ export interface components {
         LoginLogDto: {
             id: string;
             userName: string;
+            userId: string;
             ip: string;
             location: string;
+            nation: string;
             userAgent: string;
             os: string;
             browser: string;
@@ -1288,6 +1306,18 @@ export interface components {
             key?: string;
             value?: string;
             translations?: components["schemas"]["ConfigTranslationDto"][];
+        };
+        NationCount: {
+            nation: string;
+            count: number;
+        };
+        TimesCount: {
+            day: string;
+            count: string;
+        };
+        HomeStatisticsDto: {
+            nations: components["schemas"]["NationCount"][];
+            times: components["schemas"]["TimesCount"][];
         };
         PaginationDto: {
             currentPage: number;
@@ -3580,6 +3610,36 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    DashboardController_getHomeStatistics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["HomeStatisticsDto"];
+                    };
                 };
             };
             /** @description Internal server error */

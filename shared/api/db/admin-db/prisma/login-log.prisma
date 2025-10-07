@@ -4,6 +4,7 @@ model LoginLog {
   userId    String   @default("") @db.VarChar(50)
   ip        String   @db.VarChar(45) // Supports IPv4 and IPv6
   location  String   @default("") @db.VarChar(100)
+  nation    String   @default("") @db.VarChar(100)
   userAgent String   @default("") @db.VarChar(500)
   os        String   @default("") @db.VarChar(50)
   browser   String   @default("") @db.VarChar(50)

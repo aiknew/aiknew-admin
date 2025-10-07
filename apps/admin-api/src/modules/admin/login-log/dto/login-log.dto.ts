@@ -3,9 +3,13 @@ export class LoginLogDto {
 
   userName: string;
 
+  userId: string;
+
   ip: string;
 
   location: string;
+
+  nation: string;
 
   userAgent: string;
 

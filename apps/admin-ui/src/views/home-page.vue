@@ -163,8 +163,10 @@ const barChartOption = computed<ComposeOption<BarSeriesOption>>(() => {
     <div class="grid grid-cols-1 gap-4">
       <AppContentBlock>
         <div class="p-4">
-          <div class="text-lg font-bold">{{ t('homePage.aboutProject') }}</div>
-          <p class="mt-2">
+          <div class="text-theme-text-primary text-lg font-bold">
+            {{ t('homePage.aboutProject') }}
+          </div>
+          <p class="text-theme-text-regular mt-2">
             {{ t('homePage.aboutProjectDescription') }}
           </p>
         </div>

@@ -12,7 +12,7 @@ export const userInfo = defineRouteItem({
     {
       key: 'update',
       type: RouteType.BUTTON,
-      name: i18n.edit,
+      name: i18n.update,
     },
   ],
 })

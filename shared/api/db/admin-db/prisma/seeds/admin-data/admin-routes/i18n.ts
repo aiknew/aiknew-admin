@@ -69,6 +69,11 @@ export const i18n = {
     en: 'edit',
     'zh-TW': '編輯',
   },
+  update: {
+    'zh-CN': '更新',
+    en: 'update',
+    'zh-TW': '更新',
+  },
   delete: {
     'zh-CN': '删除',
     en: 'delete',

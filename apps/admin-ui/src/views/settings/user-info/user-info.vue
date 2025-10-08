@@ -79,7 +79,7 @@ formApi.useStore((state) => {
 <template>
   <AppContentBlock v-loading="isUpdating">
     <AppForm>
-      <ElFormItem label=" ">
+      <ElFormItem label=" " v-permission:update>
         <ElButton @click="formApi.handleSubmit">{{ t('submit') }}</ElButton>
       </ElFormItem>
     </AppForm>

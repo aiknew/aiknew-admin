@@ -9,6 +9,7 @@ import {
   SuccessMsg,
   Authenticated,
   PermissionGroup,
+  Permission,
 } from '@aiknew/shared-api-decorators'
 import { ApiOperation } from '@nestjs/swagger'
 import { LoginBodyDto } from './dto/login-body.dto'
@@ -56,7 +57,7 @@ export class AuthController {
     return this.service.getUserInfo(req.adminUser)
   }
 
-  @Authenticated()
+  @Permission({ key: 'auth:update', name: 'admin-auth.updateInfo' })
   @Patch('update')
   async updateUserInfo(
     @Req() req: AuthAdminRequest,

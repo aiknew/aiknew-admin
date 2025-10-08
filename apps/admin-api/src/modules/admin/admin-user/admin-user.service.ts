@@ -59,11 +59,11 @@ export class AdminUserService {
   }
 
   setUserPermissionsCache(userId: string, val: string) {
-    return this.redisService.set(this.buildUserPermissionsCacheKey(userId), val)
+    return this.redisService.set(this.buildUserPermissionsCacheKey(userId), val, { EX: 60 * 60 })
   }
 
   setUserRoutesCache(userId: string, val: string) {
-    return this.redisService.set(this.buildUserRoutesCacheKey(userId), val)
+    return this.redisService.set(this.buildUserRoutesCacheKey(userId), val, { EX: 60 * 60 })
   }
 
   async getUserRoutesAndPermissions(userId: string) {

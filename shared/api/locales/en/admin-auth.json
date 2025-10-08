@@ -4,5 +4,6 @@
   "infoUpdated": "Permission information has been updated, please refresh the page",
   "noPermissions": "Sorry, this account does not have permissions",
   "wrongPassword": "The original password is wrong",
-  "adminAuthManagement": "Admin Auth Management"
+  "adminAuthManagement": "Admin Auth Management",
+  "updateInfo": "Update user information"
 }

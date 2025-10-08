@@ -89,7 +89,7 @@
     "nameRequired": "儲存名稱不能為空",
     "hostnameRequired": "主機名稱不能為空"
   },
-  "userInfo": {
+  "updateInfo": {
     "userName": "管理員名稱",
     "password": "原密碼",
     "newPassword": "新密碼",

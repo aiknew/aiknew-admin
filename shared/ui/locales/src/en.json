@@ -89,7 +89,7 @@
     "nameRequired": "Storage name cannot be empty",
     "hostnameRequired": "Hostname cannot be empty"
   },
-  "userInfo": {
+  "updateInfo": {
     "userName": "Admin Name",
     "password": "Original Password",
     "newPassword": "New Password",

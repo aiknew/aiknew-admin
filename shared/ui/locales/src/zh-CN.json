@@ -89,7 +89,7 @@
     "nameRequired": "存储名称不能为空",
     "hostnameRequired": "主机名不能为空"
   },
-  "userInfo": {
+  "updateInfo": {
     "userName": "管理员名称",
     "password": "原密码",
     "newPassword": "新密码",

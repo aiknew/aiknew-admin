@@ -23,7 +23,7 @@ const { AppForm, formApi } = useAppForm({
             return h('div', { class: 'text-[var(--el-menu-text-color)]' }, userStore.userName)
           }
         },
-        label: t('useInfo.userName')
+        label: t('updateInfo.userName')
       },
       {
         as: {
@@ -32,7 +32,7 @@ const { AppForm, formApi } = useAppForm({
             type: 'password'
           }
         },
-        label: t('useInfo.password'),
+        label: t('updateInfo.password'),
         name: 'password',
         schema: z.string().nonempty().default('')
       },
@@ -43,7 +43,7 @@ const { AppForm, formApi } = useAppForm({
             type: 'password'
           }
         },
-        label: t('useInfo.newPassword'),
+        label: t('updateInfo.newPassword'),
         name: 'newPassword',
         schema: z.string().nonempty().default('')
       },
@@ -54,7 +54,7 @@ const { AppForm, formApi } = useAppForm({
             type: 'password'
           }
         },
-        label: t('useInfo.newPasswordConfirm'),
+        label: t('updateInfo.newPasswordConfirm'),
         name: 'newPasswordConfirm',
         schema: z
           .string()

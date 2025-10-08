@@ -30,20 +30,3 @@ const handleLogout = () => {
     </el-dropdown>
   </div>
 </template>
-
-<i18n lang="json">
-{
-  "en": {
-    "accountSetting": "Account Settings",
-    "logout": "Sign out"
-  },
-  "zh-CN": {
-    "accountSetting": "账户设置",
-    "logout": "登出"
-  },
-  "zh-TW": {
-    "accountSetting": "賬戶設置",
-    "logout": "登出"
-  }
-}
-</i18n>

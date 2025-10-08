@@ -149,21 +149,3 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   background-color: #fff;
 }
 </style>
-
-<i18n lang="yaml">
-en:
-  inputUserName: 'Please enter your username'
-  inputPassword: 'Please enter your password'
-  inputCaptcha: 'Please enter the verification code'
-  loginBtn: 'Log in'
-zh-CN:
-  inputUserName: '请输入用户名'
-  inputPassword: '请输入密码'
-  inputCaptcha: '请输入验证码'
-  loginBtn: '登陆'
-zh-TW:
-  inputUserName: '請輸入用戶名'
-  inputPassword: '請輸入密碼'
-  inputCaptcha: '請輸入驗證碼'
-  loginBtn: '登陸'
-</i18n>

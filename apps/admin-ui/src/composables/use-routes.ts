@@ -51,6 +51,7 @@ export const useRoutes = (router: Router) => {
   }
 
   const addRoutes = (routes: UserInfo['routes']) => {
+    routes.sort((a, b) => a.order - b.order)
     const dynamicRoutes = resolveRoutes(routes)
     const children = [...dynamicRoutes, ...staticRoutes]
     const redirect = findFirstMenu(dynamicRoutes)

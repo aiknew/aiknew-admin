@@ -31,7 +31,16 @@ const { t } = useI18n()
 const { data } = useHomeStatistics()
 
 const lineChartOption = computed<ComposeOption<LineSeriesOption>>(() => {
-  const seriesData = data.value?.times.map((item) => item.count) ?? []
+  const xAxisData =
+    data.value?.times
+      .map((item) => item.day)
+      .slice(0)
+      .reverse() ?? []
+  const seriesData =
+    data.value?.times
+      .map((item) => item.count)
+      .slice(0)
+      .reverse() ?? []
 
   return {
     title: {
@@ -54,7 +63,7 @@ const lineChartOption = computed<ComposeOption<LineSeriesOption>>(() => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: data.value?.times.map((item) => item.day) ?? []
+      data: xAxisData
     },
     yAxis: {
       type: 'value',
@@ -108,8 +117,18 @@ const pieChartOption = computed<ComposeOption<PieSeriesOption>>(() => {
 })
 
 const barChartOption = computed<ComposeOption<BarSeriesOption>>(() => {
-  const xAxisData = data.value?.times.slice(0, 7).map((item) => item.day) ?? []
-  const seriesData = data.value?.times.slice(0, 7).map((item) => item.count) ?? []
+  const xAxisData =
+    data.value?.times
+      .slice(0, 7)
+      .map((item) => item.day)
+      .slice(0)
+      .reverse() ?? []
+  const seriesData =
+    data.value?.times
+      .slice(0, 7)
+      .map((item) => item.count)
+      .slice()
+      .reverse() ?? []
 
   return {
     title: {

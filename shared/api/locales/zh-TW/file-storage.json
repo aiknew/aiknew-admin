@@ -4,5 +4,7 @@
   "fileStorageGetAll": "取得所有檔案存儲",
   "fileStorageCreate": "創建檔案存儲",
   "fileStorageUpdate": "更新檔案存儲",
-  "fileStorageDelete": "刪除檔案存儲"
+  "fileStorageDelete": "刪除檔案存儲",
+  "noStorage": "沒有可以上傳的檔案存儲。",
+  "hasRelated": "該檔案存儲有關聯數據，無法刪除。"
 }

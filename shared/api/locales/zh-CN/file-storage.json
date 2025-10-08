@@ -4,5 +4,7 @@
   "fileStorageGetAll": "获取所有文件存储",
   "fileStorageCreate": "创建文件存储",
   "fileStorageUpdate": "更新文件存储",
-  "fileStorageDelete": "删除文件存储"
+  "fileStorageDelete": "删除文件存储",
+  "noStorage": "没有可以上传的文件存储。",
+  "hasRelated": "该文件存储有关联数据，无法删除。"
 }

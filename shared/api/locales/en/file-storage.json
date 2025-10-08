@@ -4,5 +4,7 @@
   "fileStorageGetAll": "Get All File Storage",
   "fileStorageCreate": "Create File Storage",
   "fileStorageUpdate": "Update File Storage",
-  "fileStorageDelete": "Delete File Storage"
+  "fileStorageDelete": "Delete File Storage",
+  "noStorage": "No file storage can be uploaded.",
+  "hasRelated": "This file storage is associated with other data and cannot be deleted."
 }

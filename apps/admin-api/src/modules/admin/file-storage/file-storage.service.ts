@@ -1,13 +1,17 @@
-import { PrismaPromise, PrismaService } from '@aiknew/shared-admin-db'
+import { Prisma, PrismaPromise, PrismaService } from '@aiknew/shared-admin-db'
 import { Injectable } from '@nestjs/common'
 import { CreateFileStorageDto } from './dto/create-file-storage.dto'
 import { UpdateFileStorageDto } from './dto/update-file-storage.dto'
-import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
+import { AppBadRequestException, AppConflictException } from '@aiknew/shared-api-exceptions'
 import { QueryFileStorageDto } from './dto/query-file-storage.dto'
+import { I18nContext, I18nService } from 'nestjs-i18n'
 
 @Injectable()
 export class FileStorageService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly i18n: I18nService,
+  ) { }
 
   get model(): PrismaService['fileStorage'] {
     return this.prisma.fileStorage
@@ -20,7 +24,12 @@ export class FileStorageService {
     })
 
     if (!storage) {
-      throw new AppBadRequestException('No file storage can be uploaded.')
+      // throw new AppBadRequestException('No file storage can be uploaded.')
+      throw new AppBadRequestException(
+        this.i18n.t('file-storage.noStorage', {
+          lang: I18nContext.current()?.lang,
+        }),
+      )
     }
 
     return storage
@@ -74,10 +83,27 @@ export class FileStorageService {
   }
 
   async deleteOne(id: string) {
-    return this.model.delete({
-      where: {
-        id,
-      },
-    })
+
+
+    try {
+
+      return await this.model.delete({
+        where: {
+          id,
+        },
+      })
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (err.code) {
+          case 'P2003':
+            throw new AppConflictException(
+              this.i18n.t('file-storage.hasRelated', {
+                lang: I18nContext.current()?.lang,
+              }),
+            )
+        }
+      }
+    }
+
   }
 }

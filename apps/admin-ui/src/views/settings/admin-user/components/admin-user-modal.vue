@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, computed, useTemplateRef } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import { z } from 'zod'
 import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
 import { useAdminUserCreate, useAdminUserUpdate, type AdminUser } from '@/api/admin-user'
@@ -20,53 +20,7 @@ const editId = ref('')
 const { mutateAsync: createUser } = useAdminUserCreate()
 const { mutateAsync: updateUser } = useAdminUserUpdate()
 const { data: adminRoles } = useAuthRoleAll()
-const inputPassword = ref('')
-
-const passwordRules = computed(() => {
-  if (modalRef.value?.modalMode === 'add') {
-    return z
-      .string({ message: t('adminUser.passwordRequired') })
-      .min(1)
-      .default('')
-  }
-
-  return z
-    .string({ message: t('adminUser.passwordRequired') })
-    .min(1)
-    .optional()
-    .default('')
-})
-
-const passwordConfirmRules = computed(() => {
-  if (modalRef.value?.modalMode === 'add' || inputPassword.value) {
-    return z
-      .string({ message: t('adminUser.passwordConfirmErr') })
-      .min(1)
-      .refine(
-        (val) => {
-          return val === inputPassword.value
-        },
-        {
-          message: t('adminUser.passwordConfirmErr')
-        }
-      )
-      .default('')
-  }
-
-  return z
-    .string({ message: t('adminUser.passwordConfirmErr') })
-    .min(1)
-    .refine(
-      (val) => {
-        return val === inputPassword.value
-      },
-      {
-        message: t('adminUser.passwordConfirmErr')
-      }
-    )
-    .optional()
-    .default('')
-})
+const inputPassword = ref<string | undefined>('')
 
 const { AppForm, formApi } = useAppForm({
   fields: () =>
@@ -77,21 +31,58 @@ const { AppForm, formApi } = useAppForm({
         name: 'userName',
         schema: () =>
           z
-            .string({ message: t('adminUser.userNameRequired') })
-            .nonempty({ message: t('adminUser.userNameRequired') })
-            .default('')
+            .string({ error: t('adminUser.userNameRequired') })
+            .nonempty({ error: t('adminUser.userNameRequired') })
       },
       {
         as: 'ElInput',
         label: t('adminUser.password'),
         name: 'password',
-        schema: passwordRules.value
+        schema: () => {
+          if (modalRef.value?.modalMode === 'add') {
+            return z
+              .string({ error: t('adminUser.passwordRequired') })
+              .min(1, { error: t('adminUser.passwordRequired') })
+          }
+
+          return z
+            .string({ error: t('adminUser.passwordRequired') })
+            .optional()
+            .or(z.literal(''))
+        }
       },
       {
         as: 'ElInput',
         label: t('adminUser.passwordConfirm'),
         name: 'passwordConfirm',
-        schema: passwordConfirmRules.value
+        schema: () => {
+          if (modalRef.value?.modalMode === 'add' || inputPassword.value) {
+            return z
+              .string({ error: t('adminUser.passwordConfirmErr') })
+              .min(1, { error: t('adminUser.passwordConfirmErr') })
+              .refine(
+                (val) => {
+                  return val === inputPassword.value
+                },
+                {
+                  error: t('adminUser.passwordConfirmErr')
+                }
+              )
+          }
+
+          return z
+            .string({ error: t('adminUser.passwordConfirmErr') })
+            .refine(
+              (val) => {
+                return val === inputPassword.value
+              },
+              {
+                error: t('adminUser.passwordConfirmErr')
+              }
+            )
+            .optional()
+            .or(z.literal(''))
+        }
       },
       {
         as: {

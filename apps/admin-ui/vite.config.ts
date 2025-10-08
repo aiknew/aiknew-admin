@@ -40,7 +40,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['@element-plus/icons-vue']
+          'element-icons': ['@element-plus/icons-vue'],
+          zod: ['zod'],
+          'vue-router': ['vue-router'],
+          'vue-i18n': ['vue-i18n'],
+          'echarts-components': ['echarts/components'],
+          'echarts': ['echarts']
         },
       }
     }
@@ -57,12 +62,12 @@ export default defineConfig({
       source: `http://localhost:${ADMIN_API_PORT}/api-doc-json`,
       desc: './src/types/open-api.ts'
     }) as import('vite').Plugin,
-    // visualizer({
-    //   open: true,
-    //   sourcemap: false,
-    //   gzipSize: true,
-    //   brotliSize: true,
-    // }),
+    visualizer({
+      open: true,
+      sourcemap: false,
+      gzipSize: true,
+      brotliSize: true,
+    }),
     compression({
       algorithms: ['gzip'],
       threshold: 1000 // Only compress files larger than 1KB

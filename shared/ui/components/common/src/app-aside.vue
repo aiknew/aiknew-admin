@@ -64,7 +64,7 @@ defineEmits<Emits>()
 <style lang="scss">
 [id^='el-popper-container-'] {
   position: relative;
-  z-index: 5000;
+  z-index: 5001;
 }
 
 .app-aside-menu {

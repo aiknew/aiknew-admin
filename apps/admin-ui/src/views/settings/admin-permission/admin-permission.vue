@@ -135,7 +135,7 @@ const handleSubmit = () => {
     >
       <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
 
-      <el-table-column :label="t('type')">
+      <el-table-column :label="t('type')" width="150">
         <template #default="{ row }: { row: Permission | PermissionGroup }">
           <el-tag type="primary" v-if="isPermission(row)">{{
             t('adminPermission.permission')

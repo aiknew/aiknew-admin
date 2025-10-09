@@ -30,9 +30,9 @@ defineEmits<Emits>()
 </script>
 
 <template>
-  <div class="min-h-screen bg-theme-bg flex flex-col">
+  <div class="min-h-screen bg-theme-bg flex flex-col z-2001 relative">
     <aside
-      class="linear fixed top-0 grow left-0 z-3000 inline-flex flex-col h-full shrink-0 origin-center overflow-x-hidden border-r border-theme-border-light bg-theme-bg transition md:relative"
+      class="linear z-30 fixed top-0 grow left-0 inline-flex flex-col h-full shrink-0 origin-center overflow-x-hidden border-r border-theme-border-light bg-theme-bg transition md:relative"
       :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
     >
       <!-- Title -->
@@ -54,7 +54,7 @@ defineEmits<Emits>()
 
     <!-- Mask layer -->
     <div
-      class="fixed top-0 left-0 z-2999 h-full w-full bg-black opacity-10 md:hidden"
+      class="fixed top-0 z-20 left-0 h-full w-full bg-black opacity-10 md:hidden"
       :class="[expand ? 'block' : 'hidden']"
       @click="$emit('update:expand', false)"
     ></div>

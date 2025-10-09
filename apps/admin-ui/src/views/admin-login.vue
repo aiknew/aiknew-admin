@@ -20,7 +20,7 @@ const userStore = useUserStore()
 const { mutate: loginApi, isPending } = useLogin()
 const {
   data: captchaData,
-  isLoading: isLoadingCaptcha,
+  isFetching: isLoadingCaptcha,
   refetch: refetchCaptcha
 } = useLoginCaptcha()
 
@@ -33,7 +33,7 @@ const loginFormData = reactive<LoginBody>({
 })
 
 const isLoading = computed(() => {
-  return isLoadingCaptcha || isPending
+  return isLoadingCaptcha.value || isPending.value
 })
 
 const rules = reactive<FormRules<LoginBody>>({
@@ -132,7 +132,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               class="w-full"
               type="primary"
               @click="submitForm(loginFormRef)"
-              :loading="isLoading.value"
+              :loading="isLoading"
             >
               {{ t('loginBtn') }}
             </el-button>

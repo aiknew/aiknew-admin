@@ -14,6 +14,7 @@ import { useAuthRouteAll, type AuthRoute } from '@/api/auth-route'
 import { tField } from '@aiknew/shared-ui-locales'
 import { buildTree } from '@aiknew/shared-utils'
 import { useI18n } from 'vue-i18n'
+import { type CascaderNode, ElTag, type Tag } from 'element-plus'
 
 interface Emits {
   (e: 'submit'): void
@@ -56,16 +57,45 @@ const { AppForm, formApi } = useAppForm({
       },
       {
         as: {
-          component: 'ElTreeSelect',
+          component: 'ElCascader',
           props: {
-            style: { minWidth: '200px' },
-            multiple: true,
-            valueKey: 'id',
-            nodeKey: 'id',
-            checkStrictly: true,
-            data: routesTree.value,
+            options: routesTree.value,
+            clearable: true,
             props: {
-              label: (data: AuthRoute) => tField(data.translations, 'routeName').value
+              multiple: true,
+              checkStrictly: true,
+              emitPath: false,
+              value: 'id',
+              label: 'translations'
+            }
+          },
+          slots: {
+            default({ data }: { node: CascaderNode; data: AuthRoute }) {
+              return [h('div', tField(data.translations, 'routeName').value ?? '')]
+            },
+
+            tag({ data }: { data: Tag[] }) {
+              return data.map((item) => {
+                const translations: AuthRoute['translations'][] = (item.node?.pathLabels ??
+                  []) as never
+
+                return h(
+                  ElTag,
+                  {
+                    closable: true,
+                    onClose() {
+                      const routes = formApi.getFieldValue('routes')
+                      const index = routes?.findIndex((id) => id === item.node?.value)
+                      if (typeof index !== 'undefined' && index !== -1) {
+                        formApi.removeFieldValue('routes' as never, index)
+                      }
+                    }
+                  },
+                  () => {
+                    return translations.map((item) => tField(item, 'routeName').value).join('/')
+                  }
+                )
+              })
             }
           }
         },
@@ -73,6 +103,7 @@ const { AppForm, formApi } = useAppForm({
         name: 'routes',
         schema: z.array(z.string()).default([]).optional()
       },
+
       {
         as: 'ElInputNumber',
         label: t('order'),

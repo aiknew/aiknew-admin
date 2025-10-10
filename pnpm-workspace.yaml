@@ -40,7 +40,7 @@ catalogs:
     '@bprogress/vue': '^1.1.5'
     'color2k': '^2.0.3'
     'pinia': '^3.0.3'
-    '@tanstack/vue-form': '^1.19.5'
+    '@tanstack/vue-form': '^1.23.6'
     'lucide-vue-next': '^0.544.0'
     'tailwind-scrollbar': '^4.0.2'
     'vue-echarts': '^8.0.0'

@@ -13,6 +13,7 @@ import { compression } from 'vite-plugin-compression2'
 import * as path from 'node:path'
 import * as fs from 'node:fs'
 import { ADMIN_API_PORT } from '@aiknew/shared-constants'
+import Inspect from 'vite-plugin-inspect'
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -75,6 +76,7 @@ export default defineConfig({
       algorithms: ['gzip'],
       threshold: 1000 // Only compress files larger than 1KB
     }),
+    Inspect(),
     {
       name: 'generate-version',
       closeBundle() {

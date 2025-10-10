@@ -7,6 +7,7 @@ import type {
   ElInputNumber,
   ElSelectV2,
   ElTreeSelect,
+  ElCascader
 } from 'element-plus'
 import 'element-plus/es/components/input/style/css'
 import 'element-plus/es/components/switch/style/css'
@@ -14,6 +15,7 @@ import 'element-plus/es/components/radio/style/css'
 import 'element-plus/es/components/input-number/style/css'
 import 'element-plus/es/components/select-v2/style/css'
 import 'element-plus/es/components/tree-select/style/css'
+import 'element-plus/es/components/cascader/style/css'
 import { reactive, toValue, type MaybeRefOrGetter, type Component, type Ref, defineAsyncComponent } from 'vue'
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import type AppRadio from './components/app-radio.vue'
@@ -83,7 +85,8 @@ export interface BaseComponents {
   ElTreeSelect: ComponentPropsAndSlots<typeof ElTreeSelect>
   ElRadio: ComponentPropsAndSlots<typeof ElRadio> &
   ComponentPropsAndSlots<typeof AppRadio>
-  ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>
+  ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>,
+  ElCascader: ComponentPropsAndSlots<typeof ElCascader>
 }
 
 export interface ExtraComponents { }
@@ -101,6 +104,7 @@ export const components: Record<keyof BaseComponents, Component> & Partial<Recor
   ElTreeSelect: defineAsyncComponent(() => import('element-plus/es/components/tree-select/index')),
   ElInputNumber: defineAsyncComponent(() => import('element-plus/es/components/input-number/index')),
   ElSwitch: defineAsyncComponent(() => import('element-plus/es/components/switch/index')),
+  ElCascader: defineAsyncComponent(() => import('element-plus/es/components/cascader/index'))
 }
 
 export type AsObject<T extends keyof Components> = {

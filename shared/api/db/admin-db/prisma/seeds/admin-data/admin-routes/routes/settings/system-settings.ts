@@ -122,35 +122,6 @@ export const systemSettings = defineRouteItem({
         },
       ],
     },
-    {
-      component: 'settings/admin-user/admin-user',
-      icon: 'User',
-      path: '/settings/admin-user',
-      type: RouteType.MENU,
-      name: i18n.adminUsers,
-      permissions: ['admin-user:pagination'],
-      order: 340,
-      children: [
-        {
-          key: 'add',
-          type: RouteType.BUTTON,
-          name: i18n.new,
-          permissions: ['admin-user:create']
-        },
-        {
-          key: 'edit',
-          type: RouteType.BUTTON,
-          name: i18n.edit,
-          permissions: ['admin-user:update']
-        },
-        {
-          key: 'delete',
-          type: RouteType.BUTTON,
-          name: i18n.delete,
-          permissions: ['admin-user:delete']
-        },
-      ],
-    },
 
 
     {

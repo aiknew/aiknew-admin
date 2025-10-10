@@ -5,10 +5,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { useContainer } from 'class-validator'
 import { PaginationDto, ResponseJson } from '@aiknew/shared-api-dtos'
 import { ADMIN_API_PORT } from '@aiknew/shared-constants'
+import { type NestExpressApplication } from '@nestjs/platform-express'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
-
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+  app.disable('x-powered-by');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

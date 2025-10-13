@@ -6,7 +6,7 @@
   "root": "./",
   "compilerOptions": {
     "tsConfigPath": "tsconfig.build.json",
-    "webpack": true,
+    "builder": "swc",
     "deleteOutDir": true,
     "assets": [
       {
@@ -29,6 +29,7 @@
       {
         "name": "@nestjs/swagger",
         "options": {
+          "builder": "tsc",
           "introspectComments": true
         }
       }

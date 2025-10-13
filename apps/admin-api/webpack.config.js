@@ -1,7 +1,10 @@
 const path = require('node:path')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const swcDefaultConfig =
+  require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory()
+    .swcOptions
 
 module.exports = function (options) {
-  console.log('webpack options: ', options)
   return {
     ...options,
     output: {
@@ -9,6 +12,21 @@ module.exports = function (options) {
       filename: '[name].js',
     },
     devtool: 'source-map',
-    plugins: [...options.plugins],
+    plugins: [
+      ...options.plugins,
+      new ForkTsCheckerWebpackPlugin(),
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'swc-loader',
+            options: swcDefaultConfig,
+          },
+        },
+      ],
+    },
   }
 }

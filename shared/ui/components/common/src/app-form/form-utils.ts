@@ -56,13 +56,16 @@ export type GetFieldsWithTranslations<
   [Item in Fields[number]as Item['i18n'] extends true
   ? never
   : GetFieldName<Item['name']>]: z.infer<GetSchemaType<Item['schema']>>
-} & {
-  translations: Prettify<
-    {
-      [K in GetI18nFieldNames<Fields>]: GetValueFromRecordOrKeep<GetI18nFields<Fields>[K]>
-    } & { langKey: string }
-  >[]
-}
+} & (
+    GetI18nFieldNames<Fields> extends never ? { translations?: [] } : {
+      translations: Prettify<
+        {
+          [K in GetI18nFieldNames<Fields>]: GetValueFromRecordOrKeep<GetI18nFields<Fields>[K]>
+        } & { langKey: string }
+      >[]
+    }
+  )
+
 
 export type GetValidators<
   Fields extends readonly Field<string, keyof Components>[],

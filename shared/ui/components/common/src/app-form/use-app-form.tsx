@@ -100,7 +100,7 @@ const restoreI18nFields = <
 
   for (const [key, val] of Object.entries(i18nValues)) {
     if (key === 'translations') {
-      i18nValues.translations.forEach((item) => {
+      i18nValues.translations?.forEach((item) => {
         for (const [iKey, iVal] of Object.entries(item)) {
           if (iKey === 'langKey') continue
 

@@ -1,9 +1,5 @@
 import { ConfigTranslationDto } from "./config-translation.dto"
 
-class Translation extends ConfigTranslationDto {
-  declare remark: string
-}
-
 export class ConfigDto {
   id: string
 
@@ -17,5 +13,5 @@ export class ConfigDto {
 
   updatedAt: Date
 
-  translations: Translation[]
+  translations: ConfigTranslationDto[]
 }

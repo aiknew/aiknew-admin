@@ -12,10 +12,14 @@ module.exports = function (options) {
       filename: '[name].js',
     },
     devtool: 'source-map',
-    plugins: [
-      ...options.plugins,
-      new ForkTsCheckerWebpackPlugin(),
-    ],
+    plugins: [...options.plugins, new ForkTsCheckerWebpackPlugin()],
+    resolve: {
+      ...options.resolve,
+      extensions: ['.ts', '.js', '.json'],
+      extensionAlias: {
+        '.js': ['.ts', '.js'],
+      },
+    },
     module: {
       rules: [
         {

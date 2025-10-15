@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "gen:metadata": "pnpm ts-node src/generate-metadata.ts",
     "db:dev": "pnpm -w --filter @aiknew/shared-admin-db db:dev",
     "sync-permissions:prod": "pnpm env:prod -- pnpm -w --filter @aiknew/shared-api-permission-sync sync:prod",
     "db:deploy:prod": "pnpm env:prod -- pnpm -w --filter @aiknew/shared-admin-db db:deploy:prod",

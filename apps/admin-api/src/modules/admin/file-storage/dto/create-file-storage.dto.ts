@@ -26,7 +26,7 @@ export class CreateFileStorageDto {
   @ApiProperty({ enumName: 'FileStorageStatus', enum: FileStorageStatus })
   @IsEnum(FileStorageStatus)
   @IsOptional()
-  status: FileStorageStatus = FileStorageStatus.NORMAL
+  status: FileStorageStatus = 'NORMAL'
 
   @IsNumber()
   @IsOptional()

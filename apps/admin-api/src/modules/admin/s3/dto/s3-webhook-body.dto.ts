@@ -10,7 +10,7 @@ import {
 import { Transform, Type } from 'class-transformer'
 import { S3EventsEnum } from '../enum/s3-events.enum'
 
-class S3ObjectUserMetadata {
+export class S3ObjectUserMetadata {
   @IsString()
   @IsDefined()
   'X-Amz-Meta-Groupid': string
@@ -28,7 +28,7 @@ class S3ObjectUserMetadata {
   'X-Amz-Meta-Uploaderid': string
 }
 
-class S3Object {
+export class S3Object {
   @ValidateNested()
   @Type(() => S3ObjectUserMetadata)
   // @Transform(({ value }) => {
@@ -47,12 +47,12 @@ class S3Object {
   contentType: string
 }
 
-class S3Bucket {
+export class S3Bucket {
   @IsString()
   name: string
 }
 
-class S3 {
+export class S3 {
   @ValidateNested()
   @Type(() => S3Object)
   object: S3Object
@@ -62,7 +62,7 @@ class S3 {
   bucket: S3Bucket
 }
 
-class Record {
+export class Record {
   @ValidateNested()
   @Type(() => S3)
   s3: S3

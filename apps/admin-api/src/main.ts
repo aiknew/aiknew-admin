@@ -6,6 +6,7 @@ import { useContainer } from 'class-validator'
 import { PaginationDto, ResponseJson } from '@aiknew/shared-api-dtos'
 import { ADMIN_API_PORT } from '@aiknew/shared-constants'
 import { type NestExpressApplication } from '@nestjs/platform-express'
+import metadata from './metadata'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -32,6 +33,8 @@ async function bootstrap() {
       type: () => ResponseJson,
     })
     .build()
+
+  await SwaggerModule.loadPluginMetadata(metadata);
   const document = SwaggerModule.createDocument(app, config, {
     extraModels: [PaginationDto, ResponseJson],
   })

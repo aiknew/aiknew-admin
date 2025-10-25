@@ -1,21 +1,24 @@
-import { Injectable } from '@nestjs/common'
-import { CreatePermissionGroupDto } from './dto/create-permission-group.dto'
+import { Injectable } from "@nestjs/common"
+import { CreatePermissionGroupDto } from "./dto/create-permission-group.dto"
 import {
   AdminPermissionSource,
   Prisma,
-  PrismaService
-} from '@aiknew/shared-admin-db'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { AppBadRequestException, AppConflictException } from '@aiknew/shared-api-exceptions'
-import { UpdatePermissionGroupDto } from './dto/update-permission-group.dto'
-import { QueryPermissionGroupDto } from './dto/query-permission-group.dto'
+  PrismaService,
+} from "@aiknew/shared-admin-db"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import {
+  AppBadRequestException,
+  AppConflictException,
+} from "@aiknew/shared-api-exceptions"
+import { UpdatePermissionGroupDto } from "./dto/update-permission-group.dto"
+import { QueryPermissionGroupDto } from "./dto/query-permission-group.dto"
 
 @Injectable()
 export class PermissionGroupService {
   constructor(
     private prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) { }
+  ) {}
 
   get model() {
     return this.prisma.adminPermissionGroup
@@ -28,13 +31,10 @@ export class PermissionGroupService {
   async pagination(query: QueryPermissionGroupDto) {
     return this.model.paginate(query, {
       include: {
-        translations: true
+        translations: true,
       },
 
-      orderBy: [
-        { order: 'asc' },
-        { createdAt: 'desc' }
-      ]
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
     })
   }
 
@@ -50,12 +50,12 @@ export class PermissionGroupService {
       },
       orderBy: [
         {
-          order: 'asc'
+          order: "asc",
         },
         {
-          createdAt: 'desc'
+          createdAt: "desc",
         },
-      ]
+      ],
     })
   }
 
@@ -73,9 +73,9 @@ export class PermissionGroupService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2002':
+          case "P2002":
             throw new AppConflictException(
-              this.i18n.t('permission-group.alreadyExists', {
+              this.i18n.t("permission-group.alreadyExists", {
                 lang: I18nContext?.current()?.lang,
               }),
             )
@@ -87,29 +87,26 @@ export class PermissionGroupService {
 
   async isBuiltIn(id: string) {
     const item = await this.model.findUnique({
-      where: { id }
+      where: { id },
     })
 
     if (!item) {
       throw new AppBadRequestException(
-        this.i18n.t('permission-group.nonExistsGroup',
-          {
-            lang: I18nContext.current()?.lang
-          }
-        )
+        this.i18n.t("permission-group.nonExistsGroup", {
+          lang: I18nContext.current()?.lang,
+        }),
       )
     }
 
     return item.source === AdminPermissionSource.BUILT_IN
-
   }
 
   async updateOne(id: string, data: UpdatePermissionGroupDto) {
     if (await this.isBuiltIn(id)) {
       throw new AppBadRequestException(
-        this.i18n.t('permission-group.cannotModifyBuiltIn', {
-          lang: I18nContext.current()?.lang
-        })
+        this.i18n.t("permission-group.cannotModifyBuiltIn", {
+          lang: I18nContext.current()?.lang,
+        }),
       )
     }
 
@@ -130,12 +127,11 @@ export class PermissionGroupService {
 
   async deleteOne(id: string) {
     try {
-
       if (await this.isBuiltIn(id)) {
         throw new AppBadRequestException(
-          this.i18n.t('permission-group.cannotDeleteBuiltIn', {
-            lang: I18nContext.current()?.lang
-          })
+          this.i18n.t("permission-group.cannotDeleteBuiltIn", {
+            lang: I18nContext.current()?.lang,
+          }),
         )
       }
 
@@ -155,9 +151,9 @@ export class PermissionGroupService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppConflictException(
-              this.i18n.t('permission-group.haveRelated', {
+              this.i18n.t("permission-group.haveRelated", {
                 lang: I18nContext.current()?.lang,
               }),
             )
@@ -166,5 +162,4 @@ export class PermissionGroupService {
       throw err
     }
   }
-
 }

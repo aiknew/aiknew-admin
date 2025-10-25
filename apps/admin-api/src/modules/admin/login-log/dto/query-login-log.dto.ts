@@ -1,24 +1,24 @@
-import { PaginationDto } from "@aiknew/shared-api-dtos";
-import { IsOptional, IsString } from "class-validator";
+import { PaginationDto } from "@aiknew/shared-api-dtos"
+import { IsOptional, IsString } from "class-validator"
 
 export class QueryLoginLogDto extends PaginationDto {
   @IsString()
   @IsOptional()
-  userName?: string;
+  userName?: string
 
   @IsString()
   @IsOptional()
-  ip?: string;
+  ip?: string
 
   @IsString()
   @IsOptional()
-  location?: string;
+  location?: string
 
   @IsString()
   @IsOptional()
-  os?: string;
+  os?: string
 
   @IsString()
   @IsOptional()
-  browser?: string;
+  browser?: string
 }

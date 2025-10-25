@@ -1,5 +1,5 @@
-import { ICreateUploadFileGroup } from '@aiknew/shared-types'
-import { IsNumber, IsString, ValidateIf } from 'class-validator'
+import { ICreateUploadFileGroup } from "@aiknew/shared-types"
+import { IsNumber, IsString, ValidateIf } from "class-validator"
 
 export class CreateUploadFileGroupDto implements ICreateUploadFileGroup {
   @IsString()

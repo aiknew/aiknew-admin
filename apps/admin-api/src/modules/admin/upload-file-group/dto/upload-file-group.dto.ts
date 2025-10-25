@@ -1,4 +1,4 @@
-import { UploadFileGroupPathDto } from './upload-file-group-path.dto'
+import { UploadFileGroupPathDto } from "./upload-file-group-path.dto"
 
 export class UploadFileGroupDto {
   id: string

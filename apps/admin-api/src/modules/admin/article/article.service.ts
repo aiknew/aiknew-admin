@@ -1,26 +1,26 @@
-import { Injectable } from '@nestjs/common'
-import { CreateArticleDto } from './dto/create-article.dto'
-import { UpdateArticleDto } from './dto/update-article.dto'
-import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
+import { Injectable } from "@nestjs/common"
+import { CreateArticleDto } from "./dto/create-article.dto"
+import { UpdateArticleDto } from "./dto/update-article.dto"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
 import {
   AppBadRequestException,
   AppNotFoundException,
-} from '@aiknew/shared-api-exceptions'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { QueryArticleDto } from './dto/query-article.dto'
+} from "@aiknew/shared-api-exceptions"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { QueryArticleDto } from "./dto/query-article.dto"
 
 @Injectable()
 export class ArticleService {
   constructor(
     private prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['article'] {
+  get model(): PrismaService["article"] {
     return this.prisma.article
   }
 
-  get translationModel(): PrismaService['articleTranslation'] {
+  get translationModel(): PrismaService["articleTranslation"] {
     return this.prisma.articleTranslation
   }
 
@@ -31,13 +31,13 @@ export class ArticleService {
         translations: {
           some: {
             content: {
-              contains: content
+              contains: content,
             },
             title: {
-              contains: title
-            }
-          }
-        }
+              contains: title,
+            },
+          },
+        },
       },
       include: {
         translations: true,
@@ -49,16 +49,13 @@ export class ArticleService {
                 hostname: true,
                 bucket: true,
                 endpoint: true,
-                type: true
-              }
-            }
-          }
-        }
+                type: true,
+              },
+            },
+          },
+        },
       },
-      orderBy: [
-        { order: 'asc' },
-        { createdAt: 'desc' }
-      ]
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
     })
   }
 
@@ -67,7 +64,7 @@ export class ArticleService {
       where: { id },
       include: {
         translations: true,
-        coverImage: true
+        coverImage: true,
       },
     })
 
@@ -92,16 +89,16 @@ export class ArticleService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppBadRequestException(
-              this.i18n.t('article.invalidCategoryId', {
+              this.i18n.t("article.invalidCategoryId", {
                 lang: I18nContext.current()?.lang,
               }),
             )
 
-          case 'P2002':
+          case "P2002":
             throw new AppBadRequestException(
-              this.i18n.t('article.invalidTitle', {
+              this.i18n.t("article.invalidTitle", {
                 lang: I18nContext.current()?.lang,
               }),
             )

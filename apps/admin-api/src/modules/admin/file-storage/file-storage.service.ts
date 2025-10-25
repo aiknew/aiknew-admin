@@ -1,32 +1,35 @@
-import { Prisma, PrismaPromise, PrismaService } from '@aiknew/shared-admin-db'
-import { Injectable } from '@nestjs/common'
-import { CreateFileStorageDto } from './dto/create-file-storage.dto'
-import { UpdateFileStorageDto } from './dto/update-file-storage.dto'
-import { AppBadRequestException, AppConflictException } from '@aiknew/shared-api-exceptions'
-import { QueryFileStorageDto } from './dto/query-file-storage.dto'
-import { I18nContext, I18nService } from 'nestjs-i18n'
+import { Prisma, PrismaPromise, PrismaService } from "@aiknew/shared-admin-db"
+import { Injectable } from "@nestjs/common"
+import { CreateFileStorageDto } from "./dto/create-file-storage.dto"
+import { UpdateFileStorageDto } from "./dto/update-file-storage.dto"
+import {
+  AppBadRequestException,
+  AppConflictException,
+} from "@aiknew/shared-api-exceptions"
+import { QueryFileStorageDto } from "./dto/query-file-storage.dto"
+import { I18nContext, I18nService } from "nestjs-i18n"
 
 @Injectable()
 export class FileStorageService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['fileStorage'] {
+  get model(): PrismaService["fileStorage"] {
     return this.prisma.fileStorage
   }
 
   async getFirstStorage() {
     const storage = await this.model.findFirst({
-      where: { status: 'NORMAL' },
-      orderBy: [{ priority: 'asc' }, { createdAt: 'desc' }],
+      where: { status: "NORMAL" },
+      orderBy: [{ priority: "asc" }, { createdAt: "desc" }],
     })
 
     if (!storage) {
       // throw new AppBadRequestException('No file storage can be uploaded.')
       throw new AppBadRequestException(
-        this.i18n.t('file-storage.noStorage', {
+        this.i18n.t("file-storage.noStorage", {
           lang: I18nContext.current()?.lang,
         }),
       )
@@ -50,16 +53,16 @@ export class FileStorageService {
       where: {
         hostname: {
           contains: hostname,
-          mode: 'insensitive'
+          mode: "insensitive",
         },
         name: {
           contains: name,
-          mode: 'insensitive'
+          mode: "insensitive",
         },
         status,
-        type
+        type,
       },
-      orderBy: [{ priority: 'asc' }, { createdAt: 'desc' }],
+      orderBy: [{ priority: "asc" }, { createdAt: "desc" }],
     })
   }
 
@@ -83,10 +86,7 @@ export class FileStorageService {
   }
 
   async deleteOne(id: string) {
-
-
     try {
-
       return await this.model.delete({
         where: {
           id,
@@ -95,15 +95,14 @@ export class FileStorageService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppConflictException(
-              this.i18n.t('file-storage.hasRelated', {
+              this.i18n.t("file-storage.hasRelated", {
                 lang: I18nContext.current()?.lang,
               }),
             )
         }
       }
     }
-
   }
 }

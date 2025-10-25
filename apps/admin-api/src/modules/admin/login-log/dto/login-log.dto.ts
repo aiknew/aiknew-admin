@@ -1,23 +1,23 @@
 export class LoginLogDto {
-  id: string;
+  id: string
 
-  userName: string;
+  userName: string
 
-  userId: string;
+  userId: string
 
-  ip: string;
+  ip: string
 
-  location: string;
+  location: string
 
-  nation: string;
+  nation: string
 
-  userAgent: string;
+  userAgent: string
 
-  os: string;
+  os: string
 
-  browser: string;
+  browser: string
 
-  createdAt: Date;
+  createdAt: Date
 
   isSuccess: boolean
 }

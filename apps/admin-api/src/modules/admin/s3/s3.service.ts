@@ -4,22 +4,22 @@ import {
   PrismaService,
   StorageType,
   UploadFileChannel,
-} from '@aiknew/shared-admin-db'
-import { Injectable } from '@nestjs/common'
-import { FileStorageService } from '../file-storage/file-storage.service'
-import { S3WebhookBodyDto, UploadS3FileDto } from './dto'
+} from "@aiknew/shared-admin-db"
+import { Injectable } from "@nestjs/common"
+import { FileStorageService } from "../file-storage/file-storage.service"
+import { S3WebhookBodyDto, UploadS3FileDto } from "./dto"
 import {
   DeleteObjectCommand,
   HeadObjectCommand,
   S3Client,
-} from '@aws-sdk/client-s3'
-import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
-import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
-import { S3EventsEnum, S3PresignedFieldsEnum } from './enum'
-import { basename, extname, join } from 'node:path'
-import { rm } from 'node:fs/promises'
-import { ConfigService } from '@nestjs/config'
-import { logger } from '@aiknew/shared-api-logger'
+} from "@aws-sdk/client-s3"
+import { AppBadRequestException } from "@aiknew/shared-api-exceptions"
+import { createPresignedPost } from "@aws-sdk/s3-presigned-post"
+import { S3EventsEnum, S3PresignedFieldsEnum } from "./enum"
+import { basename, extname, join } from "node:path"
+import { rm } from "node:fs/promises"
+import { ConfigService } from "@nestjs/config"
+import { logger } from "@aiknew/shared-api-logger"
 
 @Injectable()
 export class S3Service {
@@ -27,9 +27,9 @@ export class S3Service {
     private readonly prisma: PrismaService,
     private readonly fileStorageService: FileStorageService,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['uploadFile'] {
+  get model(): PrismaService["uploadFile"] {
     return this.prisma.uploadFile
   }
 
@@ -43,11 +43,11 @@ export class S3Service {
 
     if (storage.type === StorageType.S3 && bucket) {
       const client = new S3Client({
-        region: 'us-east-1',
-        endpoint: storage.endpoint ?? '',
+        region: "us-east-1",
+        endpoint: storage.endpoint ?? "",
         credentials: {
-          accessKeyId: storage.accessKey ?? '',
-          secretAccessKey: storage.secretKey ?? '',
+          accessKeyId: storage.accessKey ?? "",
+          secretAccessKey: storage.secretKey ?? "",
         },
         // forcePathStyle: true,
       })
@@ -61,37 +61,37 @@ export class S3Service {
       }
     }
 
-    throw new AppBadRequestException('There is no active s3 storage')
+    throw new AppBadRequestException("There is no active s3 storage")
   }
 
   async getPresignedPost(
     fileGroupId: string,
     uploaderId: string,
-    uploadChannel: UploadFileChannel = 'ADMIN',
+    uploadChannel: UploadFileChannel = "ADMIN",
   ) {
     const { client, storage } = await this.getS3Client()
     const { fields, url } = await createPresignedPost(client, {
-      Bucket: storage.bucket ?? '',
-      Key: '${filename}',
+      Bucket: storage.bucket ?? "",
+      Key: "${filename}",
       Expires: 3600,
       Fields: {
-        [S3PresignedFieldsEnum['X-Amz-Meta-Groupid']]: fileGroupId,
-        [S3PresignedFieldsEnum['X-Amz-Meta-Channel']]: uploadChannel,
-        [S3PresignedFieldsEnum['X-Amz-Meta-Uploaderid']]: uploaderId,
+        [S3PresignedFieldsEnum["X-Amz-Meta-Groupid"]]: fileGroupId,
+        [S3PresignedFieldsEnum["X-Amz-Meta-Channel"]]: uploadChannel,
+        [S3PresignedFieldsEnum["X-Amz-Meta-Uploaderid"]]: uploaderId,
       },
       Conditions: [
-        ['eq', `$${S3PresignedFieldsEnum['X-Amz-Meta-Groupid']}`, fileGroupId],
+        ["eq", `$${S3PresignedFieldsEnum["X-Amz-Meta-Groupid"]}`, fileGroupId],
         [
-          'eq',
-          `$${S3PresignedFieldsEnum['X-Amz-Meta-Channel']}`,
+          "eq",
+          `$${S3PresignedFieldsEnum["X-Amz-Meta-Channel"]}`,
           uploadChannel,
         ],
         [
-          'eq',
-          `$${S3PresignedFieldsEnum['X-Amz-Meta-Uploaderid']}`,
+          "eq",
+          `$${S3PresignedFieldsEnum["X-Amz-Meta-Uploaderid"]}`,
           uploaderId,
         ],
-        ['content-length-range', 0, 5 * 1024 * 1024],
+        ["content-length-range", 0, 5 * 1024 * 1024],
       ],
     })
 
@@ -146,23 +146,22 @@ export class S3Service {
         where: {
           groupId,
           originalName,
-          fileStorageId
-        }
+          fileStorageId,
+        },
       })
 
       await this.model.update({
         where: {
-          id: file.id
+          id: file.id,
         },
 
         data: {
           deletedAt: new Date(),
         },
       })
-
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2025') {
+        if (err.code === "P2025") {
           // file record not found
           return
         }
@@ -185,14 +184,14 @@ export class S3Service {
         fileStorageId,
       }),
       this.deleteS3FileFromBucket({ bucket, key }),
-    ]).then(() => {
-      this.deleteAllTemporaryDeletedFiles()
+    ]).then(async () => {
+      await this.deleteAllTemporaryDeletedFiles()
     })
   }
 
   async deleteLocalStorageFile(localFilePath: string) {
     const publicFolderLocation = this.configService.get<string>(
-      'common.publicFolder',
+      "common.publicFolder",
     )
     if (publicFolderLocation) {
       await rm(join(publicFolderLocation, localFilePath), { force: true })
@@ -221,10 +220,10 @@ export class S3Service {
       })
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2003') {
+        if (err.code === "P2003") {
           logger.error(
-            'Received a callback request related to creating a file from S3, but the relevant file storage engine id does not exist: ',
-            String(err),
+            "Received a callback request related to creating a file from S3, but the relevant file storage engine id does not exist: ",
+            String(err as unknown),
           )
         }
       }
@@ -256,9 +255,9 @@ export class S3Service {
       const Key = body?.Key
       const contentType = s3Object?.contentType
       const size = s3Object?.size
-      let channelStr = userMetadata?.['X-Amz-Meta-Channel']
-      let groupId = userMetadata?.['X-Amz-Meta-Groupid']
-      let uploaderId = userMetadata?.['X-Amz-Meta-Uploaderid']
+      const channelStr = userMetadata?.["X-Amz-Meta-Channel"]
+      const groupId = userMetadata?.["X-Amz-Meta-Groupid"]
+      const uploaderId = userMetadata?.["X-Amz-Meta-Uploaderid"]
 
       if (!channelStr && !groupId && !uploaderId) {
         // its not upload from presigned url
@@ -285,11 +284,11 @@ export class S3Service {
         originalName: fileName,
       }
 
-      if (EventName.startsWith(S3EventsEnum['s3:ObjectCreated'])) {
+      if (EventName.startsWith(S3EventsEnum["s3:ObjectCreated"])) {
         return await this.upsertFileRecord(data, fileStorageId)
       }
 
-      if (EventName.startsWith(S3EventsEnum['s3:ObjectRemoved'])) {
+      if (EventName.startsWith(S3EventsEnum["s3:ObjectRemoved"])) {
         return await this.temporaryDeleteS3FileFromDB({
           groupId: data.groupId,
           originalName: data.originalName,

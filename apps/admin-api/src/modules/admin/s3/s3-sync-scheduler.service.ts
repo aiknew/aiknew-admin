@@ -1,18 +1,18 @@
-import { FileStatus, PrismaService, UploadFile } from '@aiknew/shared-admin-db'
-import { HeadObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { Injectable } from '@nestjs/common'
-import { Cron, Interval } from '@nestjs/schedule'
+import { FileStatus, PrismaService, UploadFile } from "@aiknew/shared-admin-db"
+import { HeadObjectCommand, S3Client } from "@aws-sdk/client-s3"
+import { Injectable } from "@nestjs/common"
+import { Cron } from "@nestjs/schedule"
 
 @Injectable()
 export class S3SyncSchedulerService {
   private static fileCursor: undefined | string
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-  get fileModel(): PrismaService['uploadFile'] {
+  get fileModel(): PrismaService["uploadFile"] {
     return this.prisma.uploadFile
   }
 
-  get fileStorageModel(): PrismaService['fileStorage'] {
+  get fileStorageModel(): PrismaService["fileStorage"] {
     return this.prisma.fileStorage
   }
 
@@ -22,7 +22,7 @@ export class S3SyncSchedulerService {
       files = await this.fileModel.findMany({
         take: amount,
         orderBy: {
-          id: 'asc',
+          id: "asc",
         },
       })
     } else {
@@ -33,7 +33,7 @@ export class S3SyncSchedulerService {
           id: S3SyncSchedulerService.fileCursor,
         },
         orderBy: {
-          id: 'asc',
+          id: "asc",
         },
       })
     }
@@ -45,10 +45,11 @@ export class S3SyncSchedulerService {
     return files
   }
 
-  @Cron('5 * * * * *')
+  @Cron("5 * * * * *")
   async handleCron() {
     const ret = await this.getUploadFiles()
-    ret.forEach(async (file) => {
+
+    for (const file of ret) {
       const storage = await this.fileStorageModel.findUnique({
         where: {
           id: file.fileStorageId,
@@ -57,15 +58,15 @@ export class S3SyncSchedulerService {
 
       if (
         storage &&
-        storage.type === 'S3' &&
-        storage.status !== 'DISABLED' &&
+        storage.type === "S3" &&
+        storage.status !== "DISABLED" &&
         storage.endpoint &&
         storage.accessKey &&
         storage.secretKey &&
         storage.bucket
       ) {
         const client = new S3Client({
-          region: 'us-east-1',
+          region: "us-east-1",
           endpoint: storage.endpoint,
           credentials: {
             accessKeyId: storage.accessKey,
@@ -74,7 +75,7 @@ export class S3SyncSchedulerService {
         })
         const command = new HeadObjectCommand({
           Bucket: storage.bucket,
-          Key: storage.bucket + '/' + file.originalName,
+          Key: storage.bucket + "/" + file.originalName,
         })
         try {
           await client.send(command)
@@ -88,7 +89,12 @@ export class S3SyncSchedulerService {
             },
           })
         } catch (err) {
-          if (typeof err === 'object' && err && 'name' in err && err.name === 'NotFound') {
+          if (
+            typeof err === "object" &&
+            err &&
+            "name" in err &&
+            err.name === "NotFound"
+          ) {
             await this.fileModel.update({
               where: {
                 id: file.id,
@@ -102,6 +108,6 @@ export class S3SyncSchedulerService {
       } else {
         //TODO: local file storage
       }
-    })
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { ArticleCategoryTranslationDto } from './article-category-translation.dto'
+import { ArticleCategoryTranslationDto } from "./article-category-translation.dto"
 
 export class ArticleCategoryDto {
   id: string

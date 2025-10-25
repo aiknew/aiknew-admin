@@ -1,13 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { LanguageOrientation } from '@aiknew/shared-admin-db'
-import type { ILanguage } from '@aiknew/shared-types'
+import { ApiProperty } from "@nestjs/swagger"
+import { LanguageOrientation } from "@aiknew/shared-admin-db"
+import type { ILanguage } from "@aiknew/shared-types"
 
 export class LanguageItemDto implements ILanguage {
   name: string
 
   key: string
 
-  @ApiProperty({ enum: LanguageOrientation, enumName: 'LanguageOrientation' })
+  @ApiProperty({ enum: LanguageOrientation, enumName: "LanguageOrientation" })
   orientation: LanguageOrientation
 
   status: boolean

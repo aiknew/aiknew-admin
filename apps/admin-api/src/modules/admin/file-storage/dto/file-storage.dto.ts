@@ -1,5 +1,5 @@
-import { FileStorageStatus, StorageType } from '@aiknew/shared-admin-db'
-import { ApiProperty } from '@nestjs/swagger'
+import { FileStorageStatus, StorageType } from "@aiknew/shared-admin-db"
+import { ApiProperty } from "@nestjs/swagger"
 
 export class FileStorageDto {
   id: string
@@ -9,12 +9,12 @@ export class FileStorageDto {
   hostname: string
 
   @ApiProperty({
-    enumName: 'FileStorageStatus',
+    enumName: "FileStorageStatus",
     enum: FileStorageStatus,
   })
   status: FileStorageStatus
 
-  @ApiProperty({ enumName: 'StorageType', enum: StorageType })
+  @ApiProperty({ enumName: "StorageType", enum: StorageType })
   type: StorageType
 
   priority: number

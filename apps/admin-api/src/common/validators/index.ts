@@ -1,1 +1,1 @@
-export * from './translation-data.validator'
+export * from "./translation-data.validator"

@@ -1,4 +1,4 @@
-import { PermissionGroupTranslationDto } from './permission-group-translation.dto'
+import { PermissionGroupTranslationDto } from "./permission-group-translation.dto"
 
 export class PermissionGroupDto {
   id: string

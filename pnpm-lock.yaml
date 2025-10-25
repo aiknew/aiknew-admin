@@ -1068,9 +1068,9 @@ importers:
 
   shared/api/types:
     devDependencies:
-      express:
+      '@types/express':
         specifier: catalog:api
-        version: 5.1.0
+        version: 5.0.3
 
   shared/api/utils:
     dependencies:

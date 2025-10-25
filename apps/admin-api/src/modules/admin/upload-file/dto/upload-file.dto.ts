@@ -3,15 +3,15 @@ import {
   UploadFileChannel,
   FileStorageStatus,
   StorageType,
-} from '@aiknew/shared-admin-db'
-import type { IUploadFile } from '@aiknew/shared-types'
-import { ApiProperty } from '@nestjs/swagger'
+} from "@aiknew/shared-admin-db"
+import type { IUploadFile } from "@aiknew/shared-types"
+import { ApiProperty } from "@nestjs/swagger"
 
 class CorrespondingFileStorage {
-  @ApiProperty({ enumName: 'StorageType', enum: StorageType })
+  @ApiProperty({ enumName: "StorageType", enum: StorageType })
   type: StorageType
 
-  @ApiProperty({ enumName: 'FileStorageStatus', enum: FileStorageStatus })
+  @ApiProperty({ enumName: "FileStorageStatus", enum: FileStorageStatus })
   status: FileStorageStatus
 
   hostname: string
@@ -20,10 +20,10 @@ class CorrespondingFileStorage {
 
   bucket: string | null
 
-  @ApiProperty({ type: 'string' })
+  @ApiProperty({ type: "string" })
   createdAt: Date | string
 
-  @ApiProperty({ type: 'string' })
+  @ApiProperty({ type: "string" })
   updatedAt: Date | string
 }
 
@@ -31,7 +31,7 @@ export class UploadFileDto implements IUploadFile {
   id: string
 
   @ApiProperty({
-    enumName: 'UploadFileChannel',
+    enumName: "UploadFileChannel",
     enum: UploadFileChannel,
   })
   channel: UploadFileChannel
@@ -60,12 +60,12 @@ export class UploadFileDto implements IUploadFile {
 
   order: number
 
-  @ApiProperty({ enumName: 'FileStatus', enum: FileStatus })
+  @ApiProperty({ enumName: "FileStatus", enum: FileStatus })
   status: FileStatus
 
-  @ApiProperty({ type: 'string' })
+  @ApiProperty({ type: "string" })
   createdAt: Date | string
 
-  @ApiProperty({ type: 'string' })
+  @ApiProperty({ type: "string" })
   updatedAt: Date | string
 }

@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { PermissionGroupController } from './permission-group.controller'
-import { PermissionGroupService } from './permission-group.service'
-import { AdminUserModule } from '../admin-user/admin-user.module'
+import { Module } from "@nestjs/common"
+import { PermissionGroupController } from "./permission-group.controller"
+import { PermissionGroupService } from "./permission-group.service"
+import { AdminUserModule } from "../admin-user/admin-user.module"
 
 @Module({
   imports: [AdminUserModule],
@@ -9,4 +9,4 @@ import { AdminUserModule } from '../admin-user/admin-user.module'
   providers: [PermissionGroupService],
   exports: [],
 })
-export class PermissionGroupModule { }
+export class PermissionGroupModule {}

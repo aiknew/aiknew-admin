@@ -1,23 +1,23 @@
-import { Injectable } from '@nestjs/common'
-import { AdminUserService } from '../admin-user/admin-user.service'
-import { JwtService } from '@nestjs/jwt'
-import * as svgCaptcha from 'svg-captcha'
-import { randomUUID } from 'crypto'
-import { RedisService } from '@aiknew/shared-api-redis'
+import { Injectable } from "@nestjs/common"
+import { AdminUserService } from "../admin-user/admin-user.service"
+import { JwtService } from "@nestjs/jwt"
+import * as svgCaptcha from "svg-captcha"
+import { randomUUID } from "crypto"
+import { RedisService } from "@aiknew/shared-api-redis"
 import {
   AppBadRequestException,
   AppUnauthorizedException,
-} from '@aiknew/shared-api-exceptions'
-import { LoginBodyDto } from './dto/login-body.dto'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { AdminJWTPayload, AuthAdminUser } from '@aiknew/shared-api-types'
-import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
-import { UpdateUserInfoDto } from './dto/update-user-info.dto'
-import { createHMAC } from '@aiknew/shared-api-utils'
-import { LoginLogService } from '../login-log/login-log.service'
-import { Request } from 'express'
-import { storeIP } from 'range_check'
-import { ConfigService } from '@nestjs/config'
+} from "@aiknew/shared-api-exceptions"
+import { LoginBodyDto } from "./dto/login-body.dto"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { AdminJWTPayload, AuthAdminUser } from "@aiknew/shared-api-types"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { UpdateUserInfoDto } from "./dto/update-user-info.dto"
+import { createHMAC } from "@aiknew/shared-api-utils"
+import { LoginLogService } from "../login-log/login-log.service"
+import { Request } from "express"
+import { storeIP } from "range_check"
+import { ConfigService } from "@nestjs/config"
 
 @Injectable()
 export class AuthService {
@@ -28,10 +28,10 @@ export class AuthService {
     private redisService: RedisService,
     private i18n: I18nService,
     private loginLogService: LoginLogService,
-    private configService: ConfigService
-  ) { }
+    private configService: ConfigService,
+  ) {}
 
-  get userModel(): PrismaService['adminUser'] {
+  get userModel(): PrismaService["adminUser"] {
     return this.prisma.adminUser
   }
 
@@ -45,9 +45,9 @@ export class AuthService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
+          case "P2025":
             throw new AppBadRequestException(
-              this.i18n.t('admin-user.userNotExists', {
+              this.i18n.t("admin-user.userNotExists", {
                 lang: I18nContext.current()?.lang,
               }),
             )
@@ -66,41 +66,49 @@ export class AuthService {
     const user = await this.userModel.findUnique({
       where: {
         id: requestUser.userId,
-        password: createHMAC(data.password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
+        password: createHMAC(
+          data.password,
+          this.configService.get<string>("ADMIN_USER_PASSWORD_SECRET"),
+        ),
       },
     })
 
     if (!user) {
-      throw new AppBadRequestException(this.i18n.t('admin-auth.wrongPassword'))
+      throw new AppBadRequestException(this.i18n.t("admin-auth.wrongPassword"))
     }
 
     await this.userModel.update({
       where: { id: requestUser.userId },
       data: {
-        password: createHMAC(data.newPassword, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
+        password: createHMAC(
+          data.newPassword,
+          this.configService.get<string>("ADMIN_USER_PASSWORD_SECRET"),
+        ),
       },
     })
   }
 
-  private async recordLoginLog(data: { userName: string, userId: string, success: boolean }, req: Request) {
+  private async recordLoginLog(
+    data: { userName: string; userId: string; success: boolean },
+    req: Request,
+  ) {
     try {
       const { success, userId, userName } = data
 
-      const ip = req.ip ||
-        req.socket?.remoteAddress ||
-        'unknown'
+      const ip = req.ip || req.socket?.remoteAddress || "unknown"
 
-      const userAgent = req.get('User-Agent') || req.headers['user-agent'] || 'unknown'
+      const userAgent =
+        req.get("User-Agent") || req.headers["user-agent"] || "unknown"
 
       await this.loginLogService.record({
         userName,
         userId,
         isSuccess: success,
-        ip: storeIP(ip),
+        ip: storeIP(ip) as string,
         userAgent,
       })
     } catch (error) {
-      console.error('record login log error: ', error)
+      console.error("record login log error: ", error)
     }
   }
 
@@ -113,7 +121,7 @@ export class AuthService {
       if (user) {
         if (!user.routes.length) {
           throw new AppUnauthorizedException(
-            this.i18n.t('admin-auth.noPermissions'),
+            this.i18n.t("admin-auth.noPermissions"),
           )
         }
 
@@ -122,18 +130,27 @@ export class AuthService {
           userName: user.userName,
         }
 
-        this.recordLoginLog({ userName, userId: user.id, success: true }, req)
+        await this.recordLoginLog(
+          { userName, userId: user.id, success: true },
+          req,
+        )
 
         return {
           userInfo: user,
           access_token: this.jwtService.sign(tokenPayload),
         }
       } else {
-        this.recordLoginLog({ userId: "", userName: loginBodyDto.userName, success: false }, req)
+        await this.recordLoginLog(
+          { userId: "", userName: loginBodyDto.userName, success: false },
+          req,
+        )
         throw new AppUnauthorizedException()
       }
     } catch (err) {
-      this.recordLoginLog({ userId: "", userName: loginBodyDto.userName, success: false }, req)
+      await this.recordLoginLog(
+        { userId: "", userName: loginBodyDto.userName, success: false },
+        req,
+      )
       throw err
     } finally {
       await this.removeCaptchaCache(captchaKey)
@@ -157,7 +174,7 @@ export class AuthService {
     const captcha = await this.redisService.get(captchaKey)
     if (captcha !== captchaCode) {
       throw new AppBadRequestException(
-        this.i18n.t('admin-auth.wrongCaptcha', {
+        this.i18n.t("admin-auth.wrongCaptcha", {
           lang: I18nContext.current()?.lang,
         }),
       )

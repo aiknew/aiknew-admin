@@ -1,42 +1,42 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable } from "@nestjs/common"
 import {
   Prisma,
   ExtendedPrismaTransactionClient,
   PrismaService,
-} from '@aiknew/shared-admin-db'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { CreateUploadFileGroupDto } from './dto/create-upload-file-group.dto'
+} from "@aiknew/shared-admin-db"
+import { PaginationDto } from "@aiknew/shared-api-dtos"
+import { CreateUploadFileGroupDto } from "./dto/create-upload-file-group.dto"
 import {
   AppBadRequestException,
   AppConflictException,
-} from '@aiknew/shared-api-exceptions'
-import { UpdateUploadFileGroupDto } from './dto/update-upload-file-group.dto'
-import { I18nContext, I18nService } from 'nestjs-i18n'
+} from "@aiknew/shared-api-exceptions"
+import { UpdateUploadFileGroupDto } from "./dto/update-upload-file-group.dto"
+import { I18nContext, I18nService } from "nestjs-i18n"
 
 @Injectable()
 export class UploadFileGroupService {
-  private static readonly modelName = 'uploadFileGroup'
-  private static readonly fileModelName = 'uploadFile'
-  private static readonly fileGroupPathModelName = 'uploadFileGroupPath'
+  private static readonly modelName = "uploadFileGroup"
+  private static readonly fileModelName = "uploadFile"
+  private static readonly fileGroupPathModelName = "uploadFileGroupPath"
 
   // Maximum groups in the same level
   protected maxGroups = 1000
   // Maximum group depth level
   protected maxLevel = 100
   // The cache key of all file groups data
-  protected groupsCacheKey = 'all-file-groups'
+  protected groupsCacheKey = "all-file-groups"
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['uploadFileGroup'] {
+  get model(): PrismaService["uploadFileGroup"] {
     return this.prisma[UploadFileGroupService.modelName]
   }
 
   async findChildren(parentId: string | null) {
-    if (parentId === 'null') {
+    if (parentId === "null") {
       parentId = null
     }
     return await this.model.findMany({
@@ -54,14 +54,14 @@ export class UploadFileGroupService {
       where,
       orderBy: [
         {
-          order: 'asc',
+          order: "asc",
         },
       ],
       include: {
         ancestors: {
           include: { ancestor: { select: { groupName: true } } },
           orderBy: {
-            depth: 'desc',
+            depth: "desc",
           },
         },
       },
@@ -133,15 +133,15 @@ export class UploadFileGroupService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2002':
+          case "P2002":
             throw new AppConflictException(
-              this.i18n.t('upload-file-group.groupNameExists', {
+              this.i18n.t("upload-file-group.groupNameExists", {
                 lang: I18nContext.current()?.lang,
               }),
             )
-          case 'P2003':
+          case "P2003":
             throw new AppBadRequestException(
-              this.i18n.t('upload-file-group.invalidParentGroup', {
+              this.i18n.t("upload-file-group.invalidParentGroup", {
                 lang: I18nContext.current()?.lang,
               }),
             )
@@ -181,9 +181,9 @@ export class UploadFileGroupService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2002':
+          case "P2002":
             throw new AppConflictException(
-              this.i18n.t('upload-file-group.groupNameExists', {
+              this.i18n.t("upload-file-group.groupNameExists", {
                 lang: I18nContext.current()?.lang,
               }),
             )
@@ -201,7 +201,7 @@ export class UploadFileGroupService {
 
       if (childCount > 0 || fileCount > 0) {
         throw new AppBadRequestException(
-          this.i18n.t('upload-file-group.groupIsUsing', {
+          this.i18n.t("upload-file-group.groupIsUsing", {
             lang: I18nContext.current()?.lang,
           }),
         )

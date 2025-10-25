@@ -1,5 +1,3 @@
-import { PaginationDto } from "@aiknew/shared-api-dtos";
+import { PaginationDto } from "@aiknew/shared-api-dtos"
 
-export class QueryPermissionGroupDto extends PaginationDto {
-
-}
+export class QueryPermissionGroupDto extends PaginationDto {}

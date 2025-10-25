@@ -1,16 +1,18 @@
-import { Injectable } from '@nestjs/common'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { CreatePermissionDto } from './dto/create-permission.dto'
+import { Injectable } from "@nestjs/common"
+import { CreatePermissionDto } from "./dto/create-permission.dto"
 import {
   AdminPermissionSource,
   Prisma,
   PrismaService,
-} from '@aiknew/shared-admin-db'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { AppBadRequestException, AppConflictException } from '@aiknew/shared-api-exceptions'
-import { UpdatePermissionDto } from './dto/update-permission.dto'
-import { AdminUserService } from '../admin-user/admin-user.service'
-import { QueryPermissionDto } from './dto/query-permission.dto'
+} from "@aiknew/shared-admin-db"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import {
+  AppBadRequestException,
+  AppConflictException,
+} from "@aiknew/shared-api-exceptions"
+import { UpdatePermissionDto } from "./dto/update-permission.dto"
+import { AdminUserService } from "../admin-user/admin-user.service"
+import { QueryPermissionDto } from "./dto/query-permission.dto"
 
 @Injectable()
 export class PermissionService {
@@ -18,7 +20,7 @@ export class PermissionService {
     private prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly authUserService: AdminUserService,
-  ) { }
+  ) {}
 
   get model() {
     return this.prisma.adminPermission
@@ -36,8 +38,8 @@ export class PermissionService {
     return this.model.findMany({
       where: conditions,
       include: {
-        translations: true
-      }
+        translations: true,
+      },
     })
   }
 
@@ -56,9 +58,9 @@ export class PermissionService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2002':
+          case "P2002":
             throw new AppConflictException(
-              this.i18n.t('permission.alreadyExists', {
+              this.i18n.t("permission.alreadyExists", {
                 lang: I18nContext?.current()?.lang,
               }),
             )
@@ -71,23 +73,18 @@ export class PermissionService {
   async isBuiltIn(id: string) {
     const item = await this.model.findUnique({ where: { id } })
     if (!item) {
-      throw new AppBadRequestException(
-        this.i18n.t('permission.nonExistsAPI')
-      )
+      throw new AppBadRequestException(this.i18n.t("permission.nonExistsAPI"))
     }
 
-    return item.source === 'BUILT_IN'
-
+    return item.source === "BUILT_IN"
   }
 
   async updateOne(id: string, data: UpdatePermissionDto) {
-    if (
-      await this.isBuiltIn(id)
-    ) {
+    if (await this.isBuiltIn(id)) {
       throw new AppBadRequestException(
-        this.i18n.t('permission.cannotModifyBuiltIn', {
-          lang: I18nContext.current()?.lang
-        })
+        this.i18n.t("permission.cannotModifyBuiltIn", {
+          lang: I18nContext.current()?.lang,
+        }),
       )
     }
 
@@ -112,12 +109,11 @@ export class PermissionService {
 
   async deleteOne(id: string) {
     try {
-
       if (await this.isBuiltIn(id)) {
         throw new AppBadRequestException(
-          this.i18n.t('permission.cannotDelBuiltIn', {
-            lang: I18nContext.current()?.lang
-          })
+          this.i18n.t("permission.cannotDelBuiltIn", {
+            lang: I18nContext.current()?.lang,
+          }),
         )
       }
 
@@ -141,9 +137,9 @@ export class PermissionService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppConflictException(
-              this.i18n.t('permission.haveRelated', {
+              this.i18n.t("permission.haveRelated", {
                 lang: I18nContext.current()?.lang,
               }),
             )

@@ -1,15 +1,15 @@
-import { FileStorageStatus, StorageType } from '@aiknew/shared-admin-db'
-import { ApiProperty } from '@nestjs/swagger'
+import { FileStorageStatus, StorageType } from "@aiknew/shared-admin-db"
+import { ApiProperty } from "@nestjs/swagger"
 import {
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
   ValidateIf,
-} from 'class-validator'
+} from "class-validator"
 
-const isSpecificType = (o: any, type: StorageType) => {
-  if (o.type) {
+const isSpecificType = (o: unknown, type: StorageType) => {
+  if (typeof o === "object" && o && "type" in o) {
     return o.type === type
   }
 
@@ -23,16 +23,16 @@ export class CreateFileStorageDto {
   @IsString()
   hostname: string
 
-  @ApiProperty({ enumName: 'FileStorageStatus', enum: FileStorageStatus })
+  @ApiProperty({ enumName: "FileStorageStatus", enum: FileStorageStatus })
   @IsEnum(FileStorageStatus)
   @IsOptional()
-  status: FileStorageStatus = 'NORMAL'
+  status: FileStorageStatus = "NORMAL"
 
   @IsNumber()
   @IsOptional()
   priority: number = 10
 
-  @ApiProperty({ enumName: 'StorageType', enum: StorageType })
+  @ApiProperty({ enumName: "StorageType", enum: StorageType })
   @IsEnum(StorageType)
   type: StorageType
 

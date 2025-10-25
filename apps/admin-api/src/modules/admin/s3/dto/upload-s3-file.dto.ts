@@ -1,4 +1,4 @@
-import { FileStatus, UploadFileChannel } from '@aiknew/shared-admin-db'
+import { FileStatus, UploadFileChannel } from "@aiknew/shared-admin-db"
 
 export class UploadS3FileDto {
   channel: UploadFileChannel

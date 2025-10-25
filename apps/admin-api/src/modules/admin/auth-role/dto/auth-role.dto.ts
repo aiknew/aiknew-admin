@@ -1,4 +1,4 @@
-import { AuthRoleTranslationDto } from './auth-role-translation.dto'
+import { AuthRoleTranslationDto } from "./auth-role-translation.dto"
 
 export class AuthRoleDto {
   id: string

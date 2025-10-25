@@ -1,9 +1,9 @@
-import { Global, Module } from '@nestjs/common'
-import { RedisService } from '@aiknew/shared-api-redis'
-import { REDIS_CLIENT } from '@aiknew/shared-api-utils'
-import { createClient } from 'redis'
-import { ConfigService } from '@nestjs/config'
-import { PrismaModule } from '@aiknew/shared-admin-db'
+import { Global, Module } from "@nestjs/common"
+import { RedisService } from "@aiknew/shared-api-redis"
+import { REDIS_CLIENT } from "@aiknew/shared-api-utils"
+import { createClient } from "redis"
+import { ConfigService } from "@nestjs/config"
+import { PrismaModule } from "@aiknew/shared-admin-db"
 
 @Global()
 @Module({
@@ -15,8 +15,8 @@ import { PrismaModule } from '@aiknew/shared-admin-db'
       useFactory: async (configService: ConfigService) => {
         const redisClient = createClient({
           socket: {
-            host: configService.get('REDIS_HOST'),
-            port: configService.get('REDIS_PORT'),
+            host: configService.get("REDIS_HOST"),
+            port: configService.get("REDIS_PORT"),
           },
         })
 

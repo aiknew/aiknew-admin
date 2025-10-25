@@ -1,5 +1,5 @@
-import { PaginationDto } from "@aiknew/shared-api-dtos";
-import { IsOptional, IsString } from "class-validator";
+import { PaginationDto } from "@aiknew/shared-api-dtos"
+import { IsOptional, IsString } from "class-validator"
 
 export class QueryDictTypeDto extends PaginationDto {
   @IsString()

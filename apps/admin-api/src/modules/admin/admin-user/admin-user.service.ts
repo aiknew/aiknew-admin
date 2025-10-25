@@ -1,27 +1,27 @@
-import { ConflictException, Injectable } from '@nestjs/common'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { AppUnauthorizedException } from '@aiknew/shared-api-exceptions'
-import { createHMAC } from '@aiknew/shared-api-utils'
-import { CreateAdminUserDto } from './dto/create-admin-user.dto'
-import { UpdateAdminUserDto } from './dto/update-admin-user.dto'
-import { AdminPermission, Prisma, PrismaService } from '@aiknew/shared-admin-db'
-import { AuthRouteDto } from '../auth-route/dto/auth-route.dto'
-import { RedisService } from '@aiknew/shared-api-redis'
-import { QueryAdminUserDto } from './dto/query-admin-user.dto'
-import { ConfigService } from '@nestjs/config'
+import { ConflictException, Injectable } from "@nestjs/common"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { AppUnauthorizedException } from "@aiknew/shared-api-exceptions"
+import { createHMAC } from "@aiknew/shared-api-utils"
+import { CreateAdminUserDto } from "./dto/create-admin-user.dto"
+import { UpdateAdminUserDto } from "./dto/update-admin-user.dto"
+import { AdminPermission, Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { AuthRouteDto } from "../auth-route/dto/auth-route.dto"
+import { RedisService } from "@aiknew/shared-api-redis"
+import { QueryAdminUserDto } from "./dto/query-admin-user.dto"
+import { ConfigService } from "@nestjs/config"
 
 @Injectable()
 export class AdminUserService {
-  userCacheKey = 'user_'
-  userPermissionsCacheKey = this.userCacheKey + 'permissions'
-  userRoutesCacheKey = this.userCacheKey + 'routes'
+  userCacheKey = "user_"
+  userPermissionsCacheKey = this.userCacheKey + "permissions"
+  userRoutesCacheKey = this.userCacheKey + "routes"
 
   constructor(
     private prisma: PrismaService,
     private i18n: I18nService,
     private redisService: RedisService,
-    private configService: ConfigService
-  ) { }
+    private configService: ConfigService,
+  ) {}
 
   get model() {
     return this.prisma.adminUser
@@ -40,15 +40,15 @@ export class AdminUserService {
   }
 
   buildUserPermissionsCacheKey(userId: string) {
-    return this.userPermissionsCacheKey + ':' + userId
+    return this.userPermissionsCacheKey + ":" + userId
   }
 
   buildUserRoutesCacheKey(userId: string) {
-    return this.userRoutesCacheKey + ':' + userId
+    return this.userRoutesCacheKey + ":" + userId
   }
 
   async clearAllUserCache() {
-    return this.redisService.deleteKeysByPattern(this.userCacheKey + '*')
+    return this.redisService.deleteKeysByPattern(this.userCacheKey + "*")
   }
 
   async clearUserCache(userId: string) {
@@ -59,16 +59,22 @@ export class AdminUserService {
   }
 
   setUserPermissionsCache(userId: string, val: string) {
-    return this.redisService.set(this.buildUserPermissionsCacheKey(userId), val, { EX: 60 * 60 })
+    return this.redisService.set(
+      this.buildUserPermissionsCacheKey(userId),
+      val,
+      { EX: 60 * 60 },
+    )
   }
 
   setUserRoutesCache(userId: string, val: string) {
-    return this.redisService.set(this.buildUserRoutesCacheKey(userId), val, { EX: 60 * 60 })
+    return this.redisService.set(this.buildUserRoutesCacheKey(userId), val, {
+      EX: 60 * 60,
+    })
   }
 
   async getUserRoutesAndPermissions(userId: string) {
     const permissions: AdminPermission[] = []
-    let authRoutes: Omit<AuthRouteDto, 'permissions'>[] = []
+    let authRoutes: Omit<AuthRouteDto, "permissions">[] = []
 
     const userRoles = await this.roleRelModel.findMany({
       where: {
@@ -128,7 +134,9 @@ export class AdminUserService {
   }
 
   async getUserPermissions(userId: string): Promise<AdminPermission[]> {
-    const str = await this.redisService.get(this.buildUserPermissionsCacheKey(userId))
+    const str = await this.redisService.get(
+      this.buildUserPermissionsCacheKey(userId),
+    )
     if (str) {
       return (JSON.parse(str) as AdminPermission[]) ?? []
     }
@@ -138,12 +146,14 @@ export class AdminUserService {
     return permissions
   }
 
-  async getUserRoutes(userId: string): Promise<Omit<AuthRouteDto, 'permissions'>[]> {
+  async getUserRoutes(
+    userId: string,
+  ): Promise<Omit<AuthRouteDto, "permissions">[]> {
     const str = await this.redisService.get(
       this.buildUserRoutesCacheKey(userId),
     )
     if (str) {
-      return (JSON.parse(str) as Omit<AuthRouteDto, 'permissions'>[]) ?? []
+      return (JSON.parse(str) as Omit<AuthRouteDto, "permissions">[]) ?? []
     }
 
     const { authRoutes } = await this.getUserRoutesAndPermissions(userId)
@@ -190,7 +200,7 @@ export class AdminUserService {
 
     if (!user) {
       throw new AppUnauthorizedException(
-        this.i18n.t('common.authExpired', {
+        this.i18n.t("common.authExpired", {
           lang: I18nContext.current()?.lang,
         }),
       )
@@ -204,7 +214,10 @@ export class AdminUserService {
       const user = await this.model.findFirstOrThrow({
         where: {
           userName,
-          password: createHMAC(password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
+          password: createHMAC(
+            password,
+            this.configService.get<string>("ADMIN_USER_PASSWORD_SECRET"),
+          ),
         },
         omit: {
           password: true,
@@ -212,7 +225,7 @@ export class AdminUserService {
         },
       })
 
-      let routes: Omit<AuthRouteDto, 'permissions'>[] = []
+      let routes: Omit<AuthRouteDto, "permissions">[] = []
       if (user.super) {
         // get all routes for super admin user
         routes = await this.routeModel.findMany({
@@ -222,10 +235,7 @@ export class AdminUserService {
             translations: true,
           },
 
-          orderBy: [
-            { order: 'asc' },
-            { 'createdAt': 'desc' }
-          ]
+          orderBy: [{ order: "asc" }, { createdAt: "desc" }],
         })
       } else {
         routes = await this.getUserRoutes(user.id)
@@ -238,9 +248,9 @@ export class AdminUserService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
+          case "P2025":
             throw new AppUnauthorizedException(
-              this.i18n.t('admin-user.userNotExists', {
+              this.i18n.t("admin-user.userNotExists", {
                 lang: I18nContext.current()?.lang,
               }),
             )
@@ -259,8 +269,8 @@ export class AdminUserService {
         super: false,
         userName: {
           contains: userName,
-          mode: 'insensitive'
-        }
+          mode: "insensitive",
+        },
       },
 
       omit: {
@@ -303,7 +313,10 @@ export class AdminUserService {
       return await this.model.create({
         data: {
           userName,
-          password: createHMAC(password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')),
+          password: createHMAC(
+            password,
+            this.configService.get<string>("ADMIN_USER_PASSWORD_SECRET"),
+          ),
           roles: {
             create: roles && this.constructRelatedRoles(roles),
           },
@@ -311,9 +324,9 @@ export class AdminUserService {
       })
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2002') {
+        if (err.code === "P2002") {
           throw new ConflictException(
-            this.i18n.t('admin-user.userAlreadyExists'),
+            this.i18n.t("admin-user.userAlreadyExists"),
           )
         }
       }
@@ -331,7 +344,12 @@ export class AdminUserService {
       return await this.model.update({
         data: {
           userName,
-          password: password?.trim() ? createHMAC(password, this.configService.get<string>('ADMIN_USER_PASSWORD_SECRET')) : undefined,
+          password: password?.trim()
+            ? createHMAC(
+                password,
+                this.configService.get<string>("ADMIN_USER_PASSWORD_SECRET"),
+              )
+            : undefined,
           roles: {
             deleteMany: {},
             create: this.constructRelatedRoles(roles ?? []),
@@ -344,9 +362,9 @@ export class AdminUserService {
       })
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2002') {
+        if (err.code === "P2002") {
           throw new ConflictException(
-            this.i18n.t('admin-user.userAlreadyExists'),
+            this.i18n.t("admin-user.userAlreadyExists"),
           )
         }
       }

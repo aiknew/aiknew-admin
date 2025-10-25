@@ -1,9 +1,9 @@
-import { Transform } from 'class-transformer'
-import { IsOptional, IsString, ValidateIf } from 'class-validator'
+import { Transform } from "class-transformer"
+import { IsOptional, IsString, ValidateIf } from "class-validator"
 
 export class CreateUploadFileDto {
-  @Transform(({ value }) => {
-    if (value === 'null') {
+  @Transform(({ value }: { value: unknown }) => {
+    if (value === "null") {
       return null
     }
 

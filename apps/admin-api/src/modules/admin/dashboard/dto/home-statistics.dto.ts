@@ -12,5 +12,4 @@ export class HomeStatisticsDto {
   nations: NationCount[]
 
   times: TimesCount[]
-
 }

@@ -13,14 +13,14 @@ export class QueryFileStorageDto extends PaginationDto {
   hostname?: string
 
   @ApiProperty({
-    enumName: 'FileStorageStatus',
+    enumName: "FileStorageStatus",
     enum: FileStorageStatus,
   })
   @IsEnum(FileStorageStatus)
   @IsOptional()
   status?: FileStorageStatus
 
-  @ApiProperty({ enumName: 'StorageType', enum: StorageType })
+  @ApiProperty({ enumName: "StorageType", enum: StorageType })
   @IsEnum(StorageType)
   @IsOptional()
   type?: StorageType

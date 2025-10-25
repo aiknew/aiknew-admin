@@ -1,14 +1,12 @@
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@aiknew/shared-admin-db'
-import { CreateDictDto } from './dto/create-dict.dto'
-import { UpdateDictDto } from './dto/update-dict.dto'
-import { QueryDictDto } from './dto/query-dict.dto'
+import { Injectable } from "@nestjs/common"
+import { PrismaService } from "@aiknew/shared-admin-db"
+import { CreateDictDto } from "./dto/create-dict.dto"
+import { UpdateDictDto } from "./dto/update-dict.dto"
+import { QueryDictDto } from "./dto/query-dict.dto"
 
 @Injectable()
 export class DictService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   get model() {
     return this.prisma.dict
@@ -21,9 +19,8 @@ export class DictService {
   async pagination(query: QueryDictDto) {
     const { dictTypeId, ...paginationDto } = query
     return this.model.paginate(paginationDto, {
-      where:
-      {
-        dictTypeId
+      where: {
+        dictTypeId,
       },
       include: {
         translations: true,
@@ -60,22 +57,18 @@ export class DictService {
   }
 
   async deleteOne(id: string) {
-    try {
-      const deleteTranslations = this.translationModel.deleteMany({
-        where: {
-          dictId: id,
-        },
-      })
+    const deleteTranslations = this.translationModel.deleteMany({
+      where: {
+        dictId: id,
+      },
+    })
 
-      const deleteDict = this.model.delete({
-        where: {
-          id,
-        },
-      })
+    const deleteDict = this.model.delete({
+      where: {
+        id,
+      },
+    })
 
-      await this.prisma.$transaction([deleteTranslations, deleteDict])
-    } catch (err) {
-      throw err
-    }
+    await this.prisma.$transaction([deleteTranslations, deleteDict])
   }
 }

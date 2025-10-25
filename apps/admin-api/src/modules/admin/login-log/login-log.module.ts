@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { LoginLogService } from './login-log.service'
-import { LoginLogController } from './login-log.controller'
-import { HttpModule } from '@nestjs/axios'
+import { Module } from "@nestjs/common"
+import { LoginLogService } from "./login-log.service"
+import { LoginLogController } from "./login-log.controller"
+import { HttpModule } from "@nestjs/axios"
 
 @Module({
   imports: [HttpModule],
@@ -9,4 +9,4 @@ import { HttpModule } from '@nestjs/axios'
   providers: [LoginLogService],
   exports: [LoginLogService],
 })
-export class LoginLogModule { }
+export class LoginLogModule {}

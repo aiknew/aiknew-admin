@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer'
+import { Type } from "class-transformer"
 import {
   IsBoolean,
   IsNumber,
@@ -6,9 +6,9 @@ import {
   IsString,
   ValidateIf,
   ValidateNested,
-} from 'class-validator'
-import { ValidateTranslations } from '../../../../common/validators'
-import { ArticleCategoryTranslationDto } from './article-category-translation.dto'
+} from "class-validator"
+import { ValidateTranslations } from "../../../../common/validators"
+import { ArticleCategoryTranslationDto } from "./article-category-translation.dto"
 
 export class CreateArticleCategoryDto {
   @IsBoolean()

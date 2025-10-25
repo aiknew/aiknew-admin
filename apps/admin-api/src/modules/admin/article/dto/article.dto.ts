@@ -1,8 +1,8 @@
-import { OmitType } from '@nestjs/swagger'
-import { UploadFileDto } from '../../upload-file/dto/upload-file.dto'
-import { ArticleTranslationDto } from './article-translation.dto'
+import { OmitType } from "@nestjs/swagger"
+import { UploadFileDto } from "../../upload-file/dto/upload-file.dto"
+import { ArticleTranslationDto } from "./article-translation.dto"
 
-class CoverImage extends OmitType(UploadFileDto, ['uploader', 'storage']) { }
+class CoverImage extends OmitType(UploadFileDto, ["uploader", "storage"]) {}
 
 export class ArticleDto {
   id: string

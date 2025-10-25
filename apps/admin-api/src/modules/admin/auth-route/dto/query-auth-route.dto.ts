@@ -1,6 +1,6 @@
-import { IsOptional, IsString, IsEnum } from 'class-validator'
-import { RouteType } from '@aiknew/shared-admin-db'
-import { ApiProperty } from '@nestjs/swagger'
+import { IsOptional, IsString, IsEnum } from "class-validator"
+import { RouteType } from "@aiknew/shared-admin-db"
+import { ApiProperty } from "@nestjs/swagger"
 
 export class QueryAuthRouteDto {
   @IsOptional()
@@ -13,6 +13,6 @@ export class QueryAuthRouteDto {
 
   @IsOptional()
   @IsEnum(RouteType)
-  @ApiProperty({ enumName: 'RouteType', enum: RouteType })
+  @ApiProperty({ enumName: "RouteType", enum: RouteType })
   type?: RouteType
 }

@@ -1,12 +1,11 @@
-import { Injectable } from '@nestjs/common'
-import { CreateAuthRoleDto } from './dto/create-auth-role.dto'
-import { UpdateAuthRoleDto } from './dto/update-auth-role.dto'
-import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
-import { AppConflictException } from '@aiknew/shared-api-exceptions'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { QueryAuthRoleDto } from './dto/query-auth-role.dto'
-import { AdminUserService } from '../admin-user/admin-user.service'
+import { Injectable } from "@nestjs/common"
+import { CreateAuthRoleDto } from "./dto/create-auth-role.dto"
+import { UpdateAuthRoleDto } from "./dto/update-auth-role.dto"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { AppConflictException } from "@aiknew/shared-api-exceptions"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { QueryAuthRoleDto } from "./dto/query-auth-role.dto"
+import { AdminUserService } from "../admin-user/admin-user.service"
 
 @Injectable()
 export class AuthRoleService {
@@ -14,17 +13,17 @@ export class AuthRoleService {
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly authUserService: AdminUserService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['adminRole'] {
+  get model(): PrismaService["adminRole"] {
     return this.prisma.adminRole
   }
 
-  get translationModel(): PrismaService['adminRoleTranslation'] {
+  get translationModel(): PrismaService["adminRoleTranslation"] {
     return this.prisma.adminRoleTranslation
   }
 
-  get routeRelModel(): PrismaService['adminRoleRoute'] {
+  get routeRelModel(): PrismaService["adminRoleRoute"] {
     return this.prisma.adminRoleRoute
   }
 
@@ -55,7 +54,7 @@ export class AuthRoleService {
         some: {
           roleName: {
             contains: name,
-            mode: 'insensitive',
+            mode: "insensitive",
           },
         },
       }
@@ -67,10 +66,7 @@ export class AuthRoleService {
         translations: true,
         routes: true,
       },
-      orderBy: [
-        { order: 'asc' },
-        { createdAt: 'desc' }
-      ]
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
     })
 
     return {
@@ -147,9 +143,9 @@ export class AuthRoleService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppConflictException(
-              this.i18n.t('admin-role.hasRelated', {
+              this.i18n.t("admin-role.hasRelated", {
                 lang: I18nContext.current()?.lang,
               }),
             )

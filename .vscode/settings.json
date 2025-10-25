@@ -1,11 +1,24 @@
 {
-  "editor.cursorSmoothCaretAnimation": "on",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit",
-    "source.organizeImports": "never"
-  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "prettier.requireConfig": true,
+  "prettier.configPath": ".prettierrc",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.cursorSmoothCaretAnimation": "on",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -13,15 +26,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[markdown]": {
@@ -34,11 +38,11 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.editor.customLabels.patterns": {
-    "apps/admin/**/*.*": "admin - ${filename}.${extname}",
-    "apps/api/**/*.*": "api - ${filename}.${extname}"
+    "apps/admin-ui/**/*.*": "ui - ${filename}.${extname}",
+    "apps/admin-api/**/*.*": "api - ${filename}.${extname}"
   },
   "typescript.tsdk": "node_modules/.pnpm/typescript@5.8.2/node_modules/typescript/lib",
   "typescript.tsserver.maxTsServerMemory": 4096,
   "typescript.tsserver.nodePath": "node",
-  "oxc.enable": true
+  "oxc.enable": false
 }

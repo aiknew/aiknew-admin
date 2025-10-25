@@ -1,22 +1,22 @@
-import { Injectable } from '@nestjs/common'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
-import { rm } from 'node:fs/promises'
-import { join } from 'node:path'
-import { ConfigService } from '@nestjs/config'
-import { QueryUploadFileDto } from './dto/query-upload-file.dto'
-import { UploadFileGroupService } from '../upload-file-group/upload-file-group.service'
-import { UpdateUploadFileDto } from './dto/update-upload-file.dto'
+import { Injectable } from "@nestjs/common"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { rm } from "node:fs/promises"
+import { join } from "node:path"
+import { ConfigService } from "@nestjs/config"
+import { QueryUploadFileDto } from "./dto/query-upload-file.dto"
+import { UploadFileGroupService } from "../upload-file-group/upload-file-group.service"
+import { UpdateUploadFileDto } from "./dto/update-upload-file.dto"
 import {
   AppConflictException,
   AppNotFoundException,
-} from '@aiknew/shared-api-exceptions'
-import { FileStorageService } from '../file-storage/file-storage.service'
-import { S3Service } from '../s3/s3.service'
+} from "@aiknew/shared-api-exceptions"
+import { FileStorageService } from "../file-storage/file-storage.service"
+import { S3Service } from "../s3/s3.service"
 
 @Injectable()
 export class FileService {
-  private static readonly modelName = 'uploadFile'
+  private static readonly modelName = "uploadFile"
 
   constructor(
     private readonly prisma: PrismaService,
@@ -25,13 +25,13 @@ export class FileService {
     private readonly i18n: I18nService,
     private readonly fileStorageService: FileStorageService,
     private readonly s3Service: S3Service,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['uploadFile'] {
+  get model(): PrismaService["uploadFile"] {
     return this.prisma[FileService.modelName]
   }
 
-  get fileStorageModel(): PrismaService['fileStorage'] {
+  get fileStorageModel(): PrismaService["fileStorage"] {
     return this.prisma.fileStorage
   }
 
@@ -44,17 +44,17 @@ export class FileService {
         keyword,
       } = queryUploadFileDto
       const fileWhereInput: Prisma.UploadFileWhereInput = {
-        groupId: typeof parentId === 'undefined' ? null : parentId,
+        groupId: typeof parentId === "undefined" ? null : parentId,
         originalName: { contains: keyword },
         deletedAt: null,
         storage: {
           status: {
-            not: 'DISABLED',
+            not: "DISABLED",
           },
         },
       }
       const groupWhereInput: Prisma.UploadFileGroupWhereInput = {
-        parentId: typeof parentId === 'undefined' ? null : parentId,
+        parentId: typeof parentId === "undefined" ? null : parentId,
         groupName: { contains: keyword },
       }
 
@@ -105,9 +105,9 @@ export class FileService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
+          case "P2025":
             throw new AppNotFoundException(
-              this.i18n.t('upload-file.fileGroupNotExists', {
+              this.i18n.t("upload-file.fileGroupNotExists", {
                 lang: I18nContext.current()?.lang,
               }),
             )
@@ -133,15 +133,15 @@ export class FileService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2002':
-            throw new AppConflictException(this.i18n.t('upload-file.sameGroup'))
+          case "P2002":
+            throw new AppConflictException(this.i18n.t("upload-file.sameGroup"))
         }
       }
       throw err
     }
   }
 
-  async createOne(data: Prisma.UploadFileCreateArgs['data']) {
+  async createOne(data: Prisma.UploadFileCreateArgs["data"]) {
     try {
       await this.model.create({
         data,
@@ -150,7 +150,7 @@ export class FileService {
       // delete the file asset
       await rm(
         join(
-          this.configService.get<string>('common.publicFolder') ?? '',
+          this.configService.get<string>("common.publicFolder") ?? "",
           data.filePath,
         ),
         { force: true },
@@ -158,8 +158,8 @@ export class FileService {
 
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2002':
-            throw new AppConflictException(this.i18n.t('upload-file.sameGroup'))
+          case "P2002":
+            throw new AppConflictException(this.i18n.t("upload-file.sameGroup"))
         }
       }
 
@@ -179,7 +179,7 @@ export class FileService {
         },
       })
 
-      if (fileStorage.type === 'S3') {
+      if (fileStorage.type === "S3") {
         const bucket = fileStorage.bucket
         if (bucket) {
           await this.s3Service.deleteS3File({
@@ -190,7 +190,7 @@ export class FileService {
             bucket,
           })
         }
-      } else if (fileStorage.type === 'LOCAL') {
+      } else if (fileStorage.type === "LOCAL") {
         await this.prisma.$transaction(async (tx) => {
           // delete the file record in database
           const deletedFile = await tx[FileService.modelName].delete({
@@ -202,7 +202,7 @@ export class FileService {
           // delete the file
           await rm(
             join(
-              this.configService.get<string>('common.publicFolder') ?? '',
+              this.configService.get<string>("common.publicFolder") ?? "",
               deletedFile.filePath,
             ),
             {
@@ -214,13 +214,13 @@ export class FileService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
+          case "P2025":
             throw new AppNotFoundException(
-              this.i18n.t('upload-file.inexistentFile'),
+              this.i18n.t("upload-file.inexistentFile"),
             )
         }
 
-        if (err.code === 'ENOENT') {
+        if (err.code === "ENOENT") {
           // if file doesn't exists, just delete the record in database
           await this.model.delete({
             where: {

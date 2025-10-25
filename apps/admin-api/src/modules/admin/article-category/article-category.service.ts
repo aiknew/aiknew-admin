@@ -1,26 +1,23 @@
-import { CreateArticleCategoryDto } from './dto/create-article-category.dto'
-import { UpdateArticleCategoryDto } from './dto/update-article-category.dto'
-import { AppConflictException } from '@aiknew/shared-api-exceptions'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import {
-  Prisma,
-  PrismaService,
-} from '@aiknew/shared-admin-db'
-import { Injectable } from '@nestjs/common'
-import { QueryArticleCategoryDto } from './dto/query-article-category.dto'
+import { CreateArticleCategoryDto } from "./dto/create-article-category.dto"
+import { UpdateArticleCategoryDto } from "./dto/update-article-category.dto"
+import { AppConflictException } from "@aiknew/shared-api-exceptions"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { Injectable } from "@nestjs/common"
+import { QueryArticleCategoryDto } from "./dto/query-article-category.dto"
 
 @Injectable()
 export class ArticleCategoryService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['articleCategory'] {
+  get model(): PrismaService["articleCategory"] {
     return this.prisma.articleCategory
   }
 
-  get translationModel(): PrismaService['articleCategoryTranslation'] {
+  get translationModel(): PrismaService["articleCategoryTranslation"] {
     return this.prisma.articleCategoryTranslation
   }
 
@@ -32,22 +29,22 @@ export class ArticleCategoryService {
         translations: {
           some: {
             name: {
-              contains: name
-            }
-          }
-        }
+              contains: name,
+            },
+          },
+        },
       },
       include: {
-        translations: true
+        translations: true,
       },
       orderBy: [
         {
-          order: 'asc'
+          order: "asc",
         },
         {
-          'createdAt': 'desc'
-        }
-      ]
+          createdAt: "desc",
+        },
+      ],
     })
   }
 
@@ -89,7 +86,7 @@ export class ArticleCategoryService {
     try {
       if (await this.countChildren(id)) {
         throw new AppConflictException(
-          this.i18n.t('article-category.hasChildren', {
+          this.i18n.t("article-category.hasChildren", {
             lang: I18nContext.current()?.lang,
           }),
         )
@@ -107,9 +104,9 @@ export class ArticleCategoryService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppConflictException(
-              this.i18n.t('article-category.haveRelated', {
+              this.i18n.t("article-category.haveRelated", {
                 lang: I18nContext.current()?.lang,
               }),
             )

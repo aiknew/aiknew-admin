@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { RouteType } from '@aiknew/shared-admin-db'
-import { AuthRouteTranslationDto } from './auth-route-translation.dto'
+import { ApiProperty } from "@nestjs/swagger"
+import { RouteType } from "@aiknew/shared-admin-db"
+import { AuthRouteTranslationDto } from "./auth-route-translation.dto"
 
 export class AuthRouteDto {
   id: string
@@ -13,7 +13,7 @@ export class AuthRouteDto {
 
   component: string
 
-  @ApiProperty({ enum: RouteType, enumName: 'RouteType' })
+  @ApiProperty({ enum: RouteType, enumName: "RouteType" })
   type: RouteType
 
   key: string

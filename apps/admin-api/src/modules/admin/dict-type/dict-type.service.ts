@@ -1,18 +1,17 @@
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@aiknew/shared-admin-db'
-import { PaginationDto } from '@aiknew/shared-api-dtos'
-import { CreateDictTypeDto } from './dto/create-dict-type.dto'
-import { UpdateDictTypeDto } from './dto/update-dict-type.dto'
-import { AppConflictException } from '@aiknew/shared-api-exceptions'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { QueryDictTypeDto } from './dto/query-dict-type.dto'
+import { Injectable } from "@nestjs/common"
+import { PrismaService } from "@aiknew/shared-admin-db"
+import { CreateDictTypeDto } from "./dto/create-dict-type.dto"
+import { UpdateDictTypeDto } from "./dto/update-dict-type.dto"
+import { AppConflictException } from "@aiknew/shared-api-exceptions"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { QueryDictTypeDto } from "./dto/query-dict-type.dto"
 
 @Injectable()
 export class DictTypeService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
-  ) { }
+  ) {}
 
   get model() {
     return this.prisma.dictType
@@ -31,26 +30,23 @@ export class DictTypeService {
     return this.model.paginate(pagination, {
       where: {
         key: {
-          contains: key
+          contains: key,
         },
         translations: {
           some: {
             name: {
-              contains: name
+              contains: name,
             },
             remark: {
-              contains: remark
-            }
-          }
-        }
+              contains: remark,
+            },
+          },
+        },
       },
       include: {
         translations: true,
       },
-      orderBy: [
-        { order: 'asc' },
-        { createdAt: 'desc' }
-      ]
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
     })
   }
 
@@ -60,11 +56,10 @@ export class DictTypeService {
         translations: true,
       },
       orderBy: {
-        order: 'asc'
-      }
+        order: "asc",
+      },
     })
   }
-
 
   async createOne(data: CreateDictTypeDto) {
     const { translations, ...rest } = data
@@ -95,36 +90,32 @@ export class DictTypeService {
   }
 
   async deleteOne(id: string) {
-    try {
-      const count = await this.dictModel.count({
-        where: {
-          dictTypeId: id,
-        },
-      })
+    const count = await this.dictModel.count({
+      where: {
+        dictTypeId: id,
+      },
+    })
 
-      if (count > 0) {
-        throw new AppConflictException(
-          this.i18n.t('dict-type.haveChild', {
-            lang: I18nContext.current()?.lang,
-          }),
-        )
-      }
-
-      const deleteTranslations = this.translationModel.deleteMany({
-        where: {
-          dictTypeId: id,
-        },
-      })
-
-      const deleteDictType = this.model.delete({
-        where: {
-          id,
-        },
-      })
-
-      await this.prisma.$transaction([deleteTranslations, deleteDictType])
-    } catch (err) {
-      throw err
+    if (count > 0) {
+      throw new AppConflictException(
+        this.i18n.t("dict-type.haveChild", {
+          lang: I18nContext.current()?.lang,
+        }),
+      )
     }
+
+    const deleteTranslations = this.translationModel.deleteMany({
+      where: {
+        dictTypeId: id,
+      },
+    })
+
+    const deleteDictType = this.model.delete({
+      where: {
+        id,
+      },
+    })
+
+    await this.prisma.$transaction([deleteTranslations, deleteDictType])
   }
 }

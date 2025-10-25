@@ -1,17 +1,14 @@
-import { Injectable } from '@nestjs/common'
-import { CreateAuthRouteDto } from './dto/create-auth-route.dto'
-import { UpdateAuthRouteDto } from './dto/update-auth-route.dto'
-import { QueryAuthRouteDto } from './dto/query-auth-route.dto'
+import { Injectable } from "@nestjs/common"
+import { CreateAuthRouteDto } from "./dto/create-auth-route.dto"
+import { UpdateAuthRouteDto } from "./dto/update-auth-route.dto"
+import { QueryAuthRouteDto } from "./dto/query-auth-route.dto"
 import {
   AppBadRequestException,
   AppConflictException,
-} from '@aiknew/shared-api-exceptions'
-import {
-  Prisma,
-  PrismaService,
-} from '@aiknew/shared-admin-db'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { AdminUserService } from '../admin-user/admin-user.service'
+} from "@aiknew/shared-api-exceptions"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { AdminUserService } from "../admin-user/admin-user.service"
 
 @Injectable()
 export class AuthRouteService {
@@ -19,13 +16,13 @@ export class AuthRouteService {
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
     private readonly authUserService: AdminUserService,
-  ) { }
+  ) {}
 
-  get model(): PrismaService['adminRoute'] {
+  get model(): PrismaService["adminRoute"] {
     return this.prisma.adminRoute
   }
 
-  get translationModel(): PrismaService['adminRouteTranslation'] {
+  get translationModel(): PrismaService["adminRouteTranslation"] {
     return this.prisma.adminRouteTranslation
   }
 
@@ -59,14 +56,14 @@ export class AuthRouteService {
           some: {
             routeName: {
               contains: query?.name,
-              mode: 'insensitive'
-            }
-          }
+              mode: "insensitive",
+            },
+          },
         },
         type: query?.type,
         id: {
-          contains: query?.id
-        }
+          contains: query?.id,
+        },
       },
       include: {
         translations: true,
@@ -78,12 +75,12 @@ export class AuthRouteService {
       },
       orderBy: [
         {
-          order: 'asc'
+          order: "asc",
         },
         {
-          createdAt: 'desc'
-        }
-      ]
+          createdAt: "desc",
+        },
+      ],
     })
     return routes.map((route) => ({
       ...route,
@@ -107,12 +104,12 @@ export class AuthRouteService {
       })
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2025') {
+        if (err.code === "P2025") {
           const cause = err.meta?.cause
-          if (typeof cause === 'string') {
-            if (cause.includes('AdminApi')) {
+          if (typeof cause === "string") {
+            if (cause.includes("AdminApi")) {
               throw new AppBadRequestException(
-                this.i18n.t('admin-route.nonExistenceApis', {
+                this.i18n.t("admin-route.nonExistenceApis", {
                   lang: I18nContext.current()?.lang,
                 }),
               )
@@ -151,7 +148,7 @@ export class AuthRouteService {
       await this.authUserService.clearAllUserCache()
       if (await this.findChild(id)) {
         throw new AppConflictException(
-          this.i18n.t('admin-route.hasChild', {
+          this.i18n.t("admin-route.hasChild", {
             lang: I18nContext.current()?.lang,
           }),
         )
@@ -183,9 +180,9 @@ export class AuthRouteService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2003':
+          case "P2003":
             throw new AppConflictException(
-              this.i18n.t('admin-route.hasRelated', {
+              this.i18n.t("admin-route.hasRelated", {
                 lang: I18nContext.current()?.lang,
               }),
             )

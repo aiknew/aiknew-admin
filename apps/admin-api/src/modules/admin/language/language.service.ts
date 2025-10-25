@@ -1,21 +1,19 @@
-import { Injectable } from '@nestjs/common'
-import { CreateLanguageDto } from './dto/create-language.dto'
-import { Prisma, PrismaService } from '@aiknew/shared-admin-db'
-import { UpdateLanguageDto } from './dto/update-language.dto'
-import {
-  AppBadRequestException,
-} from '@aiknew/shared-api-exceptions'
-import { QueryLanguageDto } from './dto/query-language.dto'
-import { I18nContext, I18nService } from 'nestjs-i18n'
+import { Injectable } from "@nestjs/common"
+import { CreateLanguageDto } from "./dto/create-language.dto"
+import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
+import { UpdateLanguageDto } from "./dto/update-language.dto"
+import { AppBadRequestException } from "@aiknew/shared-api-exceptions"
+import { QueryLanguageDto } from "./dto/query-language.dto"
+import { I18nContext, I18nService } from "nestjs-i18n"
 
 @Injectable()
 export class LanguageService {
   constructor(
     private prisma: PrismaService,
-    private i18n: I18nService
-  ) { }
+    private i18n: I18nService,
+  ) {}
 
-  get model(): PrismaService['language'] {
+  get model(): PrismaService["language"] {
     return this.prisma.language
   }
 
@@ -28,20 +26,17 @@ export class LanguageService {
         where: {
           key: {
             contains: key,
-            mode: 'insensitive'
+            mode: "insensitive",
           },
           name: {
             contains: name,
-            mode: 'insensitive'
+            mode: "insensitive",
           },
           orientation,
-          status
+          status,
         },
-        orderBy: [
-          { order: 'asc' },
-          { createdAt: 'desc' }
-        ]
-      }
+        orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      },
     )
   }
 
@@ -61,11 +56,13 @@ export class LanguageService {
     } catch (err) {
       if (
         err instanceof Prisma.PrismaClientKnownRequestError &&
-        err.code === 'P2002'
+        err.code === "P2002"
       ) {
-        throw new AppBadRequestException(this.i18n.t('language.alreadyExist', {
-          lang: I18nContext.current()?.lang
-        }))
+        throw new AppBadRequestException(
+          this.i18n.t("language.alreadyExist", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
       }
 
       throw err
@@ -77,21 +74,22 @@ export class LanguageService {
       where: {
         status: true,
         NOT: {
-          key: exceptKey
-        }
-      }
+          key: exceptKey,
+        },
+      },
     })
   }
-
 
   async updateLanguage(key: string, data: UpdateLanguageDto) {
     try {
       const status = data.status
 
       if (!status && (await this.getEnabledCount(key)) === 0) {
-        throw new AppBadRequestException(this.i18n.t('language.atLeastOne', {
-          lang: I18nContext.current()?.lang
-        }))
+        throw new AppBadRequestException(
+          this.i18n.t("language.atLeastOne", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
       }
 
       await this.model.update({
@@ -101,10 +99,12 @@ export class LanguageService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
-            throw new AppBadRequestException(this.i18n.t('language.nonExistent', {
-              lang: I18nContext.current()?.lang
-            }))
+          case "P2025":
+            throw new AppBadRequestException(
+              this.i18n.t("language.nonExistent", {
+                lang: I18nContext.current()?.lang,
+              }),
+            )
         }
       }
 
@@ -114,11 +114,12 @@ export class LanguageService {
 
   async removeLanguage(key: string) {
     try {
-
       if ((await this.getEnabledCount(key)) === 0) {
-        throw new AppBadRequestException(this.i18n.t('language.atLeastOne', {
-          lang: I18nContext.current()?.lang
-        }))
+        throw new AppBadRequestException(
+          this.i18n.t("language.atLeastOne", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
       }
 
       await this.model.delete({
@@ -129,19 +130,22 @@ export class LanguageService {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         switch (err.code) {
-          case 'P2025':
-            throw new AppBadRequestException(this.i18n.t('language.nonExistent', {
-              lang: I18nContext.current()?.lang
-            }))
-          case 'P2003':
-            throw new AppBadRequestException(this.i18n.t('language.hasRelated', {
-              lang: I18nContext.current()?.lang
-            }))
+          case "P2025":
+            throw new AppBadRequestException(
+              this.i18n.t("language.nonExistent", {
+                lang: I18nContext.current()?.lang,
+              }),
+            )
+          case "P2003":
+            throw new AppBadRequestException(
+              this.i18n.t("language.hasRelated", {
+                lang: I18nContext.current()?.lang,
+              }),
+            )
         }
       }
 
       throw err
     }
   }
-
 }

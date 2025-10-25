@@ -1,24 +1,24 @@
-import { Module } from '@nestjs/common'
-import { ArticleModule } from './article/article.module'
-import { LanguageModule } from './language/language.module'
-import { AdminUserModule } from './admin-user/admin-user.module'
-import { AuthModule } from './auth/auth.module'
-import { PermissionModule } from './permission/permission.module'
-import { PermissionGroupModule } from './permission-group/permission-group.module'
-import { AuthRoleModule } from './auth-role/auth-role.module'
-import { AdminRouteModule } from './auth-route/auth-route.module'
-import { UploadFileGroupModule } from './upload-file-group/upload-file-group.module'
-import { UploadFileModule } from './upload-file/upload-file.module'
-import { ArticleCategoryModule } from './article-category/article-category.module'
-import { DictTypeModule } from './dict-type/dict-type.module'
-import { DiscoveryService, MetadataScanner, RouterModule } from '@nestjs/core'
-import { FileStorageModule } from './file-storage/file-storage.module'
-import { S3Module } from './s3/s3.module'
-import { DictModule } from './dict/dict.module'
-import { ConfigModule } from './config/config.module'
-import { LoginLogModule } from './login-log/login-log.module'
-import { adminBasePath } from '../../common/constants'
-import { DashboardModule } from './dashboard/dashboard.module';
+import { Module } from "@nestjs/common"
+import { ArticleModule } from "./article/article.module"
+import { LanguageModule } from "./language/language.module"
+import { AdminUserModule } from "./admin-user/admin-user.module"
+import { AuthModule } from "./auth/auth.module"
+import { PermissionModule } from "./permission/permission.module"
+import { PermissionGroupModule } from "./permission-group/permission-group.module"
+import { AuthRoleModule } from "./auth-role/auth-role.module"
+import { AdminRouteModule } from "./auth-route/auth-route.module"
+import { UploadFileGroupModule } from "./upload-file-group/upload-file-group.module"
+import { UploadFileModule } from "./upload-file/upload-file.module"
+import { ArticleCategoryModule } from "./article-category/article-category.module"
+import { DictTypeModule } from "./dict-type/dict-type.module"
+import { DiscoveryService, MetadataScanner, RouterModule } from "@nestjs/core"
+import { FileStorageModule } from "./file-storage/file-storage.module"
+import { S3Module } from "./s3/s3.module"
+import { DictModule } from "./dict/dict.module"
+import { ConfigModule } from "./config/config.module"
+import { LoginLogModule } from "./login-log/login-log.module"
+import { adminBasePath } from "../../common/constants"
+import { DashboardModule } from "./dashboard/dashboard.module"
 
 const adminModules = [
   PermissionModule,
@@ -52,12 +52,7 @@ const adminModules = [
     ]),
   ],
   controllers: [],
-  providers: [
-    DiscoveryService,
-    MetadataScanner,
-  ],
+  providers: [DiscoveryService, MetadataScanner],
   exports: [],
 })
-export class AdminModule {
-
-}
+export class AdminModule {}

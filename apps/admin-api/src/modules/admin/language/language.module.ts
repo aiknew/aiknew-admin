@@ -1,6 +1,6 @@
-import { Global, Module } from '@nestjs/common'
-import { LanguageService } from './language.service'
-import { LanguageController } from './language.controller'
+import { Global, Module } from "@nestjs/common"
+import { LanguageService } from "./language.service"
+import { LanguageController } from "./language.controller"
 
 @Global()
 @Module({
@@ -8,4 +8,4 @@ import { LanguageController } from './language.controller'
   providers: [LanguageService],
   exports: [LanguageService],
 })
-export class LanguageModule { }
+export class LanguageModule {}

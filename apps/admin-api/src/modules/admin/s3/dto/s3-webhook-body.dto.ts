@@ -6,14 +6,14 @@ import {
   IsNumberString,
   IsString,
   ValidateNested,
-} from 'class-validator'
-import { Transform, Type } from 'class-transformer'
-import { S3EventsEnum } from '../enum/s3-events.enum'
+} from "class-validator"
+import { Type } from "class-transformer"
+import { S3EventsEnum } from "../enum/s3-events.enum"
 
 export class S3ObjectUserMetadata {
   @IsString()
   @IsDefined()
-  'X-Amz-Meta-Groupid': string
+  "X-Amz-Meta-Groupid": string
 
   @IsDefined()
   @IsNumberString()
@@ -21,11 +21,11 @@ export class S3ObjectUserMetadata {
   //   console.log('val: ', value, Number(value))
   //   return Number(value)
   // })
-  'X-Amz-Meta-Channel': string
+  "X-Amz-Meta-Channel": string
 
   @IsString()
   @IsDefined()
-  'X-Amz-Meta-Uploaderid': string
+  "X-Amz-Meta-Uploaderid": string
 }
 
 export class S3Object {

@@ -10,7 +10,7 @@ import {
 } from "@aiknew/shared-api-exceptions"
 import { LoginBodyDto } from "./dto/login-body.dto"
 import { I18nContext, I18nService } from "nestjs-i18n"
-import { AdminJWTPayload, AuthAdminUser } from "@aiknew/shared-api-types"
+import type { AdminJWTPayload, AuthAdminUser } from "@aiknew/shared-api-types"
 import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
 import { UpdateUserInfoDto } from "./dto/update-user-info.dto"
 import { createHMAC } from "@aiknew/shared-api-utils"

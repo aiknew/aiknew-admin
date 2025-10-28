@@ -1,26 +1,23 @@
-// @ts-check
+import { defineConfig, globalIgnores } from "eslint/config"
+import globals from "globals"
 import eslint from "@eslint/js"
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
-import globals from "globals"
 import tseslint from "typescript-eslint"
-import fs from "node:fs"
-import path from "node:path"
 
-const prettierConfig = JSON.parse(
-  fs.readFileSync(
-    path.resolve(import.meta.dirname, "../../.prettierrc"),
-    "utf-8",
-  ),
-)
+export default defineConfig([
+  globalIgnores(["**/node_modules/", "**/dist/", "**/tsconfig.json"]),
 
-export default tseslint.config(
+  // admin-api eslint
   {
-    ignores: ["eslint.config.mjs", "webpack.config.js"],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
-  {
+    name: "admin-api",
+    basePath: "./apps/admin-api",
+    files: ["**/*.ts"],
+    ignores: ["logs/**", "public/**"],
+    extends: [
+      eslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      eslintPluginPrettierRecommended,
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -29,13 +26,11 @@ export default tseslint.config(
       sourceType: "commonjs",
       parserOptions: {
         projectService: true,
+        project: ["./apps/admin-api/tsconfig.build.json"],
         tsconfigRootDir: import.meta.dirname,
       },
     },
-  },
-  {
     rules: {
-      "prettier/prettier": ["error", prettierConfig],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-floating-promises": "warn",
       "@typescript-eslint/no-unsafe-argument": "warn",
@@ -53,4 +48,4 @@ export default tseslint.config(
       ],
     },
   },
-)
+])

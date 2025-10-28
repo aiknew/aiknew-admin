@@ -2,9 +2,11 @@ aiknew
 autoresize
 bprogress
 cascader
+dotenvx
 dtos
 echarts
 Groupid
+libpg
 Popconfirm
 Previewable
 tiptap

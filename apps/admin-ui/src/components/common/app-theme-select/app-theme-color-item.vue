@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue"
 
 interface Props {
   text: string
@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'select', color: string): void
+  (e: "select", color: string): void
 }
 
 const { text, color, currentThemeColor } = defineProps<Props>()

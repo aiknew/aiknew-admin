@@ -1,15 +1,15 @@
-import type { App } from 'vue'
-import { createPinia } from 'pinia'
-import { VueQueryPlugin } from '@tanstack/vue-query'
-import router from '../router'
-import { installI18n } from '@aiknew/shared-ui-locales'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { HttpError } from './openapi-fetch-client'
-import type { components } from '@/types/open-api'
-import { ElLoading } from 'element-plus'
-import { useUserStore } from '@/stores/user'
-import { registerDirectives } from '@/directives'
-import { useThemeSettingStore } from '../stores/index'
+import type { App } from "vue"
+import { createPinia } from "pinia"
+import { VueQueryPlugin } from "@tanstack/vue-query"
+import router from "../router"
+import { installI18n } from "@aiknew/shared-ui-locales"
+import * as ElementPlusIconsVue from "@element-plus/icons-vue"
+import { HttpError } from "./openapi-fetch-client"
+import type { components } from "@/types/open-api"
+import { ElLoading } from "element-plus"
+import { useUserStore } from "@/stores/user"
+import { registerDirectives } from "@/directives"
+import { useThemeSettingStore } from "../stores/index"
 
 export const bootstrap = (app: App<Element>) => {
   // install vue-i18n
@@ -36,19 +36,18 @@ export const bootstrap = (app: App<Element>) => {
         queries: {
           retry(failureCount, error) {
             if (error instanceof HttpError) {
-              const shouldNotRetryCodes: components['schemas']['ResponseStatusCode'][] = [
-                401, 403, 400
-              ]
+              const shouldNotRetryCodes: components["schemas"]["ResponseStatusCode"][] =
+                [401, 403, 400]
               if (shouldNotRetryCodes.includes(error.data.code)) {
                 return false
               }
             }
 
             return failureCount < 3
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   })
 
   // register element-plus icons
@@ -57,7 +56,7 @@ export const bootstrap = (app: App<Element>) => {
   }
 
   // register element-plus loading directive
-  app.directive('loading', ElLoading.directive)
+  app.directive("loading", ElLoading.directive)
 
   // register custom directives
   registerDirectives(app)

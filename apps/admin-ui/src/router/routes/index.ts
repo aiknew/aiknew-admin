@@ -1,2 +1,2 @@
-export * from './inherent-routes'
-export * from './static-routes'
+export * from "./inherent-routes"
+export * from "./static-routes"

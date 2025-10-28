@@ -1,22 +1,26 @@
 <script lang="ts" setup>
-import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, useTemplateRef } from 'vue'
-import { z } from 'zod'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import { useFileStorageCreate, useFileStorageUpdate, type FileStorage } from '@/api/file-storage'
-import { convertNullToUndefined } from '@aiknew/shared-utils'
-import { FileStorageStatus, StorageType } from '@aiknew/shared-enums'
-import { useI18n } from 'vue-i18n'
+import { AppBasicModal } from "@aiknew/shared-ui-components"
+import { ref, useTemplateRef } from "vue"
+import { z } from "zod"
+import { useAppForm, type Fields } from "@aiknew/shared-ui-components"
+import {
+  useFileStorageCreate,
+  useFileStorageUpdate,
+  type FileStorage,
+} from "@/api/file-storage"
+import { convertNullToUndefined } from "@aiknew/shared-utils"
+import { FileStorageStatus, StorageType } from "@aiknew/shared-enums"
+import { useI18n } from "vue-i18n"
 
 interface Emits {
-  (e: 'submit'): void
-  (e: 'close'): void
+  (e: "submit"): void
+  (e: "close"): void
 }
 
 const emit = defineEmits<Emits>()
 const { t } = useI18n()
-const modalRef = useTemplateRef('modalRef')
-const editId = ref<string>('')
+const modalRef = useTemplateRef("modalRef")
+const editId = ref<string>("")
 
 const isS3 = ref<boolean>(false)
 
@@ -28,128 +32,134 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: {
-          component: 'ElRadio',
+          component: "ElRadio",
           props: {
             options: [
-              { label: 'LOCAL', value: 'LOCAL' },
-              { label: 'S3', value: 'S3' }
-            ]
-          }
+              { label: "LOCAL", value: "LOCAL" },
+              { label: "S3", value: "S3" },
+            ],
+          },
         },
-        label: t('storageSetting.storageType'),
-        name: 'type',
-        schema: z.enum(StorageType).default('LOCAL')
+        label: t("storageSetting.storageType"),
+        name: "type",
+        schema: z.enum(StorageType).default("LOCAL"),
       },
 
       {
         as: {
-          component: 'ElRadio',
+          component: "ElRadio",
           props: {
             options: [
-              { label: t('storageSetting.normalStatus'), value: FileStorageStatus.NORMAL },
-              { label: t('storageSetting.disabledStatus'), value: FileStorageStatus.DISABLED },
               {
-                label: t('storageSetting.disabledUploadStatus'),
-                value: FileStorageStatus.DISABLED_UPLOAD
-              }
-            ]
-          }
+                label: t("storageSetting.normalStatus"),
+                value: FileStorageStatus.NORMAL,
+              },
+              {
+                label: t("storageSetting.disabledStatus"),
+                value: FileStorageStatus.DISABLED,
+              },
+              {
+                label: t("storageSetting.disabledUploadStatus"),
+                value: FileStorageStatus.DISABLED_UPLOAD,
+              },
+            ],
+          },
         },
-        label: t('status'),
-        name: 'status',
-        schema: z.enum(FileStorageStatus).default(FileStorageStatus.NORMAL)
+        label: t("status"),
+        name: "status",
+        schema: z.enum(FileStorageStatus).default(FileStorageStatus.NORMAL),
       },
 
       {
-        as: 'ElInput',
-        label: t('name'),
-        name: 'name',
+        as: "ElInput",
+        label: t("name"),
+        name: "name",
         schema: () =>
           z
             .string({
-              error: t('storageSetting.nameRequired')
+              error: t("storageSetting.nameRequired"),
             })
             .nonempty({
-              error: t('storageSetting.nameRequired')
+              error: t("storageSetting.nameRequired"),
             })
-            .default('')
+            .default(""),
       },
       {
-        as: 'ElInput',
-        label: t('storageSetting.hostname'),
-        name: 'hostname',
+        as: "ElInput",
+        label: t("storageSetting.hostname"),
+        name: "hostname",
         schema: () =>
           z
             .string({
-              error: t('storageSetting.hostnameRequired')
+              error: t("storageSetting.hostnameRequired"),
             })
             .nonempty({
-              error: t('storageSetting.hostnameRequired')
+              error: t("storageSetting.hostnameRequired"),
             })
-            .default('')
+            .default(""),
       },
       {
         when: isS3,
-        as: 'ElInput',
-        label: t('storageSetting.accessKey'),
-        name: 'accessKey',
-        schema: z.string().default('').optional()
+        as: "ElInput",
+        label: t("storageSetting.accessKey"),
+        name: "accessKey",
+        schema: z.string().default("").optional(),
       },
       {
         when: isS3,
-        as: 'ElInput',
-        label: t('storageSetting.secretKey'),
-        name: 'secretKey',
-        schema: z.string().default('').optional()
+        as: "ElInput",
+        label: t("storageSetting.secretKey"),
+        name: "secretKey",
+        schema: z.string().default("").optional(),
       },
       {
         when: isS3,
-        as: 'ElInput',
-        label: t('storageSetting.endpoint'),
-        name: 'endpoint',
-        schema: z.string().default('').optional()
+        as: "ElInput",
+        label: t("storageSetting.endpoint"),
+        name: "endpoint",
+        schema: z.string().default("").optional(),
       },
       {
         when: isS3,
-        as: 'ElInput',
-        label: t('storageSetting.bucket'),
-        name: 'bucket',
-        schema: z.string().default('').optional()
+        as: "ElInput",
+        label: t("storageSetting.bucket"),
+        name: "bucket",
+        schema: z.string().default("").optional(),
       },
       {
-        as: 'ElInputNumber',
-        label: t('storageSetting.priority'),
-        name: 'priority',
-        schema: z.number().default(10)
-      }
+        as: "ElInputNumber",
+        label: t("storageSetting.priority"),
+        name: "priority",
+        schema: z.number().default(10),
+      },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
-    if (modalRef.value?.modalMode === 'add') {
+    if (modalRef.value?.modalMode === "add") {
       await createFileStorage(values)
-    } else if (modalRef.value?.modalMode === 'edit') {
+    } else if (modalRef.value?.modalMode === "edit") {
       await updateFileStorage({ id: editId.value, body: values })
     }
 
-    emit('submit')
+    emit("submit")
     handleReset()
-  }
+  },
 })
 
 formApi.useStore((state) => {
   const type = state.values.type
-  isS3.value = type === 'S3'
+  isS3.value = type === "S3"
 })
 
 const add = () => {
-  modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('storageSetting.addTitle'))
+  modalRef.value?.setModalMode("add")
+  modalRef.value?.setTitle(t("storageSetting.addTitle"))
   modalRef.value?.show()
 }
 
 const edit = (item: FileStorage) => {
   editId.value = item.id
-  modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('storageSetting.editTitle'))
+  modalRef.value?.setModalMode("edit")
+  modalRef.value?.setTitle(t("storageSetting.editTitle"))
   modalRef.value?.show()
 
   formApi.reset(convertNullToUndefined(item), { keepDefaultValues: true })
@@ -158,17 +168,21 @@ const edit = (item: FileStorage) => {
 const handleReset = () => {
   modalRef.value?.close()
   formApi.reset()
-  emit('close')
+  emit("close")
 }
 
 defineExpose({
   add,
-  edit
+  edit,
 })
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+  <AppBasicModal
+    ref="modalRef"
+    @submit="formApi.handleSubmit"
+    @close="handleReset"
+  >
     <AppForm />
   </AppBasicModal>
 </template>

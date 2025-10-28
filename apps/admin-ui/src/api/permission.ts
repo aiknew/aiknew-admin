@@ -1,83 +1,87 @@
-import { useMutation, useQuery } from '@tanstack/vue-query'
-import { useApiData } from '@/composables/use-api'
-import { fetchClient } from '@/utils/openapi-fetch-client'
-import { toValue, type Ref } from 'vue'
-import type { ApiGetData, ApiGetQuery, ApiPatchReqBody, ApiPostReqBody } from '@/types/type-utils'
+import { useMutation, useQuery } from "@tanstack/vue-query"
+import { useApiData } from "@/composables/use-api"
+import { fetchClient } from "@/utils/openapi-fetch-client"
+import { toValue, type Ref } from "vue"
+import type {
+  ApiGetData,
+  ApiGetQuery,
+  ApiPatchReqBody,
+  ApiPostReqBody,
+} from "@/types/type-utils"
 
-export type Permission = ApiGetData<'/admin/permission/all'>[number]
+export type Permission = ApiGetData<"/admin/permission/all">[number]
 
-export type PermissionsAndGroupsDto = ApiGetData<'/admin/permission'>
+export type PermissionsAndGroupsDto = ApiGetData<"/admin/permission">
 
-export type CreatePermissionDto = ApiPostReqBody<'/admin/permission'>
+export type CreatePermissionDto = ApiPostReqBody<"/admin/permission">
 
-export type UpdatePermissionDto = ApiPatchReqBody<'/admin/permission/{id}'>
+export type UpdatePermissionDto = ApiPatchReqBody<"/admin/permission/{id}">
 
-export type QueryPermissionDto = ApiGetQuery<'/admin/permission/all'>
+export type QueryPermissionDto = ApiGetQuery<"/admin/permission/all">
 
 export const usePermissionAll = (groupId?: Ref<string>) => {
   return useQuery({
-    queryKey: ['permission-all', groupId],
+    queryKey: ["permission-all", groupId],
     enabled: false,
     queryFn: async () => {
       return useApiData(() =>
-        fetchClient.GET('/admin/permission/all', {
+        fetchClient.GET("/admin/permission/all", {
           params: {
             query: {
-              groupId: toValue(groupId)
-            }
+              groupId: toValue(groupId),
+            },
           },
-          showMsg: false
-        })
+          showMsg: false,
+        }),
       )
-    }
+    },
   })
 }
 
-
 export const usePermissionCreate = () => {
   return useMutation({
-    mutationKey: ['create-permission'],
+    mutationKey: ["create-permission"],
     mutationFn: (body: CreatePermissionDto) => {
       return useApiData(() =>
-        fetchClient.POST('/admin/permission', {
-          body
-        })
+        fetchClient.POST("/admin/permission", {
+          body,
+        }),
       )
-    }
+    },
   })
 }
 
 export const usePermissionUpdate = () => {
   return useMutation({
-    mutationKey: ['update-permission'],
+    mutationKey: ["update-permission"],
     mutationFn: ({ id, body }: { id: string; body: UpdatePermissionDto }) => {
       return useApiData(() =>
-        fetchClient.PATCH('/admin/permission/{id}', {
+        fetchClient.PATCH("/admin/permission/{id}", {
           params: {
             path: {
-              id
-            }
+              id,
+            },
           },
-          body
-        })
+          body,
+        }),
       )
-    }
+    },
   })
 }
 
 export const usePermissionDelete = () => {
   return useMutation({
-    mutationKey: ['delete-permission'],
+    mutationKey: ["delete-permission"],
     mutationFn: (id: string) => {
       return useApiData(() =>
-        fetchClient.DELETE('/admin/permission/{id}', {
+        fetchClient.DELETE("/admin/permission/{id}", {
           params: {
             path: {
-              id
-            }
-          }
-        })
+              id,
+            },
+          },
+        }),
       )
-    }
+    },
   })
 }

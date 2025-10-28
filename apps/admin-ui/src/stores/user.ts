@@ -1,16 +1,16 @@
-import { type LoginSuccessData, type UserInfo } from '@/api/auth'
-import { useRoutes } from '@/composables/use-routes'
-import router from '@/router'
-import { StorageSerializers, useStorage } from '@vueuse/core'
-import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { type LoginSuccessData, type UserInfo } from "@/api/auth"
+import { useRoutes } from "@/composables/use-routes"
+import router from "@/router"
+import { StorageSerializers, useStorage } from "@vueuse/core"
+import { defineStore } from "pinia"
+import { computed } from "vue"
 
 const { addRoutes } = useRoutes(router)
 
-export const useUserStore = defineStore('user', () => {
-  const accessToken = useStorage('accessToken', '')
-  const userInfo = useStorage<UserInfo>('userInfo', null, undefined, {
-    serializer: StorageSerializers.object
+export const useUserStore = defineStore("user", () => {
+  const accessToken = useStorage("accessToken", "")
+  const userInfo = useStorage<UserInfo>("userInfo", null, undefined, {
+    serializer: StorageSerializers.object,
   })
 
   const isLogin = computed(() => Boolean(accessToken.value.trim()))
@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', () => {
 
   const registerRoutes = () => {
     if (userInfo.value) {
-      addRoutes(userInfo.value.routes.filter((item) => item.type !== 'BUTTON'))
+      addRoutes(userInfo.value.routes.filter((item) => item.type !== "BUTTON"))
     }
   }
 
@@ -31,14 +31,14 @@ export const useUserStore = defineStore('user', () => {
 
     registerRoutes()
 
-    router.push({ name: 'Index' })
+    router.push({ name: "Index" })
   }
 
   const logout = () => {
-    accessToken.value = ''
+    accessToken.value = ""
     userInfo.value = null
 
-    router.push({ name: 'Login' })
+    router.push({ name: "Login" })
   }
 
   const checkPermission = (key: string, route?: string) => {
@@ -51,7 +51,9 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const hasPermission = userInfo.value?.routes.some((item) => {
-      return item.type === 'BUTTON' && item.parentId === routeId && item.key === key
+      return (
+        item.type === "BUTTON" && item.parentId === routeId && item.key === key
+      )
     })
 
     return hasPermission
@@ -65,6 +67,6 @@ export const useUserStore = defineStore('user', () => {
     login,
     logout,
     registerRoutes,
-    checkPermission
+    checkPermission,
   }
 })

@@ -1,9 +1,9 @@
-import { currentLang, t } from '@aiknew/shared-ui-locales'
-import { useUserStore } from '@/stores/user'
-import { type paths } from '@/types/open-api'
-import type { IResponseJson } from '@aiknew/shared-types'
-import { ElMessage, ElNotification } from 'element-plus'
-import createClient, { type Middleware } from 'openapi-fetch'
+import { currentLang, t } from "@aiknew/shared-ui-locales"
+import { useUserStore } from "@/stores/user"
+import { type paths } from "@/types/open-api"
+import type { IResponseJson } from "@aiknew/shared-types"
+import { ElMessage, ElNotification } from "element-plus"
+import createClient, { type Middleware } from "openapi-fetch"
 
 /**
  * A custom Error with extra information
@@ -18,17 +18,17 @@ export class HttpError extends Error {
 }
 
 const fetchClient = createClient<paths>({
-  baseUrl: import.meta.env.VITE_API_BASE_URL
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
 })
 
 const middleware: Middleware = {
   async onRequest({ request }) {
     // set current language
-    request.headers.set('accept-language', currentLang.value)
+    request.headers.set("accept-language", currentLang.value)
     // set user access token
     const userStore = useUserStore()
     if (userStore.accessToken) {
-      request.headers.set('Authorization', `Bearer ${userStore.accessToken}`)
+      request.headers.set("Authorization", `Bearer ${userStore.accessToken}`)
     }
 
     return request
@@ -54,7 +54,7 @@ const middleware: Middleware = {
       if (showMsg) {
         ElMessage({
           message: body.msg,
-          type: 'success'
+          type: "success",
         })
       }
     }
@@ -64,11 +64,11 @@ const middleware: Middleware = {
   onError({ error }) {
     // Network Error
     ElNotification({
-      title: t('networkError'),
+      title: t("networkError"),
       message: String(error),
-      type: 'error'
+      type: "error",
     })
-  }
+  },
 }
 
 fetchClient.use(middleware)

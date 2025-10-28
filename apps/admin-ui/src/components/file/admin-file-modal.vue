@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { useFileLogic } from '@/composables/use-file-logic'
-import { useUserStore } from '@/stores'
-import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
-import { AppFileModal } from '@aiknew/shared-ui-components'
-import { ref, useTemplateRef } from 'vue'
+import { useFileLogic } from "@/composables/use-file-logic"
+import { useUserStore } from "@/stores"
+import type { IUploadFile, IUploadFileQuery } from "@aiknew/shared-types"
+import { AppFileModal } from "@aiknew/shared-ui-components"
+import { ref, useTemplateRef } from "vue"
 
 interface Props {
   selectLimit?: number
 }
 
 interface Emits {
-  (e: 'submit', files: IUploadFile[]): void
+  (e: "submit", files: IUploadFile[]): void
 }
 
 const { selectLimit } = defineProps<Props>()
 const emit = defineEmits<Emits>()
 const { checkPermission } = useUserStore()
-const fileModalRef = useTemplateRef('fileModal')
-const authRoutePath = '/content/file'
+const fileModalRef = useTemplateRef("fileModal")
+const authRoutePath = "/content/file"
 
 const query = ref<IUploadFileQuery>({
   currentPage: 1,
   pageSize: 10,
-  keyword: '',
-  parentId: null
+  keyword: "",
+  parentId: null,
 })
 
 const {
@@ -37,7 +37,7 @@ const {
   loadGroupNode,
   storages,
   updateFile,
-  updateFileGroup
+  updateFileGroup,
 } = useFileLogic(query)
 
 const show = () => {
@@ -45,11 +45,11 @@ const show = () => {
 }
 
 const handleSubmit = (files: IUploadFile[]) => {
-  emit('submit', files)
+  emit("submit", files)
 }
 
 defineExpose({
-  show
+  show,
 })
 </script>
 

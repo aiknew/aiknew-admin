@@ -1,8 +1,8 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
-import { type LanguageDto } from '@/api/language'
+import { ref } from "vue"
+import { defineStore } from "pinia"
+import { type LanguageDto } from "@/api/language"
 
-export const useLangStore = defineStore('lang', () => {
+export const useLangStore = defineStore("lang", () => {
   const enabledLangs = ref<LanguageDto[]>([])
 
   const getNameByKey = (key: string | undefined) => {

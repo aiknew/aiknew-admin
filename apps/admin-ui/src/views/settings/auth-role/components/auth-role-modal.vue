@@ -1,37 +1,41 @@
 <script lang="ts" setup>
-import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { ref, h, useTemplateRef, computed } from 'vue'
-import { z } from 'zod'
+import { AppBasicModal } from "@aiknew/shared-ui-components"
+import { ref, h, useTemplateRef, computed } from "vue"
+import { z } from "zod"
 import {
   AppFormItemTips,
   buildI18nSchema,
   useAppForm,
-  type Fields
-} from '@aiknew/shared-ui-components'
-import { useLangStore } from '@/stores/lang'
-import { useAuthRoleCreate, useAuthRoleUpdate, type AuthRole } from '@/api/auth-role'
-import { useAuthRouteAll, type AuthRoute } from '@/api/auth-route'
-import { tField } from '@aiknew/shared-ui-locales'
-import { buildTree } from '@aiknew/shared-utils'
-import { useI18n } from 'vue-i18n'
-import { type CascaderNode, ElTag, type Tag } from 'element-plus'
+  type Fields,
+} from "@aiknew/shared-ui-components"
+import { useLangStore } from "@/stores/lang"
+import {
+  useAuthRoleCreate,
+  useAuthRoleUpdate,
+  type AuthRole,
+} from "@/api/auth-role"
+import { useAuthRouteAll, type AuthRoute } from "@/api/auth-route"
+import { tField } from "@aiknew/shared-ui-locales"
+import { buildTree } from "@aiknew/shared-utils"
+import { useI18n } from "vue-i18n"
+import { type CascaderNode, ElTag, type Tag } from "element-plus"
 
 interface Emits {
-  (e: 'submit'): void
-  (e: 'close'): void
+  (e: "submit"): void
+  (e: "close"): void
 }
 
 const emit = defineEmits<Emits>()
 
-const modalRef = useTemplateRef('modalRef')
+const modalRef = useTemplateRef("modalRef")
 const langStore = useLangStore()
 const { t } = useI18n()
 const { data: routes } = useAuthRouteAll()
 const { mutateAsync: createRole } = useAuthRoleCreate()
 const { mutateAsync: updateRole } = useAuthRoleUpdate()
-const editId = ref('0')
+const editId = ref("0")
 const routesTree = computed(() => {
-  return buildTree(routes.value, 'id', 'parentId')
+  return buildTree(routes.value, "id", "parentId")
 })
 
 const languages = langStore.enabledLangs
@@ -40,24 +44,24 @@ const { AppForm, formApi } = useAppForm({
   fields: () =>
     [
       {
-        as: 'ElInput',
-        label: t('authRole.roleNameLabel'),
-        name: 'roleName',
+        as: "ElInput",
+        label: t("authRole.roleNameLabel"),
+        name: "roleName",
         i18n: true,
         schema: () =>
           buildI18nSchema(
             z
               .string()
               .nonempty({
-                error: t('authRole.roleNameRequired')
+                error: t("authRole.roleNameRequired"),
               })
-              .default(''),
-            languages
-          )
+              .default(""),
+            languages,
+          ),
       },
       {
         as: {
-          component: 'ElCascader',
+          component: "ElCascader",
           props: {
             options: routesTree.value,
             clearable: true,
@@ -65,82 +69,88 @@ const { AppForm, formApi } = useAppForm({
               multiple: true,
               checkStrictly: true,
               emitPath: false,
-              value: 'id',
-              label: 'translations'
-            }
+              value: "id",
+              label: "translations",
+            },
           },
           slots: {
             default({ data }: { node: CascaderNode; data: AuthRoute }) {
-              return [h('div', tField(data.translations, 'routeName').value ?? '')]
+              return [
+                h("div", tField(data.translations, "routeName").value ?? ""),
+              ]
             },
 
             tag({ data }: { data: Tag[] }) {
               return data.map((item) => {
-                const translations: AuthRoute['translations'][] = (item.node?.pathLabels ??
-                  []) as never
+                const translations: AuthRoute["translations"][] = (item.node
+                  ?.pathLabels ?? []) as never
 
                 return h(
                   ElTag,
                   {
                     closable: true,
                     onClose() {
-                      const routes = formApi.getFieldValue('routes')
-                      const index = routes?.findIndex((id) => id === item.node?.value)
-                      if (typeof index !== 'undefined' && index !== -1) {
-                        formApi.removeFieldValue('routes' as never, index)
+                      const routes = formApi.getFieldValue("routes")
+                      const index = routes?.findIndex(
+                        (id) => id === item.node?.value,
+                      )
+                      if (typeof index !== "undefined" && index !== -1) {
+                        formApi.removeFieldValue("routes" as never, index)
                       }
-                    }
+                    },
                   },
                   () => {
-                    return translations.map((item) => tField(item, 'routeName').value).join('/')
-                  }
+                    return translations
+                      .map((item) => tField(item, "routeName").value)
+                      .join("/")
+                  },
                 )
               })
-            }
-          }
+            },
+          },
         },
-        label: t('authRole.permissionsLabel'),
-        name: 'routes',
-        schema: z.array(z.string()).default([]).optional()
+        label: t("authRole.permissionsLabel"),
+        name: "routes",
+        schema: z.array(z.string()).default([]).optional(),
       },
 
       {
-        as: 'ElInputNumber',
-        label: t('order'),
-        name: 'order',
+        as: "ElInputNumber",
+        label: t("order"),
+        name: "order",
         container: {
           bottomSlot() {
-            return h(AppFormItemTips, { text: t('orderTips') })
-          }
+            return h(AppFormItemTips, { text: t("orderTips") })
+          },
         },
-        schema: z.number().default(10)
-      }
+        schema: z.number().default(10),
+      },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
-    if (modalRef.value?.modalMode === 'add') {
+    if (modalRef.value?.modalMode === "add") {
       await createRole({
         ...values,
-        routes: values.routes ?? []
+        routes: values.routes ?? [],
       })
-    } else if (modalRef.value?.modalMode === 'edit') {
+    } else if (modalRef.value?.modalMode === "edit") {
       await updateRole({ id: editId.value, body: values })
     }
 
-    emit('submit')
+    emit("submit")
     handleReset()
-  }
+  },
 })
 
 const add = () => {
-  modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('authRole.addTitle'))
+  modalRef.value?.setModalMode("add")
+  modalRef.value?.setTitle(t("authRole.addTitle"))
   modalRef.value?.show()
 }
 
 const edit = (item: AuthRole) => {
   editId.value = item.id
-  modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('authRole.editTitle'))
+  modalRef.value?.setModalMode("edit")
+  modalRef.value?.setTitle(t("authRole.editTitle"))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })
@@ -149,17 +159,21 @@ const edit = (item: AuthRole) => {
 const handleReset = () => {
   modalRef.value?.close()
   formApi.reset()
-  emit('close')
+  emit("close")
 }
 
 defineExpose({
   add,
-  edit
+  edit,
 })
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+  <AppBasicModal
+    ref="modalRef"
+    @submit="formApi.handleSubmit"
+    @close="handleReset"
+  >
     <AppForm />
   </AppBasicModal>
 </template>

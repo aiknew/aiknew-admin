@@ -1,24 +1,28 @@
 <script lang="ts" setup>
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElFormItem, ElTag } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-components'
-import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import z from 'zod'
-import { useLoginLogList, type LoginLogDto, type QueryLoginLogDto } from '@/api/login-log'
-import { toReactive } from '@vueuse/core'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { ElTableColumn, ElButton, ElFormItem, ElTag } from "element-plus"
+import { AppTable } from "@aiknew/shared-ui-components"
+import { ref, computed } from "vue"
+import { useI18n } from "vue-i18n"
+import { useAppForm, type Fields } from "@aiknew/shared-ui-components"
+import z from "zod"
+import {
+  useLoginLogList,
+  type LoginLogDto,
+  type QueryLoginLogDto,
+} from "@/api/login-log"
+import { toReactive } from "@vueuse/core"
 
 const { t } = useI18n()
 const query = ref<QueryLoginLogDto>({
   currentPage: 1,
-  pageSize: 10
+  pageSize: 10,
 })
 
 const {
   data: loginLogData,
   refetch: refetchLoginLogData,
-  isFetching: isFetchingLoginLogs
+  isFetching: isFetchingLoginLogs,
 } = useLoginLogList(toReactive(query))
 
 const isLoading = computed(() => {
@@ -32,66 +36,66 @@ const refresh = () => {
 const { AppForm: QueryForm, formApi } = useAppForm({
   formProps: {
     inline: true,
-    labelPosition: 'left'
+    labelPosition: "left",
   },
   fields() {
     return [
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('loginLog.userName'),
-        name: 'userName',
-        schema: z.string().default('').optional()
+        label: t("loginLog.userName"),
+        name: "userName",
+        schema: z.string().default("").optional(),
       },
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('loginLog.ip'),
-        name: 'ip',
-        schema: z.string().default('').optional()
+        label: t("loginLog.ip"),
+        name: "ip",
+        schema: z.string().default("").optional(),
       },
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('loginLog.location'),
-        name: 'location',
-        schema: z.string().default('').optional()
+        label: t("loginLog.location"),
+        name: "location",
+        schema: z.string().default("").optional(),
       },
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('loginLog.os'),
-        name: 'os',
-        schema: z.string().default('').optional()
+        label: t("loginLog.os"),
+        name: "os",
+        schema: z.string().default("").optional(),
       },
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('loginLog.browser'),
-        name: 'browser',
-        schema: z.string().default('').optional()
-      }
+        label: t("loginLog.browser"),
+        name: "browser",
+        schema: z.string().default("").optional(),
+      },
     ] as const satisfies Fields
   },
   onSubmit({ values }) {
     query.value = {
       ...query.value,
-      ...values
+      ...values,
     }
     refresh()
-  }
+  },
 })
 
 const handleResetQueryForm = () => {
   formApi.reset()
   query.value = {
     currentPage: 1,
-    pageSize: 10
+    pageSize: 10,
   }
   refresh()
 }
@@ -102,9 +106,9 @@ const handleResetQueryForm = () => {
     <QueryForm>
       <el-form-item>
         <el-button type="primary" @click="formApi.handleSubmit">
-          {{ t('submit') }}
+          {{ t("submit") }}
         </el-button>
-        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
       </el-form-item>
     </QueryForm>
   </AppContentBlock>
@@ -116,7 +120,11 @@ const handleResetQueryForm = () => {
       v-model:page-size="query.pageSize"
       :table-data="loginLogData"
     >
-      <el-table-column prop="userName" :label="t('loginLog.userName')" width="120" />
+      <el-table-column
+        prop="userName"
+        :label="t('loginLog.userName')"
+        width="120"
+      />
       <el-table-column prop="ip" :label="t('loginLog.ip')" width="150" />
       <el-table-column
         prop="location"
@@ -125,14 +133,24 @@ const handleResetQueryForm = () => {
         show-overflow-tooltip
       />
       <el-table-column prop="os" :label="t('loginLog.os')" width="150" />
-      <el-table-column prop="browser" :label="t('loginLog.browser')" width="180" />
+      <el-table-column
+        prop="browser"
+        :label="t('loginLog.browser')"
+        width="180"
+      />
       <el-table-column prop="isSuccess" :label="t('status')">
         <template #default="{ row }: { row: LoginLogDto }">
-          <el-tag v-if="row.isSuccess" type="success">{{ t('success') }}</el-tag>
-          <el-tag type="danger" v-else>{{ t('failed') }}</el-tag>
+          <el-tag v-if="row.isSuccess" type="success">{{
+            t("success")
+          }}</el-tag>
+          <el-tag type="danger" v-else>{{ t("failed") }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createdAt" :label="t('loginLog.createdAt')" width="180" />
+      <el-table-column
+        prop="createdAt"
+        :label="t('loginLog.createdAt')"
+        width="180"
+      />
       <el-table-column
         prop="userAgent"
         :label="t('loginLog.userAgent')"

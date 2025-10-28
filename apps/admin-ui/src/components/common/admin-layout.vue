@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import { AppLanguageSwitcher, AppDarkModeSwitcher } from '@aiknew/shared-ui-components'
-import AppUserSetting from './app-user-setting.vue'
-import { onBeforeRouteUpdate, useRoute, useRouter, type LocationQueryRaw } from 'vue-router'
-import { setCurrentLang, currentLang, languages } from '@aiknew/shared-ui-locales'
-import { useRouteHistoryStore } from '@/stores/route-history'
-import AppAdminSetting from './app-admin-setting.vue'
-import { ref } from 'vue'
-import { useLayoutSetting } from '@/stores/layout-setting'
-import { AppLayout, AppRouteTab } from '@aiknew/shared-ui-components'
+import {
+  AppLanguageSwitcher,
+  AppDarkModeSwitcher,
+} from "@aiknew/shared-ui-components"
+import AppUserSetting from "./app-user-setting.vue"
+import {
+  onBeforeRouteUpdate,
+  useRoute,
+  useRouter,
+  type LocationQueryRaw,
+} from "vue-router"
+import {
+  setCurrentLang,
+  currentLang,
+  languages,
+} from "@aiknew/shared-ui-locales"
+import { useRouteHistoryStore } from "@/stores/route-history"
+import AppAdminSetting from "./app-admin-setting.vue"
+import { ref } from "vue"
+import { useLayoutSetting } from "@/stores/layout-setting"
+import { AppLayout, AppRouteTab } from "@aiknew/shared-ui-components"
 
 const router = useRouter()
 const route = useRoute()
@@ -15,14 +27,15 @@ const layoutStore = useLayoutSetting()
 const currentRoutePath = ref(route.path)
 const routeHistoryStore = useRouteHistoryStore()
 
-const routes = router.getRoutes().find((route) => route.name === 'Index')?.children ?? []
+const routes =
+  router.getRoutes().find((route) => route.name === "Index")?.children ?? []
 
 const flattenChildrenRecursive = (nodes: unknown): string[] => {
   const result = []
 
   if (nodes && Array.isArray(nodes)) {
     for (const node of nodes) {
-      result.push(node?.path ?? '')
+      result.push(node?.path ?? "")
       result.push(...flattenChildrenRecursive(node.children))
     }
   }
@@ -35,14 +48,17 @@ const topLevelRouteMap = new Map(
     .filter((item) => !item.meta?.hidden)
     .map((item) => {
       return [item.path, flattenChildrenRecursive(item.children)]
-    })
+    }),
 )
 
 onBeforeRouteUpdate((to) => {
   currentRoutePath.value = to.path
 })
 
-const handleRouteTabClick = (data: { path: string; query: LocationQueryRaw | undefined }) => {
+const handleRouteTabClick = (data: {
+  path: string
+  query: LocationQueryRaw | undefined
+}) => {
   router.push(data)
 }
 </script>

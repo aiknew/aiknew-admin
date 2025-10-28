@@ -1,5 +1,5 @@
-import { useUserStore } from '@/stores/user'
-import { type Directive } from 'vue'
+import { useUserStore } from "@/stores/user"
+import { type Directive } from "vue"
 
 export const permissionDirective: Directive = {
   mounted(el, { value: routePath, arg: key }) {
@@ -11,5 +11,5 @@ export const permissionDirective: Directive = {
         el.parentNode?.removeChild(el)
       }
     }
-  }
+  },
 }

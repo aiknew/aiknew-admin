@@ -1,35 +1,36 @@
 <script lang="ts" setup>
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-components'
-import { computed, ref } from 'vue'
-import { usePagination } from '@/composables'
-import { useTemplateRef } from 'vue'
-import AuthRoleModal from './components/auth-role-modal.vue'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { ElTableColumn, ElFormItem, ElButton, ElPopconfirm } from "element-plus"
+import { AppTable } from "@aiknew/shared-ui-components"
+import { computed, ref } from "vue"
+import { usePagination } from "@/composables"
+import { useTemplateRef } from "vue"
+import AuthRoleModal from "./components/auth-role-modal.vue"
 import {
   useAuthRoleDelete,
   useAuthRoleList,
   type AuthRole,
-  type QueryAuthRoleDto
-} from '@/api/auth-role'
-import { tField } from '@aiknew/shared-ui-locales'
-import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import z from 'zod'
+  type QueryAuthRoleDto,
+} from "@/api/auth-role"
+import { tField } from "@aiknew/shared-ui-locales"
+import { useI18n } from "vue-i18n"
+import { useAppForm, type Fields } from "@aiknew/shared-ui-components"
+import z from "zod"
 
-const modalRef = useTemplateRef('modalRef')
+const modalRef = useTemplateRef("modalRef")
 const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
 const query = ref<QueryAuthRoleDto>({
   currentPage: currentPage.value,
-  pageSize: pageSize.value
+  pageSize: pageSize.value,
 })
 const {
   data: authRoleData,
   refetch: refetchAuthRoleData,
-  isFetching: isFetchingAuthRoleData
+  isFetching: isFetchingAuthRoleData,
 } = useAuthRoleList(query)
-const { mutateAsync: deleteAuthRole, isPending: isDeleting } = useAuthRoleDelete()
+const { mutateAsync: deleteAuthRole, isPending: isDeleting } =
+  useAuthRoleDelete()
 
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingAuthRoleData.value
@@ -59,33 +60,33 @@ const handleSubmit = () => {
 const { AppForm: QueryForm, formApi } = useAppForm({
   formProps: {
     inline: true,
-    labelPosition: 'left'
+    labelPosition: "left",
   },
   fields() {
     return [
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('name'),
-        name: 'name',
-        schema: z.string().default('').optional()
-      }
+        label: t("name"),
+        name: "name",
+        schema: z.string().default("").optional(),
+      },
     ] as const satisfies Fields
   },
   onSubmit({ values: { name } }) {
     query.value = {
       ...query.value,
-      name
+      name,
     }
-  }
+  },
 })
 
 const handleResetQueryForm = () => {
   formApi.reset()
   query.value = {
     currentPage: currentPage.value,
-    pageSize: pageSize.value
+    pageSize: pageSize.value,
   }
 }
 </script>
@@ -94,15 +95,19 @@ const handleResetQueryForm = () => {
   <AppContentBlock class="mb-6">
     <QueryForm>
       <el-form-item>
-        <el-button type="primary" @click="formApi.handleSubmit">{{ t('submit') }}</el-button>
-        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+        <el-button type="primary" @click="formApi.handleSubmit">{{
+          t("submit")
+        }}</el-button>
+        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
       </el-form-item>
     </QueryForm>
   </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAdd">{{ t('add') }}</el-button>
+      <el-button class="ml-auto" type="primary" @click="handleAdd">{{
+        t("add")
+      }}</el-button>
     </div>
 
     <AppTable
@@ -115,7 +120,7 @@ const handleResetQueryForm = () => {
       <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
       <el-table-column prop="name" :label="t('name')" min-width="120">
         <template #default="{ row }: { row: AuthRole }">
-          <span>{{ tField(row.translations, 'roleName').value }}</span>
+          <span>{{ tField(row.translations, "roleName").value }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="order" :label="t('order')" width="100" />
@@ -131,9 +136,17 @@ const handleResetQueryForm = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm :title="t('deleteConfirm')" @confirm="handleDelete(scope.row)">
+          <el-popconfirm
+            :title="t('deleteConfirm')"
+            @confirm="handleDelete(scope.row)"
+          >
             <template #reference>
-              <el-button v-permission:delete type="danger" icon="Delete" size="small" />
+              <el-button
+                v-permission:delete
+                type="danger"
+                icon="Delete"
+                size="small"
+              />
             </template>
           </el-popconfirm>
         </template>

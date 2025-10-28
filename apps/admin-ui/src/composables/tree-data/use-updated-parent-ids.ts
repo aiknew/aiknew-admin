@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref } from "vue"
 
 export const useUpdatedParentIds = <T extends string | number = string>() => {
   const updatedParentIds = ref<Set<T>>(new Set())
@@ -13,6 +13,6 @@ export const useUpdatedParentIds = <T extends string | number = string>() => {
 
   return {
     addUpdatedParentId,
-    getUpdatedParentIds
+    getUpdatedParentIds,
   }
 }

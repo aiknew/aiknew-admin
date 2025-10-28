@@ -1,28 +1,33 @@
 <script lang="ts" setup>
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElFormItem } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-components'
-import { computed, ref } from 'vue'
-import { toReactive } from '@vueuse/core'
-import { useTemplateRef } from 'vue'
-import { useArticleDelete, useArticleList, type Article, type QueryArticleDto } from '@/api/article'
-import ArticleModal from './components/article-modal.vue'
-import { tField } from '@aiknew/shared-ui-locales'
-import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import z from 'zod'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { ElTableColumn, ElButton, ElPopconfirm, ElFormItem } from "element-plus"
+import { AppTable } from "@aiknew/shared-ui-components"
+import { computed, ref } from "vue"
+import { toReactive } from "@vueuse/core"
+import { useTemplateRef } from "vue"
+import {
+  useArticleDelete,
+  useArticleList,
+  type Article,
+  type QueryArticleDto,
+} from "@/api/article"
+import ArticleModal from "./components/article-modal.vue"
+import { tField } from "@aiknew/shared-ui-locales"
+import { useI18n } from "vue-i18n"
+import { useAppForm, type Fields } from "@aiknew/shared-ui-components"
+import z from "zod"
 
 const { t } = useI18n()
 const query = ref<QueryArticleDto>({
   currentPage: 1,
-  pageSize: 10
+  pageSize: 10,
 })
 
-const articleModalRef = useTemplateRef('articleModalRef')
+const articleModalRef = useTemplateRef("articleModalRef")
 const {
   data: articleData,
   refetch: refetchArticleData,
-  isFetching: isFetchingArticleData
+  isFetching: isFetchingArticleData,
 } = useArticleList(toReactive(query))
 
 const { mutateAsync: deleteArticle, isPending: isDeleting } = useArticleDelete()
@@ -54,42 +59,42 @@ const handleSubmit = () => {
 const { AppForm: QueryForm, formApi } = useAppForm({
   formProps: {
     inline: true,
-    labelPosition: 'left'
+    labelPosition: "left",
   },
   fields() {
     return [
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('article.articleTitle'),
-        name: 'title',
-        schema: z.string().default('').optional()
+        label: t("article.articleTitle"),
+        name: "title",
+        schema: z.string().default("").optional(),
       },
 
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('article.content'),
-        name: 'content',
-        schema: z.string().default('').optional()
-      }
+        label: t("article.content"),
+        name: "content",
+        schema: z.string().default("").optional(),
+      },
     ] as const satisfies Fields
   },
   onSubmit({ values }) {
     query.value = {
       ...query.value,
-      ...values
+      ...values,
     }
-  }
+  },
 })
 
 const handleResetQueryForm = () => {
   formApi.reset()
   query.value = {
     currentPage: 1,
-    pageSize: 10
+    pageSize: 10,
   }
 }
 </script>
@@ -99,18 +104,22 @@ const handleResetQueryForm = () => {
     <QueryForm>
       <el-form-item>
         <el-button type="primary" @click="formApi.handleSubmit">
-          {{ t('submit') }}
+          {{ t("submit") }}
         </el-button>
-        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
       </el-form-item>
     </QueryForm>
   </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button v-permission:add class="ml-auto" type="primary" @click="handleAdd">{{
-        t('add')
-      }}</el-button>
+      <el-button
+        v-permission:add
+        class="ml-auto"
+        type="primary"
+        @click="handleAdd"
+        >{{ t("add") }}</el-button
+      >
     </div>
 
     <AppTable
@@ -123,7 +132,7 @@ const handleResetQueryForm = () => {
       <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
       <el-table-column prop="title" :label="t('title')">
         <template #default="{ row }: { row: Article }">
-          <span>{{ tField(row.translations, 'title').value }}</span>
+          <span>{{ tField(row.translations, "title").value }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="order" :label="t('order')" width="100" />
@@ -139,9 +148,17 @@ const handleResetQueryForm = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm :title="t('deleteConfirm')" @confirm="handleDelete(scope.row)">
+          <el-popconfirm
+            :title="t('deleteConfirm')"
+            @confirm="handleDelete(scope.row)"
+          >
             <template #reference>
-              <el-button v-permission:delete type="danger" icon="Delete" size="small" />
+              <el-button
+                v-permission:delete
+                type="danger"
+                icon="Delete"
+                size="small"
+              />
             </template>
           </el-popconfirm>
         </template>

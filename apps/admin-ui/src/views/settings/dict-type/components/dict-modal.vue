@@ -1,25 +1,29 @@
 <script lang="ts" setup>
-import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { computed, h, ref, useTemplateRef, watch } from 'vue'
-import { z } from 'zod'
-import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import { useDictCreate, useDictUpdate, type Dict } from '@/api/dict'
-import { useLangStore } from '@/stores/lang'
-import { useI18n } from 'vue-i18n'
-import type { DictType } from '@/api/dict-type'
-import { tField } from '@aiknew/shared-ui-locales'
+import { AppBasicModal } from "@aiknew/shared-ui-components"
+import { computed, h, ref, useTemplateRef, watch } from "vue"
+import { z } from "zod"
+import {
+  buildI18nSchema,
+  useAppForm,
+  type Fields,
+} from "@aiknew/shared-ui-components"
+import { useDictCreate, useDictUpdate, type Dict } from "@/api/dict"
+import { useLangStore } from "@/stores/lang"
+import { useI18n } from "vue-i18n"
+import type { DictType } from "@/api/dict-type"
+import { tField } from "@aiknew/shared-ui-locales"
 
 interface Emits {
-  (e: 'submit'): void
-  (e: 'close'): void
+  (e: "submit"): void
+  (e: "close"): void
 }
 
-const dictType = defineModel<DictType>('dictType')
+const dictType = defineModel<DictType>("dictType")
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const { t } = useI18n()
-const modalRef = useTemplateRef('modal')
+const modalRef = useTemplateRef("modal")
 
 const { mutateAsync: createDict } = useDictCreate()
 const { mutateAsync: updateDict } = useDictUpdate()
@@ -33,162 +37,166 @@ const { AppForm, formApi } = useAppForm({
         exclude: true,
         container: {
           content: h(
-            'div',
+            "div",
             computed(() => {
               if (dictType.value) {
-                return tField(dictType.value.translations, 'name').value ?? ''
+                return tField(dictType.value.translations, "name").value ?? ""
               }
 
-              return ''
-            }).value
-          )
+              return ""
+            }).value,
+          ),
         },
-        label: t('dictType.dictTypeName')
+        label: t("dictType.dictTypeName"),
       },
       {
         hidden: true,
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            disabled: true
-          }
+            disabled: true,
+          },
         },
-        label: '',
-        name: 'dictTypeId',
-        schema: z.string().nonempty().default('')
+        label: "",
+        name: "dictTypeId",
+        schema: z.string().nonempty().default(""),
       },
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            placeholder: t('dictType.dictLabel')
-          }
+            placeholder: t("dictType.dictLabel"),
+          },
         },
-        label: t('dictType.dictLabel'),
-        name: 'label',
+        label: t("dictType.dictLabel"),
+        name: "label",
         i18n: true,
         schema: () =>
           buildI18nSchema(
             z
               .string({
-                error: t('dictType.labelRequired')
+                error: t("dictType.labelRequired"),
               })
               .nonempty({
-                error: t('dictType.labelRequired')
+                error: t("dictType.labelRequired"),
               })
-              .default(''),
-            languages
-          )
+              .default(""),
+            languages,
+          ),
       },
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            placeholder: t('dictType.dictValue')
-          }
+            placeholder: t("dictType.dictValue"),
+          },
         },
-        label: t('dictType.dictValue'),
-        name: 'value',
+        label: t("dictType.dictValue"),
+        name: "value",
         schema: () =>
           z
             .string({
-              error: t('dictType.valueRequired')
+              error: t("dictType.valueRequired"),
             })
             .nonempty({
-              error: t('dictType.valueRequired')
+              error: t("dictType.valueRequired"),
             })
-            .default('')
+            .default(""),
       },
       {
         as: {
-          component: 'ElInputNumber',
+          component: "ElInputNumber",
           props: {
-            min: 0
-          }
+            min: 0,
+          },
         },
-        label: t('order'),
-        name: 'order',
-        schema: z.number().default(10)
+        label: t("order"),
+        name: "order",
+        schema: z.number().default(10),
       },
       {
         as: {
-          component: 'ElSwitch'
+          component: "ElSwitch",
         },
-        label: t('status'),
-        name: 'status',
-        schema: z.boolean().default(true)
+        label: t("status"),
+        name: "status",
+        schema: z.boolean().default(true),
       },
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            placeholder: t('remark')
-          }
+            placeholder: t("remark"),
+          },
         },
-        label: t('remark'),
-        name: 'remark',
+        label: t("remark"),
+        name: "remark",
         i18n: true,
-        schema: buildI18nSchema(z.string().default(''), languages)
-      }
+        schema: buildI18nSchema(z.string().default(""), languages),
+      },
     ] as const satisfies Fields,
   onSubmit: async ({ values }) => {
-    if (modalRef.value?.modalMode === 'add') {
+    if (modalRef.value?.modalMode === "add") {
       await createDict(values)
-    } else if (modalRef.value?.modalMode === 'edit' && editId.value) {
+    } else if (modalRef.value?.modalMode === "edit" && editId.value) {
       await updateDict({ id: editId.value, body: values })
     }
 
-    emit('submit')
+    emit("submit")
     handleReset()
-  }
+  },
 })
 
-const editId = ref('')
+const editId = ref("")
 
 watch(
   dictType,
   (val) => {
     if (val) {
-      formApi.setFieldValue('dictTypeId', val.id)
+      formApi.setFieldValue("dictTypeId", val.id)
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const add = () => {
   modalRef.value?.show()
-  modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('dictType.addDictTitle'))
+  modalRef.value?.setModalMode("add")
+  modalRef.value?.setTitle(t("dictType.addDictTitle"))
 }
 
 const edit = (item: Dict) => {
   editId.value = item.id
-  modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('dictType.editDictTitle'))
+  modalRef.value?.setModalMode("edit")
+  modalRef.value?.setTitle(t("dictType.editDictTitle"))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
-  editId.value = ''
+  editId.value = ""
   modalRef.value?.close()
   formApi.reset()
   if (dictType.value) {
-    formApi.setFieldValue('dictTypeId', dictType.value.id)
+    formApi.setFieldValue("dictTypeId", dictType.value.id)
   }
 
-  emit('close')
+  emit("close")
 }
 
 defineExpose({
   add,
-  edit
+  edit,
 })
 </script>
 
 <template>
-  <AppBasicModal ref="modal" @submit="formApi.handleSubmit" @close="handleReset">
+  <AppBasicModal
+    ref="modal"
+    @submit="formApi.handleSubmit"
+    @close="handleReset"
+  >
     <AppForm />
   </AppBasicModal>
 </template>

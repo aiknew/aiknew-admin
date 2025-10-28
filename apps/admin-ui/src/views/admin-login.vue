@@ -1,19 +1,23 @@
 <script lang="ts" setup>
-import { useLogin, useLoginCaptcha, type LoginBody } from '@/api/auth'
-import { AppLanguageSwitcher } from '@aiknew/shared-ui-components'
-import { useUserStore } from '@/stores/user'
+import { useLogin, useLoginCaptcha, type LoginBody } from "@/api/auth"
+import { AppLanguageSwitcher } from "@aiknew/shared-ui-components"
+import { useUserStore } from "@/stores/user"
 import {
   type FormInstance,
   type FormRules,
   ElForm,
   ElFormItem,
   ElInput,
-  ElButton
-} from 'element-plus'
-import { computed } from 'vue'
-import { reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { setCurrentLang, languages, currentLang } from '@aiknew/shared-ui-locales'
+  ElButton,
+} from "element-plus"
+import { computed } from "vue"
+import { reactive, ref } from "vue"
+import { useI18n } from "vue-i18n"
+import {
+  setCurrentLang,
+  languages,
+  currentLang,
+} from "@aiknew/shared-ui-locales"
 
 const { t } = useI18n()
 const userStore = useUserStore()
@@ -21,15 +25,15 @@ const { mutate: loginApi, isPending } = useLogin()
 const {
   data: captchaData,
   isFetching: isLoadingCaptcha,
-  refetch: refetchCaptcha
+  refetch: refetchCaptcha,
 } = useLoginCaptcha()
 
 const loginFormRef = ref<FormInstance>()
 const loginFormData = reactive<LoginBody>({
-  userName: '',
-  password: '',
-  captchaKey: '',
-  captchaCode: ''
+  userName: "",
+  password: "",
+  captchaKey: "",
+  captchaCode: "",
 })
 
 const isLoading = computed(() => {
@@ -37,9 +41,11 @@ const isLoading = computed(() => {
 })
 
 const rules = reactive<FormRules<LoginBody>>({
-  userName: [{ required: true, message: t('inputUserName'), trigger: 'blur' }],
-  password: [{ required: true, message: t('inputPassword'), trigger: 'blur' }],
-  captchaCode: [{ required: true, message: t('inputCaptcha'), trigger: 'blur' }]
+  userName: [{ required: true, message: t("inputUserName"), trigger: "blur" }],
+  password: [{ required: true, message: t("inputPassword"), trigger: "blur" }],
+  captchaCode: [
+    { required: true, message: t("inputCaptcha"), trigger: "blur" },
+  ],
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
@@ -50,7 +56,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         loginApi(
           {
             ...loginFormData,
-            captchaKey: captchaData.value.key
+            captchaKey: captchaData.value.key,
           },
           {
             onSuccess(data) {
@@ -58,8 +64,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             },
             onError() {
               refetchCaptcha()
-            }
-          }
+            },
+          },
         )
       } else {
         refetchCaptcha()
@@ -73,7 +79,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   <div
     class="flex min-h-screen items-center justify-center bg-[url(@/assets/svg/bg.svg)] bg-cover bg-center bg-no-repeat"
   >
-    <div class="bg-theme-bg flex w-[80%] max-w-[800px] rounded-xl px-6 pt-5 pb-8">
+    <div
+      class="bg-theme-bg flex w-[80%] max-w-[800px] rounded-xl px-6 pb-8 pt-5"
+    >
       <!-- Brand Info -->
       <div
         class="hidden h-[300px] w-[68%] bg-[url(@/assets/svg/login.svg)] bg-cover bg-center bg-no-repeat p-12 md:block"
@@ -88,11 +96,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           class="ml-auto"
         />
         <!-- Admin Logo And Name -->
-        <div class="my-3 w-full text-center text-2xl text-(--el-text-color-regular)">
+        <div
+          class="text-(--el-text-color-regular) my-3 w-full text-center text-2xl"
+        >
           AIKNEW ADMIN
         </div>
         <!-- Login Form -->
-        <el-form :model="loginFormData" :rules="rules" size="large" ref="loginFormRef">
+        <el-form
+          :model="loginFormData"
+          :rules="rules"
+          size="large"
+          ref="loginFormRef"
+        >
           <el-form-item prop="userName">
             <el-input
               prefix-icon="User"
@@ -134,7 +149,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               @click="submitForm(loginFormRef)"
               :loading="isLoading"
             >
-              {{ t('loginBtn') }}
+              {{ t("loginBtn") }}
             </el-button>
           </el-form-item>
         </el-form>

@@ -1,19 +1,19 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import { fileURLToPath } from 'node:url'
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
-import ElementPlus from 'unplugin-element-plus/vite'
-import svgLoader from 'vite-svg-loader'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite"
+import vue from "@vitejs/plugin-vue"
+import vueJsx from "@vitejs/plugin-vue-jsx"
+import vueDevTools from "vite-plugin-vue-devtools"
+import { fileURLToPath } from "node:url"
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
+import ElementPlus from "unplugin-element-plus/vite"
+import svgLoader from "vite-svg-loader"
+import tailwindcss from "@tailwindcss/vite"
 import { visualizer } from "rollup-plugin-visualizer"
-import { openApiToTypeScript } from './src/utils/vite-plugin-openapi-typescript'
-import { compression } from 'vite-plugin-compression2'
-import * as path from 'node:path'
-import * as fs from 'node:fs'
-import { ADMIN_API_PORT } from '@aiknew/shared-constants'
-import Inspect from 'vite-plugin-inspect'
+import { openApiToTypeScript } from "./src/utils/vite-plugin-openapi-typescript"
+import { compression } from "vite-plugin-compression2"
+import * as path from "node:path"
+import * as fs from "node:fs"
+import { ADMIN_API_PORT } from "@aiknew/shared-constants"
+import Inspect from "vite-plugin-inspect"
 
 const convertPath = (path: string) => {
   return fileURLToPath(new URL(path, import.meta.url))
@@ -23,49 +23,48 @@ const convertPath = (path: string) => {
 export default defineConfig({
   server: {
     proxy: {
-      '/api': {
+      "/api": {
         target: `http://localhost:${ADMIN_API_PORT}`,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
-      '/files': {
+      "/files": {
         target: `http://localhost:${ADMIN_API_PORT}`,
-      }
-    }
+      },
+    },
   },
   optimizeDeps: {
-    exclude: ['colorette']
+    exclude: ["colorette"],
   },
   build: {
     sourcemap: false,
-    target: 'esnext',
+    target: "esnext",
     rollupOptions: {
       output: {
         manualChunks: {
-          'element-icons': ['@element-plus/icons-vue'],
-          zod: ['zod'],
-          'vue-router': ['vue-router'],
-          'vue-i18n': ['vue-i18n'],
-          'echarts-components': ['echarts/components'],
-          'echarts': ['echarts']
+          "element-icons": ["@element-plus/icons-vue"],
+          zod: ["zod"],
+          "vue-router": ["vue-router"],
+          "vue-i18n": ["vue-i18n"],
+          "echarts-components": ["echarts/components"],
+          echarts: ["echarts"],
         },
-      }
-    }
+      },
+    },
   },
   plugins: [
     vue(),
     vueJsx(),
     vueDevTools(),
     VueI18nPlugin({
-      include: convertPath('../../shared/ui/locales/src/*.json')
-
+      include: convertPath("../../shared/ui/locales/src/*.json"),
     }),
     ElementPlus({}),
     svgLoader(),
     tailwindcss(),
     openApiToTypeScript({
       source: `http://localhost:${ADMIN_API_PORT}/api-doc-json`,
-      desc: './src/types/open-api.ts'
-    }) as import('vite').Plugin,
+      desc: "./src/types/open-api.ts",
+    }) as import("vite").Plugin,
     visualizer({
       open: true,
       sourcemap: false,
@@ -73,23 +72,23 @@ export default defineConfig({
       brotliSize: true,
     }),
     compression({
-      algorithms: ['gzip'],
-      threshold: 1000 // Only compress files larger than 1KB
+      algorithms: ["gzip"],
+      threshold: 1000, // Only compress files larger than 1KB
     }),
     Inspect(),
     {
-      name: 'generate-version',
+      name: "generate-version",
       closeBundle() {
-        const versionData = { version: Date.now() };
-        const filePath = path.resolve(__dirname, 'dist', 'version.json');
-        fs.writeFileSync(filePath, JSON.stringify(versionData));
-      }
-    }
+        const versionData = { version: Date.now() }
+        const filePath = path.resolve(__dirname, "dist", "version.json")
+        fs.writeFileSync(filePath, JSON.stringify(versionData))
+      },
+    },
   ],
   resolve: {
     alias: {
-      '@': convertPath('./src')
+      "@": convertPath("./src"),
     },
-    dedupe: ['vue', 'vue-router', 'element-plus']
-  }
+    dedupe: ["vue", "vue-router", "element-plus"],
+  },
 })

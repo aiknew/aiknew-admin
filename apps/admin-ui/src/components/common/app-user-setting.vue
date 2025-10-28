@@ -1,8 +1,13 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-import { ElDropdown, ElAvatar, ElDropdownMenu, ElDropdownItem } from 'element-plus'
-import { useUserStore } from '@/stores/user'
+import { useI18n } from "vue-i18n"
+import { useRouter } from "vue-router"
+import {
+  ElDropdown,
+  ElAvatar,
+  ElDropdownMenu,
+  ElDropdownItem,
+} from "element-plus"
+import { useUserStore } from "@/stores/user"
 
 const router = useRouter()
 const { t } = useI18n()
@@ -20,10 +25,10 @@ const handleLogout = () => {
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item @click="router.push({ path: '/account-info' })">
-            {{ t('accountSetting') }}
+            {{ t("accountSetting") }}
           </el-dropdown-item>
           <el-dropdown-item @click="handleLogout">
-            {{ t('logout') }}
+            {{ t("logout") }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>

@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import { useUserInfoUpdate } from '@/api/auth'
-import z from 'zod'
-import { h, ref } from 'vue'
-import { ElButton, ElFormItem } from 'element-plus'
-import { useUserStore } from '@/stores/user'
-import { useI18n } from 'vue-i18n'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { useAppForm, type Fields } from "@aiknew/shared-ui-components"
+import { useUserInfoUpdate } from "@/api/auth"
+import z from "zod"
+import { h, ref } from "vue"
+import { ElButton, ElFormItem } from "element-plus"
+import { useUserStore } from "@/stores/user"
+import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const { mutateAsync: updateUserInfo, isPending: isUpdating } = useUserInfoUpdate()
-const newPassword = ref('')
+const { mutateAsync: updateUserInfo, isPending: isUpdating } =
+  useUserInfoUpdate()
+const newPassword = ref("")
 
 const { AppForm, formApi } = useAppForm({
   fields: () =>
@@ -20,55 +21,59 @@ const { AppForm, formApi } = useAppForm({
         exclude: true,
         container: {
           content() {
-            return h('div', { class: 'text-[var(--el-menu-text-color)]' }, userStore.userName)
-          }
+            return h(
+              "div",
+              { class: "text-[var(--el-menu-text-color)]" },
+              userStore.userName,
+            )
+          },
         },
-        label: t('updateInfo.userName')
+        label: t("updateInfo.userName"),
       },
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            type: 'password'
-          }
+            type: "password",
+          },
         },
-        label: t('updateInfo.password'),
-        name: 'password',
-        schema: z.string().nonempty().default('')
+        label: t("updateInfo.password"),
+        name: "password",
+        schema: z.string().nonempty().default(""),
       },
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            type: 'password'
-          }
+            type: "password",
+          },
         },
-        label: t('updateInfo.newPassword'),
-        name: 'newPassword',
-        schema: z.string().nonempty().default('')
+        label: t("updateInfo.newPassword"),
+        name: "newPassword",
+        schema: z.string().nonempty().default(""),
       },
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            type: 'password'
-          }
+            type: "password",
+          },
         },
-        label: t('updateInfo.newPasswordConfirm'),
-        name: 'newPasswordConfirm',
+        label: t("updateInfo.newPasswordConfirm"),
+        name: "newPasswordConfirm",
         schema: z
           .string()
           .refine((val) => {
             return val === newPassword.value
           })
-          .default('')
-      }
+          .default(""),
+      },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
     updateUserInfo(values).then(() => {
       formApi.reset()
     })
-  }
+  },
 })
 
 formApi.useStore((state) => {
@@ -80,7 +85,7 @@ formApi.useStore((state) => {
   <AppContentBlock v-loading="isUpdating">
     <AppForm>
       <ElFormItem label=" " v-permission:update>
-        <ElButton @click="formApi.handleSubmit">{{ t('submit') }}</ElButton>
+        <ElButton @click="formApi.handleSubmit">{{ t("submit") }}</ElButton>
       </ElFormItem>
     </AppForm>
   </AppContentBlock>

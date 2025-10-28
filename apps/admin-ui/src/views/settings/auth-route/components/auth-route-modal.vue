@@ -1,41 +1,45 @@
 <script lang="ts" setup>
-import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { h, computed, useTemplateRef, ref, onMounted } from 'vue'
-import { z } from 'zod'
+import { AppBasicModal } from "@aiknew/shared-ui-components"
+import { h, computed, useTemplateRef, ref, onMounted } from "vue"
+import { z } from "zod"
 import {
   AppFormItemTips,
   buildI18nSchema,
   useAppForm,
-  type Fields
-} from '@aiknew/shared-ui-components'
-import { useLangStore } from '@/stores/lang'
-import { useAuthRouteCreate, useAuthRouteUpdate, type AuthRoute } from '@/api/auth-route'
-import { usePermissionAll, type Permission } from '@/api/permission'
-import { tField } from '@aiknew/shared-ui-locales'
-import type { TreeList } from '@aiknew/shared-ui-types'
-import { useI18n } from 'vue-i18n'
-import SelectIcon from './select-icon.vue'
-import { RouteType } from '@aiknew/shared-enums'
+  type Fields,
+} from "@aiknew/shared-ui-components"
+import { useLangStore } from "@/stores/lang"
+import {
+  useAuthRouteCreate,
+  useAuthRouteUpdate,
+  type AuthRoute,
+} from "@/api/auth-route"
+import { usePermissionAll, type Permission } from "@/api/permission"
+import { tField } from "@aiknew/shared-ui-locales"
+import type { TreeList } from "@aiknew/shared-ui-types"
+import { useI18n } from "vue-i18n"
+import SelectIcon from "./select-icon.vue"
+import { RouteType } from "@aiknew/shared-enums"
 
 interface Props {
   routes?: TreeList<AuthRoute>
 }
 
 interface Emits {
-  (e: 'submit'): void
-  (e: 'close'): void
+  (e: "submit"): void
+  (e: "close"): void
 }
 
 const emit = defineEmits<Emits>()
 const { routes } = defineProps<Props>()
-const modalRef = useTemplateRef('modalRef')
+const modalRef = useTemplateRef("modalRef")
 const langStore = useLangStore()
 const { t } = useI18n()
 const { data: permissions, refetch: getAllApis } = usePermissionAll()
 const editRoute = ref<AuthRoute>()
 
 const showIcons = ref(false)
-const selectedIcon = ref('')
+const selectedIcon = ref("")
 const isMenu = ref(true)
 const isButton = ref(false)
 const isSmallGroup = ref(false)
@@ -47,10 +51,10 @@ onMounted(() => {
   getAllApis()
 })
 
-const setType = (type: AuthRoute['type']) => {
-  isButton.value = type === 'BUTTON'
-  isMenu.value = type === 'MENU'
-  isSmallGroup.value = type === 'SMALL_GROUP'
+const setType = (type: AuthRoute["type"]) => {
+  isButton.value = type === "BUTTON"
+  isMenu.value = type === "MENU"
+  isSmallGroup.value = type === "SMALL_GROUP"
 }
 
 const languages = langStore.enabledLangs
@@ -60,50 +64,54 @@ const { AppForm, formApi } = useAppForm({
     [
       {
         as: {
-          component: 'ElRadio',
+          component: "ElRadio",
           props: {
             options: [
-              { label: t('authRoute.routeTypeMenu'), value: 'MENU' },
-              { label: t('authRoute.routeTypeButton'), value: 'BUTTON' },
-              { label: t('authRoute.routeTypeGroup'), value: 'GROUP' },
-              { label: t('authRoute.routeTypeSmallGroup'), value: 'SMALL_GROUP' }
+              { label: t("authRoute.routeTypeMenu"), value: "MENU" },
+              { label: t("authRoute.routeTypeButton"), value: "BUTTON" },
+              { label: t("authRoute.routeTypeGroup"), value: "GROUP" },
+              {
+                label: t("authRoute.routeTypeSmallGroup"),
+                value: "SMALL_GROUP",
+              },
             ],
             onChange(val: RouteType) {
               setType(val)
-            }
-          }
+            },
+          },
         },
-        label: t('authRoute.routeType'),
-        name: 'type',
-        schema: z.enum(RouteType).default('MENU')
+        label: t("authRoute.routeType"),
+        name: "type",
+        schema: z.enum(RouteType).default("MENU"),
       },
       {
         as: {
-          component: 'ElTreeSelect',
+          component: "ElTreeSelect",
           props: {
-            placeholder: t('selectParent'),
+            placeholder: t("selectParent"),
             clearable: true,
-            style: { minWidth: '260px' },
-            valueKey: 'id',
-            nodeKey: 'id',
+            style: { minWidth: "260px" },
+            valueKey: "id",
+            nodeKey: "id",
             checkStrictly: true,
             data: routes,
             props: {
-              label: (data: AuthRoute) => tField(data.translations, 'routeName').value
-            }
-          }
+              label: (data: AuthRoute) =>
+                tField(data.translations, "routeName").value,
+            },
+          },
         },
-        label: t('parent'),
-        name: 'parentId',
-        schema: z.string().optional().nullable().default(null)
+        label: t("parent"),
+        name: "parentId",
+        schema: z.string().optional().nullable().default(null),
       },
       {
         when: computed(() => !(isButton.value || isSmallGroup.value)),
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
             modelValue: selectedIcon.value,
-            'onUpdate:modelValue': (val: string) => {
+            "onUpdate:modelValue": (val: string) => {
               selectedIcon.value = val
             },
             clearable: true,
@@ -113,153 +121,155 @@ const { AppForm, formApi } = useAppForm({
             },
             onBlur() {
               showIcons.value = false
-            }
-          }
+            },
+          },
         },
-        label: t('authRoute.iconLabel'),
-        name: 'icon',
+        label: t("authRoute.iconLabel"),
+        name: "icon",
         container: {
           bottomSlot: h(SelectIcon, {
             visible: showIcons.value,
             onSelect(icon) {
               selectedIcon.value = icon
-            }
-          })
+            },
+          }),
         },
-        schema: z.string().default('').optional()
+        schema: z.string().default("").optional(),
       },
       {
         when: isMenu,
-        as: 'ElInput',
-        label: t('authRoute.redirectLabel'),
-        name: 'redirect',
-        schema: z.string().default('').optional()
+        as: "ElInput",
+        label: t("authRoute.redirectLabel"),
+        name: "redirect",
+        schema: z.string().default("").optional(),
       },
       {
         when: () => !isButton.value,
-        as: 'ElSwitch',
-        label: t('authRoute.hiddenLabel'),
-        name: 'hidden',
+        as: "ElSwitch",
+        label: t("authRoute.hiddenLabel"),
+        name: "hidden",
         schema: z.boolean().default(false),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('authRoute.hiddenTips') })
-        }
+          bottomSlot: h(AppFormItemTips, { text: t("authRoute.hiddenTips") }),
+        },
       },
       {
         when: isMenu,
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           slots: {
             prepend() {
-              return [h('div', '@/views/')]
+              return [h("div", "@/views/")]
             },
             append() {
-              return [h('div', '.vue')]
-            }
-          }
+              return [h("div", ".vue")]
+            },
+          },
         },
-        label: t('authRoute.componentLabel'),
-        name: 'component',
+        label: t("authRoute.componentLabel"),
+        name: "component",
         schema: () =>
           z
             .string()
             .nonempty({
-              error: t('authRoute.componentRequired')
+              error: t("authRoute.componentRequired"),
             })
-            .default(''),
+            .default(""),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('authRoute.componentTips') })
-        }
+          bottomSlot: h(AppFormItemTips, {
+            text: t("authRoute.componentTips"),
+          }),
+        },
       },
       {
         when: isMenu,
-        as: 'ElSwitch',
-        label: t('authRoute.statusLabel'),
-        name: 'status',
+        as: "ElSwitch",
+        label: t("authRoute.statusLabel"),
+        name: "status",
         schema: z.boolean().default(true),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('authRoute.statusTips') })
-        }
+          bottomSlot: h(AppFormItemTips, { text: t("authRoute.statusTips") }),
+        },
       },
       {
         when: isMenu,
-        as: 'ElInput',
-        label: t('authRoute.pathLabel'),
-        name: 'path',
+        as: "ElInput",
+        label: t("authRoute.pathLabel"),
+        name: "path",
         schema: () =>
           z
             .string()
             .nonempty({
-              error: t('authRoute.pathRequired')
+              error: t("authRoute.pathRequired"),
             })
-            .default('')
+            .default(""),
       },
       {
         when: isButton,
-        as: 'ElInput',
-        label: t('authRoute.keyLabel'),
-        name: 'key',
+        as: "ElInput",
+        label: t("authRoute.keyLabel"),
+        name: "key",
         schema: () =>
           z
             .string({
-              error: t('authRoute.keyRequired')
+              error: t("authRoute.keyRequired"),
             })
             .nonempty({
-              error: t('authRoute.keyRequired')
+              error: t("authRoute.keyRequired"),
             })
-            .default(''),
+            .default(""),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('authRoute.keyTips') })
-        }
+          bottomSlot: h(AppFormItemTips, { text: t("authRoute.keyTips") }),
+        },
       },
 
       {
         when: () => isMenu.value || isButton.value,
         as: {
-          component: 'ElTreeSelect',
+          component: "ElTreeSelect",
           props: {
-            style: { minWidth: '200px' },
+            style: { minWidth: "200px" },
             multiple: true,
-            valueKey: 'id',
-            nodeKey: 'id',
+            valueKey: "id",
+            nodeKey: "id",
             props: {
               label: (data: Permission) => {
-                return tField(data.translations, 'permissionName').value
-              }
+                return tField(data.translations, "permissionName").value
+              },
             },
-            data: computed(() => permissions.value ?? []).value
-          }
+            data: computed(() => permissions.value ?? []).value,
+          },
         },
-        label: t('authRoute.permissions'),
-        name: 'permissions',
-        schema: z.array(z.string()).optional().default([]).optional()
+        label: t("authRoute.permissions"),
+        name: "permissions",
+        schema: z.array(z.string()).optional().default([]).optional(),
       },
 
       {
-        as: 'ElInput',
-        label: t('authRoute.routeNameLabel'),
-        name: 'routeName',
+        as: "ElInput",
+        label: t("authRoute.routeNameLabel"),
+        name: "routeName",
         i18n: true,
         schema: () =>
           buildI18nSchema(
             z
               .string()
               .nonempty({
-                error: t('authRoute.routeNameRequired')
+                error: t("authRoute.routeNameRequired"),
               })
-              .default(''),
-            languages
-          )
+              .default(""),
+            languages,
+          ),
       },
       {
-        as: 'ElInputNumber',
-        label: t('order'),
-        name: 'order',
+        as: "ElInputNumber",
+        label: t("order"),
+        name: "order",
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('orderTips') })
+          bottomSlot: h(AppFormItemTips, { text: t("orderTips") }),
         },
-        schema: z.number().default(10)
-      }
+        schema: z.number().default(10),
+      },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
     values.icon = selectedIcon.value
@@ -267,24 +277,27 @@ const { AppForm, formApi } = useAppForm({
       values.parentId = null
     }
 
-    if (modalRef.value?.modalMode === 'add') {
+    if (modalRef.value?.modalMode === "add") {
       await createRoute(values)
-    } else if (modalRef.value?.modalMode === 'edit' && editRoute.value) {
+    } else if (modalRef.value?.modalMode === "edit" && editRoute.value) {
       await updateRoute({ id: editRoute.value.id, body: values })
     }
 
-    emit('submit')
+    emit("submit")
     handleReset()
-  }
+  },
 })
 
 const add = async () => {
-  modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('authRoute.addTitle'))
+  modalRef.value?.setModalMode("add")
+  modalRef.value?.setTitle(t("authRoute.addTitle"))
   modalRef.value?.show()
 }
 
-const setDisabled = (route: TreeList<AuthRoute>[number] | undefined, disabled: boolean) => {
+const setDisabled = (
+  route: TreeList<AuthRoute>[number] | undefined,
+  disabled: boolean,
+) => {
   if (!route) return
   route.disabled = disabled
   if (route.children && route.children.length > 0) {
@@ -298,8 +311,8 @@ const edit = async (item: AuthRoute) => {
   setType(item.type)
   editRoute.value = item
   setDisabled(editRoute.value, true)
-  modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('authRoute.editTitle'))
+  modalRef.value?.setModalMode("edit")
+  modalRef.value?.setTitle(t("authRoute.editTitle"))
   modalRef.value?.show()
   selectedIcon.value = item.icon
 
@@ -307,17 +320,17 @@ const edit = async (item: AuthRoute) => {
 }
 
 const handleReset = () => {
-  selectedIcon.value = ''
+  selectedIcon.value = ""
   setDisabled(editRoute.value, false)
   modalRef.value?.close()
   formApi.reset()
-  setType('MENU')
-  emit('close')
+  setType("MENU")
+  emit("close")
 }
 
 defineExpose({
   add,
-  edit
+  edit,
 })
 </script>
 

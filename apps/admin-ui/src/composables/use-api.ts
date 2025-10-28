@@ -1,8 +1,8 @@
-import { t } from '@aiknew/shared-ui-locales'
-import type { IResponseJson } from '@aiknew/shared-types'
-import { isResponseJson } from '@aiknew/shared-ui-utils'
-import { HttpError } from '@/utils/openapi-fetch-client'
-import { ElMessage } from 'element-plus'
+import { t } from "@aiknew/shared-ui-locales"
+import type { IResponseJson } from "@aiknew/shared-types"
+import { isResponseJson } from "@aiknew/shared-ui-utils"
+import { HttpError } from "@/utils/openapi-fetch-client"
+import { ElMessage } from "element-plus"
 
 type ApiFn<Data extends IResponseJson> = () => Promise<{
   data?: Data
@@ -16,10 +16,10 @@ export const useApi = <Data extends IResponseJson>(apiFn: ApiFn<Data>) => {
       let errJson: IResponseJson = {
         code: -1,
         data: {},
-        msg: t('requestError')
+        msg: t("requestError"),
       }
 
-      if (typeof error === 'string') {
+      if (typeof error === "string") {
         errJson.msg = error
       } else if (isResponseJson(error)) {
         errJson = error
@@ -28,8 +28,8 @@ export const useApi = <Data extends IResponseJson>(apiFn: ApiFn<Data>) => {
       }
 
       ElMessage({
-        type: 'error',
-        message: errJson.msg
+        type: "error",
+        message: errJson.msg,
       })
       throw new HttpError(errJson)
     }
@@ -38,6 +38,8 @@ export const useApi = <Data extends IResponseJson>(apiFn: ApiFn<Data>) => {
   })
 }
 
-export const useApiData = async <Data extends IResponseJson>(apiFn: ApiFn<Data>) => {
-  return useApi(apiFn).then((res) => res.data as Data['data'])
+export const useApiData = async <Data extends IResponseJson>(
+  apiFn: ApiFn<Data>,
+) => {
+  return useApi(apiFn).then((res) => res.data as Data["data"])
 }

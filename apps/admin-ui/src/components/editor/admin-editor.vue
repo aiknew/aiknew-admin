@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TipTap, type ToolBarProp } from '@aiknew/element-plus-tiptap'
-import { defineAsyncComponent, h, useTemplateRef } from 'vue'
+import { TipTap, type ToolBarProp } from "@aiknew/element-plus-tiptap"
+import { defineAsyncComponent, h, useTemplateRef } from "vue"
 
 export type ToolBar = ToolBarProp
 
@@ -10,30 +10,36 @@ interface Props {
 
 const {
   toolbar = [
-    ['bold', 'italic', 'underline', 'font-size'],
-    ['link', 'strike', 'highlight'],
-    ['heading-1', 'heading-2', 'heading-3'],
-    ['bullet-list', 'ordered-list', 'blockquote', 'code-block', 'horizontal-rule'],
-    ['align-left', 'align-center', 'align-right', 'align-justify'],
-    ['table'],
-    ['undo', 'redo'],
+    ["bold", "italic", "underline", "font-size"],
+    ["link", "strike", "highlight"],
+    ["heading-1", "heading-2", "heading-3"],
+    [
+      "bullet-list",
+      "ordered-list",
+      "blockquote",
+      "code-block",
+      "horizontal-rule",
+    ],
+    ["align-left", "align-center", "align-right", "align-justify"],
+    ["table"],
+    ["undo", "redo"],
     [
       (editor) =>
         h(
-          defineAsyncComponent(() => import('./menu-buttons/image-button.vue')),
-          { editor }
-        )
-    ]
-  ]
+          defineAsyncComponent(() => import("./menu-buttons/image-button.vue")),
+          { editor },
+        ),
+    ],
+  ],
 } = defineProps<Props>()
 
-const model = defineModel<string>({ default: '' })
-const tiptapRef = useTemplateRef('tiptapRef')
+const model = defineModel<string>({ default: "" })
+const tiptapRef = useTemplateRef("tiptapRef")
 
 defineExpose({
   getChars: (html?: string) => {
     return tiptapRef.value?.getChars(html)
-  }
+  },
 })
 </script>
 

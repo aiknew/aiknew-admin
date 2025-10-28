@@ -11,7 +11,6 @@ import {
 import pluginVue from "eslint-plugin-vue"
 import pluginVitest from "@vitest/eslint-plugin"
 import pluginPlaywright from "eslint-plugin-playwright"
-import skipFormatting from "@vue/eslint-config-prettier/skip-formatting"
 
 export default defineConfig([
   globalIgnores(["**/node_modules/", "**/dist/", "**/tsconfig.json"]),
@@ -93,8 +92,9 @@ export default defineConfig([
           ...pluginPlaywright.configs["flat/recommended"],
           files: ["apps/admin-ui/e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"],
         },
-        skipFormatting,
       ),
+
+      eslintPluginPrettierRecommended,
     ],
 
     languageOptions: {

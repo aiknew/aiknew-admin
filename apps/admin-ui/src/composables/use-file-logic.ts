@@ -1,45 +1,50 @@
-import { useUserStore } from '@/stores/user'
-import { useDebounceFn } from '@vueuse/core'
-import { type UploadStorage } from '@aiknew/shared-ui-components'
-import { computed, type Ref } from 'vue'
-import { localUploadFilePath, useUploadFileDelete, useUploadFilePresigned } from '@/api/upload-file'
-import { useUploadFilesAndGroups, useUploadFileUpdate } from '@/api/upload-file'
+import { useUserStore } from "@/stores/user"
+import { useDebounceFn } from "@vueuse/core"
+import { type UploadStorage } from "@aiknew/shared-ui-components"
+import { computed, type Ref } from "vue"
+import {
+  localUploadFilePath,
+  useUploadFileDelete,
+  useUploadFilePresigned,
+} from "@/api/upload-file"
+import { useUploadFilesAndGroups, useUploadFileUpdate } from "@/api/upload-file"
 import {
   useUploadFileGroupChildren,
   useUploadFileGroupCreate,
   useUploadFileGroupDelete,
-  useUploadFileGroupUpdate
-} from '@/api/upload-file-group'
-import type { IUploadFile, IUploadFileGroup, IUploadFileQuery } from '@aiknew/shared-types'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { ElMessage } from 'element-plus'
-import { currentLang } from '@aiknew/shared-ui-locales'
-import { resolveURL } from '@aiknew/shared-ui-utils'
-import { useFileStorageAll } from '@/api/file-storage'
-import { useI18n } from 'vue-i18n'
-
+  useUploadFileGroupUpdate,
+} from "@/api/upload-file-group"
+import type {
+  IUploadFile,
+  IUploadFileGroup,
+  IUploadFileQuery,
+} from "@aiknew/shared-types"
+import type Node from "element-plus/es/components/tree/src/model/node"
+import { ElMessage } from "element-plus"
+import { currentLang } from "@aiknew/shared-ui-locales"
+import { resolveURL } from "@aiknew/shared-ui-utils"
+import { useFileStorageAll } from "@/api/file-storage"
 
 export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
-  const { t } = useI18n()
   const userStore = useUserStore()
-  const { refetch: fetchPresignedUrl, data: presignedUrlData } = useUploadFilePresigned(
-    computed(() => {
-      if (!query.value) return
-      const groupId = query.value.parentId
-      return groupId ? { groupId } : undefined
-    })
-  )
+  const { refetch: fetchPresignedUrl, data: presignedUrlData } =
+    useUploadFilePresigned(
+      computed(() => {
+        if (!query.value) return
+        const groupId = query.value.parentId
+        return groupId ? { groupId } : undefined
+      }),
+    )
   const { mutateAsync: deleteFile } = useUploadFileDelete()
   const { mutateAsync: updateFile } = useUploadFileUpdate()
   const { mutateAsync: deleteGroup } = useUploadFileGroupDelete()
   const { mutateAsync: createFileGroup } = useUploadFileGroupCreate()
   const { mutateAsync: updateFileGroup } = useUploadFileGroupUpdate()
-  const { data: filesAndGroupsData, refetch: fetchFilesAndGroups } = useUploadFilesAndGroups(
-    computed(() => query.value)
-  )
+  const { data: filesAndGroupsData, refetch: fetchFilesAndGroups } =
+    useUploadFilesAndGroups(computed(() => query.value))
   const {
     id: parentGroupId,
-    query: { data: childGroups, refetch: fetchChildGroups }
+    query: { data: childGroups, refetch: fetchChildGroups },
   } = useUploadFileGroupChildren()
   const { data: fileStorages } = useFileStorageAll()
   const storages = computed<UploadStorage[]>(() => {
@@ -47,9 +52,9 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
       return []
     }
     return fileStorages.value
-      .filter((item) => item.status === 'NORMAL')
+      .filter((item) => item.status === "NORMAL")
       .map((item) => {
-        if (item.type === 'S3') {
+        if (item.type === "S3") {
           return {
             id: item.id,
             name: item.name,
@@ -64,29 +69,35 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
                 const { fields } = presignedUrlData.value
                 extraFormData.value = fields
 
-                return resolveURL(item.hostname, item.bucket ?? '')
+                return resolveURL(item.hostname, item.bucket ?? "")
               }
 
-              return ''
-            }
+              return ""
+            },
           }
         } else {
-          const hostname = import.meta.env.DEV ? import.meta.env.VITE_API_BASE_URL : item.hostname
+          const hostname = import.meta.env.DEV
+            ? import.meta.env.VITE_API_BASE_URL
+            : item.hostname
 
           return {
             id: item.id,
             name: item.name,
-            uploadURL: (extraFormData, uploadHeaders, { currentGroupId, selectedStorageId }) => {
+            uploadURL: (
+              extraFormData,
+              uploadHeaders,
+              { currentGroupId, selectedStorageId },
+            ) => {
               extraFormData.value = {
                 fileStorageId: selectedStorageId,
-                groupId: currentGroupId
+                groupId: currentGroupId,
               }
               uploadHeaders.value = {
                 Authorization: `Bearer ${userStore.accessToken}`,
-                'x-lang': currentLang.value
+                "x-lang": currentLang.value,
               }
               return resolveURL(hostname, localUploadFilePath)
-            }
+            },
           }
         }
       })
@@ -95,11 +106,11 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
   const beforeUpload = async () => {
     if (
       !fileStorages.value ||
-      fileStorages.value.filter((item) => item.status === 'NORMAL').length === 0
+      fileStorages.value.filter((item) => item.status === "NORMAL").length === 0
     ) {
       ElMessage({
-        type: 'error',
-        message: 'No file storage is enabled'
+        type: "error",
+        message: "No file storage is enabled",
       })
 
       return false
@@ -130,10 +141,11 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
   const loadGroupNode = (
     currentEditGroupId: Ref<string | undefined>,
     node: Node,
-    resolve: (data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[]) => void,
-    reject: () => void
+    resolve: (
+      data: Omit<IUploadFileGroup, "updatedAt" | "createdAt">[],
+    ) => void,
+    reject: () => void,
   ) => {
-
     // check if the group was disabled
     if (node.disabled) {
       return resolve([])
@@ -148,11 +160,11 @@ export const useFileLogic = (query: Ref<IUploadFileQuery | undefined>) => {
             if (item.id === currentEditGroupId.value) {
               return {
                 ...item,
-                disabled: true
+                disabled: true,
               }
             }
             return item
-          })
+          }),
         )
       })
       .catch(reject)

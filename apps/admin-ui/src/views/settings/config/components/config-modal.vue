@@ -1,23 +1,27 @@
 <script lang="ts" setup>
-import { AppBasicModal } from '@aiknew/shared-ui-components'
-import { useTemplateRef, ref } from 'vue'
-import { z } from 'zod'
-import { buildI18nSchema, useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import { useLangStore } from '@/stores/lang'
-import { useConfigCreate, useConfigUpdate, type Config } from '@/api/config'
-import { useI18n } from 'vue-i18n'
+import { AppBasicModal } from "@aiknew/shared-ui-components"
+import { useTemplateRef, ref } from "vue"
+import { z } from "zod"
+import {
+  buildI18nSchema,
+  useAppForm,
+  type Fields,
+} from "@aiknew/shared-ui-components"
+import { useLangStore } from "@/stores/lang"
+import { useConfigCreate, useConfigUpdate, type Config } from "@/api/config"
+import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
 
 interface Emits {
-  (e: 'submit', info: { updatedParentIds: string[] }): void
-  (e: 'close'): void
+  (e: "submit", info: { updatedParentIds: string[] }): void
+  (e: "close"): void
 }
 
 const emit = defineEmits<Emits>()
 const langStore = useLangStore()
-const modalRef = useTemplateRef('modalRef')
-const editId = ref('')
+const modalRef = useTemplateRef("modalRef")
+const editId = ref("")
 const editItem = ref<Config | null>(null)
 
 const { mutateAsync: createConfig } = useConfigCreate()
@@ -30,103 +34,107 @@ const { AppForm, formApi } = useAppForm({
   fields: () =>
     [
       {
-        as: 'ElInput',
-        label: t('configView.name'),
-        name: 'name',
+        as: "ElInput",
+        label: t("configView.name"),
+        name: "name",
         i18n: true,
         schema: () =>
           buildI18nSchema(
             z
-              .string({ message: t('configView.enterName') })
-              .min(1, { message: t('configView.nameRequired') })
-              .max(50, { message: t('configView.nameLengthExceeded') })
-              .default(''),
-            languages
-          )
+              .string({ message: t("configView.enterName") })
+              .min(1, { message: t("configView.nameRequired") })
+              .max(50, { message: t("configView.nameLengthExceeded") })
+              .default(""),
+            languages,
+          ),
       },
       {
-        as: 'ElInput',
-        label: t('configView.key'),
-        name: 'key',
+        as: "ElInput",
+        label: t("configView.key"),
+        name: "key",
         schema: () =>
           z
-            .string({ message: t('configView.enterKey') })
-            .min(1, { message: t('configView.keyRequired') })
-            .max(50, { message: t('configView.keyLengthExceeded') })
-            .default('')
+            .string({ message: t("configView.enterKey") })
+            .min(1, { message: t("configView.keyRequired") })
+            .max(50, { message: t("configView.keyLengthExceeded") })
+            .default(""),
       },
       {
-        as: 'ElInput',
-        label: t('configView.value'),
-        name: 'value',
+        as: "ElInput",
+        label: t("configView.value"),
+        name: "value",
         schema: () =>
           z
-            .string({ message: t('configView.enterValue') })
-            .min(1, { message: t('configView.valueRequired') })
-            .max(200, { message: t('configView.valueLengthExceeded') })
-            .default('')
+            .string({ message: t("configView.enterValue") })
+            .min(1, { message: t("configView.valueRequired") })
+            .max(200, { message: t("configView.valueLengthExceeded") })
+            .default(""),
       },
       {
-        as: 'ElInput',
-        label: t('configView.remark'),
-        name: 'remark',
+        as: "ElInput",
+        label: t("configView.remark"),
+        name: "remark",
         i18n: true,
         schema: () =>
           buildI18nSchema(
             z
               .string()
-              .max(200, { message: t('configView.remarkLengthExceeded') })
+              .max(200, { message: t("configView.remarkLengthExceeded") })
               .optional(),
-            languages
-          ).optional()
-      }
+            languages,
+          ).optional(),
+      },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
-    if (modalRef.value?.modalMode === 'add') {
+    if (modalRef.value?.modalMode === "add") {
       await createConfig(values)
-    } else if (modalRef.value?.modalMode === 'edit') {
+    } else if (modalRef.value?.modalMode === "edit") {
       await updateConfig({ id: editId.value, body: values })
     }
 
-    emit('submit', {
-      updatedParentIds: ['0']
+    emit("submit", {
+      updatedParentIds: ["0"],
     })
     handleReset()
-  }
+  },
 })
 
 const add = () => {
   modalRef.value?.show()
-  modalRef.value?.setModalMode('add')
-  modalRef.value?.setTitle(t('configView.addConfig'))
+  modalRef.value?.setModalMode("add")
+  modalRef.value?.setTitle(t("configView.addConfig"))
 }
 
 const edit = (item: Config) => {
   editId.value = item.id
   editItem.value = item
-  modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('configView.editConfig'))
+  modalRef.value?.setModalMode("edit")
+  modalRef.value?.setTitle(t("configView.editConfig"))
   modalRef.value?.show()
 
   formApi.resetI18nValues(item, { keepDefaultValues: true })
 }
 
 const handleReset = () => {
-  editId.value = ''
+  editId.value = ""
   editItem.value = null
   modalRef.value?.close()
   formApi.reset()
-  emit('close')
+  emit("close")
 }
 
 defineExpose({
   add,
-  edit
+  edit,
 })
 </script>
 
 <template>
-  <AppBasicModal ref="modalRef" @submit="formApi.handleSubmit" @close="handleReset">
+  <AppBasicModal
+    ref="modalRef"
+    @submit="formApi.handleSubmit"
+    @close="handleReset"
+  >
     <AppForm />
   </AppBasicModal>
 </template>

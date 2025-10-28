@@ -1,24 +1,24 @@
-import { useCssVar, useDark, useStorage } from '@vueuse/core'
-import { darken, lighten } from 'color2k'
-import { defineStore } from 'pinia'
-import { watch } from 'vue'
+import { useCssVar, useDark, useStorage } from "@vueuse/core"
+import { darken, lighten } from "color2k"
+import { defineStore } from "pinia"
+import { watch } from "vue"
 
 const primaryColorVarNames = [
-  '--el-color-primary',
-  '--el-color-primary-dark-2',
-  '--el-color-primary-light-3',
-  '--el-color-primary-light-5',
-  '--el-color-primary-light-7',
-  '--el-color-primary-light-8',
-  '--el-color-primary-light-9'
+  "--el-color-primary",
+  "--el-color-primary-dark-2",
+  "--el-color-primary-light-3",
+  "--el-color-primary-light-5",
+  "--el-color-primary-light-7",
+  "--el-color-primary-light-8",
+  "--el-color-primary-light-9",
 ]
 
-export const useThemeSettingStore = defineStore('adminSetting', () => {
+export const useThemeSettingStore = defineStore("adminSetting", () => {
   const currentThemeColor = useCssVar(primaryColorVarNames[0])
-  const themeColors = useStorage<string[]>('themeColors', [])
+  const themeColors = useStorage<string[]>("themeColors", [])
   const isDark = useDark()
-  const isUsingCustom = useStorage('isUsingCustomTheme', false)
-  const customThemColor = useStorage('customThemColor', '#b31d1d')
+  const isUsingCustom = useStorage("isUsingCustomTheme", false)
+  const customThemColor = useStorage("customThemColor", "#b31d1d")
 
   const calcThemeColors = (color: string) => {
     const colors: string[] = [color]
@@ -31,12 +31,12 @@ export const useThemeSettingStore = defineStore('adminSetting', () => {
     return colors.concat(
       lightenColors.map((_, index) => {
         return lightenFn(color, (index + 1) * 0.6 * 0.1)
-      })
+      }),
     )
   }
 
   const setBProgressColor = (color: string) => {
-    const cssVar = useCssVar('--bprogress-color')
+    const cssVar = useCssVar("--bprogress-color")
     cssVar.value = color
   }
 
@@ -76,6 +76,6 @@ export const useThemeSettingStore = defineStore('adminSetting', () => {
     customThemColor,
     currentThemeColor,
     restoreThemeColors,
-    setThemeColor
+    setThemeColor,
   }
 })

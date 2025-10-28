@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { useFileLogic } from '@/composables/use-file-logic'
-import { useUserStore } from '@/stores'
-import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
-import { AppFileSelect } from '@aiknew/shared-ui-components'
-import { ref } from 'vue'
+import { useFileLogic } from "@/composables/use-file-logic"
+import { useUserStore } from "@/stores"
+import type { IUploadFile, IUploadFileQuery } from "@aiknew/shared-types"
+import { AppFileSelect } from "@aiknew/shared-ui-components"
+import { ref } from "vue"
 
 interface Props {
   selectLimit?: number
 }
 
-const authRoutePath = '/content/file'
+const authRoutePath = "/content/file"
 const { checkPermission } = useUserStore()
 const { selectLimit } = defineProps<Props>()
 
 const model = defineModel<IUploadFile[]>({
-  default: []
+  default: [],
 })
 
 const query = ref<IUploadFileQuery>({
   currentPage: 1,
   pageSize: 10,
-  keyword: '',
-  parentId: null
+  keyword: "",
+  parentId: null,
 })
 
 const {
@@ -35,7 +35,7 @@ const {
   loadGroupNode,
   storages,
   updateFile,
-  updateFileGroup
+  updateFileGroup,
 } = useFileLogic(query)
 </script>
 

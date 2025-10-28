@@ -1,36 +1,43 @@
 <script lang="ts" setup>
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag, ElFormItem } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-components'
-import { computed, ref } from 'vue'
-import { toReactive } from '@vueuse/core'
-import StorageSettingModal from './components/storage-setting-modal.vue'
-import { useTemplateRef } from 'vue'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import {
+  ElTableColumn,
+  ElButton,
+  ElPopconfirm,
+  ElTag,
+  ElFormItem,
+} from "element-plus"
+import { AppTable } from "@aiknew/shared-ui-components"
+import { computed, ref } from "vue"
+import { toReactive } from "@vueuse/core"
+import StorageSettingModal from "./components/storage-setting-modal.vue"
+import { useTemplateRef } from "vue"
 import {
   useFileStorageDelete,
   useFileStorageList,
   type FileStorage,
-  type QueryFileStorageDto
-} from '@/api/file-storage'
-import { FileStorageStatus, StorageType } from '@aiknew/shared-enums'
-import type { ComponentProps } from 'vue-component-type-helpers'
-import { h } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAppForm, type Fields } from '@aiknew/shared-ui-components'
-import z from 'zod'
+  type QueryFileStorageDto,
+} from "@/api/file-storage"
+import { FileStorageStatus, StorageType } from "@aiknew/shared-enums"
+import type { ComponentProps } from "vue-component-type-helpers"
+import { h } from "vue"
+import { useI18n } from "vue-i18n"
+import { useAppForm, type Fields } from "@aiknew/shared-ui-components"
+import z from "zod"
 
 const { t } = useI18n()
 const query = ref<QueryFileStorageDto>({
   currentPage: 1,
-  pageSize: 10
+  pageSize: 10,
 })
-const modalRef = useTemplateRef('modal')
+const modalRef = useTemplateRef("modal")
 const {
   data: tableData,
   refetch: refetchTableData,
-  isFetching: isFetchingData
+  isFetching: isFetchingData,
 } = useFileStorageList(toReactive(query))
-const { mutateAsync: deleteFileStorage, isPending: isDeleting } = useFileStorageDelete()
+const { mutateAsync: deleteFileStorage, isPending: isDeleting } =
+  useFileStorageDelete()
 
 const isLoading = computed(() => {
   return isDeleting.value || isFetchingData.value
@@ -51,27 +58,27 @@ const handleDelete = async (row: FileStorage) => {
 
 const translateStatusType = (status: FileStorageStatus) => {
   switch (status) {
-    case 'NORMAL':
-      return t('storageSetting.normalStatus')
-    case 'DISABLED':
-      return t('storageSetting.disabledStatus')
-    case 'DISABLED_UPLOAD':
-      return t('storageSetting.disabledUploadStatus')
+    case "NORMAL":
+      return t("storageSetting.normalStatus")
+    case "DISABLED":
+      return t("storageSetting.disabledStatus")
+    case "DISABLED_UPLOAD":
+      return t("storageSetting.disabledUploadStatus")
   }
 }
 
 const StatusType = ({ status }: { status: FileStorageStatus }) => {
-  let tagType: ComponentProps<typeof ElTag>['type'] = 'primary'
+  let tagType: ComponentProps<typeof ElTag>["type"] = "primary"
 
   switch (status) {
-    case 'NORMAL':
-      tagType = 'primary'
+    case "NORMAL":
+      tagType = "primary"
       break
-    case 'DISABLED':
-      tagType = 'danger'
+    case "DISABLED":
+      tagType = "danger"
       break
-    case 'DISABLED_UPLOAD':
-      tagType = 'warning'
+    case "DISABLED_UPLOAD":
+      tagType = "warning"
       break
   }
 
@@ -81,90 +88,90 @@ const StatusType = ({ status }: { status: FileStorageStatus }) => {
 const { AppForm: QueryForm, formApi } = useAppForm({
   formProps: {
     inline: true,
-    labelPosition: 'left'
+    labelPosition: "left",
   },
   fields() {
     return [
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('name'),
-        name: 'name',
-        schema: z.string().default('').optional()
+        label: t("name"),
+        name: "name",
+        schema: z.string().default("").optional(),
       },
 
       {
         as: {
-          component: 'ElInput'
+          component: "ElInput",
         },
-        label: t('storageSetting.hostname'),
-        name: 'hostname',
-        schema: z.string().default('').optional()
+        label: t("storageSetting.hostname"),
+        name: "hostname",
+        schema: z.string().default("").optional(),
       },
 
       {
         as: {
-          component: 'ElSelectV2',
+          component: "ElSelectV2",
           props: {
-            style: { minWidth: '150px' },
+            style: { minWidth: "150px" },
             options: [
               {
                 label: translateStatusType(FileStorageStatus.DISABLED),
-                value: FileStorageStatus.DISABLED
+                value: FileStorageStatus.DISABLED,
               },
               {
                 label: translateStatusType(FileStorageStatus.NORMAL),
-                value: FileStorageStatus.NORMAL
+                value: FileStorageStatus.NORMAL,
               },
               {
                 label: translateStatusType(FileStorageStatus.DISABLED_UPLOAD),
-                value: FileStorageStatus.DISABLED_UPLOAD
-              }
-            ]
-          }
+                value: FileStorageStatus.DISABLED_UPLOAD,
+              },
+            ],
+          },
         },
-        label: t('status'),
-        name: 'status',
-        schema: z.enum(FileStorageStatus).default('NORMAL').optional()
+        label: t("status"),
+        name: "status",
+        schema: z.enum(FileStorageStatus).default("NORMAL").optional(),
       },
 
       {
         as: {
-          component: 'ElSelectV2',
+          component: "ElSelectV2",
           props: {
-            style: { minWidth: '150px' },
+            style: { minWidth: "150px" },
             options: [
               {
                 label: StorageType.LOCAL,
-                value: StorageType.LOCAL
+                value: StorageType.LOCAL,
               },
               {
                 label: StorageType.S3,
-                value: StorageType.S3
-              }
-            ]
-          }
+                value: StorageType.S3,
+              },
+            ],
+          },
         },
-        label: t('type'),
-        name: 'type',
-        schema: z.enum(StorageType).default('LOCAL').optional()
-      }
+        label: t("type"),
+        name: "type",
+        schema: z.enum(StorageType).default("LOCAL").optional(),
+      },
     ] as const satisfies Fields
   },
   onSubmit({ values }) {
     query.value = {
       ...query.value,
-      ...values
+      ...values,
     }
-  }
+  },
 })
 
 const handleResetQueryForm = () => {
   formApi.reset()
   query.value = {
     currentPage: 1,
-    pageSize: 10
+    pageSize: 10,
   }
 }
 </script>
@@ -174,16 +181,18 @@ const handleResetQueryForm = () => {
     <QueryForm>
       <el-form-item>
         <el-button type="primary" @click="formApi.handleSubmit">
-          {{ t('submit') }}
+          {{ t("submit") }}
         </el-button>
-        <el-button @click="handleResetQueryForm">{{ t('reset') }}</el-button>
+        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
       </el-form-item>
     </QueryForm>
   </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAdd">{{ t('add') }}</el-button>
+      <el-button class="ml-auto" type="primary" @click="handleAdd">{{
+        t("add")
+      }}</el-button>
     </div>
 
     <AppTable
@@ -213,9 +222,17 @@ const handleResetQueryForm = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm :title="t('deleteConfirm')" @confirm="handleDelete(scope.row)">
+          <el-popconfirm
+            :title="t('deleteConfirm')"
+            @confirm="handleDelete(scope.row)"
+          >
             <template #reference>
-              <el-button v-permission:delete type="danger" icon="Delete" size="small" />
+              <el-button
+                v-permission:delete
+                type="danger"
+                icon="Delete"
+                size="small"
+              />
             </template>
           </el-popconfirm>
         </template>

@@ -4,9 +4,9 @@ import type {
   PatchReqBody,
   PostReqBody,
   PostResBody,
-  PutReqBody
-} from '@aiknew/shared-ui-types'
-import type { paths } from './open-api'
+  PutReqBody,
+} from "@aiknew/shared-ui-types"
+import type { paths } from "./open-api"
 
 export type ApiGetData<P extends keyof paths> = GetData<paths, P>
 

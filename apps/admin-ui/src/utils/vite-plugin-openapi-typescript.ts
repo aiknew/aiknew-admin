@@ -1,8 +1,8 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import type Stream from 'node:stream'
-import openapiTS, { astToString, type OpenAPI3 } from 'openapi-typescript'
-import type { Plugin } from 'vite'
+import fs from "node:fs"
+import path from "node:path"
+import type Stream from "node:stream"
+import openapiTS, { astToString, type OpenAPI3 } from "openapi-typescript"
+import type { Plugin } from "vite"
 
 export function openApiToTypeScript({
   desc,
@@ -12,9 +12,9 @@ export function openApiToTypeScript({
   desc: string
 }): Plugin {
   return {
-    name: 'openapi-to-typescript',
-    enforce: 'post',
-    apply: 'serve',
+    name: "openapi-to-typescript",
+    enforce: "post",
+    apply: "serve",
     async watchChange(id) {
       // exclude the target itself
       if (id.includes(path.normalize(desc))) {
@@ -30,9 +30,14 @@ export function openApiToTypeScript({
         rootTypes: true,
         rootTypesNoSchemaPrefix: true,
       })
-        .then((ast) => fs.writeFileSync(desc, '// oxlint-disable no-duplicate-enum-values \n' + astToString(ast)))
+        .then((ast) =>
+          fs.writeFileSync(
+            desc,
+            "// oxlint-disable no-duplicate-enum-values \n" + astToString(ast),
+          ),
+        )
         .catch((err) => {
-          console.error('generate open-api types file error: ', err)
+          console.error("generate open-api types file error: ", err)
         })
     },
   }

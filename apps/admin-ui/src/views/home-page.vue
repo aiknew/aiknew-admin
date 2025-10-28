@@ -1,20 +1,24 @@
 <script setup lang="ts">
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { BarChart, LineChart, PieChart } from 'echarts/charts'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { use } from "echarts/core"
+import { CanvasRenderer } from "echarts/renderers"
+import { BarChart, LineChart, PieChart } from "echarts/charts"
 import {
   GridComponent,
   LegendComponent,
   TitleComponent,
-  TooltipComponent
-} from 'echarts/components'
-import VChart from 'vue-echarts'
-import { computed } from 'vue'
-import { useHomeStatistics } from '@/api/dashboard'
-import type { BarSeriesOption, LineSeriesOption, PieSeriesOption } from 'echarts/charts'
-import type { ComposeOption } from 'echarts/core'
-import { useI18n } from 'vue-i18n'
+  TooltipComponent,
+} from "echarts/components"
+import VChart from "vue-echarts"
+import { computed } from "vue"
+import { useHomeStatistics } from "@/api/dashboard"
+import type {
+  BarSeriesOption,
+  LineSeriesOption,
+  PieSeriesOption,
+} from "echarts/charts"
+import type { ComposeOption } from "echarts/core"
+import { useI18n } from "vue-i18n"
 
 use([
   CanvasRenderer,
@@ -24,7 +28,7 @@ use([
   TitleComponent,
   TooltipComponent,
   LegendComponent,
-  GridComponent
+  GridComponent,
 ])
 
 const { t } = useI18n()
@@ -44,39 +48,39 @@ const lineChartOption = computed<ComposeOption<LineSeriesOption>>(() => {
 
   return {
     title: {
-      text: t('homePage.loginsInLast30Days'),
-      left: 'center'
+      text: t("homePage.loginsInLast30Days"),
+      left: "center",
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: "axis",
     },
     legend: {
-      data: [t('homePage.loginCount')],
-      top: 'bottom'
+      data: [t("homePage.loginCount")],
+      top: "bottom",
     },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '10%',
-      containLabel: true
+      left: "3%",
+      right: "4%",
+      bottom: "10%",
+      containLabel: true,
     },
     xAxis: {
-      type: 'category',
+      type: "category",
       boundaryGap: false,
-      data: xAxisData
+      data: xAxisData,
     },
     yAxis: {
-      type: 'value',
-      minInterval: 1
+      type: "value",
+      minInterval: 1,
     },
     series: [
       {
-        name: t('homePage.loginCount'),
-        type: 'line',
+        name: t("homePage.loginCount"),
+        type: "line",
         data: seriesData,
-        smooth: true
-      }
-    ]
+        smooth: true,
+      },
+    ],
   }
 })
 
@@ -86,33 +90,33 @@ const pieChartOption = computed<ComposeOption<PieSeriesOption>>(() => {
     data.value?.nations.map((item) => {
       return {
         value: item.count,
-        name: item.nation.trim().length === 0 ? 'unknown' : item.nation
+        name: item.nation.trim().length === 0 ? "unknown" : item.nation,
       }
     }) ?? []
 
   return {
     title: {
-      text: t('homePage.accessSource'),
-      left: 'center'
+      text: t("homePage.accessSource"),
+      left: "center",
     },
     tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)'
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)",
     },
     legend: {
-      orient: 'vertical',
-      left: 'left',
-      data: legendData
+      orient: "vertical",
+      left: "left",
+      data: legendData,
     },
     series: [
       {
-        name: t('homePage.loginCount'),
-        type: 'pie',
-        radius: '55%',
-        center: ['50%', '60%'],
-        data: seriesData
-      }
-    ]
+        name: t("homePage.loginCount"),
+        type: "pie",
+        radius: "55%",
+        center: ["50%", "60%"],
+        data: seriesData,
+      },
+    ],
   }
 })
 
@@ -132,27 +136,27 @@ const barChartOption = computed<ComposeOption<BarSeriesOption>>(() => {
 
   return {
     title: {
-      text: t('homePage.loginsInLast7Days'),
-      left: 'center'
+      text: t("homePage.loginsInLast7Days"),
+      left: "center",
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: "axis",
     },
     xAxis: {
-      type: 'category',
-      data: xAxisData
+      type: "category",
+      data: xAxisData,
     },
     yAxis: {
-      type: 'value',
-      minInterval: 1
+      type: "value",
+      minInterval: 1,
     },
     series: [
       {
-        name: t('homePage.loginCount'),
+        name: t("homePage.loginCount"),
         data: seriesData,
-        type: 'bar'
-      }
-    ]
+        type: "bar",
+      },
+    ],
   }
 })
 </script>
@@ -164,10 +168,10 @@ const barChartOption = computed<ComposeOption<BarSeriesOption>>(() => {
       <AppContentBlock>
         <div class="p-4">
           <div class="text-theme-text-primary text-lg font-bold">
-            {{ t('homePage.aboutProject') }}
+            {{ t("homePage.aboutProject") }}
           </div>
           <p class="text-theme-text-regular mt-2">
-            {{ t('homePage.aboutProjectDescription') }}
+            {{ t("homePage.aboutProjectDescription") }}
           </p>
         </div>
       </AppContentBlock>

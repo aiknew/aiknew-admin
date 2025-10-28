@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { AppFileManager } from '@aiknew/shared-ui-components'
-import { ref } from 'vue'
-import { useFileLogic } from '@/composables/use-file-logic'
-import type { IUploadFileQuery } from '@aiknew/shared-types'
-import { useUserStore } from '@/stores'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { AppFileManager } from "@aiknew/shared-ui-components"
+import { ref } from "vue"
+import { useFileLogic } from "@/composables/use-file-logic"
+import type { IUploadFileQuery } from "@aiknew/shared-types"
+import { useUserStore } from "@/stores"
 
 const query = ref<IUploadFileQuery>({
   currentPage: 1,
   pageSize: 10,
-  keyword: '',
-  parentId: null
+  keyword: "",
+  parentId: null,
 })
 
-const authRoutePath = '/content/file'
+const authRoutePath = "/content/file"
 const { checkPermission } = useUserStore()
 
 const {
@@ -27,7 +27,7 @@ const {
   loadGroupNode,
   storages,
   updateFile,
-  updateFileGroup
+  updateFileGroup,
 } = useFileLogic(query)
 </script>
 

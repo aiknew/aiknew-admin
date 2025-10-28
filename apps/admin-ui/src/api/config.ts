@@ -1,79 +1,83 @@
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query'
-import { useApiData } from '@/composables/use-api'
-import { fetchClient } from '@/utils/openapi-fetch-client'
-import { toValue, type Reactive } from 'vue'
-import type { ApiGetData, ApiPatchReqBody, ApiPostReqBody, ApiGetQuery } from '@/types/type-utils'
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/vue-query"
+import { useApiData } from "@/composables/use-api"
+import { fetchClient } from "@/utils/openapi-fetch-client"
+import { toValue, type Reactive } from "vue"
+import type {
+  ApiGetData,
+  ApiPatchReqBody,
+  ApiPostReqBody,
+  ApiGetQuery,
+} from "@/types/type-utils"
 
-export type Config = ApiGetData<'/admin/config'>['list'][number]
+export type Config = ApiGetData<"/admin/config">["list"][number]
 
-export type CreateConfigDto = ApiPostReqBody<'/admin/config'>
+export type CreateConfigDto = ApiPostReqBody<"/admin/config">
 
-export type UpdateConfigDto = ApiPatchReqBody<'/admin/config/{id}'>
+export type UpdateConfigDto = ApiPatchReqBody<"/admin/config/{id}">
 
-export type QueryConfigDto = ApiGetQuery<'/admin/config'>
+export type QueryConfigDto = ApiGetQuery<"/admin/config">
 
 export const useConfigList = (query: Reactive<QueryConfigDto>) => {
   return useQuery({
-    queryKey: ['config', query],
+    queryKey: ["config", query],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       return useApiData(() =>
-        fetchClient.GET('/admin/config', {
+        fetchClient.GET("/admin/config", {
           params: {
-            query: toValue(query)
+            query: toValue(query),
           },
-          showMsg: false
-        })
+          showMsg: false,
+        }),
       )
-    }
+    },
   })
 }
 
 export const useConfigCreate = () => {
   return useMutation({
-    mutationKey: ['create-config'],
+    mutationKey: ["create-config"],
     mutationFn: (body: CreateConfigDto) => {
       return useApiData(() =>
-        fetchClient.POST('/admin/config', {
-          body
-        })
+        fetchClient.POST("/admin/config", {
+          body,
+        }),
       )
-    }
+    },
   })
 }
 
 export const useConfigUpdate = () => {
   return useMutation({
-    mutationKey: ['update-config'],
+    mutationKey: ["update-config"],
     mutationFn: ({ id, body }: { id: string; body: UpdateConfigDto }) => {
       return useApiData(() =>
-        fetchClient.PATCH('/admin/config/{id}', {
+        fetchClient.PATCH("/admin/config/{id}", {
           params: {
             path: {
-              id
-            }
+              id,
+            },
           },
-          body
-        })
+          body,
+        }),
       )
-    }
+    },
   })
 }
 
 export const useConfigDelete = () => {
   return useMutation({
-    mutationKey: ['delete-config'],
+    mutationKey: ["delete-config"],
     mutationFn: (id: string) => {
       return useApiData(() =>
-        fetchClient.DELETE('/admin/config/{id}', {
+        fetchClient.DELETE("/admin/config/{id}", {
           params: {
             path: {
-              id
-            }
-          }
-        })
+              id,
+            },
+          },
+        }),
       )
-    }
+    },
   })
 }
-

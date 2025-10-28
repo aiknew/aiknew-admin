@@ -1,43 +1,51 @@
 <script lang="ts" setup>
-import { AppContentBlock } from '@aiknew/shared-ui-components'
-import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from 'element-plus'
-import { AppTable } from '@aiknew/shared-ui-components'
-import { computed, ref } from 'vue'
-import { usePermissionAll, usePermissionDelete, type Permission } from '@/api/permission'
-import { usePagination } from '@/composables'
-import { toReactive } from '@vueuse/core'
-import PermissionModal from './components/permission-modal.vue'
-import { useTemplateRef } from 'vue'
-import { tField } from '@aiknew/shared-ui-locales'
+import { AppContentBlock } from "@aiknew/shared-ui-components"
+import { ElTableColumn, ElButton, ElPopconfirm, ElTag } from "element-plus"
+import { AppTable } from "@aiknew/shared-ui-components"
+import { computed, ref } from "vue"
+import {
+  usePermissionAll,
+  usePermissionDelete,
+  type Permission,
+} from "@/api/permission"
+import { usePagination } from "@/composables"
+import { toReactive } from "@vueuse/core"
+import PermissionModal from "./components/permission-modal.vue"
+import { useTemplateRef } from "vue"
+import { tField } from "@aiknew/shared-ui-locales"
 import {
   usePermissionGroupDelete,
   usePermissionGroupList,
-  type PermissionGroup
-} from '@/api/permission-group'
-import PermissionGroupModal from './components/permission-group-modal.vue'
-import type { RequestMethod } from '@aiknew/shared-enums'
-import { useI18n } from 'vue-i18n'
+  type PermissionGroup,
+} from "@/api/permission-group"
+import PermissionGroupModal from "./components/permission-group-modal.vue"
+import type { RequestMethod } from "@aiknew/shared-enums"
+import { useI18n } from "vue-i18n"
 
-const isPermission = (item: Permission | PermissionGroup): item is Permission => {
-  return 'key' in item && typeof item.key === 'string'
+const isPermission = (
+  item: Permission | PermissionGroup,
+): item is Permission => {
+  return "key" in item && typeof item.key === "string"
 }
 
-const permissionModalRef = useTemplateRef('permissionModalRef')
-const permissionGroupModalRef = useTemplateRef('permissionGroupModalRef')
+const permissionModalRef = useTemplateRef("permissionModalRef")
+const permissionGroupModalRef = useTemplateRef("permissionGroupModalRef")
 const { t } = useI18n()
 const { currentPage, pageSize } = usePagination()
-const groupId = ref('')
+const groupId = ref("")
 const expandRowKeys = ref([])
 
 const {
   data: groupsData,
   refetch: refetchGroups,
-  isFetching
+  isFetching,
 } = usePermissionGroupList(toReactive({ currentPage, pageSize }))
 
-const { data: permissions, refetch: fetchPermissions } = usePermissionAll(groupId)
+const { data: permissions, refetch: fetchPermissions } =
+  usePermissionAll(groupId)
 
-const { mutateAsync: deletePermission, isPending: isDeleting } = usePermissionDelete()
+const { mutateAsync: deletePermission, isPending: isDeleting } =
+  usePermissionDelete()
 const { mutateAsync: deletePermissionGroup, isPending: isDeletingGroup } =
   usePermissionGroupDelete()
 
@@ -79,7 +87,7 @@ const handleDelete = async (row: Permission | PermissionGroup) => {
 const loadPermissions = async (
   row: Permission | PermissionGroup,
   _: unknown,
-  resolve: (data: Permission[]) => void
+  resolve: (data: Permission[]) => void,
 ) => {
   if (isPermission(row)) {
     resolve([])
@@ -92,16 +100,16 @@ const loadPermissions = async (
 
 const getPermissionTagType = (method: RequestMethod | null) => {
   switch (method) {
-    case 'GET':
-      return 'info'
-    case 'POST':
-      return 'primary'
-    case 'PATCH':
-      return 'warning'
-    case 'DELETE':
-      return 'danger'
+    case "GET":
+      return "info"
+    case "POST":
+      return "primary"
+    case "PATCH":
+      return "warning"
+    case "DELETE":
+      return "danger"
     default:
-      return 'success'
+      return "success"
   }
 }
 
@@ -114,11 +122,11 @@ const handleSubmit = () => {
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
       <el-button class="ml-auto" type="primary" @click="handleAddPermission">{{
-        t('adminPermission.addPermission')
+        t("adminPermission.addPermission")
       }}</el-button>
 
       <el-button @click="handleAddPermissionGroup">{{
-        t('adminPermission.addPermissionGroup')
+        t("adminPermission.addPermissionGroup")
       }}</el-button>
     </div>
 
@@ -138,36 +146,55 @@ const handleSubmit = () => {
       <el-table-column :label="t('type')" width="150">
         <template #default="{ row }: { row: Permission | PermissionGroup }">
           <el-tag type="primary" v-if="isPermission(row)">{{
-            t('adminPermission.permission')
+            t("adminPermission.permission")
           }}</el-tag>
-          <el-tag type="info" v-else>{{ t('adminPermission.permissionGroup') }}</el-tag>
+          <el-tag type="info" v-else>{{
+            t("adminPermission.permissionGroup")
+          }}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column prop="name" :label="t('name')" width="180">
         <template #default="{ row }: { row: Permission | PermissionGroup }">
           <span v-if="isPermission(row)">{{
-            tField(row.translations, 'permissionName').value
+            tField(row.translations, "permissionName").value
           }}</span>
 
-          <span v-else>{{ tField(row.translations, 'groupName').value }}</span>
+          <span v-else>{{ tField(row.translations, "groupName").value }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="method" :label="t('adminPermission.requestMethod')" width="120">
+      <el-table-column
+        prop="method"
+        :label="t('adminPermission.requestMethod')"
+        width="120"
+      >
         <template #default="{ row }">
-          <el-tag v-if="isPermission(row)" :type="getPermissionTagType(row.method)">
+          <el-tag
+            v-if="isPermission(row)"
+            :type="getPermissionTagType(row.method)"
+          >
             {{ row.method }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="path" :label="t('adminPermission.path')" width="180" />
-      <el-table-column prop="source" :label="t('adminPermission.source')" width="180">
+      <el-table-column
+        prop="path"
+        :label="t('adminPermission.path')"
+        width="180"
+      />
+      <el-table-column
+        prop="source"
+        :label="t('adminPermission.source')"
+        width="180"
+      >
         <template #default="{ row }: { row: Permission | PermissionGroup }">
           <div v-if="isPermission(row)">
             <el-tag v-if="row.source === 'BUILT_IN'" type="primary">{{
-              t('adminPermission.builtInPermission')
+              t("adminPermission.builtInPermission")
             }}</el-tag>
-            <el-tag v-else type="success">{{ t('adminPermission.externalPermission') }}</el-tag>
+            <el-tag v-else type="success">{{
+              t("adminPermission.externalPermission")
+            }}</el-tag>
           </div>
         </template>
       </el-table-column>
@@ -184,9 +211,17 @@ const handleSubmit = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm :title="t('deleteConfirm')" @confirm="handleDelete(scope.row)">
+          <el-popconfirm
+            :title="t('deleteConfirm')"
+            @confirm="handleDelete(scope.row)"
+          >
             <template #reference>
-              <el-button v-permission:delete type="danger" icon="Delete" size="small" />
+              <el-button
+                v-permission:delete
+                type="danger"
+                icon="Delete"
+                size="small"
+              />
             </template>
           </el-popconfirm>
         </template>

@@ -10,9 +10,14 @@ export default defineConfig([
   // admin-api eslint
   {
     name: "admin-api",
-    basePath: "./apps/admin-api",
-    files: ["**/*.ts"],
-    ignores: ["logs/**", "public/**"],
+    basePath: ".",
+    files: ["./apps/admin-api/**/*.ts", "./shared/api/**/*.ts"],
+    ignores: [
+      "**/logs/**",
+      "**/public/**",
+      "shared/api/types/**",
+      "shared/api/permission-sync/**",
+    ],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
@@ -26,7 +31,10 @@ export default defineConfig([
       sourceType: "commonjs",
       parserOptions: {
         projectService: true,
-        project: ["./apps/admin-api/tsconfig.build.json"],
+        project: [
+          "./apps/admin-api/tsconfig.build.json",
+          "shared/api/**/tsconfig.json",
+        ],
         tsconfigRootDir: import.meta.dirname,
       },
     },

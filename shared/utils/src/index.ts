@@ -1,4 +1,4 @@
-import { get } from 'lodash-es'
+import { get } from "lodash-es"
 /**
  * build tree list from an array
  * @param list source list
@@ -15,15 +15,15 @@ export const buildTree = <T>(
     return []
   }
 
-  const idMap = new Map()
+  const idMap = new Map<string | number, T & { children: T[] }>()
   const result = []
 
   for (const item of list) {
-    idMap.set(get(item, idPath), { ...item, children: [] })
+    idMap.set(get(item, idPath) as string, { ...item, children: [] })
   }
 
   for (const item of idMap.values()) {
-    const parent = idMap.get(get(item, parentKeyPath))
+    const parent = idMap.get(get(item, parentKeyPath) as string)
     if (parent) {
       parent.children.push(item)
     } else {
@@ -34,24 +34,25 @@ export const buildTree = <T>(
   return result
 }
 
-
 export function convertNullToUndefined<T>(
   obj: T,
 ): Prettify<DeepNullToUndefined<T>> {
-  const result = {} as any
+  const result = {} as Record<string, unknown>
   for (const key in obj) {
     const value = obj[key]
     result[key] =
       value === null
         ? undefined
-        : typeof value === 'object'
+        : typeof value === "object"
           ? convertNullToUndefined(value)
           : value
   }
-  return result
+  return result as never
 }
 
-export const execute = async (...fnArr: Function[]) => {
+export const execute = async (
+  ...fnArr: ((...args: unknown[]) => unknown)[]
+) => {
   for (const fn of fnArr) {
     await fn()
   }
@@ -65,9 +66,8 @@ export type NullToUndefined<T> = T extends null ? undefined : T
 
 export type DeepNullToUndefined<T> = {
   [K in keyof T]: T[K] extends object
-  ? DeepNullToUndefined<T[K]>
-  : NullToUndefined<T[K]>
+    ? DeepNullToUndefined<T[K]>
+    : NullToUndefined<T[K]>
 }
 
 export type MaybeArray<T> = T | T[]
-

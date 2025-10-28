@@ -6,5 +6,5 @@ export {
   RequestMethod,
   RouteType,
   UploadFileChannel,
-  AdminPermissionSource
-} from '@aiknew/shared-admin-db/enums'
+  AdminPermissionSource,
+} from "@aiknew/shared-admin-db/enums"

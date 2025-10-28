@@ -131,5 +131,28 @@ export default defineConfig([
         },
       },
     ]
-  }
+  },
+
+  // shared packages (exclude shared/api/ adn shared/ui/)
+  {
+    name: "shared-packages",
+    basePath: ".",
+    files: ["./shared/**/*.ts"],
+    ignores: [
+      "./shared/api/**/*",
+      "./shared/ui/**/*",
+      "./shared/types/**/*"
+    ],
+    extends: [
+      eslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      eslintPluginPrettierRecommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
 ])

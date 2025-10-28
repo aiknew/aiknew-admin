@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ElRadio, ElRadioGroup } from 'element-plus';
+import { ElRadio, ElRadioGroup } from "element-plus"
 
 interface Props {
-  options: { label: string, value: string }[]
+  options: { label: string; value: string }[]
 }
 
 const { options } = defineProps<Props>()

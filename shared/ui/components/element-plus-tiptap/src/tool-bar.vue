@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Editor } from '@tiptap/vue-3'
-import { BUTTON_MAP } from './buttons'
-import { type ToolBarProp } from './types'
+import type { Editor } from "@tiptap/vue-3"
+import { BUTTON_MAP } from "./buttons"
+import { type ToolBarProp } from "./types"
 
 interface Props {
   editor: Editor
@@ -13,24 +13,26 @@ const { toolbar, editor } = defineProps<Props>()
 
 <template>
   <div
-    class="flex flex-wrap items-center gap-2 p-2 bg-gray-100 border-gray-300"
+    class="flex flex-wrap items-center gap-2 border-gray-300 bg-gray-100 p-2"
   >
-    <template v-for="item in toolbar">
+    <template v-for="(item, index) in toolbar">
       <component
         v-if="typeof item === 'string'"
+        :key="item"
         :is="BUTTON_MAP[item]"
         :editor
       />
 
       <component
         v-else-if="typeof item === 'function'"
+        :key="index"
         :is="item(editor)"
         :editor
       />
 
       <template v-else-if="Array.isArray(item)">
-        <tool-bar :editor :toolbar="item" />
-        <div class="w-px h-6 mx-2 bg-gray-300"></div>
+        <tool-bar :key="index" :editor :toolbar="item" />
+        <div :key="`div-${index}`" class="mx-2 h-6 w-px bg-gray-300"></div>
       </template>
     </template>
   </div>

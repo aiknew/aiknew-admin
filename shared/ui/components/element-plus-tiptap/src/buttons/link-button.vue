@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { Editor } from '@tiptap/vue-3'
-import { Link } from 'lucide-vue-next'
-import { ElDropdown, ElDropdownMenu, ElButton, ElInput } from 'element-plus'
-import { ref, useTemplateRef } from 'vue'
+import type { Editor } from "@tiptap/vue-3"
+import { Link } from "lucide-vue-next"
+import { ElDropdown, ElDropdownMenu, ElButton, ElInput } from "element-plus"
+import { ref, useTemplateRef } from "vue"
 
 export interface Props {
   editor: Editor
 }
 
 const { editor } = defineProps<Props>()
-const dropdownRef = useTemplateRef('dropdownRef')
-const url = ref('')
+const dropdownRef = useTemplateRef("dropdownRef")
+const url = ref("")
 
 const setLink = () => {
   // cancelled
@@ -19,8 +19,8 @@ const setLink = () => {
   }
 
   // empty
-  if (url.value === '') {
-    editor.chain().focus().extendMarkRange('link').unsetLink().run()
+  if (url.value === "") {
+    editor.chain().focus().extendMarkRange("link").unsetLink().run()
     return
   }
 
@@ -28,7 +28,7 @@ const setLink = () => {
   editor
     .chain()
     .focus()
-    .extendMarkRange('link')
+    .extendMarkRange("link")
     .setLink({ href: url.value })
     .run()
 
@@ -36,7 +36,7 @@ const setLink = () => {
 }
 
 const show = () => {
-  url.value = editor.getAttributes('link').href
+  url.value = editor.getAttributes("link").href
 }
 </script>
 
@@ -45,9 +45,9 @@ const show = () => {
     <div
       @click="show"
       :class="{ 'btn-active': editor.isActive('link') }"
-      class="p-2 rounded hover:bg-gray-200 cursor-pointer"
+      class="cursor-pointer rounded p-2 hover:bg-gray-200"
     >
-      <Link class="w-4 h-4" />
+      <Link class="h-4 w-4" />
     </div>
     <template #dropdown>
       <el-dropdown-menu class="p-2!">

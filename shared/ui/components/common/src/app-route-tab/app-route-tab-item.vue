@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { X } from 'lucide-vue-next'
-import { computed, onMounted, useTemplateRef, watch } from 'vue'
+import { X } from "lucide-vue-next"
+import { computed, onMounted, useTemplateRef, watch } from "vue"
 
 interface Props {
   active?: boolean
@@ -9,20 +9,20 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'left-click', path: string): void
-  (e: 'close', path: string): void
+  (e: "left-click", path: string): void
+  (e: "close", path: string): void
 }
 
 const { active = false, title, path } = defineProps<Props>()
 const emit = defineEmits<Emits>()
-const itemRef = useTemplateRef<HTMLElement>('itemRef')
+const itemRef = useTemplateRef<HTMLElement>("itemRef")
 const activeClasses = computed(() => {
   return active
     ? [
-        'bg-theme-primary-light-9',
-        'dark:bg-theme-primary-light-9',
-        'text-theme-primary',
-        'border-none',
+        "bg-theme-primary-light-9",
+        "dark:bg-theme-primary-light-9",
+        "text-theme-primary",
+        "border-none",
       ]
     : []
 })
@@ -37,20 +37,20 @@ watch(
 )
 
 const handleClick = () => {
-  emit('left-click', path)
+  emit("left-click", path)
 }
 
 const handleClose = (e: MouseEvent) => {
   e.stopPropagation()
-  emit('close', path)
+  emit("close", path)
 }
 
 const scrollIntoView = () => {
   if (itemRef.value) {
     itemRef.value.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
     })
   }
 }
@@ -67,14 +67,14 @@ defineExpose({
 <template>
   <div
     ref="itemRef"
-    class="bg-[#efefef] dark:bg-[#222] shrink-0 mx-2 border-theme-border hover:bg-theme-primary-light-9 transition-all duration-300 rounded-md gap-1 inline-flex items-center px-6 cursor-pointer select-none"
+    class="border-theme-border hover:bg-theme-primary-light-9 mx-2 inline-flex shrink-0 cursor-pointer select-none items-center gap-1 rounded-md bg-[#efefef] px-6 transition-all duration-300 dark:bg-[#222]"
     :class="activeClasses"
     @click="handleClick"
   >
-    <span class="text-sm text-theme-text-primary leading-8">{{ title }}</span>
+    <span class="text-theme-text-primary text-sm leading-8">{{ title }}</span>
 
     <div
-      class="transition-all relative left-2 hover:bg-theme-primary-light-7 rounded-full"
+      class="hover:bg-theme-primary-light-7 relative left-2 rounded-full transition-all"
       @click="handleClose($event)"
     >
       <X :stroke-width="1" :size="14" color="#999" />

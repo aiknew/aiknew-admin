@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Editor } from '@tiptap/vue-3'
-import { Code } from 'lucide-vue-next'
+import type { Editor } from "@tiptap/vue-3"
+import { Code } from "lucide-vue-next"
 
 export interface Props {
   editor: Editor
@@ -13,8 +13,8 @@ defineProps<Props>()
   <div
     @click="editor.chain().focus().toggleCodeBlock().run()"
     :class="{ 'btn-active': editor.isActive('codeBlock') }"
-    class="p-2 rounded hover:bg-gray-200 cursor-pointer"
+    class="cursor-pointer rounded p-2 hover:bg-gray-200"
   >
-    <Code class="w-4 h-4" />
+    <Code class="h-4 w-4" />
   </div>
 </template>

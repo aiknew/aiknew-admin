@@ -1,5 +1,14 @@
-import { type StandardSchemaV1 } from '@tanstack/vue-form'
-import { z, ZodType, ZodDefault, ZodOptional, ZodNullable, ZodObject } from 'zod'
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { type StandardSchemaV1 } from "@tanstack/vue-form"
+import {
+  z,
+  ZodType,
+  ZodDefault,
+  ZodOptional,
+  ZodNullable,
+  ZodObject,
+} from "zod"
 import type {
   ElInput,
   ElSwitch,
@@ -7,20 +16,27 @@ import type {
   ElInputNumber,
   ElSelectV2,
   ElTreeSelect,
-  ElCascader
-} from 'element-plus'
-import 'element-plus/es/components/input/style/css'
-import 'element-plus/es/components/switch/style/css'
-import 'element-plus/es/components/radio/style/css'
-import 'element-plus/es/components/input-number/style/css'
-import 'element-plus/es/components/select-v2/style/css'
-import 'element-plus/es/components/tree-select/style/css'
-import 'element-plus/es/components/cascader/style/css'
-import { reactive, toValue, type MaybeRefOrGetter, type Component, type Ref, defineAsyncComponent } from 'vue'
-import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
-import type AppRadio from './components/app-radio.vue'
-import { isDefined } from '@vueuse/core'
-import type { ILanguage } from '@aiknew/shared-types'
+  ElCascader,
+} from "element-plus"
+import "element-plus/es/components/input/style/css"
+import "element-plus/es/components/switch/style/css"
+import "element-plus/es/components/radio/style/css"
+import "element-plus/es/components/input-number/style/css"
+import "element-plus/es/components/select-v2/style/css"
+import "element-plus/es/components/tree-select/style/css"
+import "element-plus/es/components/cascader/style/css"
+import {
+  reactive,
+  toValue,
+  type MaybeRefOrGetter,
+  type Component,
+  type Ref,
+  defineAsyncComponent,
+} from "vue"
+import type { ComponentProps, ComponentSlots } from "vue-component-type-helpers"
+import type AppRadio from "./components/app-radio.vue"
+import { isDefined } from "@vueuse/core"
+import type { ILanguage } from "@aiknew/shared-types"
 
 type GetValueFromRecordOrKeep<T> = T extends Record<string, infer V> ? V : T
 
@@ -33,18 +49,18 @@ export type Fields = Field<string, keyof Components>[]
 export type GetDefaultVals<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-    [Item in Fields[number]as GetFieldName<Item['name']>]: z.infer<
-      GetSchemaType<Item['schema']>
-    >
-  }
+  [Item in Fields[number] as GetFieldName<Item["name"]>]: z.infer<
+    GetSchemaType<Item["schema"]>
+  >
+}
 
 export type GetI18nFields<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-    [Item in Fields[number]as Item['i18n'] extends true
-    ? GetFieldName<Item['name']>
-    : never]: z.infer<GetSchemaType<Item['schema']>>
-  }
+  [Item in Fields[number] as Item["i18n"] extends true
+    ? GetFieldName<Item["name"]>
+    : never]: z.infer<GetSchemaType<Item["schema"]>>
+}
 
 export type GetI18nFieldNames<
   Fields extends readonly Field<string, keyof Components>[],
@@ -53,27 +69,28 @@ export type GetI18nFieldNames<
 export type GetFieldsWithTranslations<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-  [Item in Fields[number]as Item['i18n'] extends true
-  ? never
-  : GetFieldName<Item['name']>]: z.infer<GetSchemaType<Item['schema']>>
-} & (
-    GetI18nFieldNames<Fields> extends never ? { translations?: [] } : {
+  [Item in Fields[number] as Item["i18n"] extends true
+    ? never
+    : GetFieldName<Item["name"]>]: z.infer<GetSchemaType<Item["schema"]>>
+} & (GetI18nFieldNames<Fields> extends never
+  ? { translations?: [] }
+  : {
       translations: Prettify<
         {
-          [K in GetI18nFieldNames<Fields>]: GetValueFromRecordOrKeep<GetI18nFields<Fields>[K]>
+          [K in GetI18nFieldNames<Fields>]: GetValueFromRecordOrKeep<
+            GetI18nFields<Fields>[K]
+          >
         } & { langKey: string }
       >[]
-    }
-  )
-
+    })
 
 export type GetValidators<
   Fields extends readonly Field<string, keyof Components>[],
 > = {
-    [Item in Fields[number]as GetFieldName<Item['name']>]: ReturnType<
-      Item['schema'] extends ZodDefault ? Item['schema']['unwrap'] : never
-    >
-  }
+  [Item in Fields[number] as GetFieldName<Item["name"]>]: ReturnType<
+    Item["schema"] extends ZodDefault ? Item["schema"]["unwrap"] : never
+  >
+}
 
 export type ComponentPropsAndSlots<T> = {
   component: T
@@ -87,34 +104,47 @@ export interface BaseComponents {
   ElSelectV2: ComponentPropsAndSlots<typeof ElSelectV2>
   ElTreeSelect: ComponentPropsAndSlots<typeof ElTreeSelect>
   ElRadio: ComponentPropsAndSlots<typeof ElRadio> &
-  ComponentPropsAndSlots<typeof AppRadio>
-  ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>,
+    ComponentPropsAndSlots<typeof AppRadio>
+  ElSwitch: ComponentPropsAndSlots<typeof ElSwitch>
   ElCascader: ComponentPropsAndSlots<typeof ElCascader>
 }
 
-export interface ExtraComponents { }
+export interface ExtraComponents {}
 
-export interface Components extends BaseComponents, ExtraComponents { }
+export interface Components extends BaseComponents, ExtraComponents {}
 
-export type GetProps<C extends keyof Components> = Components[C]['props']
+export type GetProps<C extends keyof Components> = Components[C]["props"]
 
-export type GetSlots<C extends keyof Components> = Components[C]['slots']
+export type GetSlots<C extends keyof Components> = Components[C]["slots"]
 
-export const components: Record<keyof BaseComponents, Component> & Partial<Record<keyof ExtraComponents, Component>> = {
-  ElRadio: defineAsyncComponent(() => import('./components/app-radio.vue')),
-  ElInput: defineAsyncComponent(() => import('element-plus/es/components/input/index')),
-  ElSelectV2: defineAsyncComponent(() => import('element-plus/es/components/select-v2/index')),
-  ElTreeSelect: defineAsyncComponent(() => import('element-plus/es/components/tree-select/index')),
-  ElInputNumber: defineAsyncComponent(() => import('element-plus/es/components/input-number/index')),
-  ElSwitch: defineAsyncComponent(() => import('element-plus/es/components/switch/index')),
-  ElCascader: defineAsyncComponent(() => import('element-plus/es/components/cascader/index'))
+export const components: Record<keyof BaseComponents, Component> &
+  Partial<Record<keyof ExtraComponents, Component>> = {
+  ElRadio: defineAsyncComponent(() => import("./components/app-radio.vue")),
+  ElInput: defineAsyncComponent(
+    () => import("element-plus/es/components/input/index"),
+  ),
+  ElSelectV2: defineAsyncComponent(
+    () => import("element-plus/es/components/select-v2/index"),
+  ),
+  ElTreeSelect: defineAsyncComponent(
+    () => import("element-plus/es/components/tree-select/index"),
+  ),
+  ElInputNumber: defineAsyncComponent(
+    () => import("element-plus/es/components/input-number/index"),
+  ),
+  ElSwitch: defineAsyncComponent(
+    () => import("element-plus/es/components/switch/index"),
+  ),
+  ElCascader: defineAsyncComponent(
+    () => import("element-plus/es/components/cascader/index"),
+  ),
 }
 
 export type AsObject<T extends keyof Components> = {
   component: T
-  props?: Components[T]['props']
-  slots?: Components[T]['slots']
-  ref?: Ref<InstanceType<Components[T]['component']> | undefined>
+  props?: Components[T]["props"]
+  slots?: Components[T]["slots"]
+  ref?: Ref<InstanceType<Components[T]["component"]> | undefined>
 }
 
 type CommonContainer = {
@@ -131,7 +161,16 @@ export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
 
-export type FiledSchema = ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault> | (() => ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault>)
+export type FiledSchema =
+  | ZodType
+  | ZodDefault
+  | ZodOptional<ZodDefault>
+  | ZodNullable<ZodDefault>
+  | (() =>
+      | ZodType
+      | ZodDefault
+      | ZodOptional<ZodDefault>
+      | ZodNullable<ZodDefault>)
 
 export type NormalField<N extends string, C extends keyof Components> = {
   hidden?: MaybeRefOrGetter<boolean>
@@ -166,8 +205,10 @@ export const isNormalField = (
   return !field.exclude
 }
 
-export const normalizeSchema = (schemaOrFn: FiledSchema): ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault> => {
-  if (typeof schemaOrFn === 'function') {
+export const normalizeSchema = (
+  schemaOrFn: FiledSchema,
+): ZodType | ZodDefault | ZodOptional<ZodDefault> | ZodNullable<ZodDefault> => {
+  if (typeof schemaOrFn === "function") {
     return schemaOrFn()
   }
 
@@ -181,11 +222,10 @@ export const generateDefaultVal = <
 ): GetDefaultVals<T> => {
   const defaultValues = {} as Record<string, unknown>
   for (const item of fields) {
-
     if (isDefined(item.when) && !toValue(item.when)) continue
 
     if (isNormalField(item)) {
-      const res = (normalizeSchema(item.schema)).safeParse(undefined)
+      const res = normalizeSchema(item.schema).safeParse(undefined)
       if (res.success) {
         defaultValues[item.name] = res.data
       } else {
@@ -209,14 +249,12 @@ export const generateValidators = <
 
     if (isNormalField(item)) {
       const schema = normalizeSchema(item.schema)
-      if ('unwrap' in schema) {
+      if ("unwrap" in schema) {
         schemas[item.name as keyof GetDefaultVals<T>] =
           schema.unwrap() as ZodType
       } else {
-        schemas[item.name as keyof GetDefaultVals<T>] =
-          schema
+        schemas[item.name as keyof GetDefaultVals<T>] = schema
       }
-
     }
   }
 

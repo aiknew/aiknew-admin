@@ -1,29 +1,28 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
-import { fileURLToPath } from 'node:url'
+import { defineConfig } from "vite"
+import vue from "@vitejs/plugin-vue"
+import dts from "vite-plugin-dts"
+import { fileURLToPath } from "node:url"
 
 export default defineConfig({
   build: {
     lib: {
-      entry: 'src/index.ts',
-      formats: ['es', 'cjs'],
+      entry: "src/index.ts",
+      formats: ["es", "cjs"],
       fileName: (format) => `tiptap.${format}.js`,
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ["vue"],
       output: {
         globals: {
-          vue: 'Vue',
+          vue: "Vue",
         },
       },
     },
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   plugins: [vue(), dts()],
 })
-

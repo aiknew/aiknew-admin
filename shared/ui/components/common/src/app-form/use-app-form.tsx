@@ -6,7 +6,7 @@ import {
   ref,
   toValue,
   type MaybeRefOrGetter,
-} from 'vue'
+} from "vue"
 import {
   components,
   generateDefaultVal,
@@ -22,19 +22,18 @@ import {
   normalizeSchema,
   isOptionalSchema,
   isNullableSchema,
-} from './form-utils'
-import { useForm } from '@tanstack/vue-form'
-import { isDefined, useWindowSize } from '@vueuse/core'
-import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
-import { ElFormItem, ElForm } from 'element-plus'
-import z from 'zod'
-import AppTranslation from './components/app-translation.vue'
-import type { ILanguage } from '@aiknew/shared-types'
-import AppFormItemErrMsg from './components/app-form-item-err-msg.vue'
-import DynamicFormItemStyles from './dynamic-form-item.module.scss'
-import { isObject } from 'element-plus/es/utils/types.mjs'
-import AppFormItemContainer from './components/app-form-item-container.vue'
-import { onLangChange } from '@aiknew/shared-ui-locales'
+} from "./form-utils"
+import { useForm } from "@tanstack/vue-form"
+import { isDefined, useWindowSize } from "@vueuse/core"
+import type { ComponentProps, ComponentSlots } from "vue-component-type-helpers"
+import { ElFormItem, ElForm } from "element-plus"
+import AppTranslation from "./components/app-translation.vue"
+import type { ILanguage } from "@aiknew/shared-types"
+import AppFormItemErrMsg from "./components/app-form-item-err-msg.vue"
+import DynamicFormItemStyles from "./dynamic-form-item.module.scss"
+import { isObject } from "element-plus/es/utils/types.mjs"
+import AppFormItemContainer from "./components/app-form-item-container.vue"
+import { onLangChange } from "@aiknew/shared-ui-locales"
 
 export interface Props<F extends readonly Field<string, keyof Components>[]> {
   formProps?: ComponentProps<typeof ElForm>
@@ -99,10 +98,10 @@ const restoreI18nFields = <
   const res: Record<string, unknown> = {}
 
   for (const [key, val] of Object.entries(i18nValues)) {
-    if (key === 'translations') {
+    if (key === "translations") {
       i18nValues.translations?.forEach((item) => {
         for (const [iKey, iVal] of Object.entries(item)) {
-          if (iKey === 'langKey') continue
+          if (iKey === "langKey") continue
 
           const i18nFieldObj = isObject(res[iKey]) ? res[iKey] : {}
           const langKey: string = item.langKey
@@ -126,22 +125,25 @@ export const useAppForm = <
   props: Props<F>,
 ) => {
   const { fields: fieldsOrFn, formProps = {}, languages = [], onSubmit } = props
-  const fields = typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
+  const fields = typeof fieldsOrFn === "function" ? fieldsOrFn() : fieldsOrFn
   const defaultValues = generateDefaultVal(fields)
   const i18nFieldNames = getI18nFieldNames(fields)
   const activeFieldTab = ref<Record<string, string>>(
     fields
       .filter((item) => item.i18n)
-      .reduce((o, item) => {
-        if (isNormalField(item)) {
-          o[item.name] = languages[0]?.key
-        }
-        return o
-      }, {} as Record<string, string>),
+      .reduce(
+        (o, item) => {
+          if (isNormalField(item)) {
+            o[item.name] = languages[0]?.key
+          }
+          return o
+        },
+        {} as Record<string, string>,
+      ),
   )
   const activeFields = computed<F>(() => {
     const allFields =
-      typeof fieldsOrFn === 'function' ? fieldsOrFn() : fieldsOrFn
+      typeof fieldsOrFn === "function" ? fieldsOrFn() : fieldsOrFn
     return allFields.filter((field) => resolveCondition(field.when)) as never
   })
 
@@ -151,12 +153,13 @@ export const useAppForm = <
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      onSubmit &&
+      if (onSubmit) {
         onSubmit({
           values: resolveI18nFields(value, i18nFieldNames, languages),
           rawValues: value,
           i18nFieldNames,
         })
+      }
     },
     validators: {
       onChangeAsync: async ({ formApi }) => {
@@ -181,7 +184,7 @@ export const useAppForm = <
   const formErrors = form.useStore((state) => state.errors)
 
   type FormSlotProps = Parameters<
-    ComponentSlots<typeof form.Field>['default']
+    ComponentSlots<typeof form.Field>["default"]
   >[0]
 
   const NormalFieldFormItem = ({
@@ -210,12 +213,15 @@ export const useAppForm = <
           const errObj: Record<string, Record<string, string>[]> =
             formErrors.value[0] ?? {}
           const fieldErrs = Object.values(
-            Object.keys(errObj).reduce((o, key) => {
-              if (key.includes(fieldErrKey)) {
-                o[key] = errObj[key]
-              }
-              return o
-            }, {} as typeof errObj),
+            Object.keys(errObj).reduce(
+              (o, key) => {
+                if (key.includes(fieldErrKey)) {
+                  o[key] = errObj[key]
+                }
+                return o
+              },
+              {} as typeof errObj,
+            ),
           ).flat()
           const fieldActiveLangErrs = errObj[activeLangErrKey]
 
@@ -227,9 +233,9 @@ export const useAppForm = <
           }
 
           if (fieldErrs?.length) {
-            const langKey = fieldErrs[0].path?.[1] ?? ''
+            const langKey = fieldErrs[0].path?.[1] ?? ""
             const langName =
-              languages.find((lang) => lang.key === langKey)?.name ?? ''
+              languages.find((lang) => lang.key === langKey)?.name ?? ""
 
             return {
               msg: `[${langName}]: ${fieldErrs[0].message}`,
@@ -246,7 +252,7 @@ export const useAppForm = <
     })
 
     const resolvedProps = (as: typeof item.as) => {
-      if (typeof as === 'string') {
+      if (typeof as === "string") {
         return
       }
 
@@ -254,7 +260,7 @@ export const useAppForm = <
     }
 
     const resolvedSlots = (as: typeof item.as) => {
-      if (typeof as === 'string') {
+      if (typeof as === "string") {
         return
       }
 
@@ -262,7 +268,7 @@ export const useAppForm = <
     }
 
     const resolvedComp = (as: typeof item.as): Component => {
-      if (typeof as === 'string') {
+      if (typeof as === "string") {
         return components[as] as Component
       }
 
@@ -280,11 +286,11 @@ export const useAppForm = <
             name: item.name,
             languages,
             activeLang: activeFieldTab.value[item.name],
-            'onUpdate:activeLang': (lang) => {
+            "onUpdate:activeLang": (lang) => {
               activeFieldTab.value[item.name] = lang
             },
             modelValue: state.value as never,
-            'onUpdate:modelValue': handleChange as never,
+            "onUpdate:modelValue": handleChange as never,
           },
           ({
             value,
@@ -298,8 +304,8 @@ export const useAppForm = <
               {
                 name: item.name,
                 modelValue: value,
-                'onUpdate:modelValue': setLangVal,
-                ref: typeof item.as !== 'string' ? item.as.ref : undefined,
+                "onUpdate:modelValue": setLangVal,
+                ref: typeof item.as !== "string" ? item.as.ref : undefined,
                 ...compProps,
               },
               compSlots,
@@ -312,8 +318,8 @@ export const useAppForm = <
           {
             name: item.name,
             modelValue: state.value,
-            'onUpdate:modelValue': handleChange,
-            ref: typeof item.as !== 'string' ? item.as.ref : undefined,
+            "onUpdate:modelValue": handleChange,
+            ref: typeof item.as !== "string" ? item.as.ref : undefined,
             ...compProps,
           },
           compSlots,
@@ -329,7 +335,7 @@ export const useAppForm = <
     return h(
       ElFormItem,
       {
-        style: { display: toValue(item.hidden) ? 'none' : undefined },
+        style: { display: toValue(item.hidden) ? "none" : undefined },
         label: item.label,
         required: !(isOptionalSchema(schema) || isNullableSchema(schema)),
         error: error.value.msg,
@@ -407,15 +413,15 @@ export const useAppForm = <
       const { width } = useWindowSize()
       const labelPosition = computed(() => {
         if (width.value < 560) {
-          return 'top'
+          return "top"
         }
 
-        return 'right'
+        return "right"
       })
 
       const mergedFormProps = computed(() => {
         return {
-          'label-position': labelPosition.value,
+          "label-position": labelPosition.value,
           ...formProps,
         }
       })
@@ -440,8 +446,8 @@ export const useAppForm = <
     AppForm,
     formApi: (() => {
       type SkipFirstParam<Func> = Func extends (
-        ...args: [any, ...infer Rest]
-      ) => any
+        ...args: [unknown, ...infer Rest]
+      ) => unknown
         ? Rest
         : never
 

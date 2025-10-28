@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import AppLogo from '../app-logo.vue'
-import AppAside from '../app-aside.vue'
-import AppHeader from '../app-header.vue'
-import AppRecursiveMenu from '../app-recursive-menu.vue'
-import AppMenu from './components/app-menu.vue'
-import { ElMenu } from 'element-plus'
-import { computed, nextTick, type Ref, ref } from 'vue'
+import AppLogo from "../app-logo.vue"
+import AppAside from "../app-aside.vue"
+import AppHeader from "../app-header.vue"
+import AppRecursiveMenu from "../app-recursive-menu.vue"
+import AppMenu from "./components/app-menu.vue"
+import { ElMenu } from "element-plus"
+import { computed, nextTick, type Ref, ref } from "vue"
 import {
   type RouteLocationNormalizedLoadedGeneric,
   type RouteRecordRaw,
-} from 'vue-router'
-import { BProgress } from '@bprogress/core'
-import { Layouts } from '@aiknew/shared-ui-constants'
-import { useWindowSize } from '@vueuse/core'
+} from "vue-router"
+import { BProgress } from "@bprogress/core"
+import { Layouts } from "@aiknew/shared-ui-constants"
+import { useWindowSize } from "@vueuse/core"
 
 interface Props {
   routes: RouteRecordRaw[]
@@ -77,7 +77,7 @@ const handleActiveTopLevelMenu = (path: string) => {
 </script>
 
 <template>
-  <div class="flex w-full min-h-[100vh] overflow-hidden">
+  <div class="flex min-h-[100vh] w-full overflow-hidden">
     <!-- Vertical Layout Aside -->
     <div v-if="showVerticalAside">
       <AppAside v-model:expand="expandMenu" :routes :current-route>
@@ -87,7 +87,7 @@ const handleActiveTopLevelMenu = (path: string) => {
       </AppAside>
     </div>
 
-    <div class="flex flex-col grow min-w-0">
+    <div class="flex min-w-0 grow flex-col">
       <!-- header -->
       <AppHeader
         v-model:expand-menu="expandMenu"
@@ -128,14 +128,14 @@ const handleActiveTopLevelMenu = (path: string) => {
       <slot name="top"></slot>
 
       <!-- main -->
-      <div class="flex grow p-4 bg-theme-bg-page gap-4">
+      <div class="bg-theme-bg-page flex grow gap-4 p-4">
         <!-- Mixed Layout Aside -->
         <div
           class="flex"
           v-if="mixedLayout && !showVerticalAside && secondLevelRoutes.length"
         >
           <AppAside
-            class="py-4 rounded-xl min-h-0! grow"
+            class="min-h-0! grow rounded-xl py-4"
             v-model:expand="expandMenu"
             :routes="secondLevelRoutes"
             :current-route
@@ -143,7 +143,7 @@ const handleActiveTopLevelMenu = (path: string) => {
         </div>
 
         <main
-          class="w-full shrink grow bg-theme-bg-page min-w-0"
+          class="bg-theme-bg-page w-full min-w-0 shrink grow"
           :key="mainKey"
         >
           <RouterView />

@@ -1,12 +1,12 @@
-import mime from 'mime'
+import mime from "mime"
 
 export function useFileType() {
   const getTypeByName = (fileName: string) => mime.getType(fileName)
 
   const isImage = (fileName: string) =>
-    getTypeByName(fileName)?.startsWith('image/')
+    getTypeByName(fileName)?.startsWith("image/")
   const isVideo = (fileName: string) =>
-    getTypeByName(fileName)?.startsWith('video/')
+    getTypeByName(fileName)?.startsWith("video/")
   const isPreviewable = (fileName: string) =>
     isImage(fileName) || isVideo(fileName)
 

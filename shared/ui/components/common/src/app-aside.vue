@@ -1,38 +1,38 @@
 <script lang="ts" setup>
-import AppRecursiveMenu from './app-recursive-menu.vue'
-import { ElMenu } from 'element-plus'
-import { type Ref } from 'vue'
+import AppRecursiveMenu from "./app-recursive-menu.vue"
+import { ElMenu } from "element-plus"
+import { type Ref } from "vue"
 import {
   type RouteLocationNormalizedLoadedGeneric,
   type RouteRecordRaw,
-} from 'vue-router'
+} from "vue-router"
 
 export interface Props {
   routes: RouteRecordRaw[]
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
   expand?: boolean
-  menuMode?: 'vertical' | 'horizontal'
+  menuMode?: "vertical" | "horizontal"
   menuMinWidth?: string
 }
 
 export interface Emits {
-  (e: 'update:expand', expand: boolean): void
+  (e: "update:expand", expand: boolean): void
 }
 
 const {
   expand = true,
   routes,
   currentRoute,
-  menuMode = 'vertical',
-  menuMinWidth = '120px',
+  menuMode = "vertical",
+  menuMinWidth = "120px",
 } = defineProps<Props>()
 defineEmits<Emits>()
 </script>
 
 <template>
-  <div class="min-h-screen bg-theme-bg flex flex-col z-2001 relative">
+  <div class="bg-theme-bg z-2001 relative flex min-h-screen flex-col">
     <aside
-      class="linear z-30 fixed top-0 grow left-0 inline-flex flex-col h-full shrink-0 origin-center overflow-x-hidden border-r border-theme-border-light bg-theme-bg transition md:relative"
+      class="linear border-theme-border-light bg-theme-bg fixed left-0 top-0 z-30 inline-flex h-full shrink-0 grow origin-center flex-col overflow-x-hidden border-r transition md:relative"
       :class="[expand ? '' : '-translate-x-100 md:-translate-x-0']"
     >
       <!-- Title -->
@@ -54,7 +54,7 @@ defineEmits<Emits>()
 
     <!-- Mask layer -->
     <div
-      class="fixed top-0 z-20 left-0 h-full w-full bg-black opacity-10 md:hidden"
+      class="fixed left-0 top-0 z-20 h-full w-full bg-black opacity-10 md:hidden"
       :class="[expand ? 'block' : 'hidden']"
       @click="$emit('update:expand', false)"
     ></div>
@@ -62,7 +62,7 @@ defineEmits<Emits>()
 </template>
 
 <style lang="scss">
-[id^='el-popper-container-'] {
+[id^="el-popper-container-"] {
   position: relative;
   z-index: 5001;
 }

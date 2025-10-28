@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="w-full rounded-xl p-6 bg-theme-bg">
+  <div class="bg-theme-bg w-full rounded-xl p-6">
     <slot></slot>
   </div>
 </template>

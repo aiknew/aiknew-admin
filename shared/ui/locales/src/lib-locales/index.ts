@@ -1,4 +1,4 @@
-import './dayjs-locales'
+import "./dayjs-locales"
 
-export * from './element-plus-locales'
-export * from './zod-locales'
+export * from "./element-plus-locales"
+export * from "./zod-locales"

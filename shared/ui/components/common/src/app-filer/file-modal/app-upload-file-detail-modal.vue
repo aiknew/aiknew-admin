@@ -1,24 +1,24 @@
 <script setup lang="tsx">
-import { computed, h, ref, useTemplateRef } from 'vue'
-import AppBasicModal from '../../app-basic-modal.vue'
-import { useFileType } from '../composables'
+import { computed, h, ref, useTemplateRef } from "vue"
+import AppBasicModal from "../../app-basic-modal.vue"
+import { useFileType } from "../composables"
 import type {
   IUpdateUploadFile,
   IUploadFileGroup,
   IUploadFile,
-} from '@aiknew/shared-types'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { filesize } from 'filesize'
-import { AppFormItemTips, type Fields, useAppForm } from '../../app-form'
-import z from 'zod'
-import { ElLink } from 'element-plus'
-import AppFileStorageDetailModal from './app-file-storage-detail-modal.vue'
-import { useI18n } from 'vue-i18n'
+} from "@aiknew/shared-types"
+import type Node from "element-plus/es/components/tree/src/model/node"
+import { filesize } from "filesize"
+import { AppFormItemTips, type Fields, useAppForm } from "../../app-form"
+import z from "zod"
+import { ElLink } from "element-plus"
+import AppFileStorageDetailModal from "./app-file-storage-detail-modal.vue"
+import { useI18n } from "vue-i18n"
 
 export type FileItemWithGroupName = IUploadFile & { groupName: string }
 
 export interface Emits {
-  (e: 'submit'): void
+  (e: "submit"): void
 }
 
 export interface Props {
@@ -26,7 +26,7 @@ export interface Props {
   loadGroupTreeNode: (
     node: Node,
     resolve: (
-      data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[],
+      data: Omit<IUploadFileGroup, "updatedAt" | "createdAt">[],
     ) => void,
     reject: () => void,
   ) => void
@@ -41,15 +41,15 @@ const { updateFile, defaultExpandedTreeNodeKeys, loadGroupTreeNode } =
   defineProps<Props>()
 
 const { t } = useI18n()
-const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>('modal')
-const storageModalRef = useTemplateRef('storageModal')
+const modalRef = useTemplateRef<InstanceType<typeof AppBasicModal>>("modal")
+const storageModalRef = useTemplateRef("storageModal")
 const { isImage, isVideo, isPreviewable } = useFileType()
 const showFooter = ref(false)
 const fileDetail = ref<FileItemWithGroupName>()
 
-const isEditMode = computed(() => modalRef.value?.modalMode === 'edit')
+const isEditMode = computed(() => modalRef.value?.modalMode === "edit")
 const editFileId = computed(() => {
-  return fileDetail.value?.id ?? ''
+  return fileDetail.value?.id ?? ""
 })
 
 const TextItem = ({ text }: { text?: string }) => {
@@ -59,7 +59,7 @@ const TextItem = ({ text }: { text?: string }) => {
 const previewField = () =>
   ({
     exclude: true,
-    label: t('filer.preview'),
+    label: t("filer.preview"),
     container: {
       content() {
         const fileOriginalName = fileDetail.value?.originalName
@@ -68,9 +68,9 @@ const previewField = () =>
         if (fileOriginalName && filePath && isPreviewable(fileOriginalName)) {
           if (isImage(fileOriginalName)) {
             return [
-              h('img', {
-                class: ['preview'],
-                alt: 'preview',
+              h("img", {
+                class: ["preview"],
+                alt: "preview",
                 src: filePath,
               }),
             ]
@@ -78,9 +78,9 @@ const previewField = () =>
 
           if (isVideo(fileOriginalName)) {
             return [
-              h('video', {
-                class: ['preview'],
-                alt: 'preview',
+              h("video", {
+                class: ["preview"],
+                alt: "preview",
                 controls: true,
                 src: filePath,
               }),
@@ -88,54 +88,54 @@ const previewField = () =>
           }
         }
 
-        return [h('div', '')]
+        return [h("div", "")]
       },
     },
-  } as const)
+  }) as const
 
 const editFields = () =>
   [
     previewField(),
     {
       as: {
-        component: 'ElInput',
+        component: "ElInput",
         props: {
-          placeholder: 'enterFileName',
+          placeholder: "enterFileName",
         },
       },
-      label: t('filer.fileName'),
-      name: 'originalName',
-      schema: z.string().default(''),
+      label: t("filer.fileName"),
+      name: "originalName",
+      schema: z.string().default(""),
     },
     {
       as: {
-        component: 'ElTreeSelect',
+        component: "ElTreeSelect",
         props: {
-          placeholder: t('selectParent'),
+          placeholder: t("selectParent"),
           clearable: true,
-          style: { minWidth: '200px' },
-          valueKey: 'id',
-          nodeKey: 'id',
+          style: { minWidth: "200px" },
+          valueKey: "id",
+          nodeKey: "id",
           lazy: true,
           checkStrictly: true,
           defaultExpandedKeys: defaultExpandedTreeNodeKeys,
           props: {
-            label: 'groupName',
+            label: "groupName",
           },
           load: loadGroupTreeNode,
         },
       },
-      label: t('filer.fileGroup'),
-      name: 'groupId',
+      label: t("filer.fileGroup"),
+      name: "groupId",
       schema: z.string().optional().nullable().default(null),
     },
     {
-      as: 'ElInputNumber',
-      label: t('order'),
-      name: 'order',
+      as: "ElInputNumber",
+      label: t("order"),
+      name: "order",
       container: {
         bottomSlot() {
-          return [h(AppFormItemTips, { text: t('orderTips') })]
+          return [h(AppFormItemTips, { text: t("orderTips") })]
         },
       },
       schema: z.number().default(10),
@@ -148,7 +148,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.fileId'),
+      label: t("filer.fileId"),
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.id })
@@ -158,7 +158,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.fileName'),
+      label: t("filer.fileName"),
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.originalName })
@@ -168,7 +168,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.fileStatus'),
+      label: t("filer.fileStatus"),
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.status })
@@ -178,13 +178,13 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.storageName'),
+      label: t("filer.storageName"),
       container: {
         content() {
           return h(
             ElLink,
             {
-              type: 'primary',
+              type: "primary",
               onClick() {
                 storageModalRef.value?.show(fileDetail.value?.storage)
               },
@@ -197,7 +197,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.fileSize'),
+      label: t("filer.fileSize"),
       container: {
         content() {
           const size = fileDetail.value?.fileSize
@@ -210,7 +210,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.fileGroup'),
+      label: t("filer.fileGroup"),
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.groupName })
@@ -220,7 +220,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.from'),
+      label: t("filer.from"),
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.channel })
@@ -230,7 +230,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.uploader'),
+      label: t("filer.uploader"),
       container: {
         content() {
           return h(TextItem, { text: fileDetail.value?.uploader.userName })
@@ -240,7 +240,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.uploadedAt'),
+      label: t("filer.uploadedAt"),
       container: {
         content() {
           return h(TextItem, { text: String(fileDetail.value?.createdAt) })
@@ -250,7 +250,7 @@ const detailFields = () =>
 
     {
       exclude: true,
-      label: t('filer.lastUpdatedTime'),
+      label: t("filer.lastUpdatedTime"),
       container: {
         content() {
           return h(TextItem, { text: String(fileDetail.value?.updatedAt) })
@@ -276,7 +276,7 @@ const { AppForm, formApi } = useAppForm({
 
     await updateFile({ id: editFileId.value, body: values })
     handleReset()
-    emit('submit')
+    emit("submit")
   },
 })
 
@@ -286,8 +286,8 @@ const handleReset = () => {
 }
 
 const edit = (file: FileItemWithGroupName) => {
-  modalRef.value?.setModalMode('edit')
-  modalRef.value?.setTitle(t('filer.editFileDetailModalTitle'))
+  modalRef.value?.setModalMode("edit")
+  modalRef.value?.setTitle(t("filer.editFileDetailModalTitle"))
   fileDetail.value = file
   showFooter.value = true
   modalRef.value?.show()
@@ -296,8 +296,8 @@ const edit = (file: FileItemWithGroupName) => {
 }
 
 const show = (file: FileItemWithGroupName) => {
-  modalRef.value?.setModalMode('show')
-  modalRef.value?.setTitle(t('filer.showFileDetailModalTitle'))
+  modalRef.value?.setModalMode("show")
+  modalRef.value?.setTitle(t("filer.showFileDetailModalTitle"))
   fileDetail.value = file
   showFooter.value = false
   modalRef.value?.show()

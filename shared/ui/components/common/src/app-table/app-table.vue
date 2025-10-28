@@ -1,9 +1,9 @@
 <script lang="ts" setup generic="P extends boolean = true">
-import { ElTable } from 'element-plus'
-import { useTemplateRef } from 'vue'
-import AppPagination from '../app-pagination.vue'
-import { computed } from 'vue'
-import type { IPaginationData } from '@aiknew/shared-types'
+import { ElTable } from "element-plus"
+import { useTemplateRef } from "vue"
+import AppPagination from "../app-pagination.vue"
+import { computed } from "vue"
+import type { IPaginationData } from "@aiknew/shared-types"
 
 export type TableData<P extends boolean> = P extends true
   ? IPaginationData<Record<string, unknown>[]>
@@ -21,14 +21,14 @@ const {
   tree = false,
 } = defineProps<Props<P>>()
 
-const elTableRef = useTemplateRef<InstanceType<typeof ElTable>>('elTable')
-const currentPage = defineModel<number>('currentPage', { default: 1 })
-const pageSize = defineModel<number>('pageSize', { default: 10 })
+const elTableRef = useTemplateRef<InstanceType<typeof ElTable>>("elTable")
+const currentPage = defineModel<number>("currentPage", { default: 1 })
+const pageSize = defineModel<number>("pageSize", { default: 10 })
 const list = computed(() => {
   if (!pagination && Array.isArray(tableData)) {
     return tableData
   } else {
-    if ('list' in tableData) {
+    if ("list" in tableData) {
       if (tree) {
         return tableData.list.map((item) => ({ ...item, hasChildren: true }))
       }
@@ -36,10 +36,12 @@ const list = computed(() => {
       return tableData.list
     }
   }
+
+  return []
 })
 
 const total = computed(() => {
-  if (pagination && 'total' in tableData) {
+  if (pagination && "total" in tableData) {
     return tableData.total
   }
 
@@ -50,11 +52,11 @@ const clearSelection = () => {
   elTableRef.value?.clearSelection()
 }
 
-const toggleRowExpansion = (row: any, expanded?: boolean) => {
+const toggleRowExpansion = (row: unknown, expanded?: boolean) => {
   elTableRef.value?.toggleRowExpansion(row, expanded)
 }
 
-const updateKeyChildren = <T>(key: string, data: T[]) => {
+const updateKeyChildren = <T,>(key: string, data: T[]) => {
   elTableRef.value?.updateKeyChildren(key, data)
 }
 

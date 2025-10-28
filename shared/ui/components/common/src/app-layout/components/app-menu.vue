@@ -3,11 +3,11 @@ import {
   type RouteLocationNormalizedLoadedGeneric,
   useRouter,
   type RouteRecordRaw,
-} from 'vue-router'
-import AppMenuItem from './app-menu-item.vue'
-import { tField } from '@aiknew/shared-ui-locales'
-import { type Ref } from 'vue'
-import type { RouteType } from '@aiknew/shared-types'
+} from "vue-router"
+import AppMenuItem from "./app-menu-item.vue"
+import { tField } from "@aiknew/shared-ui-locales"
+import { type Ref } from "vue"
+import type { RouteType } from "@aiknew/shared-types"
 
 interface Props {
   routes: RouteRecordRaw[]
@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'active', path: string): void
+  (e: "active", path: string): void
 }
 
 const router = useRouter()
@@ -32,25 +32,25 @@ const isActive = (path: string) => {
 const handleClick = (path: string, type: RouteType | undefined) => {
   if (!type) return
 
-  if (type === 'MENU') {
+  if (type === "MENU") {
     router.push(path)
   } else {
     const childRoutes = topLevelRouteMap.get(path)
     if (childRoutes && childRoutes.length > 0) {
       let firstChildRoute = childRoutes[0]
-      if (firstChildRoute.indexOf('/') === -1) {
-        firstChildRoute = path + '/' + firstChildRoute
+      if (firstChildRoute.indexOf("/") === -1) {
+        firstChildRoute = path + "/" + firstChildRoute
       }
       router.push(firstChildRoute)
     }
   }
 
-  emit('active', path)
+  emit("active", path)
 }
 </script>
 
 <template>
-  <div class="border-b border-gray-100 dark:border-theme-border">
+  <div class="dark:border-theme-border border-b border-gray-100">
     <template v-for="item in routes" :key="item.path">
       <AppMenuItem
         v-if="!item.meta?.hidden"

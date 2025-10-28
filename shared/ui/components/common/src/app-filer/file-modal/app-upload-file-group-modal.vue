@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { h, nextTick, ref, useTemplateRef } from 'vue'
-import AppBasicModal from '../../app-basic-modal.vue'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { AppFormItemTips, type Fields, useAppForm } from '../../app-form'
+import { h, nextTick, ref, useTemplateRef } from "vue"
+import AppBasicModal from "../../app-basic-modal.vue"
+import type Node from "element-plus/es/components/tree/src/model/node"
+import { AppFormItemTips, type Fields, useAppForm } from "../../app-form"
 import type {
   IUploadFileGroup,
   ICreateUploadFileGroup,
-} from '@aiknew/shared-types'
-import z from 'zod'
-import { useI18n } from 'vue-i18n'
+} from "@aiknew/shared-types"
+import z from "zod"
+import { useI18n } from "vue-i18n"
 
 export interface Props {
   currentGroupId: string | undefined | null
@@ -16,7 +16,7 @@ export interface Props {
   loadGroupTreeNode: (
     node: Node,
     resolve: (
-      data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[],
+      data: Omit<IUploadFileGroup, "updatedAt" | "createdAt">[],
     ) => void,
     reject: () => void,
   ) => void
@@ -28,16 +28,16 @@ export interface Props {
 }
 
 export interface Emits {
-  (e: 'create', data: ICreateUploadFileGroup): void
+  (e: "create", data: ICreateUploadFileGroup): void
   (
-    e: 'update',
+    e: "update",
     data: {
       id: string
       body: Partial<ICreateUploadFileGroup>
     },
   ): void
-  (e: 'submit'): void
-  (e: 'close', groupID: string): void
+  (e: "submit"): void
+  (e: "close", groupID: string): void
 }
 
 const emit = defineEmits<Emits>()
@@ -50,32 +50,32 @@ const {
 } = defineProps<Props>()
 
 const { t } = useI18n()
-const modalRef = useTemplateRef('modal')
-const currentEditGroupID = ref('')
+const modalRef = useTemplateRef("modal")
+const currentEditGroupID = ref("")
 
 const { AppForm, formApi } = useAppForm({
   fields: () =>
     [
       {
         as: {
-          component: 'ElInput',
+          component: "ElInput",
           props: {
-            placeholder: t('filer.enterGroupName'),
+            placeholder: t("filer.enterGroupName"),
           },
         },
-        label: t('filer.fileGroupName'),
-        name: 'groupName',
+        label: t("filer.fileGroupName"),
+        name: "groupName",
         schema: z.string().nonempty(),
       },
       {
         as: {
-          component: 'ElTreeSelect',
+          component: "ElTreeSelect",
           props: {
-            placeholder: t('selectParent'),
+            placeholder: t("selectParent"),
             clearable: true,
-            style: { minWidth: '200px' },
-            valueKey: 'id',
-            nodeKey: 'id',
+            style: { minWidth: "200px" },
+            valueKey: "id",
+            nodeKey: "id",
             lazy: true,
             checkStrictly: true,
             defaultExpandedKeys: defaultExpandedTreeNodeKeys,
@@ -85,17 +85,17 @@ const { AppForm, formApi } = useAppForm({
             load: loadGroupTreeNode,
           },
         },
-        label: t('parent'),
-        name: 'parentId',
+        label: t("parent"),
+        name: "parentId",
         schema: z.string().optional().nullable().default(null),
       },
       {
-        as: 'ElInputNumber',
-        label: t('order'),
-        name: 'order',
+        as: "ElInputNumber",
+        label: t("order"),
+        name: "order",
         schema: z.number().default(10),
         container: {
-          bottomSlot: h(AppFormItemTips, { text: t('orderTips') }),
+          bottomSlot: h(AppFormItemTips, { text: t("orderTips") }),
         },
       },
     ] as const satisfies Fields,
@@ -105,10 +105,10 @@ const { AppForm, formApi } = useAppForm({
     }
 
     switch (modalRef.value?.modalMode) {
-      case 'add':
+      case "add":
         await createFileGroup(values)
         break
-      case 'edit':
+      case "edit":
         await updateFileGroup({
           id: currentEditGroupID.value,
           body: values,
@@ -116,27 +116,27 @@ const { AppForm, formApi } = useAppForm({
         break
     }
     handleReset()
-    emit('submit')
+    emit("submit")
   },
 })
 
 const add = () => {
-  modalRef.value?.setTitle(t('filer.addFileGroup'))
-  modalRef.value?.setModalMode('add')
+  modalRef.value?.setTitle(t("filer.addFileGroup"))
+  modalRef.value?.setModalMode("add")
   modalRef.value?.show()
 
   nextTick(() => {
     formApi.reset({
       parentId: currentGroupId ?? null,
       order: 10,
-      groupName: '',
+      groupName: "",
     })
   })
 }
 
 const edit = (data: IUploadFileGroup) => {
-  modalRef.value?.setTitle(t('filer.editFileGroup'))
-  modalRef.value?.setModalMode('edit')
+  modalRef.value?.setTitle(t("filer.editFileGroup"))
+  modalRef.value?.setModalMode("edit")
   modalRef.value?.show()
   currentEditGroupID.value = data.id
 
@@ -146,7 +146,7 @@ const edit = (data: IUploadFileGroup) => {
 const handleReset = () => {
   modalRef.value?.close()
   formApi.reset()
-  emit('close', currentEditGroupID.value)
+  emit("close", currentEditGroupID.value)
 }
 
 defineExpose({

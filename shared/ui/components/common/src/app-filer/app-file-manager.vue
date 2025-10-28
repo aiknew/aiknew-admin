@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ElSpace } from 'element-plus'
-import { useFileManager } from './composables/use-file-manager'
-import { execute } from '@aiknew/shared-utils'
+import { ElSpace } from "element-plus"
+import { useFileManager } from "./composables/use-file-manager"
+import { execute } from "@aiknew/shared-utils"
 import type {
   IUploadFileQuery,
   IUploadFile,
@@ -9,12 +9,11 @@ import type {
   IUploadFilesAndGroupsData,
   ICreateUploadFileGroup,
   IUpdateUploadFile,
-} from '@aiknew/shared-types'
-import { computed, onMounted, ref, type Ref } from 'vue'
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import { FileStatus } from '@aiknew/shared-enums'
-import type { PermissionOpts, Storages } from './types'
-import { useDebounceFn } from '@vueuse/core'
+} from "@aiknew/shared-types"
+import { computed, onMounted, ref, type Ref } from "vue"
+import type Node from "element-plus/es/components/tree/src/model/node"
+import type { PermissionOpts, Storages } from "./types"
+import { useDebounceFn } from "@vueuse/core"
 
 export interface Props extends PermissionOpts {
   selectLimit?: number
@@ -30,7 +29,7 @@ export interface Props extends PermissionOpts {
     currentEditGroupId: Ref<string | undefined>,
     node: Node,
     resolve: (
-      data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[],
+      data: Omit<IUploadFileGroup, "updatedAt" | "createdAt">[],
     ) => void,
     reject: () => void,
   ) => void
@@ -44,14 +43,14 @@ export interface Props extends PermissionOpts {
 }
 
 export interface Emits {
-  (e: 'delete-file', item: IUploadFile): void
-  (e: 'refresh'): void
+  (e: "delete-file", item: IUploadFile): void
+  (e: "refresh"): void
 }
 
-const queryModel = defineModel<IUploadFileQuery>('query', {
+const queryModel = defineModel<IUploadFileQuery>("query", {
   default: {
     currentPage: 1,
-    keyword: '',
+    keyword: "",
     pageSize: 10,
     parentId: null,
   },
@@ -88,7 +87,7 @@ const defaultData: IUploadFilesAndGroupsData = {
 }
 
 const refresh = () => {
-  emit('refresh')
+  emit("refresh")
 }
 
 const {
@@ -130,7 +129,7 @@ const {
 
 const loadGroupTreeNode = (
   node: Node,
-  resolve: (data: Omit<IUploadFileGroup, 'updatedAt' | 'createdAt'>[]) => void,
+  resolve: (data: Omit<IUploadFileGroup, "updatedAt" | "createdAt">[]) => void,
   reject: () => void,
 ) => {
   loadGroupNode(currentEditGroupId, node, resolve, reject)
@@ -147,7 +146,7 @@ const handleUpdateKeyword = (keyword: string) => {
 }
 
 onMounted(() => {
-  emit('refresh')
+  emit("refresh")
 })
 
 defineExpose({

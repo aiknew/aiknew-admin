@@ -7,5 +7,5 @@
     },
     "types": ["vite/client", "node"]
   },
-  "include": ["src/**/*", "src/**/*.vue"]
+  "include": ["src/**/*", "src/**/*.vue", "vite.config.ts"]
 }

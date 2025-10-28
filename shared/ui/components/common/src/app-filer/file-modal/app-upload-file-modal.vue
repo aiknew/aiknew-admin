@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { type Ref, ref, useTemplateRef, watch, watchEffect } from 'vue'
-import AppBasicModal from '../../app-basic-modal.vue'
+import { type Ref, ref, useTemplateRef, watchEffect } from "vue"
+import AppBasicModal from "../../app-basic-modal.vue"
 import {
   ElMessage,
   ElUpload,
   ElIcon,
   ElSelectV2,
   ElFormItem,
-} from 'element-plus'
-import type { Storages } from '../types'
-import { isPromise } from 'element-plus/es/utils/types.mjs'
-import { useI18n } from 'vue-i18n'
+} from "element-plus"
+import type { Storages } from "../types"
+import { isPromise } from "element-plus/es/utils/types.mjs"
+import { useI18n } from "vue-i18n"
 
 export interface Props {
   currentGroupId: string | undefined | null
@@ -19,13 +19,13 @@ export interface Props {
 }
 
 export interface Emits {
-  (e: 'close'): void
+  (e: "close"): void
 }
 
 defineEmits<Emits>()
 const { currentGroupId, storages, beforeUpload } = defineProps<Props>()
 const { t } = useI18n()
-const modalRef = useTemplateRef('modal')
+const modalRef = useTemplateRef("modal")
 const extraData = ref<Record<string, unknown>>({})
 const uploadHeaders = ref<Record<string, unknown>>({})
 const uploadURL = ref<string | undefined>()
@@ -36,7 +36,7 @@ const updateURL = async (storageId: string | undefined) => {
   const storage = storages.find((item) => item.id === storageId)
   const url = storage?.uploadURL
 
-  if (typeof url === 'function') {
+  if (typeof url === "function") {
     const ret = url(extraData, uploadHeaders, {
       currentGroupId,
       selectedStorageId: selectedStorageId.value,
@@ -71,7 +71,7 @@ const onError = (err: { message: string }) => {
 
   try {
     const o = JSON.parse(err.message)
-    if (typeof o === 'object' && typeof o.msg === 'string') {
+    if (typeof o === "object" && typeof o.msg === "string") {
       message = o.msg
     }
   } catch {}
@@ -82,7 +82,7 @@ const onError = (err: { message: string }) => {
 }
 
 const show = () => {
-  modalRef.value?.setTitle(t('filer.uploadFileModalTitle'))
+  modalRef.value?.setTitle(t("filer.uploadFileModalTitle"))
   modalRef.value?.show()
 }
 
@@ -119,11 +119,11 @@ defineExpose({
     >
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">
-        {{ t('filer.uploadFileModalTips1') }}
-        <em>{{ t('filer.uploadFileModalTips2') }}</em>
+        {{ t("filer.uploadFileModalTips1") }}
+        <em>{{ t("filer.uploadFileModalTips2") }}</em>
       </div>
       <template #tip>
-        <div class="el-upload__tip">{{ t('filer.uploadFileModalTips3') }}</div>
+        <div class="el-upload__tip">{{ t("filer.uploadFileModalTips3") }}</div>
       </template>
     </el-upload>
   </AppBasicModal>

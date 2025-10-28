@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Editor } from '@tiptap/vue-3'
-import { ref, onMounted, onUnmounted } from 'vue'
-import { ElInputNumber } from 'element-plus'
+import type { Editor } from "@tiptap/vue-3"
+import { ref, onMounted, onUnmounted } from "vue"
+import { ElInputNumber } from "element-plus"
 
 export interface Props {
   editor: Editor
@@ -12,7 +12,7 @@ const { editor } = defineProps<Props>()
 const num = ref<number | null>(null)
 
 const updateNumFromEditor = () => {
-  const fontSize = editor.getAttributes('textStyle').fontSize
+  const fontSize = editor.getAttributes("textStyle").fontSize
   if (fontSize) {
     const size = parseInt(fontSize, 10)
     num.value = isNaN(size) ? null : size
@@ -30,12 +30,12 @@ const handleInputChange = (newSize: number | undefined) => {
 }
 
 onMounted(() => {
-  editor.on('transaction', updateNumFromEditor)
+  editor.on("transaction", updateNumFromEditor)
   updateNumFromEditor()
 })
 
 onUnmounted(() => {
-  editor.off('transaction', updateNumFromEditor)
+  editor.off("transaction", updateNumFromEditor)
 })
 </script>
 

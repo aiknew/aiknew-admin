@@ -1,18 +1,18 @@
-import { SearchScopeEnum } from '../enums'
-import { computed, type Ref, ref } from 'vue'
+import { SearchScopeEnum } from "../enums"
+import { computed, type Ref, ref } from "vue"
 import type {
   IUploadFile,
   IUploadFileGroup,
   IUploadFilesAndGroupsData,
-} from '@aiknew/shared-types'
-import { resolveURL } from '@aiknew/shared-ui-utils'
+} from "@aiknew/shared-types"
+import { resolveURL } from "@aiknew/shared-ui-utils"
 
 export const isGroupItem = (item: unknown): item is IUploadFileGroup => {
   return (
-    typeof item === 'object' &&
+    typeof item === "object" &&
     !!item &&
-    'groupName' in item &&
-    typeof item.groupName === 'string'
+    "groupName" in item &&
+    typeof item.groupName === "string"
   )
 }
 
@@ -23,7 +23,6 @@ export const isFileItem = (item: unknown): item is IUploadFile => {
 export const useFileData = (
   filesAndGroupsData: Ref<IUploadFilesAndGroupsData>,
 ) => {
-
   const searchScope = ref<SearchScopeEnum>(SearchScopeEnum.CURRENT_GROUP)
   const selectedFiles = ref<IUploadFile[]>([])
   const currentEditGroupId = ref<string>()

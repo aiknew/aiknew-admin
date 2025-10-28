@@ -8,8 +8,8 @@ const { expand = true } = defineProps<Props>()
 </script>
 
 <template>
-  <div class="w-full h-[70px] flex px-[32px] items-center gap-2 shrink-0">
-    <span class="size-8 rounded-full bg-theme-primary"></span>
+  <div class="flex h-[70px] w-full shrink-0 items-center gap-2 px-[32px]">
+    <span class="bg-theme-primary size-8 rounded-full"></span>
     <Transition name="app-name">
       <span v-show="expand">{{ title }}</span>
     </Transition>

@@ -1,12 +1,12 @@
-import { computed, type App } from 'vue'
-import { createI18n } from 'vue-i18n'
-import en from './en.json'
-import zhCN from './zh-CN.json'
-import zhTW from './zh-TW.json'
-import { setZodLocales } from './lib-locales'
-export * from './lib-locales'
+import { computed, type App } from "vue"
+import { createI18n } from "vue-i18n"
+import en from "./en.json"
+import zhCN from "./zh-CN.json"
+import zhTW from "./zh-TW.json"
+import { setZodLocales } from "./lib-locales"
+export * from "./lib-locales"
 
-const LOCALE_SETTING = 'LOCALE_SETTING'
+const LOCALE_SETTING = "LOCALE_SETTING"
 
 const setLocaleToLocalStorage = (lang: string) => {
   localStorage.setItem(LOCALE_SETTING, lang)
@@ -16,9 +16,9 @@ const getLocaleFromLocalStorage = () => {
   return localStorage.getItem(LOCALE_SETTING)
 }
 
-const _subscribers: Function[] = []
+const _subscribers: ((...args: unknown[]) => unknown)[] = []
 
-export const onLangChange = (cb: Function) => {
+export const onLangChange = (cb: (...args: unknown[]) => unknown) => {
   _subscribers.push(cb)
 
   return () => {
@@ -34,17 +34,17 @@ const initLocale = getLocaleFromLocalStorage() ?? window.navigator.language
 export const i18n = createI18n({
   legacy: false,
   locale: initLocale,
-  fallbackLocale: 'en',
+  fallbackLocale: "en",
   missingWarn: false,
   fallbackWarn: false,
   messages: {
     en,
-    'zh-CN': zhCN,
-    'zh-TW': zhTW,
+    "zh-CN": zhCN,
+    "zh-TW": zhTW,
   },
 })
 
-export type I18nKeys = keyof (typeof i18n)['global']['messages']['value']
+export type I18nKeys = keyof (typeof i18n)["global"]["messages"]["value"]
 
 export const languages = computed(() => {
   return i18n.global.availableLocales
@@ -75,7 +75,7 @@ export const tField = <T extends { langKey: string }>(
       }
     }
 
-    return ''
+    return ""
   })
 }
 

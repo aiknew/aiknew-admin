@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { GroupPathItem } from './composables/use-file-group-path'
-import { SearchScopeEnum } from './enums'
-import { ElIcon } from 'element-plus'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useI18n } from 'vue-i18n'
+import type { GroupPathItem } from "./composables/use-file-group-path"
+import { SearchScopeEnum } from "./enums"
+import { ElIcon } from "element-plus"
+import { ArrowRight } from "@element-plus/icons-vue"
+import { useI18n } from "vue-i18n"
 
 export interface Props {
   groupPath: GroupPathItem[]
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 export interface Emits {
-  (e: 'jump', value: number): void
+  (e: "jump", value: number): void
 }
 
 defineProps<Props>()
@@ -19,7 +19,7 @@ const emit = defineEmits<Emits>()
 const { t } = useI18n()
 
 const handleClickPath = (index: number) => {
-  emit('jump', index)
+  emit("jump", index)
 }
 </script>
 
@@ -48,7 +48,7 @@ const handleClickPath = (index: number) => {
     </div>
 
     <div class="all-assets" v-show="searchScope === SearchScopeEnum.ALL">
-      {{ t('all') }}
+      {{ t("all") }}
     </div>
   </div>
 </template>

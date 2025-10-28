@@ -1,19 +1,19 @@
 <script setup lang="tsx">
-import { ref, useTemplateRef } from 'vue'
-import FolderSVG from './icons/folder.svg'
-import VideoSVG from './icons/video.svg'
+import { ref, useTemplateRef } from "vue"
+import FolderSVG from "./icons/folder.svg"
+import VideoSVG from "./icons/video.svg"
 import {
   ElImage,
   ElSpace,
   ElButton,
   ElTableColumn,
   ElPopconfirm,
-} from 'element-plus'
-import { isFileItem, isGroupItem, type GroupPathItem } from './composables'
-import { AppTable } from '../app-table'
-import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
-import { useI18n } from 'vue-i18n'
-import type { ListPermissions } from './types'
+} from "element-plus"
+import { isFileItem, isGroupItem, type GroupPathItem } from "./composables"
+import { AppTable } from "../app-table"
+import type { IUploadFile, IUploadFileGroup } from "@aiknew/shared-types"
+import { useI18n } from "vue-i18n"
+import type { ListPermissions } from "./types"
 
 export interface Props extends ListPermissions {
   currentGroupPath: GroupPathItem[]
@@ -21,14 +21,14 @@ export interface Props extends ListPermissions {
 }
 
 export interface Emits {
-  (e: 'edit-item', row: IUploadFile | IUploadFileGroup): void
-  (e: 'click-item', row: IUploadFile | IUploadFileGroup): void
-  (e: 'delete-item', row: IUploadFile | IUploadFileGroup): void
-  (e: 'back-to-upper-group'): void
-  (e: 'back-to-previous-group'): void
-  (e: 'forward-to-next-group'): void
-  (e: 'refresh'): void
-  (e: 'select', selection: IUploadFile[]): void
+  (e: "edit-item", row: IUploadFile | IUploadFileGroup): void
+  (e: "click-item", row: IUploadFile | IUploadFileGroup): void
+  (e: "delete-item", row: IUploadFile | IUploadFileGroup): void
+  (e: "back-to-upper-group"): void
+  (e: "back-to-previous-group"): void
+  (e: "forward-to-next-group"): void
+  (e: "refresh"): void
+  (e: "select", selection: IUploadFile[]): void
 }
 
 const emit = defineEmits<Emits>()
@@ -47,7 +47,7 @@ const {
 const { t } = useI18n()
 
 const loading = ref(false)
-const appTableRef = useTemplateRef('appTable')
+const appTableRef = useTemplateRef("appTable")
 const selectedFiles = ref<IUploadFile[]>([])
 const selectedGroups = ref<Set<string>>(new Set())
 
@@ -55,10 +55,10 @@ const getIcon = (row: IUploadFile | IUploadFileGroup) => {
   if (isGroupItem(row)) {
     return FolderSVG
   } else {
-    if (row.mime.startsWith('image/')) {
+    if (row.mime.startsWith("image/")) {
       return <ElImage src={`${row.filePath}`} fit="cover" loading="lazy" />
     }
-    if (row.mime.startsWith('video/')) {
+    if (row.mime.startsWith("video/")) {
       return VideoSVG
     }
   }
@@ -71,14 +71,14 @@ const setRowClassName = ({ row }: { row: IUploadFile | IUploadFileGroup }) => {
       `group-${row.id}`,
       hasSelected ? `has-file-selected` : ``,
     ]
-    return classNames.join(' ')
+    return classNames.join(" ")
   }
 }
 
 // Disable group item selection
 const handleSelectable = (row: IUploadFile | IUploadFileGroup) => {
   const isLimited =
-    typeof selectLimit === 'undefined'
+    typeof selectLimit === "undefined"
       ? false
       : selectLimit <= selectedFiles.value.length
 
@@ -88,11 +88,11 @@ const handleSelectable = (row: IUploadFile | IUploadFileGroup) => {
 }
 
 // Only FileItem is selectable
-const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
+const handleSelect = (selection: IUploadFile[]) => {
   const isCanceled = selectedFiles.value.length > selection.length
   selectedFiles.value = selection.slice(0, selectLimit)
 
-  if (typeof selectLimit !== 'undefined') {
+  if (typeof selectLimit !== "undefined") {
     selection.slice(selectLimit).forEach((item) => {
       appTableRef.value?.toggleRowSelection(item, false)
     })
@@ -107,12 +107,12 @@ const handleSelect = (selection: IUploadFile[], row: IUploadFile) => {
       ...selectedGroups.value,
       ...selection.map((item) => item.groupId).filter((item) => item !== null),
       ...(currentGroupPath
-        .filter((item) => typeof item.groupId === 'string')
+        .filter((item) => typeof item.groupId === "string")
         .map((item) => item.groupId) as string[]),
     ])
   }
 
-  emit('select', selectedFiles.value)
+  emit("select", selectedFiles.value)
 }
 
 const editPermission = (row: IUploadFile | IUploadFileGroup) => {
@@ -232,7 +232,7 @@ defineExpose({
   justify-content: end;
 }
 
-.el-table__body tr[class*='group'] .el-table-column--selection .cell {
+.el-table__body tr[class*="group"] .el-table-column--selection .cell {
   display: none;
 }
 

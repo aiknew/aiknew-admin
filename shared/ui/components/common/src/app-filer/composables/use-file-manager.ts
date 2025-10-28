@@ -1,36 +1,40 @@
-import { useFileData } from './use-file-data'
-import type { IUploadFile, IUploadFileGroup, IUploadFileQuery } from '@aiknew/shared-types'
-import { type Ref, useTemplateRef } from 'vue'
-import AppFileOperations from '../app-file-operations.vue'
-import AppUploadFileModal from '../file-modal/app-upload-file-modal.vue'
-import AppUploadFileGroupModal from '../file-modal/app-upload-file-group-modal.vue'
-import AppFileGroupPath from '../app-file-group-path.vue'
-import { useFileGroupPath } from './use-file-group-path'
+import { useFileData } from "./use-file-data"
+import type {
+  IUploadFile,
+  IUploadFileGroup,
+  IUploadFileQuery,
+} from "@aiknew/shared-types"
+import { type Ref, useTemplateRef } from "vue"
+import AppFileOperations from "../app-file-operations.vue"
+import AppUploadFileModal from "../file-modal/app-upload-file-modal.vue"
+import AppUploadFileGroupModal from "../file-modal/app-upload-file-group-modal.vue"
+import AppFileGroupPath from "../app-file-group-path.vue"
+import { useFileGroupPath } from "./use-file-group-path"
 import AppUploadFileDetailModal, {
   type FileItemWithGroupName,
-} from '../file-modal/app-upload-file-detail-modal.vue'
-import { SearchScopeEnum } from '../enums'
-import AppFileListContainer from '../app-file-list-container.vue'
-import type { IUploadFilesAndGroupsData } from '@aiknew/shared-types'
+} from "../file-modal/app-upload-file-detail-modal.vue"
+import { SearchScopeEnum } from "../enums"
+import AppFileListContainer from "../app-file-list-container.vue"
+import type { IUploadFilesAndGroupsData } from "@aiknew/shared-types"
 
 export const useFileManager = (
   filesAndGroupsData: Ref<IUploadFilesAndGroupsData>,
-  query: Ref<IUploadFileQuery>
+  query: Ref<IUploadFileQuery>,
 ) => {
   const appUploadFileModalRef =
     useTemplateRef<InstanceType<typeof AppUploadFileModal>>(
-      'appUploadFileModal',
+      "appUploadFileModal",
     )
   const appUploadFileGroupModalRef = useTemplateRef<
     InstanceType<typeof AppUploadFileGroupModal>
-  >('appUploadFileGroupModal')
+  >("appUploadFileGroupModal")
   const fileDetailModalRef =
     useTemplateRef<InstanceType<typeof AppUploadFileDetailModal>>(
-      'fileDetailModal',
+      "fileDetailModal",
     )
   const appFileListContainerRef = useTemplateRef<
     InstanceType<typeof AppFileListContainer>
-  >('appFileListContainer')
+  >("appFileListContainer")
 
   const {
     total,
@@ -97,7 +101,7 @@ export const useFileManager = (
     const currentGroup = { groupId: item.id, groupName: item.groupName }
 
     // clear search keyword
-    query.value.keyword = ''
+    query.value.keyword = ""
 
     if (searchScope.value === SearchScopeEnum.ALL) {
       enterGroupFromAllList([

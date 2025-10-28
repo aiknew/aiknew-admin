@@ -11,6 +11,7 @@ import {
 import pluginVue from "eslint-plugin-vue"
 import pluginVitest from "@vitest/eslint-plugin"
 import pluginPlaywright from "eslint-plugin-playwright"
+import vueParser from 'vue-eslint-parser'
 
 export default defineConfig([
   globalIgnores(["**/node_modules/", "**/dist/", "**/tsconfig.json"]),
@@ -39,10 +40,6 @@ export default defineConfig([
       sourceType: "commonjs",
       parserOptions: {
         projectService: true,
-        project: [
-          "./apps/admin-api/tsconfig.build.json",
-          "shared/api/**/tsconfig.json",
-        ],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -69,13 +66,13 @@ export default defineConfig([
   {
     name: "admin-ui",
     basePath: ".",
-    files: ["./apps/admin-ui/**/*"],
-    ignores: ["apps/admin-ui/src/types/open-api.ts"],
+    files: [ "./apps/admin-ui/**/*", "./shared/ui/**/*"],
+    ignores: ["apps/admin-ui/src/types/open-api.ts", "shared/ui/types/**"],
     extends: [
       defineConfigWithVueTs(
         {
           name: "app/files-to-lint",
-          files: ["apps/admin-ui/**/*.{ts,mts,tsx,vue}"],
+          files: ["**/*.{ts,mts,tsx,vue}"],
         },
 
         globalIgnores(["**/dist/**", "**/dist-ssr/**", "**/coverage/**"]),
@@ -85,30 +82,54 @@ export default defineConfig([
 
         {
           ...pluginVitest.configs.recommended,
-          files: ["apps/admin-ui/src/**/__tests__/*"],
+          files: ["src/**/__tests__/*"],
         },
 
         {
           ...pluginPlaywright.configs["flat/recommended"],
-          files: ["apps/admin-ui/e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"],
+          files: ["e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"],
         },
       ),
 
       eslintPluginPrettierRecommended,
     ],
-
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        project: [
-          "./apps/admin-ui/tsconfig.json",
-          "./apps/admin-ui/tsconfig.app.json",
-          "./apps/admin-ui/tsconfig.node.json",
-          "./apps/admin-ui/tsconfig.vitest.json",
-          "shared/ui/**/tsconfig.json",
-        ],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
   },
+
+  // support tsx/jsx in vue SFC
+  {
+    name: 'ui-tsx-support',
+    basePath: ".",
+    files: [ "./apps/admin-ui/**/*", "./shared/ui/**/*"],
+    extends: [
+      {
+        files: ['*.vue', '**/*.vue'],
+        languageOptions: {
+          parser: vueParser,
+          parserOptions: {
+            parse: {
+              js: 'espree',
+              jsx: 'espree',
+              ts: tseslint.parser,
+              tsx: tseslint.parser,
+            },
+            ecmaVersion: 2024,
+            ecmaFeatures: {
+              jsx: true,
+            },
+            extraFileExtensions: ['.vue'],
+          },
+        },
+        rules: {
+          'vue/block-lang': [
+            'error',
+            {
+              script: {
+                lang: ['jsx', 'tsx', 'js','ts'],
+              },
+            },
+          ],
+        },
+      },
+    ]
+  }
 ])

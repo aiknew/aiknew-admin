@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue'
-import { ElLoading, ElDialog, ElButton } from 'element-plus'
-import { useI18n } from 'vue-i18n'
+import { ref, useTemplateRef } from "vue"
+import { ElLoading, ElDialog, ElButton } from "element-plus"
+import { useI18n } from "vue-i18n"
 
-export type ModalMode = 'add' | 'edit' | 'show'
+export type ModalMode = "add" | "edit" | "show"
 
 export interface Props {
   maxWidth?: number
@@ -12,9 +12,9 @@ export interface Props {
 }
 
 export interface Emits {
-  (e: 'submit'): void
-  (e: 'opened'): void
-  (e: 'closed'): void
+  (e: "submit"): void
+  (e: "opened"): void
+  (e: "closed"): void
 }
 
 withDefaults(defineProps<Props>(), {
@@ -24,14 +24,14 @@ withDefaults(defineProps<Props>(), {
 
 defineEmits<Emits>()
 const { t } = useI18n()
-const dialogRef = useTemplateRef<InstanceType<typeof ElDialog>>('dialog')
+const dialogRef = useTemplateRef<InstanceType<typeof ElDialog>>("dialog")
 
 const loadingInsArr: { close: () => void }[] = []
 const showLoading = () => {
   loadingInsArr.push(
     ElLoading.service({
       target:
-        dialogRef.value?.$el.nextElementSibling.querySelector('.el-dialog'),
+        dialogRef.value?.$el.nextElementSibling.querySelector(".el-dialog"),
     }),
   )
 }
@@ -45,7 +45,7 @@ const hideLoading = () => {
 }
 
 const useTitle = () => {
-  const title = ref('')
+  const title = ref("")
   const setTitle = (text: string) => {
     title.value = text
   }
@@ -57,7 +57,7 @@ const useTitle = () => {
 }
 
 const useModalMode = () => {
-  const modalMode = ref<ModalMode>('add')
+  const modalMode = ref<ModalMode>("add")
 
   const setModalMode = (mode: ModalMode) => {
     modalMode.value = mode
@@ -126,10 +126,10 @@ defineExpose({
       <slot name="footer" v-bind="slotProps">
         <span v-if="showFooter">
           <el-button @click="close()">
-            {{ t('cancel') }}
+            {{ t("cancel") }}
           </el-button>
           <el-button type="primary" @click="$emit('submit')">
-            {{ t('confirm') }}
+            {{ t("confirm") }}
           </el-button>
         </span>
       </slot>

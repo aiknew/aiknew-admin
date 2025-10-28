@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="cursor-pointer outline-0 rounded hover:bg-theme-primary-light-9 p-1.5 text-theme-text-primary flex items-center justify-center"
+    class="hover:bg-theme-primary-light-9 text-theme-text-primary flex cursor-pointer items-center justify-center rounded p-1.5 outline-0"
   >
     <slot></slot>
   </div>

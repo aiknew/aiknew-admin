@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="LANG extends string">
-import { Globe } from 'lucide-vue-next'
-import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
-import AppIcon from './app-icon.vue'
+import { Globe } from "lucide-vue-next"
+import { ElDropdown, ElDropdownMenu, ElDropdownItem } from "element-plus"
+import AppIcon from "./app-icon.vue"
 
 export interface Props<LANG extends string> {
   languages: LANG[]
@@ -9,7 +9,7 @@ export interface Props<LANG extends string> {
 }
 
 export interface Emits<LANG extends string> {
-  (e: 'switchLang', key: LANG): void
+  (e: "switchLang", key: LANG): void
 }
 
 const { languages, currentLanguage } = defineProps<Props<LANG>>()

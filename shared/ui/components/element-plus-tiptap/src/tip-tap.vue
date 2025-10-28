@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useEditor, EditorContent } from '@tiptap/vue-3'
-import { onBeforeUnmount, watch } from 'vue'
-import StarterKit from '@tiptap/starter-kit'
-import Highlight from '@tiptap/extension-highlight'
-import TextAlign from '@tiptap/extension-text-align'
-import { TextStyleKit } from '@tiptap/extension-text-style'
-import { TableKit } from '@tiptap/extension-table'
-import { CharacterCount } from '@tiptap/extensions'
-import ToolBar from './tool-bar.vue'
-import { type ToolBarProp } from './types'
-import Image from '@tiptap/extension-image'
-import { type Extensions } from '@tiptap/core'
-import { HTMLToProseMirrorNode } from './utils'
+import { useEditor, EditorContent } from "@tiptap/vue-3"
+import { onBeforeUnmount, watch } from "vue"
+import StarterKit from "@tiptap/starter-kit"
+import Highlight from "@tiptap/extension-highlight"
+import TextAlign from "@tiptap/extension-text-align"
+import { TextStyleKit } from "@tiptap/extension-text-style"
+import { TableKit } from "@tiptap/extension-table"
+import { CharacterCount } from "@tiptap/extensions"
+import ToolBar from "./tool-bar.vue"
+import { type ToolBarProp } from "./types"
+import Image from "@tiptap/extension-image"
+import { type Extensions } from "@tiptap/core"
+import { HTMLToProseMirrorNode } from "./utils"
 
 interface Props {
   modelValue: string
@@ -20,26 +20,26 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'update:modelValue', content: string): void
+  (e: "update:modelValue", content: string): void
 }
 
 const {
   modelValue,
   limit = 500,
   toolbar = [
-    ['bold', 'italic', 'underline', 'font-size'],
-    ['link', 'strike', 'highlight'],
-    ['heading-1', 'heading-2', 'heading-3'],
+    ["bold", "italic", "underline", "font-size"],
+    ["link", "strike", "highlight"],
+    ["heading-1", "heading-2", "heading-3"],
     [
-      'bullet-list',
-      'ordered-list',
-      'blockquote',
-      'code-block',
-      'horizontal-rule',
+      "bullet-list",
+      "ordered-list",
+      "blockquote",
+      "code-block",
+      "horizontal-rule",
     ],
-    ['align-left', 'align-center', 'align-right', 'align-justify'],
-    ['table'],
-    ['undo', 'redo'],
+    ["align-left", "align-center", "align-right", "align-justify"],
+    ["table"],
+    ["undo", "redo"],
   ],
 } = defineProps<Props>()
 const emit = defineEmits<Emits>()
@@ -52,7 +52,7 @@ const extensions: Extensions = [
   }),
   Highlight,
   TextAlign.configure({
-    types: ['heading', 'paragraph'],
+    types: ["heading", "paragraph"],
   }),
   TextStyleKit,
   TableKit,
@@ -67,7 +67,7 @@ const editor = useEditor({
   onUpdate: () => {
     // HTML
     if (editor.value) {
-      emit('update:modelValue', editor.value.getHTML())
+      emit("update:modelValue", editor.value.getHTML())
     }
 
     // JSON
@@ -77,7 +77,7 @@ const editor = useEditor({
   editorProps: {
     attributes: {
       class:
-        'prose max-w-none focus:outline-none p-4 min-h-[200px] max-h-[500px] overflow-y-scroll',
+        "prose max-w-none focus:outline-none p-4 min-h-[200px] max-h-[500px] overflow-y-scroll",
     },
   },
 })
@@ -122,13 +122,13 @@ defineExpose({
 
 <template>
   <div
-    class="element-plus-tiptap border border-gray-300 rounded-lg overflow-hidden"
+    class="element-plus-tiptap overflow-hidden rounded-lg border border-gray-300"
   >
     <tool-bar class="border-b" v-if="editor" :toolbar :editor="editor" />
     <editor-content :editor="editor" />
     <div
       v-if="editor"
-      class="flex justify-end text-sm text-gray-500 px-4 py-1 bg-gray-50 border-t border-gray-300"
+      class="flex justify-end border-t border-gray-300 bg-gray-50 px-4 py-1 text-sm text-gray-500"
     >
       <span
         :class="{
@@ -177,7 +177,7 @@ defineExpose({
 
     .selectedCell:after {
       background: var(--color-gray-200);
-      content: '';
+      content: "";
       left: 0;
       right: 0;
       top: 0;

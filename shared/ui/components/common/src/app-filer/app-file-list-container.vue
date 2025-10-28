@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue'
-import AppPagination from '../app-pagination.vue'
-import AppFileListTable from './app-file-list-table.vue'
-import { isFileItem, type GroupPathItem } from './composables'
-import type { IUploadFile, IUploadFileGroup } from '@aiknew/shared-types'
-import type { ListPermissions } from './types'
+import { useTemplateRef } from "vue"
+import AppPagination from "../app-pagination.vue"
+import AppFileListTable from "./app-file-list-table.vue"
+import { isFileItem, type GroupPathItem } from "./composables"
+import type { IUploadFile, IUploadFileGroup } from "@aiknew/shared-types"
+import type { ListPermissions } from "./types"
 
 export interface Props extends ListPermissions {
   filesAndGroups: (IUploadFile | IUploadFileGroup)[]
@@ -13,22 +13,22 @@ export interface Props extends ListPermissions {
 }
 
 export interface Emits {
-  (e: 'edit-group', item: IUploadFileGroup): void
-  (e: 'click-group', item: IUploadFileGroup): void
-  (e: 'edit-file', item: IUploadFile): void
-  (e: 'click-file', item: IUploadFile): void
-  (e: 'delete-group', item: IUploadFileGroup): void
-  (e: 'delete-file', item: IUploadFile): void
-  (e: 'select', items: IUploadFile[]): void
-  (e: 'back-to-upper-group'): void
-  (e: 'back-to-previous-group'): void
-  (e: 'forward-to-next-group'): void
-  (e: 'refresh'): void
+  (e: "edit-group", item: IUploadFileGroup): void
+  (e: "click-group", item: IUploadFileGroup): void
+  (e: "edit-file", item: IUploadFile): void
+  (e: "click-file", item: IUploadFile): void
+  (e: "delete-group", item: IUploadFileGroup): void
+  (e: "delete-file", item: IUploadFile): void
+  (e: "select", items: IUploadFile[]): void
+  (e: "back-to-upper-group"): void
+  (e: "back-to-previous-group"): void
+  (e: "forward-to-next-group"): void
+  (e: "refresh"): void
 }
 
-const currentPage = defineModel<number>('currentPage', { default: 1 })
-const pageSize = defineModel<number>('pageSize', { default: 10 })
-const total = defineModel<number>('total', { default: 0 })
+const currentPage = defineModel<number>("currentPage", { default: 1 })
+const pageSize = defineModel<number>("pageSize", { default: 10 })
+const total = defineModel<number>("total", { default: 0 })
 const emit = defineEmits<Emits>()
 const {
   selectLimit,
@@ -42,29 +42,29 @@ const {
   showEditGroup = true,
 } = defineProps<Props>()
 
-const appFileListTableRef = useTemplateRef('appFileListTable')
+const appFileListTableRef = useTemplateRef("appFileListTable")
 
 const editItem = (item: IUploadFile | IUploadFileGroup) => {
   if (isFileItem(item)) {
-    emit('edit-file', item)
+    emit("edit-file", item)
   } else {
-    emit('edit-group', item)
+    emit("edit-group", item)
   }
 }
 
 const deleteItem = (item: IUploadFile | IUploadFileGroup) => {
   if (isFileItem(item)) {
-    emit('delete-file', item)
+    emit("delete-file", item)
   } else {
-    emit('delete-group', item)
+    emit("delete-group", item)
   }
 }
 
 const clickItem = (item: IUploadFile | IUploadFileGroup) => {
   if (isFileItem(item)) {
-    emit('click-file', item)
+    emit("click-file", item)
   } else {
-    emit('click-group', item)
+    emit("click-group", item)
   }
 }
 

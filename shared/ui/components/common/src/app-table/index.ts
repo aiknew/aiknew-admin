@@ -1,3 +1,3 @@
-import AppTable from './app-table.vue'
+import AppTable from "./app-table.vue"
 
 export { AppTable }

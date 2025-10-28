@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import AppRoutePath from './app-route-path.vue'
-import { type RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import { type Ref } from 'vue'
-import { RotateCw, ListCollapse } from 'lucide-vue-next'
-import AppIcon from './app-icon.vue'
+import AppRoutePath from "./app-route-path.vue"
+import { type RouteLocationNormalizedLoadedGeneric } from "vue-router"
+import { type Ref } from "vue"
+import { RotateCw, ListCollapse } from "lucide-vue-next"
+import AppIcon from "./app-icon.vue"
 
 export interface Props {
   currentRoute: Ref<RouteLocationNormalizedLoadedGeneric>
@@ -17,17 +17,17 @@ const {
   showExpandBtn = true,
 } = defineProps<Props>()
 
-defineEmits(['update:expandMenu', 'refresh'])
+defineEmits(["update:expandMenu", "refresh"])
 </script>
 
 <template>
   <header
-    class="bg-theme-bg h-[70px] flex min-h-10 items-center p-3 border-b border-theme-border-light"
+    class="bg-theme-bg border-theme-border-light flex h-[70px] min-h-10 items-center border-b p-3"
   >
     <!-- menu expand button -->
     <div
       v-show="showExpandBtn"
-      class="flex cursor-pointer items-center justify-center relative top-[1px] text-theme-text-primary"
+      class="text-theme-text-primary relative top-[1px] flex cursor-pointer items-center justify-center"
       @click="$emit('update:expandMenu', !expandMenu)"
     >
       <AppIcon v-show="!expandMenu">
@@ -43,7 +43,7 @@ defineEmits(['update:expandMenu', 'refresh'])
     <AppRoutePath class="hidden sm:block" :current-route />
 
     <!-- refresh button -->
-    <AppIcon class="ml-1.5 sm:ml-0 relative" @click="$emit('refresh')">
+    <AppIcon class="relative ml-1.5 sm:ml-0" @click="$emit('refresh')">
       <RotateCw :size="19" />
     </AppIcon>
 

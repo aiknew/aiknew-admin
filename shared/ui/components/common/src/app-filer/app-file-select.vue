@@ -1,17 +1,14 @@
 <script lang="ts" setup>
-import { computed, ref, useTemplateRef, watch } from 'vue'
-import AppFileModal, {
-  type Props as FileModalProps,
-} from './app-file-modal.vue'
-import { ElImage, ElButton, ElIcon } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import type { IUploadFile, IUploadFileQuery } from '@aiknew/shared-types'
-import { resolveURL } from '@aiknew/shared-ui-utils'
-
-export interface Props extends FileModalProps {}
+import { computed, ref, useTemplateRef } from "vue"
+import AppFileModal from "./app-file-modal.vue"
+import { ElImage, ElButton, ElIcon } from "element-plus"
+import { Plus } from "@element-plus/icons-vue"
+import type { IUploadFile, IUploadFileQuery } from "@aiknew/shared-types"
+import { resolveURL } from "@aiknew/shared-ui-utils"
+import type { FileManagerProps } from "."
 
 interface Emits {
-  (e: 'refresh'): void
+  (e: "refresh"): void
 }
 
 const {
@@ -32,19 +29,19 @@ const {
   showEditFile,
   showEditGroup,
   showUploadFile,
-} = defineProps<Props>()
+} = defineProps<FileManagerProps>()
 defineEmits<Emits>()
 
-const fileModalRef = useTemplateRef('fileModal')
+const fileModalRef = useTemplateRef("fileModal")
 const imgRefs = ref<Set<InstanceType<typeof ElImage>>>(new Set())
-const selected = defineModel<IUploadFile[]>('selected', {
+const selected = defineModel<IUploadFile[]>("selected", {
   default: [],
 })
-const queryModel = defineModel<IUploadFileQuery>('query', {
+const queryModel = defineModel<IUploadFileQuery>("query", {
   default: {
     currentPage: 1,
     pageSize: 10,
-    keyword: '',
+    keyword: "",
     parentId: null,
   },
 })
@@ -62,13 +59,13 @@ const previewList = computed(() => {
 })
 
 const showMoreBtn = computed(() => {
-  if (typeof selectLimit === 'undefined') return true
+  if (typeof selectLimit === "undefined") return true
 
   return selected.value.length < selectLimit
 })
 
 const restSelectLimit = computed(() => {
-  if (typeof selectLimit === 'undefined') return undefined
+  if (typeof selectLimit === "undefined") return undefined
 
   return selectLimit - selected.value.length
 })

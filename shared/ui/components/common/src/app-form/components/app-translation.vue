@@ -1,8 +1,8 @@
 <script setup lang="ts" generic="T">
-import type { ILanguage } from '@aiknew/shared-types'
-import { ElTabs, ElTabPane } from 'element-plus'
-import { cloneDeep } from 'lodash-es'
-import { computed, ref, watch } from 'vue'
+import type { ILanguage } from "@aiknew/shared-types"
+import { ElTabs, ElTabPane } from "element-plus"
+import { cloneDeep } from "lodash-es"
+import { computed, ref, watch } from "vue"
 
 export type ValType<T> = Record<string, undefined | unknown | T>
 
@@ -13,8 +13,8 @@ export interface Props<T> {
 }
 
 export interface Emits<T> {
-  (e: 'update:modelValue', val: ValType<T>): void
-  (e: 'update:activeLang', lang: string): void
+  (e: "update:modelValue", val: ValType<T>): void
+  (e: "update:activeLang", lang: string): void
 }
 
 const { languages, activeLang, modelValue = {} } = defineProps<Props<T>>()
@@ -30,7 +30,7 @@ watch(
 
 const setLangVal = (val: unknown) => {
   valObj.value[activeLang] = val
-  emit('update:modelValue', valObj.value)
+  emit("update:modelValue", valObj.value)
 }
 
 const value = computed({

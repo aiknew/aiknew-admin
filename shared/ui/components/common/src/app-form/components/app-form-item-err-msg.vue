@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t } from '@aiknew/shared-ui-locales'
+import { t } from "@aiknew/shared-ui-locales"
 
 interface Props {
   msg?: string
@@ -7,7 +7,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'check'): void
+  (e: "check"): void
 }
 
 const { msg, showCheckBtn } = defineProps<Props>()
@@ -24,7 +24,7 @@ const emit = defineEmits<Emits>()
       v-show="showCheckBtn"
       @click="emit('check')"
     >
-      {{ t('check') }}
+      {{ t("check") }}
     </span>
   </div>
 </template>

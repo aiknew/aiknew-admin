@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import type { RouteRecordRaw } from 'vue-router'
-import { ElMenuItemGroup, ElMenuItem, ElSubMenu, ElIcon } from 'element-plus'
-import type { CustomRouteMeta } from '@aiknew/shared-ui-types'
-import { tField } from '@aiknew/shared-ui-locales'
+import type { RouteRecordRaw } from "vue-router"
+import { ElMenuItemGroup, ElMenuItem, ElSubMenu, ElIcon } from "element-plus"
+import type { CustomRouteMeta } from "@aiknew/shared-ui-types"
+import { tField } from "@aiknew/shared-ui-locales"
 
 export interface Props {
   routes: RouteRecordRaw[]
   minWidth?: string
 }
 
-const { routes, minWidth = '120px' } = defineProps<Props>()
+const { routes, minWidth = "120px" } = defineProps<Props>()
 
 const hasChildren = (children: Array<RouteRecordRaw> | undefined) =>
   Array.isArray(children) && children.length !== 0
 const isSmallGroup = (route: RouteRecordRaw) =>
-  route?.meta?.type === 'SMALL_GROUP' && !route?.meta?.hidden
+  route?.meta?.type === "SMALL_GROUP" && !route?.meta?.hidden
 const isGroup = (route: RouteRecordRaw) =>
-  route?.meta?.type === 'GROUP' && !route?.meta?.hidden
+  route?.meta?.type === "GROUP" && !route?.meta?.hidden
 const isMenuItem = (route: RouteRecordRaw) =>
-  route?.meta?.type === 'MENU' &&
+  route?.meta?.type === "MENU" &&
   !hasChildren(route.children) &&
   !route?.meta?.hidden
 const getRouteName = (meta?: CustomRouteMeta) => {
   const { routeName, translations } = meta ?? {}
   if (translations) {
-    return tField(translations, 'routeName').value
+    return tField(translations, "routeName").value
   }
 
-  return routeName ?? ''
+  return routeName ?? ""
 }
 </script>
 
@@ -71,7 +71,7 @@ const getRouteName = (meta?: CustomRouteMeta) => {
       <template #title>
         <router-link
           :to="route.path"
-          class="flex w-full h-full items-center content-start"
+          class="flex h-full w-full content-start items-center"
         >
           <span class="menu-title">
             {{ getRouteName(route.meta) }}
@@ -86,7 +86,7 @@ const getRouteName = (meta?: CustomRouteMeta) => {
 .menu-title {
   user-select: none;
   line-height: 1.5;
-  min-width: v-bind('minWidth');
+  min-width: v-bind("minWidth");
 }
 
 .el-menu--collapse .menu-title,

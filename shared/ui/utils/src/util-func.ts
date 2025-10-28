@@ -1,9 +1,9 @@
-import type { IResponseJson } from '@aiknew/shared-types'
-import { url } from 'zod'
-import { join } from 'pathe'
+import type { IResponseJson } from "@aiknew/shared-types"
+import { url } from "zod"
+import { join } from "pathe"
 
 export const resolveQueryStr = (url: string) => {
-  const queryString = url.split('?')[1]
+  const queryString = url.split("?")[1]
   const res: Record<string, string> = {}
   const params = new URLSearchParams(queryString)
   params.forEach((val, key) => {
@@ -16,7 +16,7 @@ export const resolveQueryStr = (url: string) => {
 export const splitByLastFlag = (str: string, flag: string) => {
   const index = str.lastIndexOf(flag)
   if (index === -1) {
-    return [str, '']
+    return [str, ""]
   }
 
   const firstPart = str.slice(0, index)
@@ -27,7 +27,7 @@ export const splitByLastFlag = (str: string, flag: string) => {
 
 export const isResponseJson = (v: unknown): v is IResponseJson => {
   return (
-    typeof v === 'object' && !!v && 'code' in v && 'data' in v && 'msg' in v
+    typeof v === "object" && !!v && "code" in v && "data" in v && "msg" in v
   )
 }
 

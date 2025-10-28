@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Editor } from '@tiptap/vue-3'
-import { Redo } from 'lucide-vue-next'
+import type { Editor } from "@tiptap/vue-3"
+import { Redo } from "lucide-vue-next"
 
 export interface Props {
   editor: Editor
@@ -12,8 +12,8 @@ defineProps<Props>()
 <template>
   <div
     @click="editor.chain().focus().redo().run()"
-    class="p-2 rounded hover:bg-gray-200 cursor-pointer"
+    class="cursor-pointer rounded p-2 hover:bg-gray-200"
   >
-    <Redo class="w-4 h-4" />
+    <Redo class="h-4 w-4" />
   </div>
 </template>

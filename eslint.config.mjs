@@ -4,10 +4,19 @@ import eslint from "@eslint/js"
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import tseslint from "typescript-eslint"
 
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs,
+} from "@vue/eslint-config-typescript"
+import pluginVue from "eslint-plugin-vue"
+import pluginVitest from "@vitest/eslint-plugin"
+import pluginPlaywright from "eslint-plugin-playwright"
+import skipFormatting from "@vue/eslint-config-prettier/skip-formatting"
+
 export default defineConfig([
   globalIgnores(["**/node_modules/", "**/dist/", "**/tsconfig.json"]),
 
-  // admin-api eslint
+  // admin-api eslint configuration
   {
     name: "admin-api",
     basePath: ".",
@@ -54,6 +63,52 @@ export default defineConfig([
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+    },
+  },
+
+  // admin-ui eslint configuration
+  {
+    name: "admin-ui",
+    basePath: ".",
+    files: ["./apps/admin-ui/**/*"],
+    ignores: ["apps/admin-ui/src/types/open-api.ts"],
+    extends: [
+      defineConfigWithVueTs(
+        {
+          name: "app/files-to-lint",
+          files: ["apps/admin-ui/**/*.{ts,mts,tsx,vue}"],
+        },
+
+        globalIgnores(["**/dist/**", "**/dist-ssr/**", "**/coverage/**"]),
+
+        pluginVue.configs["flat/essential"],
+        vueTsConfigs.recommended,
+
+        {
+          ...pluginVitest.configs.recommended,
+          files: ["apps/admin-ui/src/**/__tests__/*"],
+        },
+
+        {
+          ...pluginPlaywright.configs["flat/recommended"],
+          files: ["apps/admin-ui/e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"],
+        },
+        skipFormatting,
+      ),
+    ],
+
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        project: [
+          "./apps/admin-ui/tsconfig.json",
+          "./apps/admin-ui/tsconfig.app.json",
+          "./apps/admin-ui/tsconfig.node.json",
+          "./apps/admin-ui/tsconfig.vitest.json",
+          "shared/ui/**/tsconfig.json",
+        ],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
 ])

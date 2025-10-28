@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { Type } from 'class-transformer'
-import { IsNumber } from 'class-validator'
-import type { IPaginationQuery } from '@aiknew/shared-types'
+import { ApiProperty } from "@nestjs/swagger"
+import { Type } from "class-transformer"
+import { IsNumber } from "class-validator"
+import type { IPaginationQuery } from "@aiknew/shared-types"
 
 // use with Query decorator in Controller
 export class PaginationDto implements IPaginationQuery {

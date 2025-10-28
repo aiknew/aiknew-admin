@@ -1,4 +1,4 @@
-import { SetMetadata } from '@nestjs/common'
+import { SetMetadata } from "@nestjs/common"
 
 export const PERMISSION_KEY = "permission_key"
 
@@ -7,4 +7,5 @@ export type PermissionMetaData = {
   key: string
 }
 
-export const Permission = (meta: PermissionMetaData) => SetMetadata(PERMISSION_KEY, meta);
+export const Permission = (meta: PermissionMetaData) =>
+  SetMetadata(PERMISSION_KEY, meta)

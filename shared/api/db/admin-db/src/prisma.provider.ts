@@ -1,24 +1,25 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
-import { PrismaClient } from './prisma-client'
+import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common"
+import { PrismaClient } from "./prisma-client"
 import {
   existsExtension,
   formatDateExtension,
   paginateExtension,
   softDeleteExtension,
-} from './prisma.extensions.js'
+} from "./prisma.extensions.js"
 
 @Injectable()
 export class PrismaProvider
   extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy {
+  implements OnModuleInit, OnModuleDestroy
+{
   private static initialized = false
 
   constructor() {
     super({
       log: [
         {
-          emit: 'stdout',
-          level: 'warn',
+          emit: "stdout",
+          level: "warn",
         },
       ],
     })

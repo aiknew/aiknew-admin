@@ -1,3 +1,3 @@
-export * from './admin-permissions'
-export * from './admin-routes'
-export * from './admin-user'
+export * from "./admin-permissions"
+export * from "./admin-routes"
+export * from "./admin-user"

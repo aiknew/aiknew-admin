@@ -1,6 +1,6 @@
-import { DynamicModule, Module } from '@nestjs/common'
-import { PrismaService } from './prisma.service.js'
-import { PrismaProvider } from './prisma.provider.js'
+import { DynamicModule, Module } from "@nestjs/common"
+import { PrismaService } from "./prisma.service.js"
+import { PrismaProvider } from "./prisma.provider.js"
 
 interface Options {
   global: boolean

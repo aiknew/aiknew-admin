@@ -1,20 +1,20 @@
-import { ResponseJson } from '@aiknew/shared-api-dtos'
-import { ResponseStatusCode } from '@aiknew/shared-api-enums'
+import { ResponseJson } from "@aiknew/shared-api-dtos"
+import { ResponseStatusCode } from "@aiknew/shared-api-enums"
 
 export class SuccessResponse {
   code: (typeof ResponseStatusCode)[keyof typeof ResponseStatusCode] =
     ResponseStatusCode.COMMON_SUCCESS
-  msg: string = 'success'
+  msg: string = "success"
   data: Record<string, unknown> = {}
 
   constructor(msg: string)
   constructor(data: Record<string, unknown>)
   constructor(param: string | Record<string, unknown>) {
-    if (typeof param === 'string') {
+    if (typeof param === "string") {
       this.msg = param
     }
 
-    if (typeof param === 'object') {
+    if (typeof param === "object") {
       this.data = param
     }
   }

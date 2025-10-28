@@ -1,36 +1,47 @@
-import { contentManagement, settings, userInfo, homePage } from './routes'
-import { prisma } from '../../prisma'
-import { AdminRouteItem } from './types'
+import { contentManagement, settings, userInfo, homePage } from "./routes"
+import { prisma } from "../../prisma"
+import { AdminRouteItem } from "./types"
 
-const createRoute = (items: AdminRouteItem[], parentId: string | null) => {
-  items.forEach(async (item) => {
-    let { name, children, redirect, permissions, ...data } = item
+const createRoute = async (
+  items: AdminRouteItem[],
+  parentId: string | null,
+) => {
+  for (const item of items) {
+    const { name, children, redirect: _, permissions, ...data } = item
+    let { redirect } = item
 
     if (!redirect && children && children.length > 0) {
       // set redirect field
-      const firstValidChild = children.find(item => item.type === 'MENU' && !item.hidden && (item.status === undefined || item.status))
+      const firstValidChild = children.find(
+        (item) =>
+          item.type === "MENU" &&
+          !item.hidden &&
+          (item.status === undefined || item.status),
+      )
       if (firstValidChild) {
         redirect = firstValidChild?.path
       }
     }
 
     let permissionIds: {
-      permissionId: string;
+      permissionId: string
     }[] = []
 
     if (permissions) {
-      permissionIds = (await prisma.adminPermission.findMany({
-        where: {
-          key: {
-            in: permissions
-          }
-        },
-        select: {
-          id: true
-        }
-      })).map(item => {
+      permissionIds = (
+        await prisma.adminPermission.findMany({
+          where: {
+            key: {
+              in: permissions,
+            },
+          },
+          select: {
+            id: true,
+          },
+        })
+      ).map((item) => {
         return {
-          permissionId: item.id
+          permissionId: item.id,
         }
       })
     }
@@ -50,16 +61,16 @@ const createRoute = (items: AdminRouteItem[], parentId: string | null) => {
         },
         permissions: {
           createMany: {
-            data: permissionIds
-          }
-        }
+            data: permissionIds,
+          },
+        },
       },
     })
 
     if (children?.length) {
-      createRoute(children, createdRoute.id)
+      await createRoute(children, createdRoute.id)
     }
-  })
+  }
 }
 
 export const createAdminRoutes = async () => {
@@ -67,8 +78,8 @@ export const createAdminRoutes = async () => {
     `TRUNCATE TABLE "AdminRoute" RESTART IDENTITY CASCADE;`,
   )
 
-  createRoute([homePage], null)
-  createRoute([userInfo], null)
-  createRoute([contentManagement], null)
-  createRoute([settings], null)
+  await createRoute([homePage], null)
+  await createRoute([userInfo], null)
+  await createRoute([contentManagement], null)
+  await createRoute([settings], null)
 }

@@ -1,11 +1,11 @@
-import { Injectable, Type } from '@nestjs/common'
-import { PrismaProvider } from './prisma.provider.js'
+import { Injectable, Type } from "@nestjs/common"
+import { PrismaProvider } from "./prisma.provider.js"
 
-export type ExtendedPrismaClient = ReturnType<PrismaProvider['withExtensions']>
+export type ExtendedPrismaClient = ReturnType<PrismaProvider["withExtensions"]>
 
 export type ExtendedPrismaTransactionClient = Omit<
   ExtendedPrismaClient,
-  '$extends' | '$transaction' | '$disconnect' | '$connect' | '$on' | '$use'
+  "$extends" | "$transaction" | "$disconnect" | "$connect" | "$on" | "$use"
 >
 
 const ExtendedClient = class {

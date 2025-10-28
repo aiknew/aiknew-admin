@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { RedisClientType, SetOptions } from 'redis'
-import { REDIS_CLIENT } from '@aiknew/shared-api-utils'
-import { type ScanCommandOptions } from '@redis/client/dist/lib/commands/SCAN.js'
+import { Inject, Injectable } from "@nestjs/common"
+import { ConfigService } from "@nestjs/config"
+import { RedisClientType, SetOptions } from "redis"
+import { REDIS_CLIENT } from "@aiknew/shared-api-utils"
+import { type ScanCommandOptions } from "@redis/client/dist/lib/commands/SCAN.js"
 
 @Injectable()
 export class RedisService {
@@ -12,12 +12,12 @@ export class RedisService {
   constructor(private configService: ConfigService) {}
 
   protected setPrefix(key: string): string {
-    return this.configService.get<string>('REDIS_PREFIX', '') + key
+    return this.configService.get<string>("REDIS_PREFIX", "") + key
   }
 
   async deleteKeysByPattern(
     pattern: string,
-    options: Omit<ScanCommandOptions, 'MATCH'> = { COUNT: 1000 },
+    options: Omit<ScanCommandOptions, "MATCH"> = { COUNT: 1000 },
   ) {
     let cursor = 0
     const keys: string[] = []
@@ -30,7 +30,9 @@ export class RedisService {
 
       keys.push(...res.keys)
       cursor = res.cursor
-      keys.length && (await this.redisClient.del(keys))
+      if (keys.length > 0) {
+        await this.redisClient.del(keys)
+      }
       keys.length = 0
     } while (cursor !== 0)
   }

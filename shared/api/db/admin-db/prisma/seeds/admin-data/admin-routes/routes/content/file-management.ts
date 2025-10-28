@@ -1,51 +1,54 @@
-import { i18n } from '../../i18n'
-import { defineRouteItem, RouteType } from '../../types'
+import { i18n } from "../../i18n"
+import { defineRouteItem, RouteType } from "../../types"
 
 export const fileManagement = defineRouteItem({
-  component: 'content/file/file-resources',
-  icon: 'Picture',
-  path: '/content/file',
+  component: "content/file/file-resources",
+  icon: "Picture",
+  path: "/content/file",
   type: RouteType.MENU,
   name: i18n.fileManagement,
-  permissions: ['upload-file:filesAndGroups', 'upload-file-group:findChildren', 'file-storage:getAll'],
+  permissions: [
+    "upload-file:filesAndGroups",
+    "upload-file-group:findChildren",
+    "file-storage:getAll",
+  ],
   order: 100,
   children: [
     {
-      key: 'upload-file',
+      key: "upload-file",
       type: RouteType.BUTTON,
       name: i18n.uploadFiles,
-      permissions: ['upload-file:create'],
+      permissions: ["upload-file:create"],
     },
     {
-      key: 'edit-file',
+      key: "edit-file",
       type: RouteType.BUTTON,
       name: i18n.editFile,
-      permissions: ['upload-file:update'],
+      permissions: ["upload-file:update"],
     },
     {
-      key: 'delete-file',
+      key: "delete-file",
       type: RouteType.BUTTON,
       name: i18n.deleteFiles,
-      permissions: ['upload-file:delete'],
+      permissions: ["upload-file:delete"],
     },
     {
-      key: 'add-group',
+      key: "add-group",
       type: RouteType.BUTTON,
       name: i18n.addFileGroup,
-      permissions: ['upload-file-group:create'],
+      permissions: ["upload-file-group:create"],
     },
     {
-      key: 'edit-group',
+      key: "edit-group",
       type: RouteType.BUTTON,
       name: i18n.editFileGroup,
-      permissions: ['upload-file-group:update'],
+      permissions: ["upload-file-group:update"],
     },
     {
-      key: 'delete-group',
+      key: "delete-group",
       type: RouteType.BUTTON,
       name: i18n.deleteFileGroup,
-      permissions: ['upload-file-group:delete'],
+      permissions: ["upload-file-group:delete"],
     },
   ],
-}
-)
+})

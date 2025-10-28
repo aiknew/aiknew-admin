@@ -1,5 +1,5 @@
-import { i18n } from "../../i18n";
-import { defineRouteItem, RouteType } from "../../types";
+import { i18n } from "../../i18n"
+import { defineRouteItem, RouteType } from "../../types"
 
 export const systemSettings = defineRouteItem({
   type: RouteType.SMALL_GROUP,
@@ -7,130 +7,133 @@ export const systemSettings = defineRouteItem({
   order: 305,
   children: [
     {
-      component: 'settings/language/language-view',
-      icon: 'ChromeFilled',
-      path: '/settings/language',
+      component: "settings/language/language-view",
+      icon: "ChromeFilled",
+      path: "/settings/language",
       type: RouteType.MENU,
       name: i18n.langSetting,
-      permissions: ['language:pagination'],
+      permissions: ["language:pagination"],
       order: 306,
       children: [
         {
-          key: 'add',
+          key: "add",
           type: RouteType.BUTTON,
           name: i18n.new,
-          permissions: ['language:create']
+          permissions: ["language:create"],
         },
         {
-          key: 'edit',
+          key: "edit",
           type: RouteType.BUTTON,
           name: i18n.edit,
-          permissions: ['language:update']
+          permissions: ["language:update"],
         },
         {
-          key: 'delete',
+          key: "delete",
           type: RouteType.BUTTON,
           name: i18n.delete,
-          permissions: ['language:delete']
+          permissions: ["language:delete"],
         },
       ],
     },
     {
-      component: 'settings/storage-setting/storage-setting',
-      icon: 'Setting',
-      path: '/settings/storage-setting',
+      component: "settings/storage-setting/storage-setting",
+      icon: "Setting",
+      path: "/settings/storage-setting",
       type: RouteType.MENU,
       name: i18n.storageSetting,
-      permissions: ['file-storage:pagination', 'file-storage:getAll'],
+      permissions: ["file-storage:pagination", "file-storage:getAll"],
       order: 310,
       children: [
         {
-          key: 'add',
+          key: "add",
           type: RouteType.BUTTON,
           name: i18n.new,
-          permissions: ['file-storage:create']
+          permissions: ["file-storage:create"],
         },
         {
-          key: 'edit',
+          key: "edit",
           type: RouteType.BUTTON,
           name: i18n.edit,
-          permissions: ['file-storage:update']
+          permissions: ["file-storage:update"],
         },
         {
-          key: 'delete',
+          key: "delete",
           type: RouteType.BUTTON,
           name: i18n.delete,
-          permissions: ['file-storage:delete']
+          permissions: ["file-storage:delete"],
         },
       ],
     },
     {
       name: i18n.dictSettings,
-      component: 'settings/dict-type/dict-type',
-      icon: 'Notebook',
-      path: '/settings/dict-type',
+      component: "settings/dict-type/dict-type",
+      icon: "Notebook",
+      path: "/settings/dict-type",
       type: RouteType.MENU,
-      permissions: ['dict-type:pagination', 'dict-type:getAll', 'dict:pagination'],
+      permissions: [
+        "dict-type:pagination",
+        "dict-type:getAll",
+        "dict:pagination",
+      ],
       order: 320,
       children: [
         {
-          key: 'add',
+          key: "add",
           type: RouteType.BUTTON,
           name: i18n.new,
-          permissions: ['dict-type:create', 'dict:create']
+          permissions: ["dict-type:create", "dict:create"],
         },
         {
-          key: 'edit',
+          key: "edit",
           type: RouteType.BUTTON,
           name: i18n.edit,
-          permissions: ['dict-type:update', 'dict:update']
+          permissions: ["dict-type:update", "dict:update"],
         },
         {
-          key: 'delete',
+          key: "delete",
           type: RouteType.BUTTON,
           name: i18n.delete,
-          permissions: ['dict-type:delete', 'dict:delete']
+          permissions: ["dict-type:delete", "dict:delete"],
         },
       ],
     },
     {
       name: i18n.configSettings,
-      component: 'settings/config/config-view',
-      icon: 'Operation',
-      path: '/settings/config',
+      component: "settings/config/config-view",
+      icon: "Operation",
+      path: "/settings/config",
       type: RouteType.MENU,
-      permissions: ['config:pagination'],
+      permissions: ["config:pagination"],
       order: 330,
       children: [
         {
-          key: 'add',
+          key: "add",
           type: RouteType.BUTTON,
           name: i18n.new,
-          permissions: ['config:create']
+          permissions: ["config:create"],
         },
         {
-          key: 'edit',
+          key: "edit",
           type: RouteType.BUTTON,
           name: i18n.edit,
-          permissions: ['config:update']
+          permissions: ["config:update"],
         },
         {
-          key: 'delete',
+          key: "delete",
           type: RouteType.BUTTON,
           name: i18n.delete,
-          permissions: ['config:delete']
+          permissions: ["config:delete"],
         },
       ],
     },
 
-
     {
-      component: 'settings/login-log/login-log',
-      icon: 'DataLine',
-      path: '/settings/login-log',
+      component: "settings/login-log/login-log",
+      icon: "DataLine",
+      path: "/settings/login-log",
       type: RouteType.MENU,
       name: i18n.loginLog,
-      permissions: ['login-log:pagination'],
+      permissions: ["login-log:pagination"],
       order: 350,
     },
   ],

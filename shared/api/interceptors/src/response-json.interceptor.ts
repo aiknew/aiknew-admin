@@ -3,13 +3,13 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-} from '@nestjs/common'
-import { Reflector } from '@nestjs/core'
-import { map, Observable } from 'rxjs'
-import { SuccessMsg } from '@aiknew/shared-api-decorators'
-import { I18nContext, I18nService } from 'nestjs-i18n'
-import { getTranslation, SuccessResponse } from '@aiknew/shared-api-utils'
-import { type Request } from 'express'
+} from "@nestjs/common"
+import { Reflector } from "@nestjs/core"
+import { map, Observable } from "rxjs"
+import { SuccessMsg } from "@aiknew/shared-api-decorators"
+import { I18nContext, I18nService } from "nestjs-i18n"
+import { getTranslation, SuccessResponse } from "@aiknew/shared-api-utils"
+import { type Request } from "express"
 
 @Injectable()
 export class ResponseJsonInterceptor implements NestInterceptor {
@@ -27,23 +27,23 @@ export class ResponseJsonInterceptor implements NestInterceptor {
 
     if (!msg) {
       switch (reqMethod.toUpperCase()) {
-        case 'POST':
-          msg = this.i18n.t('common.postSuccess', {
+        case "POST":
+          msg = this.i18n.t("common.postSuccess", {
             lang: I18nContext.current()?.lang,
           })
           break
-        case 'PATCH':
-          msg = this.i18n.t('common.patchSuccess', {
+        case "PATCH":
+          msg = this.i18n.t("common.patchSuccess", {
             lang: I18nContext.current()?.lang,
           })
           break
-        case 'DELETE':
-          msg = this.i18n.t('common.deleteSuccess', {
+        case "DELETE":
+          msg = this.i18n.t("common.deleteSuccess", {
             lang: I18nContext.current()?.lang,
           })
           break
         default:
-          msg = this.i18n.t('common.requestSuccess', {
+          msg = this.i18n.t("common.requestSuccess", {
             lang: I18nContext.current()?.lang,
           })
       }
@@ -54,10 +54,11 @@ export class ResponseJsonInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      map((data) => {
+      map((data: Record<string, unknown>) => {
         if (data instanceof SuccessResponse) {
           return data
         }
+
         return new SuccessResponse(this.getDefaultMsg(context)).setData(
           data ?? {},
         )

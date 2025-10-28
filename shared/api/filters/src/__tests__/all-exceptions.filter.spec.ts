@@ -1,12 +1,16 @@
-import { HttpAdapterHost } from '@nestjs/core'
-import { AllExceptionsFilter } from '../all-exceptions.filter'
-import { ArgumentsHost, BadRequestException, HttpStatus } from '@nestjs/common'
-import { logger } from '@aiknew/shared-api-logger'
-import { AppBadRequestException } from '@aiknew/shared-api-exceptions'
-import { MESSAGES } from '@nestjs/core/constants'
-import { ResponseStatusCode } from '@aiknew/shared-api-enums'
+/* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { HttpAdapterHost } from "@nestjs/core"
+import { AllExceptionsFilter } from "../all-exceptions.filter"
+import { ArgumentsHost, BadRequestException, HttpStatus } from "@nestjs/common"
+import { logger } from "@aiknew/shared-api-logger"
+import { AppBadRequestException } from "@aiknew/shared-api-exceptions"
+import { MESSAGES } from "@nestjs/core/constants"
+import { ResponseStatusCode } from "@aiknew/shared-api-enums"
 
-describe('AllExceptionsFilter', () => {
+describe("AllExceptionsFilter", () => {
   let filter: AllExceptionsFilter
   let httpAdapter: any
   let host: ArgumentsHost
@@ -37,14 +41,14 @@ describe('AllExceptionsFilter', () => {
     } as any
 
     filter = new AllExceptionsFilter(httpAdapterHost)
-    jest.spyOn(logger, 'error').mockImplementation(() => undefined as any)
+    jest.spyOn(logger, "error").mockImplementation(() => undefined as any)
   })
 
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should handle AppHttpException', () => {
+  it("should handle AppHttpException", () => {
     const exception = new AppBadRequestException()
 
     filter.catch(exception, host)
@@ -56,8 +60,8 @@ describe('AllExceptionsFilter', () => {
     )
   })
 
-  it('should handle NestJS built-in HttpException', () => {
-    const msg = 'NestJS built-in BadRequestException'
+  it("should handle NestJS built-in HttpException", () => {
+    const msg = "NestJS built-in BadRequestException"
     const exception = new BadRequestException(msg)
 
     filter.catch(exception, host)
@@ -73,8 +77,8 @@ describe('AllExceptionsFilter', () => {
     )
   })
 
-  it('should handle unknown error', () => {
-    const error = new Error('Unknown error')
+  it("should handle unknown error", () => {
+    const error = new Error("Unknown error")
 
     filter.catch(error, host)
 

@@ -1,7 +1,7 @@
-import { applyDecorators, Type } from '@nestjs/common'
-import { type ArrayAble } from '@aiknew/shared-api-types'
-import { ResponseJson } from '@aiknew/shared-api-dtos'
-import { ApiExtraModels, getSchemaPath } from '@nestjs/swagger'
+import { applyDecorators, Type } from "@nestjs/common"
+import { type ArrayAble } from "@aiknew/shared-api-types"
+import { ResponseJson } from "@aiknew/shared-api-dtos"
+import { ApiExtraModels, getSchemaPath } from "@nestjs/swagger"
 
 export const AppApiResponse = <DataModel extends ArrayAble<Type<any>>>(
   apiDecorator: (...args: any[]) => MethodDecorator & ClassDecorator,
@@ -15,13 +15,13 @@ export const AppApiResponse = <DataModel extends ArrayAble<Type<any>>>(
   const model: Type<any> = isDataArray ? dataModel[0] : dataModel
   const data = isDataArray
     ? {
-        type: 'array',
+        type: "array",
         items: {
           $ref: getSchemaPath(model),
         },
       }
     : {
-        type: 'object',
+        type: "object",
         $ref: getSchemaPath(model),
       }
 
@@ -33,7 +33,7 @@ export const AppApiResponse = <DataModel extends ArrayAble<Type<any>>>(
         allOf: [
           { $ref: getSchemaPath(ResponseJson) },
           {
-            required: ['data'],
+            required: ["data"],
             properties: {
               data,
             },

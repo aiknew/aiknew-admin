@@ -1,12 +1,12 @@
-import { HttpException, HttpStatus } from '@nestjs/common'
-import { ResponseJson } from '@aiknew/shared-api-dtos'
-import { ResponseStatusCode } from '@aiknew/shared-api-enums'
+import { HttpException, HttpStatus } from "@nestjs/common"
+import { ResponseJson } from "@aiknew/shared-api-dtos"
+import { ResponseStatusCode } from "@aiknew/shared-api-enums"
 
 export class AppHttpException extends HttpException {
   data: Record<string, unknown> = {}
   code: (typeof ResponseStatusCode)[keyof typeof ResponseStatusCode] =
     ResponseStatusCode.COMMON_FAIL
-  msg: string = 'error'
+  msg: string = "error"
 
   constructor(msg: string, status: HttpStatus) {
     super(msg, status)

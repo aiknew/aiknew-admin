@@ -7,16 +7,16 @@ import {
   HttpServer,
   BadRequestException,
   Logger,
-} from '@nestjs/common'
-import { AbstractHttpAdapter, HttpAdapterHost } from '@nestjs/core'
-import { logger } from '@aiknew/shared-api-logger'
-import { isObject } from '@nestjs/common/utils/shared.utils'
-import { type Response } from 'express'
-import { MESSAGES } from '@nestjs/core/constants'
-import { AppHttpException } from '@aiknew/shared-api-exceptions'
-import { ResponseJson } from '@aiknew/shared-api-dtos'
-import { getTranslation } from '@aiknew/shared-api-utils'
-import { ResponseStatusCode } from '@aiknew/shared-api-enums'
+} from "@nestjs/common"
+import { AbstractHttpAdapter, HttpAdapterHost } from "@nestjs/core"
+import { logger } from "@aiknew/shared-api-logger"
+import { isObject } from "@nestjs/common/utils/shared.utils"
+import { type Response } from "express"
+import { MESSAGES } from "@nestjs/core/constants"
+import { AppHttpException } from "@aiknew/shared-api-exceptions"
+import { ResponseJson } from "@aiknew/shared-api-dtos"
+import { getTranslation } from "@aiknew/shared-api-utils"
+import { ResponseStatusCode } from "@aiknew/shared-api-enums"
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -33,7 +33,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     let responseJson: ResponseJson = {
       code: ResponseStatusCode.COMMON_FAIL,
-      msg: 'error',
+      msg: "error",
       data: {},
     }
 
@@ -48,11 +48,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         // handle BadRequestException thrown by the validation
         if (
           exception instanceof BadRequestException &&
-          'message' in res &&
+          "message" in res &&
           Array.isArray(res.message)
         ) {
           responseJson.msg = (res.message as string[]).reduce(
-            (msg: string, item: string) => (msg = msg + '.' + item),
+            (msg: string, item: string) => (msg = msg + "." + item),
           )
         } else {
           responseJson.data = res as Record<string, unknown>
@@ -79,7 +79,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     applicationRef: AbstractHttpAdapter | HttpServer,
   ) {
     const responseJson: ResponseJson = {
-      msg: '',
+      msg: "",
       code: ResponseStatusCode.COMMON_FAIL,
       data: {},
     }
@@ -108,8 +108,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
   }
 
   private logError(exception: unknown) {
-    if (process.env.NODE_ENV !== 'production') {
-      const logger = new Logger('Exception Handler')
+    if (process.env.NODE_ENV !== "production") {
+      const logger = new Logger("Exception Handler")
       logger.error(exception)
     }
 

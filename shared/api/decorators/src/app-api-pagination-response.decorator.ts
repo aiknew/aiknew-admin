@@ -1,6 +1,6 @@
-import { Type, applyDecorators } from '@nestjs/common'
-import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger'
-import { PaginationResponseDto, ResponseJson } from '@aiknew/shared-api-dtos'
+import { Type, applyDecorators } from "@nestjs/common"
+import { ApiExtraModels, ApiOkResponse, getSchemaPath } from "@nestjs/swagger"
+import { PaginationResponseDto, ResponseJson } from "@aiknew/shared-api-dtos"
 
 export const AppApiPaginationResponse = <TModel extends Type<any>>(
   model: TModel,
@@ -13,16 +13,16 @@ export const AppApiPaginationResponse = <TModel extends Type<any>>(
         allOf: [
           { $ref: getSchemaPath(ResponseJson) },
           {
-            required: ['data'],
+            required: ["data"],
             properties: {
               data: {
                 allOf: [
                   { $ref: getSchemaPath(PaginationResponseDto) },
                   {
-                    required: ['list'],
+                    required: ["list"],
                     properties: {
                       list: {
-                        type: 'array',
+                        type: "array",
                         items: { $ref: getSchemaPath(model) },
                       },
                     },

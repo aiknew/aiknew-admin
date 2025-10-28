@@ -1,2 +1,2 @@
-export * from './file-storage'
-export * from './languages'
+export * from "./file-storage"
+export * from "./languages"

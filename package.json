@@ -48,7 +48,7 @@
     "lint-staged": "^16.2.6",
     "openapi-typescript": "catalog:ui",
     "prettier-plugin-tailwindcss": "^0.6.13",
-    "tsdown": "^0.14.1",
+    "tsdown": "^0.15.11",
     "typescript": "catalog:common",
     "typescript-eslint": "^8.46.0",
     "vue-eslint-parser": "^10.2.0"

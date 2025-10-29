@@ -26,6 +26,7 @@ export default defineConfig([
       "**/public/**",
       "shared/api/types/**",
       "shared/api/permission-sync/**",
+      "shared/api/db/admin-db/src/generated/**"
     ],
     extends: [
       eslint.configs.recommended,

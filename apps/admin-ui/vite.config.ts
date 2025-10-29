@@ -57,9 +57,9 @@ export default defineConfig({
     vueDevTools(),
     VueI18nPlugin({
       include: convertPath("../../shared/ui/locales/src/*.json"),
-    }),
-    ElementPlus({}),
-    svgLoader(),
+    }) as import("vite").Plugin,
+    ElementPlus({}) as import("vite").Plugin,
+    svgLoader() as import("vite").Plugin,
     tailwindcss(),
     openApiToTypeScript({
       source: `http://localhost:${ADMIN_API_PORT}/api-doc-json`,
@@ -74,7 +74,7 @@ export default defineConfig({
     compression({
       algorithms: ["gzip"],
       threshold: 1000, // Only compress files larger than 1KB
-    }),
+    }) as import("vite").Plugin,
     Inspect(),
     {
       name: "generate-version",

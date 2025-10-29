@@ -446,7 +446,7 @@ export const useAppForm = <
     AppForm,
     formApi: (() => {
       type SkipFirstParam<Func> = Func extends (
-        ...args: [unknown, ...infer Rest]
+        ...args: [infer _, ...infer Rest]
       ) => unknown
         ? Rest
         : never

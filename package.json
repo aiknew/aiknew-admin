@@ -12,33 +12,52 @@
     "clean": "pnpm -r clean",
     "api": "pnpm --filter '@aiknew/admin-api' start:dev",
     "admin": "pnpm --filter '@aiknew/admin-ui' dev",
-    "spell-lint": "cspell lint --words-only --cache --gitignore --color '(apps/|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' ",
+    "spell:lint": "cspell lint --words-only --cache --gitignore --color '(apps/|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' ",
     "gen:types": "pnpm openapi-typescript http://localhost:3000/api-doc-json --enum-values --make-paths-enum --root-types --root-types-no-schema-prefix --generate-path-params -o ./apps/admin-ui/src/types/open-api.ts",
     "lint": "pnpm eslint .",
     "lint:fix": "pnpm eslint . --fix",
-    "lint:inspect": "pnpm eslint --inspect-config"
+    "lint:inspect": "pnpm eslint --inspect-config",
+    "prepare": "husky",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.38.0",
     "@vitest/eslint-plugin": "catalog:ui",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.5.1",
+    "commitizen": "^4.3.1",
     "cspell": "^9.2.1",
+    "cz-git": "^1.12.0",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-playwright": "^2.2.0",
     "eslint-plugin-prettier": "^5.2.2",
     "eslint-plugin-vue": "~10.0.1",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "openapi-typescript": "catalog:ui",
     "prettier-plugin-tailwindcss": "^0.6.13",
     "tsdown": "^0.14.1",
     "typescript": "catalog:common",
     "typescript-eslint": "^8.46.0",
     "vue-eslint-parser": "^10.2.0"
+  },
+  "lint-staged": {
+    "*.{js,mjs,jsx,ts,mts,tsx,vue,html,css,scss}": [
+      "eslint --fix",
+      "pnpm spell:lint"
+    ]
   },
   "packageManager": "pnpm@10.6.2",
   "engines": {

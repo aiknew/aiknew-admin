@@ -2,6 +2,7 @@ aiknew
 autoresize
 bprogress
 cascader
+commitlint
 dotenvx
 dtos
 echarts

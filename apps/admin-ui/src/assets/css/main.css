@@ -1,4 +1,4 @@
-@import 'tailwindcss' source(none);
+@import "tailwindcss" source(none);
 @plugin "@tailwindcss/typography";
 @source "../../../../admin-ui/src";
 @source "../../../../../shared/ui/components";

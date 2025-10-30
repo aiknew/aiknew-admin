@@ -80,7 +80,9 @@ export default defineConfig({
       name: "generate-version",
       closeBundle() {
         const versionData = { version: Date.now() }
-        const filePath = path.resolve(__dirname, "dist", "version.json")
+        const dir = path.resolve(__dirname, "dist")
+        const filePath = path.join(dir, "version.json")
+        fs.mkdirSync(dir, { recursive: true })
         fs.writeFileSync(filePath, JSON.stringify(versionData))
       },
     },

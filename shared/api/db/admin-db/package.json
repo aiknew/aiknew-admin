@@ -28,14 +28,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     },
     "./enums": {
+      "types": "./dist/generated/prisma/enums.d.ts",
       "import": "./dist/generated/prisma/enums.js",
-      "default": "./dist/generated/prisma/enums.js",
-      "types": "./dist/generated/prisma/enums.d.ts"
+      "default": "./dist/generated/prisma/enums.js"
     }
   },
   "scripts": {

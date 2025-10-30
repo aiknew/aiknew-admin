@@ -7,14 +7,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
-    "dev": "tsdown --watch",
-    "build": "tsdown"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace: *",

@@ -3,6 +3,8 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */
-  }
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*", "tsup.config.ts"], // include tsup.config.ts for eslint type checking
+  "exclude": ["node_modules", "dist"]
 }

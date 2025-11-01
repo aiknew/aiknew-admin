@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.2",
   "language": "en",
-  "ignorePaths": ["**/node_modules/*", "**/dist/*", "**/generated/prisma/*"],
+  "ignorePaths": ["**/node_modules/*", "**/dist/*", "**/generated/prisma/*", "**/open-api.ts"],
   "dictionaries": ["custom"],
   "dictionaryDefinitions": [
     { "name": "custom", "path": "./.cspell/custom-words.txt", "addWords": true }

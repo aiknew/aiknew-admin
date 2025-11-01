@@ -8,11 +8,11 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <el-result title="404" :sub-title="t('notFound.tips')">
+  <ElResult title="404" :sub-title="t('notFound.tips')">
     <template #extra>
-      <el-button type="primary" @click="push('/')">
+      <ElButton type="primary" @click="push('/')">
         {{ t("notFound.backToHome") }}
-      </el-button>
+      </ElButton>
     </template>
-  </el-result>
+  </ElResult>
 </template>

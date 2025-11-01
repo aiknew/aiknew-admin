@@ -104,12 +104,12 @@ const handleResetQueryForm = () => {
 <template>
   <AppContentBlock class="mb-6">
     <QueryForm>
-      <el-form-item>
-        <el-button type="primary" @click="formApi.handleSubmit">
+      <ElFormItem>
+        <ElButton type="primary" @click="formApi.handleSubmit">
           {{ t("submit") }}
-        </el-button>
-        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
-      </el-form-item>
+        </ElButton>
+        <ElButton @click="handleResetQueryForm">{{ t("reset") }}</ElButton>
+      </ElFormItem>
     </QueryForm>
   </AppContentBlock>
 
@@ -120,38 +120,36 @@ const handleResetQueryForm = () => {
       v-model:page-size="query.pageSize"
       :table-data="loginLogData"
     >
-      <el-table-column
+      <ElTableColumn
         prop="userName"
         :label="t('loginLog.userName')"
         width="120"
       />
-      <el-table-column prop="ip" :label="t('loginLog.ip')" width="150" />
-      <el-table-column
+      <ElTableColumn prop="ip" :label="t('loginLog.ip')" width="150" />
+      <ElTableColumn
         prop="location"
         :label="t('loginLog.location')"
         width="200"
         show-overflow-tooltip
       />
-      <el-table-column prop="os" :label="t('loginLog.os')" width="150" />
-      <el-table-column
+      <ElTableColumn prop="os" :label="t('loginLog.os')" width="150" />
+      <ElTableColumn
         prop="browser"
         :label="t('loginLog.browser')"
         width="180"
       />
-      <el-table-column prop="isSuccess" :label="t('status')">
+      <ElTableColumn prop="isSuccess" :label="t('status')">
         <template #default="{ row }: { row: LoginLogDto }">
-          <el-tag v-if="row.isSuccess" type="success">{{
-            t("success")
-          }}</el-tag>
-          <el-tag type="danger" v-else>{{ t("failed") }}</el-tag>
+          <ElTag v-if="row.isSuccess" type="success">{{ t("success") }}</ElTag>
+          <ElTag type="danger" v-else>{{ t("failed") }}</ElTag>
         </template>
-      </el-table-column>
-      <el-table-column
+      </ElTableColumn>
+      <ElTableColumn
         prop="createdAt"
         :label="t('loginLog.createdAt')"
         width="180"
       />
-      <el-table-column
+      <ElTableColumn
         prop="userAgent"
         :label="t('loginLog.userAgent')"
         min-width="300"

@@ -30,7 +30,7 @@ useResizeObserver(
 
 <template>
   <div class="flex flex-col" ref="elPagination">
-    <el-pagination
+    <ElPagination
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
       class="ml-auto mt-4 flex flex-wrap"

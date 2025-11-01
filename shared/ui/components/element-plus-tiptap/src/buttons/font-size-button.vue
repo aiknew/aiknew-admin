@@ -40,7 +40,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <el-input-number
+  <ElInputNumber
     v-model="num"
     :min="12"
     controls-position="right"
@@ -50,7 +50,7 @@ onUnmounted(() => {
     <template #suffix>
       <span>px</span>
     </template>
-  </el-input-number>
+  </ElInputNumber>
 </template>
 
 <style>

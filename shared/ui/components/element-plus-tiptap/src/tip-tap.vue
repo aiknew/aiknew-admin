@@ -124,8 +124,8 @@ defineExpose({
   <div
     class="element-plus-tiptap overflow-hidden rounded-lg border border-gray-300"
   >
-    <tool-bar class="border-b" v-if="editor" :toolbar :editor="editor" />
-    <editor-content :editor="editor" />
+    <ToolBar class="border-b" v-if="editor" :toolbar :editor="editor" />
+    <EditorContent :editor="editor" />
     <div
       v-if="editor"
       class="flex justify-end border-t border-gray-300 bg-gray-50 px-4 py-1 text-sm text-gray-500"

@@ -34,51 +34,47 @@ const getRouteName = (meta?: CustomRouteMeta) => {
 <template>
   <template v-for="route in routes" :key="route.path">
     <!-- small group -->
-    <el-menu-item-group
+    <ElMenuItemGroup
       v-if="route.children && route.children.length && isSmallGroup(route)"
       :title="getRouteName(route.meta)"
       :key="route.path"
     >
       <!-- render children menus recursively -->
       <AppRecursiveMenu :routes="route.children" />
-    </el-menu-item-group>
+    </ElMenuItemGroup>
 
     <!-- sub menu -->
     <template v-if="route.children && route.children.length && isGroup(route)">
-      <el-sub-menu :index="route.path" :key="route.path">
+      <ElSubMenu :index="route.path" :key="route.path">
         <template #title>
-          <el-icon v-if="route.meta?.icon">
+          <ElIcon v-if="route.meta?.icon">
             <component :is="route.meta.icon" />
-          </el-icon>
+          </ElIcon>
           <span class="menu-title">{{ getRouteName(route.meta) }}</span>
         </template>
 
         <!-- render children menus recursively -->
         <AppRecursiveMenu :routes="route.children" />
-      </el-sub-menu>
+      </ElSubMenu>
     </template>
 
     <!-- normal menu item -->
-    <el-menu-item
-      v-if="isMenuItem(route)"
-      :index="route.path"
-      :key="route.name"
-    >
-      <el-icon v-if="route.meta?.icon">
+    <ElMenuItem v-if="isMenuItem(route)" :index="route.path" :key="route.name">
+      <ElIcon v-if="route.meta?.icon">
         <component :is="route.meta.icon" />
-      </el-icon>
+      </ElIcon>
 
       <template #title>
-        <router-link
+        <RouterLink
           :to="route.path"
           class="flex h-full w-full content-start items-center"
         >
           <span class="menu-title">
             {{ getRouteName(route.meta) }}
           </span>
-        </router-link>
+        </RouterLink>
       </template>
-    </el-menu-item>
+    </ElMenuItem>
   </template>
 </template>
 

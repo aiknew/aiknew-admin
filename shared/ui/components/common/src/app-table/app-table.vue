@@ -94,7 +94,7 @@ defineExpose({
     </div>
 
     <!-- table -->
-    <el-table
+    <ElTable
       class="app-table"
       ref="elTable"
       :data="list"
@@ -102,7 +102,7 @@ defineExpose({
       size="large"
     >
       <slot name="default"></slot>
-    </el-table>
+    </ElTable>
 
     <!-- pagination -->
     <AppPagination

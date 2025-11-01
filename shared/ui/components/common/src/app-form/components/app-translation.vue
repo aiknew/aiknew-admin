@@ -43,22 +43,22 @@ const value = computed({
 </script>
 
 <template>
-  <el-tabs
+  <ElTabs
     :modelValue="activeLang"
     @update:model-value="emit('update:activeLang', $event as string)"
     class="w-full"
     type="border-card"
   >
-    <el-tab-pane
+    <ElTabPane
       v-for="lang in languages"
       :key="lang.key"
       :label="lang.name"
       :name="lang.key"
     >
-    </el-tab-pane>
+    </ElTabPane>
 
     <div>
       <slot :value :setLangVal v-bind="$attrs"> </slot>
     </div>
-  </el-tabs>
+  </ElTabs>
 </template>

@@ -12,7 +12,7 @@
     "clean": "pnpm -r clean",
     "api": "pnpm --filter '@aiknew/admin-api' start:dev",
     "admin": "pnpm --filter '@aiknew/admin-ui' dev",
-    "spell:lint": "cspell lint --words-only --cache --gitignore --color '(apps/|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' ",
+    "spell:lint": "cspell lint --words-only --cache --gitignore --color '(apps|shared)/**/*.{ts,tsx,vue,css,scss,html,md,mjs,cjs}' ",
     "gen:types": "pnpm openapi-typescript http://localhost:3000/api-doc-json --enum-values --make-paths-enum --root-types --root-types-no-schema-prefix --generate-path-params -o ./apps/admin-ui/src/types/open-api.ts",
     "lint": "pnpm eslint .",
     "lint:fix": "pnpm eslint . --fix",

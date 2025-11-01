@@ -860,26 +860,6 @@ export interface components {
             title: string;
             content: string;
         };
-        /** @enum {string} */
-        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
-        /** @enum {string} */
-        FileStatus: "NORMAL" | "MISSING";
-        CoverImage: {
-            channel: components["schemas"]["UploadFileChannel"];
-            status: components["schemas"]["FileStatus"];
-            createdAt: string;
-            updatedAt: string;
-            id: string;
-            fileName: string;
-            filePath: string;
-            fileExt: string;
-            fileSize: number;
-            groupId: string | null;
-            mime: string;
-            originalName: string;
-            uploaderId: string;
-            order: number;
-        };
         ArticleDto: {
             id: string;
             order: number;
@@ -888,7 +868,6 @@ export interface components {
             fakeViewCount: number;
             articleCategoryId: string;
             translations: components["schemas"]["ArticleTranslationDto"][];
-            coverImage: components["schemas"]["CoverImage"] | null;
             coverImageId: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -1098,18 +1077,9 @@ export interface components {
             updatedAt: string;
         };
         /** @enum {string} */
-        StorageType: "LOCAL" | "S3";
+        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
         /** @enum {string} */
-        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
-        CorrespondingFileStorage: {
-            type: components["schemas"]["StorageType"];
-            status: components["schemas"]["FileStorageStatus"];
-            createdAt: string;
-            updatedAt: string;
-            hostname: string;
-            name: string;
-            bucket: string | null;
-        };
+        FileStatus: "NORMAL" | "MISSING";
         UploadFileDto: {
             channel: components["schemas"]["UploadFileChannel"];
             status: components["schemas"]["FileStatus"];
@@ -1127,7 +1097,6 @@ export interface components {
             uploader: {
                 userName: string;
             };
-            storage: components["schemas"]["CorrespondingFileStorage"];
             order: number;
         };
         UploadFilesAndGroupsDto: {
@@ -1156,6 +1125,10 @@ export interface components {
             parentId?: string | null;
             order?: number;
         };
+        /** @enum {string} */
+        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
+        /** @enum {string} */
+        StorageType: "LOCAL" | "S3";
         FileStorageDto: {
             status: components["schemas"]["FileStorageStatus"];
             type: components["schemas"]["StorageType"];
@@ -1307,10 +1280,10 @@ export interface components {
             status: boolean;
             translations?: components["schemas"]["DictTranslationDto"][];
         };
-        Translation: {
-            remark: string;
+        ConfigTranslationDto: {
             langKey: string;
             name: string;
+            remark?: string;
         };
         ConfigDto: {
             id: string;
@@ -1321,12 +1294,7 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            translations: components["schemas"]["Translation"][];
-        };
-        ConfigTranslationDto: {
-            langKey: string;
-            name: string;
-            remark?: string;
+            translations: components["schemas"]["ConfigTranslationDto"][];
         };
         CreateConfigDto: {
             key: string;
@@ -1378,9 +1346,6 @@ export type PermissionGroupDto = components['schemas']['PermissionGroupDto'];
 export type CreatePermissionGroupDto = components['schemas']['CreatePermissionGroupDto'];
 export type UpdatePermissionGroupDto = components['schemas']['UpdatePermissionGroupDto'];
 export type ArticleTranslationDto = components['schemas']['ArticleTranslationDto'];
-export type UploadFileChannel = components['schemas']['UploadFileChannel'];
-export type FileStatus = components['schemas']['FileStatus'];
-export type CoverImage = components['schemas']['CoverImage'];
 export type ArticleDto = components['schemas']['ArticleDto'];
 export type CreateArticleDto = components['schemas']['CreateArticleDto'];
 export type UpdateArticleDto = components['schemas']['UpdateArticleDto'];
@@ -1406,15 +1371,16 @@ export type CreateAuthRouteDto = components['schemas']['CreateAuthRouteDto'];
 export type UpdateAuthRouteDto = components['schemas']['UpdateAuthRouteDto'];
 export type UploadFileGroupPathDto = components['schemas']['UploadFileGroupPathDto'];
 export type UploadFileGroupDto = components['schemas']['UploadFileGroupDto'];
-export type StorageType = components['schemas']['StorageType'];
-export type FileStorageStatus = components['schemas']['FileStorageStatus'];
-export type CorrespondingFileStorage = components['schemas']['CorrespondingFileStorage'];
+export type UploadFileChannel = components['schemas']['UploadFileChannel'];
+export type FileStatus = components['schemas']['FileStatus'];
 export type UploadFileDto = components['schemas']['UploadFileDto'];
 export type UploadFilesAndGroupsDto = components['schemas']['UploadFilesAndGroupsDto'];
 export type CreateUploadFileDto = components['schemas']['CreateUploadFileDto'];
 export type UpdateUploadFileDto = components['schemas']['UpdateUploadFileDto'];
 export type CreateUploadFileGroupDto = components['schemas']['CreateUploadFileGroupDto'];
 export type UpdateUploadFileGroupDto = components['schemas']['UpdateUploadFileGroupDto'];
+export type FileStorageStatus = components['schemas']['FileStorageStatus'];
+export type StorageType = components['schemas']['StorageType'];
 export type FileStorageDto = components['schemas']['FileStorageDto'];
 export type OmitTypeClass = components['schemas']['OmitTypeClass'];
 export type CreateFileStorageDto = components['schemas']['CreateFileStorageDto'];
@@ -1432,9 +1398,8 @@ export type DictTranslationDto = components['schemas']['DictTranslationDto'];
 export type DictDto = components['schemas']['DictDto'];
 export type CreateDictDto = components['schemas']['CreateDictDto'];
 export type UpdateDictDto = components['schemas']['UpdateDictDto'];
-export type Translation = components['schemas']['Translation'];
-export type ConfigDto = components['schemas']['ConfigDto'];
 export type ConfigTranslationDto = components['schemas']['ConfigTranslationDto'];
+export type ConfigDto = components['schemas']['ConfigDto'];
 export type CreateConfigDto = components['schemas']['CreateConfigDto'];
 export type UpdateConfigDto = components['schemas']['UpdateConfigDto'];
 export type NationCount = components['schemas']['NationCount'];
@@ -3774,14 +3739,14 @@ export const pathsAdminLanguageGetParametersQueryOrientationValues: ReadonlyArra
 export const responseStatusCodeValues: ReadonlyArray<components["schemas"]["ResponseStatusCode"]> = [-1, 0, 401, 403, 400];
 export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMethod"]> = ["GET", "POST", "PUT", "DELETE", "PATCH", "ALL", "OPTIONS", "HEAD", "SEARCH", "PROPFIND", "PROPPATCH", "MKCOL", "COPY", "MOVE", "LOCK", "UNLOCK"];
 export const adminPermissionSourceValues: ReadonlyArray<components["schemas"]["AdminPermissionSource"]> = ["BUILT_IN", "EXTERNAL"];
-export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
-export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
 export const languageOrientationValues: ReadonlyArray<components["schemas"]["LanguageOrientation"]> = ["LTR", "RTL"];
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
-export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
+export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
+export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
 export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];
+export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
 export enum ApiPaths {
     PermissionController_getAll = "/admin/permission/all",
     PermissionController_createOne = "/admin/permission",

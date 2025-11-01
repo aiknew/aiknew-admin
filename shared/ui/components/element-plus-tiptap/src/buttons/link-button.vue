@@ -41,7 +41,7 @@ const show = () => {
 </script>
 
 <template>
-  <el-dropdown ref="dropdownRef" trigger="click" class="text-black!">
+  <ElDropdown ref="dropdownRef" trigger="click" class="text-black!">
     <div
       @click="show"
       :class="{ 'btn-active': editor.isActive('link') }"
@@ -50,8 +50,8 @@ const show = () => {
       <Link class="h-4 w-4" />
     </div>
     <template #dropdown>
-      <el-dropdown-menu class="p-2!">
-        <el-input
+      <ElDropdownMenu class="p-2!">
+        <ElInput
           autofocus
           clearable
           v-model="url"
@@ -60,10 +60,10 @@ const show = () => {
           @keydown.enter.prevent="setLink"
         >
           <template #append>
-            <el-button @click="setLink">Add</el-button></template
+            <ElButton @click="setLink">Add</ElButton></template
           >
-        </el-input>
-      </el-dropdown-menu>
+        </ElInput>
+      </ElDropdownMenu>
     </template>
-  </el-dropdown>
+  </ElDropdown>
 </template>

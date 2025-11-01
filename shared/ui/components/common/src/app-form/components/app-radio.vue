@@ -9,9 +9,9 @@ const { options } = defineProps<Props>()
 </script>
 
 <template>
-  <el-radio-group v-bind="$attrs">
+  <ElRadioGroup v-bind="$attrs">
     <template v-for="item in options" :key="item.value">
-      <el-radio :value="item.value">{{ item.label }}</el-radio>
+      <ElRadio :value="item.value">{{ item.label }}</ElRadio>
     </template>
-  </el-radio-group>
+  </ElRadioGroup>
 </template>

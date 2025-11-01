@@ -121,13 +121,13 @@ const handleSubmit = () => {
 <template>
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAddPermission">{{
+      <ElButton class="ml-auto" type="primary" @click="handleAddPermission">{{
         t("adminPermission.addPermission")
-      }}</el-button>
+      }}</ElButton>
 
-      <el-button @click="handleAddPermissionGroup">{{
+      <ElButton @click="handleAddPermissionGroup">{{
         t("adminPermission.addPermissionGroup")
-      }}</el-button>
+      }}</ElButton>
     </div>
 
     <AppTable
@@ -141,20 +141,20 @@ const handleSubmit = () => {
       lazy
       :load="loadPermissions"
     >
-      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
+      <ElTableColumn prop="id" label="ID" width="150" show-overflow-tooltip />
 
-      <el-table-column :label="t('type')" width="150">
+      <ElTableColumn :label="t('type')" width="150">
         <template #default="{ row }: { row: Permission | PermissionGroup }">
-          <el-tag type="primary" v-if="isPermission(row)">{{
+          <ElTag type="primary" v-if="isPermission(row)">{{
             t("adminPermission.permission")
-          }}</el-tag>
-          <el-tag type="info" v-else>{{
+          }}</ElTag>
+          <ElTag type="info" v-else>{{
             t("adminPermission.permissionGroup")
-          }}</el-tag>
+          }}</ElTag>
         </template>
-      </el-table-column>
+      </ElTableColumn>
 
-      <el-table-column prop="name" :label="t('name')" width="180">
+      <ElTableColumn prop="name" :label="t('name')" width="180">
         <template #default="{ row }: { row: Permission | PermissionGroup }">
           <span v-if="isPermission(row)">{{
             tField(row.translations, "permissionName").value
@@ -162,48 +162,48 @@ const handleSubmit = () => {
 
           <span v-else>{{ tField(row.translations, "groupName").value }}</span>
         </template>
-      </el-table-column>
-      <el-table-column
+      </ElTableColumn>
+      <ElTableColumn
         prop="method"
         :label="t('adminPermission.requestMethod')"
         width="120"
       >
         <template #default="{ row }">
-          <el-tag
+          <ElTag
             v-if="isPermission(row)"
             :type="getPermissionTagType(row.method)"
           >
             {{ row.method }}
-          </el-tag>
+          </ElTag>
         </template>
-      </el-table-column>
-      <el-table-column
+      </ElTableColumn>
+      <ElTableColumn
         prop="path"
         :label="t('adminPermission.path')"
         width="180"
       />
-      <el-table-column
+      <ElTableColumn
         prop="source"
         :label="t('adminPermission.source')"
         width="180"
       >
         <template #default="{ row }: { row: Permission | PermissionGroup }">
           <div v-if="isPermission(row)">
-            <el-tag v-if="row.source === 'BUILT_IN'" type="primary">{{
+            <ElTag v-if="row.source === 'BUILT_IN'" type="primary">{{
               t("adminPermission.builtInPermission")
-            }}</el-tag>
-            <el-tag v-else type="success">{{
+            }}</ElTag>
+            <ElTag v-else type="success">{{
               t("adminPermission.externalPermission")
-            }}</el-tag>
+            }}</ElTag>
           </div>
         </template>
-      </el-table-column>
-      <el-table-column prop="order" :label="t('order')" width="100" />
-      <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
-      <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
-      <el-table-column :label="t('operations')" width="150" fixed="right">
+      </ElTableColumn>
+      <ElTableColumn prop="order" :label="t('order')" width="100" />
+      <ElTableColumn prop="createdAt" :label="t('createdAt')" width="220" />
+      <ElTableColumn prop="updatedAt" :label="t('updatedAt')" width="220" />
+      <ElTableColumn :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
-          <el-button
+          <ElButton
             v-permission:edit
             type="primary"
             size="small"
@@ -211,21 +211,21 @@ const handleSubmit = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm
+          <ElPopconfirm
             :title="t('deleteConfirm')"
             @confirm="handleDelete(scope.row)"
           >
             <template #reference>
-              <el-button
+              <ElButton
                 v-permission:delete
                 type="danger"
                 icon="Delete"
                 size="small"
               />
             </template>
-          </el-popconfirm>
+          </ElPopconfirm>
         </template>
-      </el-table-column>
+      </ElTableColumn>
     </AppTable>
   </AppContentBlock>
 

@@ -157,7 +157,7 @@ defineExpose({
 
 <template>
   <div class="header">
-    <el-space
+    <ElSpace
       direction="vertical"
       size="large"
       alignment="normal"
@@ -188,7 +188,7 @@ defineExpose({
           )
         "
       />
-    </el-space>
+    </ElSpace>
   </div>
 
   <AppFileListContainer

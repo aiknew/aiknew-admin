@@ -27,24 +27,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-popover width="50%" placement="bottom" trigger="click" :visible="visible">
+  <ElPopover width="50%" placement="bottom" trigger="click" :visible="visible">
     <template #reference>
       <div></div>
     </template>
     <template #default>
-      <el-scrollbar height="30vh">
+      <ElScrollbar height="30vh">
         <template v-for="icon in icons" :key="icon">
-          <el-icon
+          <ElIcon
             class="mx-1.5 cursor-pointer"
             size="26"
             @click="selectIcon(icon)"
           >
             <component :is="icon"></component>
-          </el-icon>
+          </ElIcon>
         </template>
-      </el-scrollbar>
+      </ElScrollbar>
     </template>
-  </el-popover>
+  </ElPopover>
 </template>
 
 <style>

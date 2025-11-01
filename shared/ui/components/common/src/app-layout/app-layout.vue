@@ -102,7 +102,7 @@ const handleActiveTopLevelMenu = (path: string) => {
 
       <!-- Horizontal Layout Menu -->
       <div class="hidden md:block" v-if="horizontalLayout">
-        <el-menu
+        <ElMenu
           mode="horizontal"
           :default-active="currentRoute.value.path"
           :collapse="false"
@@ -112,7 +112,7 @@ const handleActiveTopLevelMenu = (path: string) => {
             min-width="unset"
             :routes="horizontalLayout ? routes : topLevelRoutes"
           />
-        </el-menu>
+        </ElMenu>
       </div>
 
       <!-- Mixed Layout Menu -->

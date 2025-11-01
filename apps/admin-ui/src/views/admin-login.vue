@@ -102,32 +102,32 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           AIKNEW ADMIN
         </div>
         <!-- Login Form -->
-        <el-form
+        <ElForm
           :model="loginFormData"
           :rules="rules"
           size="large"
           ref="loginFormRef"
         >
-          <el-form-item prop="userName">
-            <el-input
+          <ElFormItem prop="userName">
+            <ElInput
               prefix-icon="User"
               :placeholder="t('inputUserName')"
               v-model="loginFormData.userName"
               @keyup.enter="submitForm(loginFormRef)"
             />
-          </el-form-item>
+          </ElFormItem>
 
-          <el-form-item prop="password">
-            <el-input
+          <ElFormItem prop="password">
+            <ElInput
               prefix-icon="Lock"
               :placeholder="t('inputPassword')"
               type="password"
               v-model="loginFormData.password"
               @keyup.enter="submitForm(loginFormRef)"
             />
-          </el-form-item>
-          <el-form-item prop="captchaCode">
-            <el-input
+          </ElFormItem>
+          <ElFormItem prop="captchaCode">
+            <ElInput
               :placeholder="t('inputCaptcha')"
               v-model="loginFormData.captchaCode"
               @keyup.enter="submitForm(loginFormRef)"
@@ -139,20 +139,20 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                   @click="refetchCaptcha()"
                 ></div>
               </template>
-            </el-input>
-          </el-form-item>
+            </ElInput>
+          </ElFormItem>
 
-          <el-form-item class="mb-0!">
-            <el-button
+          <ElFormItem class="mb-0!">
+            <ElButton
               class="w-full"
               type="primary"
               @click="submitForm(loginFormRef)"
               :loading="isLoading"
             >
               {{ t("loginBtn") }}
-            </el-button>
-          </el-form-item>
-        </el-form>
+            </ElButton>
+          </ElFormItem>
+        </ElForm>
       </div>
     </div>
   </div>

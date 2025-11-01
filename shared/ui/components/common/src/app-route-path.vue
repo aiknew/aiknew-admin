@@ -33,21 +33,21 @@ const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
 
 <template>
   <div>
-    <el-scrollbar @scroll="handleScroll" ref="scrollbar">
-      <el-breadcrumb class="p-3" separator="/">
+    <ElScrollbar @scroll="handleScroll" ref="scrollbar">
+      <ElBreadcrumb class="p-3" separator="/">
         <template
           v-for="(item, index) in currentRoute.value.matched"
           :key="item.path"
         >
-          <el-breadcrumb-item
+          <ElBreadcrumbItem
             :to="{ path: item.path }"
             v-if="item.meta.translations && index !== 0"
           >
             {{ tField(item.meta.translations, "routeName").value }}
-          </el-breadcrumb-item>
+          </ElBreadcrumbItem>
         </template>
-      </el-breadcrumb>
-    </el-scrollbar>
+      </ElBreadcrumb>
+    </ElScrollbar>
     <div ref="moreLeft" class="route-path__more no-more"></div>
     <div ref="moreRight" class="route-path__more more-right"></div>
   </div>

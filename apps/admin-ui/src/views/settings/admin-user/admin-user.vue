@@ -85,20 +85,20 @@ const handleDelete = async (row: AdminUser) => {
 <template>
   <AppContentBlock class="mb-6">
     <QueryForm>
-      <el-form-item>
-        <el-button type="primary" @click="formApi.handleSubmit">{{
+      <ElFormItem>
+        <ElButton type="primary" @click="formApi.handleSubmit">{{
           t("submit")
-        }}</el-button>
-        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
-      </el-form-item>
+        }}</ElButton>
+        <ElButton @click="handleResetQueryForm">{{ t("reset") }}</ElButton>
+      </ElFormItem>
     </QueryForm>
   </AppContentBlock>
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAdd">{{
+      <ElButton class="ml-auto" type="primary" @click="handleAdd">{{
         t("add")
-      }}</el-button>
+      }}</ElButton>
     </div>
 
     <AppTable
@@ -108,13 +108,13 @@ const handleDelete = async (row: AdminUser) => {
       :table-data="adminUserData"
       row-key="id"
     >
-      <el-table-column type="selection" prop="id" label="ID" />
-      <el-table-column prop="userName" :label="t('name')"> </el-table-column>
-      <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
-      <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
-      <el-table-column :label="t('operations')" width="150">
+      <ElTableColumn type="selection" prop="id" label="ID" />
+      <ElTableColumn prop="userName" :label="t('name')"> </ElTableColumn>
+      <ElTableColumn prop="createdAt" :label="t('createdAt')" width="220" />
+      <ElTableColumn prop="updatedAt" :label="t('updatedAt')" width="220" />
+      <ElTableColumn :label="t('operations')" width="150">
         <template #default="scope">
-          <el-button
+          <ElButton
             v-permission:edit
             type="primary"
             size="small"
@@ -122,21 +122,21 @@ const handleDelete = async (row: AdminUser) => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm
+          <ElPopconfirm
             :title="t('deleteConfirm')"
             @confirm="handleDelete(scope.row)"
           >
             <template #reference>
-              <el-button
+              <ElButton
                 v-permission:delete
                 type="danger"
                 icon="Delete"
                 size="small"
               />
             </template>
-          </el-popconfirm>
+          </ElPopconfirm>
         </template>
-      </el-table-column>
+      </ElTableColumn>
     </AppTable>
   </AppContentBlock>
 

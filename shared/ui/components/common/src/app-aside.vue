@@ -40,7 +40,7 @@ defineEmits<Emits>()
 
       <!-- Menu -->
       <div class="px-4">
-        <el-menu
+        <ElMenu
           :mode="menuMode"
           class="app-aside-menu border-r-0!"
           :default-active="currentRoute.value.path"
@@ -48,7 +48,7 @@ defineEmits<Emits>()
           router
         >
           <AppRecursiveMenu :routes :min-width="menuMinWidth" />
-        </el-menu>
+        </ElMenu>
       </div>
     </aside>
 

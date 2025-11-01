@@ -147,20 +147,20 @@ const handleResetQueryForm = () => {
 <template>
   <AppContentBlock class="mb-6">
     <QueryForm>
-      <el-form-item>
-        <el-button type="primary" @click="formApi.handleSubmit">
+      <ElFormItem>
+        <ElButton type="primary" @click="formApi.handleSubmit">
           {{ t("submit") }}
-        </el-button>
-        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
-      </el-form-item>
+        </ElButton>
+        <ElButton @click="handleResetQueryForm">{{ t("reset") }}</ElButton>
+      </ElFormItem>
     </QueryForm>
   </AppContentBlock>
 
   <AppContentBlock class="mb-6" v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAdd">{{
+      <ElButton class="ml-auto" type="primary" @click="handleAdd">{{
         t("add")
-      }}</el-button>
+      }}</ElButton>
     </div>
 
     <AppTable
@@ -169,30 +169,30 @@ const handleResetQueryForm = () => {
       v-model:page-size="query.pageSize"
       :table-data="configData"
     >
-      <el-table-column prop="key" :label="t('lang.key')" width="150" />
-      <el-table-column prop="name" :label="t('name')" />
-      <el-table-column
+      <ElTableColumn prop="key" :label="t('lang.key')" width="150" />
+      <ElTableColumn prop="name" :label="t('name')" />
+      <ElTableColumn
         prop="orientation"
         :label="t('lang.orientation')"
         width="80"
       />
-      <el-table-column
+      <ElTableColumn
         prop="system"
         :label="t('status')"
         width="120"
         align="center"
       >
         <template #default="{ row }">
-          <el-tag v-if="!row.status" type="danger">{{ t("disabled") }}</el-tag>
-          <el-tag v-else type="primary">{{ t("enabled") }}</el-tag>
+          <ElTag v-if="!row.status" type="danger">{{ t("disabled") }}</ElTag>
+          <ElTag v-else type="primary">{{ t("enabled") }}</ElTag>
         </template>
-      </el-table-column>
-      <el-table-column prop="order" :label="t('order')" width="120" />
-      <el-table-column prop="createdAt" :label="t('createdAt')" width="180" />
-      <el-table-column prop="updatedAt" :label="t('updatedAt')" width="180" />
-      <el-table-column :label="t('operations')" width="150" fixed="right">
+      </ElTableColumn>
+      <ElTableColumn prop="order" :label="t('order')" width="120" />
+      <ElTableColumn prop="createdAt" :label="t('createdAt')" width="180" />
+      <ElTableColumn prop="updatedAt" :label="t('updatedAt')" width="180" />
+      <ElTableColumn :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
-          <el-button
+          <ElButton
             v-permission:edit
             type="primary"
             size="small"
@@ -200,21 +200,21 @@ const handleResetQueryForm = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm
+          <ElPopconfirm
             :title="t('deleteConfirm')"
             @confirm="() => handleDelete(scope.row)"
           >
             <template #reference>
-              <el-button
+              <ElButton
                 v-permission:delete
                 type="danger"
                 icon="Delete"
                 size="small"
               />
             </template>
-          </el-popconfirm>
+          </ElPopconfirm>
         </template>
-      </el-table-column>
+      </ElTableColumn>
     </AppTable>
 
     <LanguageModal ref="langModalRef" @submit="handleSubmit" />

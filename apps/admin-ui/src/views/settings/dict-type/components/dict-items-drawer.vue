@@ -79,16 +79,16 @@ defineExpose({
 </script>
 
 <template>
-  <el-drawer
+  <ElDrawer
     v-model="visible"
     :title="t('dictType.dictTypeName') + ': ' + drawerTitle"
     size="50%"
   >
     <AppContentBlock v-loading="isLoading">
       <div class="mb-3 flex">
-        <el-button class="ml-auto" type="primary" @click="handleAdd">
+        <ElButton class="ml-auto" type="primary" @click="handleAdd">
           {{ t("add") }}
-        </el-button>
+        </ElButton>
       </div>
 
       <AppTable
@@ -97,42 +97,42 @@ defineExpose({
         v-model:page-size="pageSize"
         :table-data="dictItems"
       >
-        <el-table-column prop="label" :label="t('dictType.dictLabel')">
+        <ElTableColumn prop="label" :label="t('dictType.dictLabel')">
           <template #default="{ row }: { row: Dict }">
             <span>{{ tField(row.translations, "label").value }}</span>
           </template>
-        </el-table-column>
-        <el-table-column
+        </ElTableColumn>
+        <ElTableColumn
           prop="value"
           :label="t('dictType.dictValue')"
           width="120"
         />
-        <el-table-column prop="order" :label="t('order')" width="80" />
-        <el-table-column prop="status" :label="t('status')" width="100">
+        <ElTableColumn prop="order" :label="t('order')" width="80" />
+        <ElTableColumn prop="status" :label="t('status')" width="100">
           <template #default="{ row }: { row: Dict }">
-            <el-switch v-model="row.status" @change="handleToggleStatus(row)" />
+            <ElSwitch v-model="row.status" @change="handleToggleStatus(row)" />
           </template>
-        </el-table-column>
-        <el-table-column prop="createdAt" :label="t('createdAt')" width="120" />
-        <el-table-column :label="t('operations')" width="150" fixed="right">
+        </ElTableColumn>
+        <ElTableColumn prop="createdAt" :label="t('createdAt')" width="120" />
+        <ElTableColumn :label="t('operations')" width="150" fixed="right">
           <template #default="scope">
-            <el-button
+            <ElButton
               type="primary"
               size="small"
               icon="Edit"
               @click="handleEdit(scope.row)"
             />
 
-            <el-popconfirm
+            <ElPopconfirm
               :title="t('deleteConfirm')"
               @confirm="handleDelete(scope.row)"
             >
               <template #reference>
-                <el-button type="danger" icon="Delete" size="small" />
+                <ElButton type="danger" icon="Delete" size="small" />
               </template>
-            </el-popconfirm>
+            </ElPopconfirm>
           </template>
-        </el-table-column>
+        </ElTableColumn>
       </AppTable>
     </AppContentBlock>
 
@@ -141,7 +141,7 @@ defineExpose({
       @submit="handleSubmit"
       v-model:dictType="currentDictType"
     />
-  </el-drawer>
+  </ElDrawer>
 </template>
 
 <style>

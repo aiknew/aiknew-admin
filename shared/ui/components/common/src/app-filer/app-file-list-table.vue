@@ -154,32 +154,32 @@ defineExpose({
   >
     <template #header>
       <div class="file-list-header">
-        <el-space warp>
-          <el-button icon="Top" circle @click="$emit('back-to-upper-group')" />
-          <el-button
+        <ElSpace warp>
+          <ElButton icon="Top" circle @click="$emit('back-to-upper-group')" />
+          <ElButton
             icon="ArrowLeft"
             circle
             @click="$emit('back-to-previous-group')"
           />
-          <el-button
+          <ElButton
             icon="ArrowRight"
             circle
             @click="$emit('forward-to-next-group')"
           />
-          <el-button icon="Refresh" circle @click="$emit('refresh')" />
-        </el-space>
+          <ElButton icon="Refresh" circle @click="$emit('refresh')" />
+        </ElSpace>
       </div>
     </template>
 
     <template #default>
-      <el-table-column
+      <ElTableColumn
         type="selection"
         :selectable="handleSelectable"
         width="30"
         reserve-selection
       />
       <!-- <el-table-column prop="id" label="ID" width="120" /> -->
-      <el-table-column
+      <ElTableColumn
         prop="name"
         min-width="210"
         :label="t('name')"
@@ -193,13 +193,13 @@ defineExpose({
             </div>
           </div>
         </template>
-      </el-table-column>
-      <el-table-column prop="order" :label="t('order')" width="80" />
+      </ElTableColumn>
+      <ElTableColumn prop="order" :label="t('order')" width="80" />
       <!-- <el-table-column prop="createdAt" :label="t('createdAt')" width="230" />
     <el-table-column prop="updatedAt" :label="t('updatedAt')" width="230" /> -->
-      <el-table-column :label="t('operations')" width="130">
+      <ElTableColumn :label="t('operations')" width="130">
         <template #default="{ row }">
-          <el-button
+          <ElButton
             v-if="editPermission(row)"
             type="primary"
             size="small"
@@ -207,21 +207,21 @@ defineExpose({
             @click.stop="$emit('edit-item', row)"
           />
 
-          <el-popconfirm
+          <ElPopconfirm
             :title="t('deleteConfirm')"
             @confirm="$emit('delete-item', row)"
           >
             <template #reference>
-              <el-button
+              <ElButton
                 v-if="deletePermission(row)"
                 type="danger"
                 icon="Delete"
                 size="small"
               />
             </template>
-          </el-popconfirm>
+          </ElPopconfirm>
         </template>
-      </el-table-column>
+      </ElTableColumn>
     </template>
   </AppTable>
 </template>

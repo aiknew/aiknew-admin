@@ -20,18 +20,18 @@ const handleLogout = () => {
 
 <template>
   <div class="cursor-pointer px-1">
-    <el-dropdown>
-      <el-avatar icon="UserFilled" :size="30" />
+    <ElDropdown>
+      <ElAvatar icon="UserFilled" :size="30" />
       <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="router.push({ path: '/account-info' })">
+        <ElDropdownMenu>
+          <ElDropdownItem @click="router.push({ path: '/account-info' })">
             {{ t("accountSetting") }}
-          </el-dropdown-item>
-          <el-dropdown-item @click="handleLogout">
+          </ElDropdownItem>
+          <ElDropdownItem @click="handleLogout">
             {{ t("logout") }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
+          </ElDropdownItem>
+        </ElDropdownMenu>
       </template>
-    </el-dropdown>
+    </ElDropdown>
   </div>
 </template>

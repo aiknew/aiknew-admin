@@ -70,7 +70,7 @@ watchEffect(() => {
       :color="themeSettingStore.customThemColor"
       :current-theme-color="themeSettingStore.currentThemeColor"
     >
-      <el-color-picker
+      <ElColorPicker
         class="w-full! opacity-0"
         v-model="themeSettingStore.customThemColor"
         @active-change="handleCustomColorActiveChange"

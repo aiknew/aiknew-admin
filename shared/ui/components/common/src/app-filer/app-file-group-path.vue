@@ -37,13 +37,13 @@ const handleClickPath = (index: number) => {
         <span class="path-name" @click="handleClickPath(index)">
           {{ item.groupName }}
         </span>
-        <el-icon
+        <ElIcon
           v-if="index !== groupPath.length - 1"
           class="path-separator"
           size="13"
         >
           <ArrowRight />
-        </el-icon>
+        </ElIcon>
       </div>
     </div>
 

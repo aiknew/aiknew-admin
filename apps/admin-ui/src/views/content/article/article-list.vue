@@ -113,13 +113,13 @@ const handleResetQueryForm = () => {
 
   <AppContentBlock v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button
+      <ElButton
         v-permission:add
         class="ml-auto"
         type="primary"
         @click="handleAdd"
-        >{{ t("add") }}</el-button
-      >
+        >{{ t("add") }}
+      </ElButton>
     </div>
 
     <AppTable
@@ -129,18 +129,18 @@ const handleResetQueryForm = () => {
       :table-data="articleData"
       row-key="id"
     >
-      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
-      <el-table-column prop="title" :label="t('title')">
+      <ElTableColumn prop="id" label="ID" width="150" show-overflow-tooltip />
+      <ElTableColumn prop="title" :label="t('title')">
         <template #default="{ row }: { row: Article }">
           <span>{{ tField(row.translations, "title").value }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="order" :label="t('order')" width="100" />
-      <el-table-column prop="createdAt" :label="t('createdAt')" width="220" />
-      <el-table-column prop="updatedAt" :label="t('updatedAt')" width="220" />
-      <el-table-column :label="t('operations')" width="150" fixed="right">
+      </ElTableColumn>
+      <ElTableColumn prop="order" :label="t('order')" width="100" />
+      <ElTableColumn prop="createdAt" :label="t('createdAt')" width="220" />
+      <ElTableColumn prop="updatedAt" :label="t('updatedAt')" width="220" />
+      <ElTableColumn :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
-          <el-button
+          <ElButton
             v-permission:edit
             type="primary"
             size="small"
@@ -148,21 +148,21 @@ const handleResetQueryForm = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm
+          <ElPopconfirm
             :title="t('deleteConfirm')"
             @confirm="handleDelete(scope.row)"
           >
             <template #reference>
-              <el-button
+              <ElButton
                 v-permission:delete
                 type="danger"
                 icon="Delete"
                 size="small"
               />
             </template>
-          </el-popconfirm>
+          </ElPopconfirm>
         </template>
-      </el-table-column>
+      </ElTableColumn>
     </AppTable>
   </AppContentBlock>
 

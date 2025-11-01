@@ -8,6 +8,7 @@ dtos
 echarts
 Groupid
 intlify
+lucide
 unplugin
 libpg
 Popconfirm
@@ -16,3 +17,7 @@ tiptap
 Uploaderid
 Vite
 vueuse
+syntroy
+viewports
+Vetur
+oxlint

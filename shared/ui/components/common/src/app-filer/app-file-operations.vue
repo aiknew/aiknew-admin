@@ -53,10 +53,10 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
 </script>
 
 <template>
-  <el-row class="file-operations" justify="space-between">
-    <el-col :xs="24" :sm="24" :md="8">
+  <ElRow class="file-operations" justify="space-between">
+    <ElCol :xs="24" :sm="24" :md="8">
       <!-- Search Files -->
-      <el-input
+      <ElInput
         :model-value="searchKeyword"
         clearable
         @input="handleInput"
@@ -64,59 +64,55 @@ const handleChangeSearchScope = (val: SearchScopeEnum) => {
         class="search-file"
       >
         <template #prepend>
-          <el-select
+          <ElSelect
             :model-value="searchScope"
             @change="handleChangeSearchScope"
           >
-            <el-option
+            <ElOption
               key="all"
               :label="t('all')"
               :value="SearchScopeEnum.ALL"
-            ></el-option>
-            <el-option
+            ></ElOption>
+            <ElOption
               key="group"
               :label="t('filer.currentGroup')"
               :value="SearchScopeEnum.CURRENT_GROUP"
-            ></el-option>
-          </el-select>
+            ></ElOption>
+          </ElSelect>
         </template>
-      </el-input>
-    </el-col>
+      </ElInput>
+    </ElCol>
 
-    <el-col :xs="24" :sm="24" :md="16">
+    <ElCol :xs="24" :sm="24" :md="16">
       <!-- Buttons -->
-      <el-space class="operations-btns" wrap>
+      <ElSpace class="operations-btns" wrap>
         <span class="selected-count-text" v-show="hasSelected">
           {{ t("filer.selectedTips", { selectedCount }) }}
         </span>
-        <el-button
+        <ElButton
           type="danger"
           v-if="showDeleteFile && hasSelected"
           @click="$emit('delete-selected')"
         >
           {{ t("filer.deleteSelected") }}
-        </el-button>
-        <el-button
+        </ElButton>
+        <ElButton
           type="primary"
           v-show="hasSelected"
           plain
           @click="$emit('clear-selected')"
         >
           {{ t("filer.clearSelected") }}
-        </el-button>
-        <el-button
-          v-if="showUploadFile"
-          type="primary"
-          @click="$emit('upload')"
-        >
+        </ElButton>
+        <ElButton v-if="showUploadFile" type="primary" @click="$emit('upload')">
           {{ t("filer.uploadFile") }}
-        </el-button>
-        <el-button v-if="showAddGroup" @click="$emit('add-group')">
+        </ElButton>
+        <ElButton v-if="showAddGroup" @click="$emit('add-group')">
           {{ t("filer.createGroup") }}
-        </el-button>
-      </el-space>
-    </el-col>
-  </el-row>
+        </ElButton>
+      </ElSpace>
+    </ElCol>
+  </ElRow>
 </template>
 
 <style>

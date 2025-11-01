@@ -31,7 +31,7 @@ const { toolbar, editor } = defineProps<Props>()
       />
 
       <template v-else-if="Array.isArray(item)">
-        <tool-bar :key="index" :editor :toolbar="item" />
+        <ToolBar :key="index" :editor :toolbar="item" />
         <div :key="`div-${index}`" class="mx-2 h-6 w-px bg-gray-300"></div>
       </template>
     </template>

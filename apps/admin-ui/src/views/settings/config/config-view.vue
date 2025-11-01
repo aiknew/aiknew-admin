@@ -126,20 +126,20 @@ const handleResetQueryForm = () => {
 <template>
   <AppContentBlock class="mb-6">
     <QueryForm>
-      <el-form-item>
-        <el-button type="primary" @click="formApi.handleSubmit">
+      <ElFormItem>
+        <ElButton type="primary" @click="formApi.handleSubmit">
           {{ t("submit") }}
-        </el-button>
-        <el-button @click="handleResetQueryForm">{{ t("reset") }}</el-button>
-      </el-form-item>
+        </ElButton>
+        <ElButton @click="handleResetQueryForm">{{ t("reset") }}</ElButton>
+      </ElFormItem>
     </QueryForm>
   </AppContentBlock>
 
   <AppContentBlock class="mb-6" v-loading="isLoading">
     <div class="mb-3 flex">
-      <el-button class="ml-auto" type="primary" @click="handleAdd">{{
+      <ElButton class="ml-auto" type="primary" @click="handleAdd">{{
         t("add")
-      }}</el-button>
+      }}</ElButton>
     </div>
 
     <AppTable
@@ -148,41 +148,37 @@ const handleResetQueryForm = () => {
       v-model:page-size="query.pageSize"
       :table-data="configData"
     >
-      <el-table-column prop="id" label="ID" width="150" show-overflow-tooltip />
-      <el-table-column :label="t('configView.name')" width="200">
+      <ElTableColumn prop="id" label="ID" width="150" show-overflow-tooltip />
+      <ElTableColumn :label="t('configView.name')" width="200">
         <template #default="{ row }: { row: Config }">
           <span>{{ tField(row.translations, "name").value }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="key" :label="t('configView.key')" width="150" />
-      <el-table-column
-        prop="value"
-        :label="t('configView.value')"
-        width="150"
-      />
-      <el-table-column
+      </ElTableColumn>
+      <ElTableColumn prop="key" :label="t('configView.key')" width="150" />
+      <ElTableColumn prop="value" :label="t('configView.value')" width="150" />
+      <ElTableColumn
         prop="system"
         :label="t('configView.configType')"
         width="120"
         align="center"
       >
         <template #default="{ row }">
-          <el-tag v-if="row.system" type="danger">{{
+          <ElTag v-if="row.system" type="danger">{{
             t("configView.system")
-          }}</el-tag>
-          <el-tag v-else type="primary">{{ t("configView.user") }}</el-tag>
+          }}</ElTag>
+          <ElTag v-else type="primary">{{ t("configView.user") }}</ElTag>
         </template>
-      </el-table-column>
-      <el-table-column :label="t('configView.remark')" show-overflow-tooltip>
+      </ElTableColumn>
+      <ElTableColumn :label="t('configView.remark')" show-overflow-tooltip>
         <template #default="{ row }: { row: Config }">
           <span>{{ tField(row.translations, "remark").value }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="createdAt" :label="t('createdAt')" width="180" />
-      <el-table-column prop="updatedAt" :label="t('updatedAt')" width="180" />
-      <el-table-column :label="t('operations')" width="150" fixed="right">
+      </ElTableColumn>
+      <ElTableColumn prop="createdAt" :label="t('createdAt')" width="180" />
+      <ElTableColumn prop="updatedAt" :label="t('updatedAt')" width="180" />
+      <ElTableColumn :label="t('operations')" width="150" fixed="right">
         <template #default="scope">
-          <el-button
+          <ElButton
             v-permission:edit
             type="primary"
             size="small"
@@ -190,21 +186,21 @@ const handleResetQueryForm = () => {
             @click="handleEdit(scope.row)"
           />
 
-          <el-popconfirm
+          <ElPopconfirm
             :title="t('deleteConfirm')"
             @confirm="() => handleDelete(scope.row)"
           >
             <template #reference>
-              <el-button
+              <ElButton
                 v-permission:delete
                 type="danger"
                 icon="Delete"
                 size="small"
               />
             </template>
-          </el-popconfirm>
+          </ElPopconfirm>
         </template>
-      </el-table-column>
+      </ElTableColumn>
     </AppTable>
 
     <ConfigModal ref="configModalRef" @submit="handleSubmit" />

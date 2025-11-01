@@ -98,14 +98,14 @@ defineExpose({
     :show-footer="false"
     @close="$emit('close')"
   >
-    <el-form-item :label="t('filer.selectStorage')">
-      <el-select-v2
+    <ElFormItem :label="t('filer.selectStorage')">
+      <ElSelectV2
         v-model="selectedStorageId"
         :options="storages"
         :props="{ value: 'id', label: 'name' }"
-      ></el-select-v2>
-    </el-form-item>
-    <el-upload
+      ></ElSelectV2>
+    </ElFormItem>
+    <ElUpload
       v-loading="isLoading"
       drag
       multiple
@@ -117,7 +117,7 @@ defineExpose({
       :on-success="onSuccess"
       :on-error="onError"
     >
-      <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+      <ElIcon class="el-icon--upload"><upload-filled /></ElIcon>
       <div class="el-upload__text">
         {{ t("filer.uploadFileModalTips1") }}
         <em>{{ t("filer.uploadFileModalTips2") }}</em>
@@ -125,6 +125,6 @@ defineExpose({
       <template #tip>
         <div class="el-upload__tip">{{ t("filer.uploadFileModalTips3") }}</div>
       </template>
-    </el-upload>
+    </ElUpload>
   </AppBasicModal>
 </template>

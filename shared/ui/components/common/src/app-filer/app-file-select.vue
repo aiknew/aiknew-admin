@@ -109,15 +109,15 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
     <!-- selected file list -->
     <div class="image-container" v-for="(item, index) in selected" :key="index">
       <div class="image-mask">
-        <el-button icon="Search" circle @click="handleClickPreview(index)" />
-        <el-button
+        <ElButton icon="Search" circle @click="handleClickPreview(index)" />
+        <ElButton
           type="danger"
           icon="Delete"
           circle
           @click="handleDelete(index)"
         />
       </div>
-      <el-image
+      <ElImage
         :ref="(instance: any) => setImgRef(instance, index)"
         style="width: 100px; height: 100px"
         :src="resolveImgSrc(item)"
@@ -129,9 +129,9 @@ const handleFileModalSubmit = (data: IUploadFile[]) => {
     </div>
     <!-- select more button -->
     <div class="select-more-btn" v-show="showMoreBtn" @click="handleSelectMore">
-      <el-icon size="30px" color="var(--el-text-color-secondary)">
+      <ElIcon size="30px" color="var(--el-text-color-secondary)">
         <Plus />
-      </el-icon>
+      </ElIcon>
     </div>
 
     <AppFileModal

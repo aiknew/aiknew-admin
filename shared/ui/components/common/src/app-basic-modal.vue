@@ -104,7 +104,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog
+  <ElDialog
     ref="dialog"
     :style="{ maxWidth: `${maxWidth}px` }"
     :title
@@ -125,16 +125,16 @@ defineExpose({
     <template v-slot:footer="slotProps">
       <slot name="footer" v-bind="slotProps">
         <span v-if="showFooter">
-          <el-button @click="close()">
+          <ElButton @click="close()">
             {{ t("cancel") }}
-          </el-button>
-          <el-button type="primary" @click="$emit('submit')">
+          </ElButton>
+          <ElButton type="primary" @click="$emit('submit')">
             {{ t("confirm") }}
-          </el-button>
+          </ElButton>
         </span>
       </slot>
     </template>
-  </el-dialog>
+  </ElDialog>
 </template>
 
 <style>

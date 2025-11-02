@@ -56,10 +56,15 @@ export const currentLang = computed<I18nKeys>(() => {
     : (i18n.global.fallbackLocale.value as I18nKeys)
 })
 
+export const setLangProperty = (lang: string) => {
+  document.documentElement.setAttribute("lang", lang)
+}
+
 export const setCurrentLang = (lang: I18nKeys) => {
   i18n.global.locale.value = lang
   setLocaleToLocalStorage(lang)
   setZodLocales(lang)
+  setLangProperty(lang)
 
   _subscribers.forEach((fn) => fn())
 }
@@ -86,3 +91,4 @@ export const installI18n = (app: App<Element>) => {
 }
 
 setZodLocales(i18n.global.locale.value)
+setLangProperty(i18n.global.locale.value)

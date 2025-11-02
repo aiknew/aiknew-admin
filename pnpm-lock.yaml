@@ -1347,6 +1347,9 @@ importers:
 
   shared/ui/locales:
     dependencies:
+      altcha:
+        specifier: catalog:ui
+        version: 2.2.4
       dayjs:
         specifier: catalog:common
         version: 1.11.13

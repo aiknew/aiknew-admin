@@ -25,7 +25,8 @@
     "vue-i18n": "catalog:ui",
     "zod": "catalog:ui",
     "element-plus": "catalog:ui",
-    "dayjs": "catalog:common"
+    "dayjs": "catalog:common",
+    "altcha":"catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from "vue"
+import { currentLang } from "@aiknew/shared-ui-locales"
 
 // Importing altcha package will introduce a new element <altcha-widget>
 import "altcha"
@@ -60,6 +61,7 @@ defineExpose({
     class="w-full"
     hidelogo
     hidefooter
+    :language="currentLang"
     :challengeurl
   ></altcha-widget>
 </template>

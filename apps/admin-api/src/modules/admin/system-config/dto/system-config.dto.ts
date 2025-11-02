@@ -7,7 +7,7 @@ export class SystemConfigDto {
 
   value: string
 
-  system: boolean
+  builtIn: boolean
 
   createdAt: Date
 

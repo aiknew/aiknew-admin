@@ -41,7 +41,7 @@ model Language {
   ArticleCategoryTranslation      ArticleCategoryTranslation[]
   DictTranslation                 DictTranslation[]
   DictTypeTranslation             DictTypeTranslation[]
-  ConfigTranslation               ConfigTranslation[]
+  ConfigTranslation               SystemConfigTranslation[]
 }
 
 model AdminUser {

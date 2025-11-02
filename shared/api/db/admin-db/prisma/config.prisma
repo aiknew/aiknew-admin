@@ -1,20 +1,20 @@
-model Config {
-  id           String              @id @default(ulid())
-  key          String              @unique @db.VarChar(50)
-  value        String              @db.VarChar(50)
-  system       Boolean             @default(false)
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime            @updatedAt
-  translations ConfigTranslation[]
+model SystemConfig {
+  id           String                    @id @default(ulid())
+  key          String                    @unique @db.VarChar(50)
+  value        String                    @db.VarChar(50)
+  builtIn      Boolean                   @default(false)
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  translations SystemConfigTranslation[]
 }
 
-model ConfigTranslation {
+model SystemConfigTranslation {
   configId String
-  config   Config   @relation(fields: [configId], references: [id])
-  langs    Language @relation(fields: [langKey], references: [key])
+  config   SystemConfig @relation(fields: [configId], references: [id])
+  langs    Language     @relation(fields: [langKey], references: [key])
   langKey  String
-  name     String   @db.VarChar(50)
-  remark   String   @default("")
+  name     String       @db.VarChar(50)
+  remark   String       @default("")
 
   @@id([configId, langKey])
 }

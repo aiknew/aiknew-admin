@@ -249,6 +249,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/auth/altcha": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AuthController_altcha"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/auth/info": {
         parameters: {
             query?: never;
@@ -981,12 +997,22 @@ export interface components {
         LoginBodyDto: {
             userName: string;
             password: string;
-            captchaKey: string;
-            captchaCode: string;
+            captchaKey?: string;
+            captchaCode?: string;
+            altchaPayload?: string;
         };
         CaptchaDto: {
             key: string;
             captcha: string;
+        };
+        /** @enum {string} */
+        AltchaAlgorithm: "SHA-1" | "SHA-256" | "SHA-512";
+        AltchaChallengeDto: {
+            algorithm: components["schemas"]["AltchaAlgorithm"];
+            challenge: string;
+            maxnumber?: number;
+            salt: string;
+            signature: string;
         };
         UpdateUserInfoDto: {
             password: string;
@@ -1390,6 +1416,8 @@ export type UserInfoDto = components['schemas']['UserInfoDto'];
 export type LoginSuccessDto = components['schemas']['LoginSuccessDto'];
 export type LoginBodyDto = components['schemas']['LoginBodyDto'];
 export type CaptchaDto = components['schemas']['CaptchaDto'];
+export type AltchaAlgorithm = components['schemas']['AltchaAlgorithm'];
+export type AltchaChallengeDto = components['schemas']['AltchaChallengeDto'];
 export type UpdateUserInfoDto = components['schemas']['UpdateUserInfoDto'];
 export type LoginLogDto = components['schemas']['LoginLogDto'];
 export type AuthRoleTranslationDto = components['schemas']['AuthRoleTranslationDto'];
@@ -2281,6 +2309,34 @@ export interface operations {
                     };
                 };
             };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    AuthController_altcha: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AltchaChallengeDto"];
+                };
+            };
+            /** @description Internal server error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -3774,6 +3830,7 @@ export const languageOrientationValues: ReadonlyArray<components["schemas"]["Lan
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
+export const altchaAlgorithmValues: ReadonlyArray<components["schemas"]["AltchaAlgorithm"]> = ["SHA-1", "SHA-256", "SHA-512"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
 export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];
 export enum ApiPaths {
@@ -3802,6 +3859,7 @@ export enum ApiPaths {
     LanguageController_remove = "/admin/language/{key}",
     AuthController_login = "/admin/auth/login",
     AuthController_captcha = "/admin/auth/captcha",
+    AuthController_altcha = "/admin/auth/altcha",
     AuthController_info = "/admin/auth/info",
     AuthController_updateUserInfo = "/admin/auth/update",
     LoginLogController_pagination = "/admin/login-log",

@@ -10,7 +10,7 @@ import { createFileStorage } from "./common-data/file-storage"
 
 const isSeed = async () => {
   try {
-    const count = await prisma.config.count({
+    const count = await prisma.systemConfig.count({
       where: { key: "seed", value: "true" },
     })
 
@@ -29,7 +29,7 @@ const isSeed = async () => {
 
 const markSeed = async () => {
   const languages = await prisma.language.findMany()
-  await prisma.config.upsert({
+  await prisma.systemConfig.upsert({
     where: {
       key: "seed",
     },
@@ -37,7 +37,7 @@ const markSeed = async () => {
     create: {
       key: "seed",
       value: "true",
-      system: true,
+      builtIn: true,
       translations: {
         create: languages.map((lang) => {
           return {
@@ -51,7 +51,7 @@ const markSeed = async () => {
     },
 
     update: {
-      system: true,
+      builtIn: true,
       value: "true",
     },
   })

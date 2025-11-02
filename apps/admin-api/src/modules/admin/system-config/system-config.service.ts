@@ -16,11 +16,11 @@ export class SystemConfigService {
   ) {}
 
   get model() {
-    return this.prisma.config
+    return this.prisma.systemConfig
   }
 
   get translationModel() {
-    return this.prisma.configTranslation
+    return this.prisma.systemConfigTranslation
   }
 
   async pagination(query: QuerySystemConfigDto) {
@@ -62,7 +62,7 @@ export class SystemConfigService {
       return await this.model.create({
         data: {
           ...rest,
-          system: false,
+          builtIn: false,
           translations: {
             create: translations,
           },
@@ -85,14 +85,14 @@ export class SystemConfigService {
 
   async updateOne(id: string, data: UpdateSystemConfigDto) {
     const { translations, key, value } = data
-    let system = false
+    let builtIn = false
 
     const config = await this.model.findUnique({
       where: { id },
     })
 
-    if (config?.system) {
-      system = true
+    if (config?.builtIn) {
+      builtIn = true
 
       if (config.key !== key) {
         throw new AppBadRequestException(
@@ -110,7 +110,7 @@ export class SystemConfigService {
       data: {
         key,
         value,
-        system,
+        builtIn,
         translations: translations && {
           deleteMany: {},
           create: translations,
@@ -124,7 +124,7 @@ export class SystemConfigService {
       where: { id },
     })
 
-    if (item?.system) {
+    if (item?.builtIn) {
       throw new AppBadRequestException(
         this.i18n.t("config.cannotDeleteSystem", {
           lang: I18nContext?.current()?.lang,

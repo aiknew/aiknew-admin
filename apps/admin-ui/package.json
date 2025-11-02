@@ -45,7 +45,8 @@
     "vue-echarts": "catalog:ui",
     "vue-i18n": "catalog:ui",
     "vue-router": "catalog:ui",
-    "zod": "catalog:ui"
+    "zod": "catalog:ui",
+    "altcha": "catalog:ui"
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*",

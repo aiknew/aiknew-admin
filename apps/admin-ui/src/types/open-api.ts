@@ -313,6 +313,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/system-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SystemConfigController_pagination"];
+        put?: never;
+        post: operations["SystemConfigController_createOne"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/system-config/public/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        get: operations["SystemConfigController_getOne"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/system-config/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["SystemConfigController_deleteOne"];
+        options?: never;
+        head?: never;
+        patch: operations["SystemConfigController_updateOne"];
+        trace?: never;
+    };
     "/admin/auth-role": {
         parameters: {
             query?: never;
@@ -722,40 +774,6 @@ export interface paths {
         patch: operations["DictController_updateOne"];
         trace?: never;
     };
-    "/admin/system-config": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["SystemConfigController_pagination"];
-        put?: never;
-        post: operations["SystemConfigController_createOne"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/system-config/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: operations["SystemConfigController_deleteOne"];
-        options?: never;
-        head?: never;
-        patch: operations["SystemConfigController_updateOne"];
-        trace?: never;
-    };
     "/admin/dashboard/home-statistics": {
         parameters: {
             query?: never;
@@ -1031,6 +1049,36 @@ export interface components {
             /** Format: date-time */
             createdAt: string;
             isSuccess: boolean;
+        };
+        SystemConfigTranslationDto: {
+            langKey: string;
+            name: string;
+            /** @default  */
+            remark: string;
+        };
+        SystemConfigDto: {
+            id: string;
+            key: string;
+            value: string;
+            builtIn: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            translations: components["schemas"]["SystemConfigTranslationDto"][];
+        };
+        GetPublicConfigDto: {
+            value: string | null;
+        };
+        CreateSystemConfigDto: {
+            key: string;
+            value: string;
+            translations: components["schemas"]["SystemConfigTranslationDto"][];
+        };
+        UpdateSystemConfigDto: {
+            key?: string;
+            value?: string;
+            translations?: components["schemas"]["SystemConfigTranslationDto"][];
         };
         AuthRoleTranslationDto: {
             langKey: string;
@@ -1332,33 +1380,6 @@ export interface components {
             status: boolean;
             translations?: components["schemas"]["DictTranslationDto"][];
         };
-        SystemConfigTranslationDto: {
-            langKey: string;
-            name: string;
-            /** @default  */
-            remark: string;
-        };
-        SystemConfigDto: {
-            id: string;
-            key: string;
-            value: string;
-            system: boolean;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            translations: components["schemas"]["SystemConfigTranslationDto"][];
-        };
-        CreateSystemConfigDto: {
-            key: string;
-            value: string;
-            translations: components["schemas"]["SystemConfigTranslationDto"][];
-        };
-        UpdateSystemConfigDto: {
-            key?: string;
-            value?: string;
-            translations?: components["schemas"]["SystemConfigTranslationDto"][];
-        };
         NationCount: {
             nation: string;
             count: number;
@@ -1420,6 +1441,11 @@ export type AltchaAlgorithm = components['schemas']['AltchaAlgorithm'];
 export type AltchaChallengeDto = components['schemas']['AltchaChallengeDto'];
 export type UpdateUserInfoDto = components['schemas']['UpdateUserInfoDto'];
 export type LoginLogDto = components['schemas']['LoginLogDto'];
+export type SystemConfigTranslationDto = components['schemas']['SystemConfigTranslationDto'];
+export type SystemConfigDto = components['schemas']['SystemConfigDto'];
+export type GetPublicConfigDto = components['schemas']['GetPublicConfigDto'];
+export type CreateSystemConfigDto = components['schemas']['CreateSystemConfigDto'];
+export type UpdateSystemConfigDto = components['schemas']['UpdateSystemConfigDto'];
 export type AuthRoleTranslationDto = components['schemas']['AuthRoleTranslationDto'];
 export type AuthRoleDto = components['schemas']['AuthRoleDto'];
 export type CreateAuthRoleDto = components['schemas']['CreateAuthRoleDto'];
@@ -1455,10 +1481,6 @@ export type DictTranslationDto = components['schemas']['DictTranslationDto'];
 export type DictDto = components['schemas']['DictDto'];
 export type CreateDictDto = components['schemas']['CreateDictDto'];
 export type UpdateDictDto = components['schemas']['UpdateDictDto'];
-export type SystemConfigTranslationDto = components['schemas']['SystemConfigTranslationDto'];
-export type SystemConfigDto = components['schemas']['SystemConfigDto'];
-export type CreateSystemConfigDto = components['schemas']['CreateSystemConfigDto'];
-export type UpdateSystemConfigDto = components['schemas']['UpdateSystemConfigDto'];
 export type NationCount = components['schemas']['NationCount'];
 export type TimesCount = components['schemas']['TimesCount'];
 export type HomeStatisticsDto = components['schemas']['HomeStatisticsDto'];
@@ -2434,6 +2456,173 @@ export interface operations {
                             list: components["schemas"]["LoginLogDto"][];
                         };
                     };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    SystemConfigController_pagination: {
+        parameters: {
+            query: {
+                currentPage: number;
+                pageSize: number;
+                key?: string;
+                value?: string;
+                name?: string;
+                remark?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["PaginationResponseDto"] & {
+                            list: components["schemas"]["SystemConfigDto"][];
+                        };
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    SystemConfigController_createOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSystemConfigDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    SystemConfigController_getOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"] & {
+                        data: components["schemas"]["GetPublicConfigDto"];
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    SystemConfigController_deleteOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
+                };
+            };
+        };
+    };
+    SystemConfigController_updateOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSystemConfigDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseJson"];
                 };
             };
             /** @description Internal server error */
@@ -3649,141 +3838,6 @@ export interface operations {
             };
         };
     };
-    SystemConfigController_pagination: {
-        parameters: {
-            query: {
-                currentPage: number;
-                pageSize: number;
-                key?: string;
-                value?: string;
-                name?: string;
-                remark?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"] & {
-                        data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["SystemConfigDto"][];
-                        };
-                    };
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    SystemConfigController_createOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateSystemConfigDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    SystemConfigController_deleteOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
-    SystemConfigController_updateOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateSystemConfigDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResponseJson"];
-                };
-            };
-        };
-    };
     DashboardController_getHomeStatistics: {
         parameters: {
             query?: never;
@@ -3863,6 +3917,11 @@ export enum ApiPaths {
     AuthController_info = "/admin/auth/info",
     AuthController_updateUserInfo = "/admin/auth/update",
     LoginLogController_pagination = "/admin/login-log",
+    SystemConfigController_pagination = "/admin/system-config",
+    SystemConfigController_createOne = "/admin/system-config",
+    SystemConfigController_getOne = "/admin/system-config/public/{key}",
+    SystemConfigController_updateOne = "/admin/system-config/{id}",
+    SystemConfigController_deleteOne = "/admin/system-config/{id}",
     AuthRoleController_pagination = "/admin/auth-role",
     AuthRoleController_createOne = "/admin/auth-role",
     AuthRoleController_getAll = "/admin/auth-role/all",
@@ -3900,9 +3959,5 @@ export enum ApiPaths {
     DictController_createOne = "/admin/dict",
     DictController_updateOne = "/admin/dict/{id}",
     DictController_deleteOne = "/admin/dict/{id}",
-    SystemConfigController_pagination = "/admin/system-config",
-    SystemConfigController_createOne = "/admin/system-config",
-    SystemConfigController_updateOne = "/admin/system-config/{id}",
-    SystemConfigController_deleteOne = "/admin/system-config/{id}",
     DashboardController_getHomeStatistics = "/admin/dashboard/home-statistics"
 }

@@ -6,6 +6,7 @@ import { randomUUID } from "crypto"
 import { RedisService } from "@aiknew/shared-api-redis"
 import {
   AppBadRequestException,
+  AppHttpException,
   AppUnauthorizedException,
 } from "@aiknew/shared-api-exceptions"
 import { LoginBodyDto } from "./dto/login-body.dto"
@@ -18,9 +19,32 @@ import { LoginLogService } from "../login-log/login-log.service"
 import { Request } from "express"
 import { storeIP } from "range_check"
 import { ConfigService } from "@nestjs/config"
+import { createChallenge, verifySolution, extractParams } from "altcha-lib"
+import type { DeepPartial } from "@aiknew/shared-utils"
+import dayjs from "dayjs"
+import { SystemConfigService } from "../system-config/system-config.service"
+import { VerificationTypeEnum } from "@aiknew/shared-enums"
+import {
+  DefaultVerificationType,
+  LoginVerificationTypeKey,
+} from "@aiknew/shared-constants"
+
+type VerificationData = {
+  captcha: {
+    key: string
+    code: string
+  }
+
+  altcha: {
+    payload: string
+  }
+}
 
 @Injectable()
 export class AuthService {
+  // altcha verification expiration time in seconds
+  private altchaExpires = 1200
+
   constructor(
     private prisma: PrismaService,
     private authUserService: AdminUserService,
@@ -29,6 +53,7 @@ export class AuthService {
     private i18n: I18nService,
     private loginLogService: LoginLogService,
     private configService: ConfigService,
+    private systemConfigService: SystemConfigService,
   ) {}
 
   get userModel(): PrismaService["adminUser"] {
@@ -112,12 +137,64 @@ export class AuthService {
     }
   }
 
+  async processVerification(verificationData: DeepPartial<VerificationData>) {
+    const { altcha, captcha } = verificationData
+    let verificationTypeConfig = await this.systemConfigService.getConfigByKey(
+      LoginVerificationTypeKey,
+    )
+
+    if (
+      !verificationTypeConfig ||
+      !Object.keys(VerificationTypeEnum).includes(verificationTypeConfig.value)
+    ) {
+      verificationTypeConfig = {
+        value: DefaultVerificationType,
+      }
+    }
+
+    const verificationType = verificationTypeConfig.value
+
+    if (verificationType === VerificationTypeEnum.CAPTCHA) {
+      if (!captcha?.key || !captcha?.code) {
+        throw new AppBadRequestException(
+          this.i18n.t("admin-auth.invalidCaptcha", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
+      }
+
+      await this.verifyCaptcha(captcha.key, captcha.code)
+    } else if (verificationType === VerificationTypeEnum.ALTCHA) {
+      if (!altcha?.payload) {
+        throw new AppBadRequestException(
+          this.i18n.t("admin-auth.altchaVerificationInvalid", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
+      }
+
+      await this.verifyAltchaChallenge(altcha.payload)
+    }
+  }
+
   async userLogin(loginBodyDto: LoginBodyDto, req: Request) {
-    const { captchaCode, captchaKey, password, userName } = loginBodyDto
+    const { captchaCode, captchaKey, altchaPayload, password, userName } =
+      loginBodyDto
 
     try {
-      await this.verifyCaptcha(captchaKey, captchaCode)
+      await this.processVerification({
+        captcha: {
+          code: captchaCode,
+          key: captchaKey,
+        },
+
+        altcha: {
+          payload: altchaPayload,
+        },
+      })
+
       const user = await this.validateUser(userName, password)
+
       if (user) {
         if (!user.routes.length) {
           throw new AppUnauthorizedException(
@@ -153,7 +230,9 @@ export class AuthService {
       )
       throw err
     } finally {
-      await this.removeCaptchaCache(captchaKey)
+      if (captchaKey) {
+        await this.removeCaptchaCache(captchaKey)
+      }
     }
   }
 
@@ -185,5 +264,92 @@ export class AuthService {
 
   removeCaptchaCache(captchaKey: string) {
     return this.redisService.delete(captchaKey)
+  }
+
+  genAltchaCacheKey(id: string) {
+    return `altcha-${id}`
+  }
+
+  async createAltchaChallenge() {
+    const hmacKey = this.configService.get<string>("ALTCHA_SECRET_KEY")
+
+    if (!hmacKey) {
+      throw new Error("empty altcha secret key")
+    }
+
+    const id = randomUUID()
+    const expiresUTC = dayjs().add(this.altchaExpires, "second").utc().format()
+    const challenge = await createChallenge({
+      hmacKey,
+      number: 10000,
+      params: {
+        expiresUTC,
+        id,
+      },
+    })
+
+    return challenge
+  }
+
+  async verifyAltchaChallenge(payload: string) {
+    const hmacKey = this.configService.get<string>("ALTCHA_SECRET_KEY")
+
+    if (!hmacKey) {
+      throw new Error("empty altcha secret key")
+    }
+
+    try {
+      const { id, expiresUTC } = extractParams(payload)
+
+      if (!id || !expiresUTC) {
+        throw new AppBadRequestException(
+          this.i18n.t("admin-auth.altchaVerificationFailed", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
+      }
+
+      const exists = await this.redisService.exists(this.genAltchaCacheKey(id))
+      if (exists) {
+        throw new AppBadRequestException(
+          this.i18n.t("admin-auth.altchaVerificationInvalid", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
+      }
+
+      const isAfter = dayjs.utc().isAfter(expiresUTC)
+      if (isAfter) {
+        throw new AppBadRequestException(
+          this.i18n.t("admin-auth.altchaVerificationExpired", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
+      }
+
+      const verified = await verifySolution(payload, hmacKey)
+      if (!verified) {
+        throw new AppBadRequestException(
+          this.i18n.t("admin-auth.altchaVerificationFailed", {
+            lang: I18nContext.current()?.lang,
+          }),
+        )
+      }
+
+      // Record successfully verified challenge in redis to prevent replay attacks
+      await this.redisService.set(this.genAltchaCacheKey(id), "true", {
+        EX: this.altchaExpires,
+        NX: true,
+      })
+    } catch (err) {
+      if (err instanceof AppHttpException) {
+        throw err
+      }
+      throw new AppBadRequestException(
+        this.i18n.t("admin-auth.altchaVerificationFailed", {
+          lang: I18nContext.current()?.lang,
+        }),
+      )
+    }
   }
 }

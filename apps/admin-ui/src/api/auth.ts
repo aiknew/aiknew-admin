@@ -30,6 +30,7 @@ export const useLogin = () => {
 export const useLoginCaptcha = () => {
   return useQuery({
     queryKey: ["login-captcha"],
+    enabled: false,
     queryFn: async () => {
       return await useApiData(() =>
         fetchClient.GET("/admin/auth/captcha", {

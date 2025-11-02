@@ -17,6 +17,22 @@ export type UpdateSystemConfigDto = ApiPatchReqBody<"/admin/system-config/{id}">
 
 export type QuerySystemConfigDto = ApiGetQuery<"/admin/system-config">
 
+export const useConfigValue = (key: string) => {
+  return useQuery({
+    queryKey: ["system-config-value", key],
+    queryFn: async () => {
+      return useApiData(() =>
+        fetchClient.GET("/admin/system-config/public/{key}", {
+          params: {
+            path: { key },
+          },
+          showMsg: false,
+        }),
+      )
+    },
+  })
+}
+
 export const useConfigList = (query: Reactive<QuerySystemConfigDto>) => {
   return useQuery({
     queryKey: ["system-config", query],

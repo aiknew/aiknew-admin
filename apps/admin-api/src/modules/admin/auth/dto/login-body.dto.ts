@@ -1,4 +1,4 @@
-import { IsString } from "class-validator"
+import { IsOptional, IsString } from "class-validator"
 
 export class LoginBodyDto {
   @IsString()
@@ -7,9 +7,15 @@ export class LoginBodyDto {
   @IsString()
   password: string
 
+  @IsOptional()
   @IsString()
-  captchaKey: string
+  captchaKey?: string
 
+  @IsOptional()
   @IsString()
-  captchaCode: string
+  captchaCode?: string
+
+  @IsOptional()
+  @IsString()
+  altchaPayload?: string
 }

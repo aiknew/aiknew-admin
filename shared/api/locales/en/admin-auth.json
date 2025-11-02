@@ -5,5 +5,9 @@
   "noPermissions": "Sorry, this account does not have permissions",
   "wrongPassword": "The original password is wrong",
   "adminAuthManagement": "Admin Auth Management",
-  "updateInfo": "Update user information"
+  "updateInfo": "Update user information",
+  "invalidCaptcha": "Invalid verification code",
+  "altchaVerificationFailed": "Bot verification failed, please try again",
+  "altchaVerificationInvalid": "Invalid bot verification, please try again",
+  "altchaVerificationExpired": "Bot verification expired, please try again"
 }

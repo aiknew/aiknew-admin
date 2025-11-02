@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useLogin, useLoginCaptcha, type LoginBody } from "@/api/auth"
-import { AppLanguageSwitcher } from "@aiknew/shared-ui-components"
+import { AppLanguageSwitcher, AppAltcha } from "@aiknew/shared-ui-components"
 import { useUserStore } from "@/stores/user"
 import {
   type FormInstance,
@@ -10,7 +10,7 @@ import {
   ElInput,
   ElButton,
 } from "element-plus"
-import { computed } from "vue"
+import { computed, useTemplateRef } from "vue"
 import { reactive, ref } from "vue"
 import { useI18n } from "vue-i18n"
 import {
@@ -18,58 +18,122 @@ import {
   languages,
   currentLang,
 } from "@aiknew/shared-ui-locales"
+import { useConfigValue } from "@/api/system-config"
+import {
+  LoginVerificationTypeKey,
+  DefaultVerificationType,
+} from "@aiknew/shared-constants"
+import { VerificationTypeEnum } from "@aiknew/shared-enums"
+import { watch } from "vue"
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const { mutate: loginApi, isPending } = useLogin()
+const altchaRef = useTemplateRef("altchaRef")
+const { mutate: loginApi, isPending: isLogging } = useLogin()
 const {
   data: captchaData,
-  isFetching: isLoadingCaptcha,
-  refetch: refetchCaptcha,
+  isFetching: isFetchingCaptcha,
+  refetch: fetchCaptcha,
 } = useLoginCaptcha()
+const { data: configValue, isFetching: isFetchingConfig } = useConfigValue(
+  LoginVerificationTypeKey,
+)
+const verificationType = computed(() => {
+  const value = configValue.value?.value
 
+  if (!value || !Object.keys(VerificationTypeEnum).includes(value)) {
+    return DefaultVerificationType
+  }
+
+  return value
+})
+const altchaPayload = ref("")
 const loginFormRef = ref<FormInstance>()
 const loginFormData = reactive<LoginBody>({
   userName: "",
   password: "",
   captchaKey: "",
   captchaCode: "",
+  altchaPayload: "",
+})
+
+watch(verificationType, () => {
+  if (verificationType.value === VerificationTypeEnum.CAPTCHA) {
+    fetchCaptcha()
+  }
 })
 
 const isLoading = computed(() => {
-  return isLoadingCaptcha.value || isPending.value
+  return isFetchingCaptcha.value || isLogging.value || isFetchingConfig.value
 })
 
-const rules = reactive<FormRules<LoginBody>>({
-  userName: [{ required: true, message: t("inputUserName"), trigger: "blur" }],
-  password: [{ required: true, message: t("inputPassword"), trigger: "blur" }],
-  captchaCode: [
-    { required: true, message: t("inputCaptcha"), trigger: "blur" },
-  ],
+const disabledSubmitBtn = computed(() => {
+  return (
+    isLoading.value ||
+    (verificationType.value === VerificationTypeEnum.ALTCHA &&
+      !Boolean(altchaPayload.value))
+  )
 })
+
+const rules = computed(() => {
+  const res: FormRules = {
+    userName: [
+      { required: true, message: t("inputUserName"), trigger: "blur" },
+    ],
+    password: [
+      { required: true, message: t("inputPassword"), trigger: "blur" },
+    ],
+  }
+
+  if (verificationType.value === VerificationTypeEnum.CAPTCHA) {
+    res["captchaCode"] = [
+      {
+        required: true,
+        message: t("inputCaptcha"),
+        trigger: "blur",
+      },
+    ]
+  }
+
+  return res
+})
+
+const resetVerification = () => {
+  if (verificationType.value === VerificationTypeEnum.CAPTCHA) {
+    fetchCaptcha()
+  } else if (verificationType.value === VerificationTypeEnum.ALTCHA) {
+    altchaRef.value?.reset()
+  }
+}
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid) => {
     if (valid) {
-      if (captchaData.value) {
-        loginApi(
-          {
-            ...loginFormData,
+      let data = { ...loginFormData }
+
+      if (verificationType.value === VerificationTypeEnum.CAPTCHA) {
+        if (captchaData.value) {
+          data = {
+            ...data,
             captchaKey: captchaData.value.key,
-          },
-          {
-            onSuccess(data) {
-              userStore.login(data)
-            },
-            onError() {
-              refetchCaptcha()
-            },
-          },
-        )
-      } else {
-        refetchCaptcha()
+          }
+        } else {
+          fetchCaptcha()
+        }
+      } else if (verificationType.value === VerificationTypeEnum.ALTCHA) {
+        data = {
+          ...data,
+          altchaPayload: altchaPayload.value,
+        }
       }
+
+      loginApi(data, {
+        onSuccess(data) {
+          userStore.login(data)
+        },
+        onError: resetVerification,
+      })
     }
   })
 }
@@ -126,7 +190,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               @keyup.enter="submitForm(loginFormRef)"
             />
           </ElFormItem>
-          <ElFormItem prop="captchaCode">
+
+          <ElFormItem
+            prop="captchaCode"
+            v-show="verificationType === VerificationTypeEnum.CAPTCHA"
+          >
             <ElInput
               :placeholder="t('inputCaptcha')"
               v-model="loginFormData.captchaCode"
@@ -136,10 +204,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 <div
                   class="flex h-[38px] w-[100px] cursor-pointer items-center justify-center bg-white"
                   v-html="captchaData?.captcha"
-                  @click="refetchCaptcha()"
+                  @click="fetchCaptcha()"
                 ></div>
               </template>
             </ElInput>
+          </ElFormItem>
+
+          <ElFormItem v-show="verificationType === VerificationTypeEnum.ALTCHA">
+            <AppAltcha ref="altchaRef" v-model:payload="altchaPayload" />
           </ElFormItem>
 
           <ElFormItem class="mb-0!">
@@ -147,6 +219,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               class="w-full"
               type="primary"
               @click="submitForm(loginFormRef)"
+              :disabled="disabledSubmitBtn"
               :loading="isLoading"
             >
               {{ t("loginBtn") }}

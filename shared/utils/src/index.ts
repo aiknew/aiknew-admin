@@ -71,3 +71,7 @@ export type DeepNullToUndefined<T> = {
 }
 
 export type MaybeArray<T> = T | T[]
+
+export type DeepPartial<T> = Prettify<{
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
+}>

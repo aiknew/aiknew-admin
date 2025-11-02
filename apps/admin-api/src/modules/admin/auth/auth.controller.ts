@@ -11,16 +11,19 @@ import {
   PermissionGroup,
   Permission,
 } from "@aiknew/shared-api-decorators"
-import { ApiOperation } from "@nestjs/swagger"
-import { LoginBodyDto } from "./dto/login-body.dto"
-import { LoginSuccessDto } from "./dto/login-success.dto"
-import { CaptchaDto } from "./dto/captcha.dto"
-import { t } from "@aiknew/shared-api-utils"
-import { UserInfoDto } from "./dto/user-info.dto"
+import { ApiOkResponse, ApiOperation } from "@nestjs/swagger"
+import { SuccessResponse, t } from "@aiknew/shared-api-utils"
 import { type AuthAdminRequest } from "@aiknew/shared-api-types"
-import { UpdateUserInfoDto } from "./dto/update-user-info.dto"
 import { type Request } from "express"
 import { Throttle } from "@nestjs/throttler"
+import {
+  AltchaChallengeDto,
+  LoginBodyDto,
+  CaptchaDto,
+  LoginSuccessDto,
+  UpdateUserInfoDto,
+  UserInfoDto,
+} from "./dto"
 
 @PermissionGroup({ name: "admin-auth.adminAuthManagement" })
 @Controller("auth")
@@ -50,6 +53,15 @@ export class AuthController {
   @AppApiInternalServerErrorResponse()
   captcha(): Promise<CaptchaDto> {
     return this.service.generateCaptcha()
+  }
+
+  @Public()
+  @Get("altcha")
+  @ApiOkResponse({ type: AltchaChallengeDto })
+  @ApiOperation({ security: [] })
+  async altcha() {
+    const data = await this.service.createAltchaChallenge()
+    return new SuccessResponse(data, true)
   }
 
   @Authenticated()

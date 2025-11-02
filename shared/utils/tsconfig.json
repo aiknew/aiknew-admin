@@ -5,5 +5,6 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "outDir": "./dist"
-  }
+  },
+  "include": ["src/*"]
 }

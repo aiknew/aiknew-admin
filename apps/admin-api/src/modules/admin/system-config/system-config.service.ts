@@ -7,9 +7,12 @@ import {
 } from "./dto"
 import { AppBadRequestException } from "@aiknew/shared-api-exceptions"
 import { I18nContext, I18nService } from "nestjs-i18n"
+import { LoginVerificationTypeKey } from "@aiknew/shared-constants"
 
 @Injectable()
 export class SystemConfigService {
+  publicConfigKeys: string[] = [LoginVerificationTypeKey]
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
@@ -23,10 +26,30 @@ export class SystemConfigService {
     return this.prisma.systemConfigTranslation
   }
 
+  async getPublicConfig(key: string) {
+    if (!this.publicConfigKeys.includes(key)) {
+      throw new AppBadRequestException("无权限获取该配置项")
+    }
+
+    const config: { value: string | null } = { value: null }
+    const ret = await this.getConfigByKey(key)
+    config.value = ret?.value ?? null
+    return config
+  }
+
+  async getConfigByKey(key: string) {
+    return await this.model.findUnique({
+      where: { key },
+      select: {
+        value: true,
+      },
+    })
+  }
+
   async pagination(query: QuerySystemConfigDto) {
     const { currentPage, pageSize, key, name, remark, value } = query
 
-    return this.model.paginate(
+    return await this.model.paginate(
       { currentPage, pageSize },
       {
         where: {

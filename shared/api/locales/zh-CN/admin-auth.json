@@ -5,5 +5,9 @@
   "noPermissions": "抱歉,该账号没有权限",
   "wrongPassword": "原密码错误",
   "adminAuthManagement": "管理员权限管理",
-  "updateInfo": "更新用户信息"
+  "updateInfo": "更新用户信息",
+  "invalidCaptcha": "验证码无效",
+  "altchaVerificationFailed": "人机验证失败,请重试",
+  "altchaVerificationInvalid": "人机验证无效,请重试",
+  "altchaVerificationExpired": "人机验证失效,请重试"
 }

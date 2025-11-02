@@ -14,6 +14,7 @@ import {
   AppApiPaginationResponse,
   Permission,
   PermissionGroup,
+  Public,
 } from "@aiknew/shared-api-decorators"
 import { PaginationResponseDto } from "@aiknew/shared-api-dtos"
 import { SystemConfigService } from "./system-config.service"
@@ -23,6 +24,7 @@ import {
   UpdateSystemConfigDto,
   QuerySystemConfigDto,
 } from "./dto"
+import { GetPublicConfigDto } from "./dto/get-config.dto"
 
 @PermissionGroup({ name: "config.configManagement" })
 @Controller("system-config")
@@ -32,10 +34,17 @@ export class SystemConfigController {
   @Permission({ key: "config:pagination", name: "config.configPagination" })
   @Get()
   @AppApiPaginationResponse(SystemConfigDto)
-  async pagination(
+  pagination(
     @Query() query: QuerySystemConfigDto,
   ): Promise<PaginationResponseDto<SystemConfigDto[]>> {
     return this.configService.pagination(query)
+  }
+
+  @Public()
+  @Get("public/:key")
+  @AppApiOkResponse(GetPublicConfigDto)
+  async getOne(@Param("key") key: string): Promise<GetPublicConfigDto> {
+    return this.configService.getPublicConfig(key)
   }
 
   @Permission({ key: "config:create", name: "config.configCreate" })

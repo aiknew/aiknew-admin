@@ -10,6 +10,9 @@
     "clean": "rm -rf dist",
     "build": "pnpm tsc"
   },
+  "peerDependencies": {
+    "@aiknew/shared-enums": "workspace:*"
+  },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace:*"
   },

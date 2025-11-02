@@ -6,16 +6,21 @@ export class SuccessResponse {
     ResponseStatusCode.COMMON_SUCCESS
   msg: string = "success"
   data: Record<string, unknown> = {}
+  isRaw: boolean = false
+  rawData: unknown
 
-  constructor(msg: string)
-  constructor(data: Record<string, unknown>)
-  constructor(param: string | Record<string, unknown>) {
-    if (typeof param === "string") {
+  constructor(msg: string, raw?: false)
+  constructor(data: Record<string, unknown>, raw?: false)
+  constructor(rawData: unknown, raw: true)
+  constructor(param: unknown, raw?: boolean) {
+    this.isRaw = Boolean(raw)
+
+    if (raw) {
+      this.rawData = param
+    } else if (typeof param === "string") {
       this.msg = param
-    }
-
-    if (typeof param === "object") {
-      this.data = param
+    } else if (typeof param === "object") {
+      this.data = param as Record<string, unknown>
     }
   }
 
@@ -40,5 +45,9 @@ export class SuccessResponse {
       data: this.data,
       msg: this.msg,
     }
+  }
+
+  getResponseRaw() {
+    return this.rawData
   }
 }

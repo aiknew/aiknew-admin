@@ -52,4 +52,8 @@ export class RedisService {
   set(key: string, value: number | string, options?: SetOptions) {
     return this.redisClient.set(this.setPrefix(key), value, options)
   }
+
+  exists(key: string) {
+    return this.redisClient.exists(this.setPrefix(key))
+  }
 }

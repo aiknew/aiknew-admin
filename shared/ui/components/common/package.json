@@ -29,7 +29,8 @@
     "vue-router": "catalog:ui",
     "zod": "catalog:ui",
     "lucide-vue-next": "catalog:ui",
-    "@bprogress/core": "catalog:ui"
+    "@bprogress/core": "catalog:ui",
+    "altcha": "catalog:ui"
   },
   "devDependencies": {
     "tailwind-scrollbar": "catalog:ui",

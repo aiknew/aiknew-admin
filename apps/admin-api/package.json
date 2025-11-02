@@ -33,12 +33,14 @@
     "@aiknew/shared-api-decorators": "workspace:*",
     "@aiknew/shared-api-dtos": "workspace:*",
     "@aiknew/shared-api-enums": "workspace:*",
+    "@aiknew/shared-enums": "workspace:*",
     "@aiknew/shared-api-exceptions": "workspace:*",
     "@aiknew/shared-api-filters": "workspace:*",
     "@aiknew/shared-api-interceptors": "workspace:*",
     "@aiknew/shared-api-logger": "workspace:*",
     "@aiknew/shared-api-redis": "workspace:*",
     "@aiknew/shared-api-utils": "workspace:*",
+    "@aiknew/shared-utils": "workspace:*",
     "@aiknew/shared-constants": "workspace:*",
     "@aws-sdk/client-s3": "^3.844.0",
     "@aws-sdk/s3-presigned-post": "^3.844.0",
@@ -66,7 +68,8 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "catalog:api",
     "svg-captcha": "^1.4.0",
-    "ua-parser-js": "^2.0.5"
+    "ua-parser-js": "^2.0.5",
+    "altcha-lib": "catalog:api"
   },
   "devDependencies": {
     "@aiknew/shared-api-types": "workspace:*",

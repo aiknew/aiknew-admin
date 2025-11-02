@@ -23,7 +23,7 @@ catalogs:
     '@vitejs/plugin-vue-jsx': ^5.0.0
     '@vitest/eslint-plugin': ^1.2.7
     vite-plugin-dts: ^4.5.4
-    element-plus: ^2.11.1
+    element-plus: ^2.11.7
     'unplugin-element-plus': '^0.9.1'
     '@element-plus/icons-vue': ^2.3.1
     openapi-typescript: ^7.9.1

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { Algorithm, Challenge } from "altcha-lib/types"
+import type { Algorithm, Challenge } from "altcha-lib/types"
 
 export class AltchaChallengeDto implements Challenge {
   @ApiProperty({

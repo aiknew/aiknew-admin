@@ -8,7 +8,11 @@ import {
   type Fields,
 } from "@aiknew/shared-ui-components"
 import { useLangStore } from "@/stores/lang"
-import { useConfigCreate, useConfigUpdate, type Config } from "@/api/config"
+import {
+  useConfigCreate,
+  useConfigUpdate,
+  type SystemConfig,
+} from "@/api/system-config"
 import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
@@ -22,7 +26,7 @@ const emit = defineEmits<Emits>()
 const langStore = useLangStore()
 const modalRef = useTemplateRef("modalRef")
 const editId = ref("")
-const editItem = ref<Config | null>(null)
+const editItem = ref<SystemConfig | null>(null)
 
 const { mutateAsync: createConfig } = useConfigCreate()
 const { mutateAsync: updateConfig } = useConfigUpdate()
@@ -41,9 +45,9 @@ const { AppForm, formApi } = useAppForm({
         schema: () =>
           buildI18nSchema(
             z
-              .string({ message: t("configView.enterName") })
-              .min(1, { message: t("configView.nameRequired") })
-              .max(50, { message: t("configView.nameLengthExceeded") })
+              .string({ error: t("configView.enterName") })
+              .min(1, { error: t("configView.nameRequired") })
+              .max(50, { error: t("configView.nameLengthExceeded") })
               .default(""),
             languages,
           ),
@@ -54,9 +58,9 @@ const { AppForm, formApi } = useAppForm({
         name: "key",
         schema: () =>
           z
-            .string({ message: t("configView.enterKey") })
-            .min(1, { message: t("configView.keyRequired") })
-            .max(50, { message: t("configView.keyLengthExceeded") })
+            .string({ error: t("configView.enterKey") })
+            .min(1, { error: t("configView.keyRequired") })
+            .max(50, { error: t("configView.keyLengthExceeded") })
             .default(""),
       },
       {
@@ -65,9 +69,9 @@ const { AppForm, formApi } = useAppForm({
         name: "value",
         schema: () =>
           z
-            .string({ message: t("configView.enterValue") })
-            .min(1, { message: t("configView.valueRequired") })
-            .max(200, { message: t("configView.valueLengthExceeded") })
+            .string({ error: t("configView.enterValue") })
+            .min(1, { error: t("configView.valueRequired") })
+            .max(200, { error: t("configView.valueLengthExceeded") })
             .default(""),
       },
       {
@@ -78,11 +82,10 @@ const { AppForm, formApi } = useAppForm({
         schema: () =>
           buildI18nSchema(
             z
-              .string()
-              .max(200, { message: t("configView.remarkLengthExceeded") })
-              .optional(),
+              .string({ error: t("configView.remarkRequired") })
+              .max(200, { error: t("configView.remarkLengthExceeded") }),
             languages,
-          ).optional(),
+          ),
       },
     ] as const satisfies Fields,
   async onSubmit({ values }) {
@@ -105,7 +108,7 @@ const add = () => {
   modalRef.value?.setTitle(t("configView.addConfig"))
 }
 
-const edit = (item: Config) => {
+const edit = (item: SystemConfig) => {
   editId.value = item.id
   editItem.value = item
   modalRef.value?.setModalMode("edit")

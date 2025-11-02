@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from "class-validator"
 
-export class ConfigTranslationDto {
+export class SystemConfigTranslationDto {
   @IsString()
   langKey: string
 
@@ -9,5 +9,5 @@ export class ConfigTranslationDto {
 
   @IsString()
   @IsOptional()
-  remark?: string
+  remark?: string = ""
 }

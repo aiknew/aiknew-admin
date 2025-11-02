@@ -9,21 +9,21 @@ import type {
   ApiGetQuery,
 } from "@/types/type-utils"
 
-export type Config = ApiGetData<"/admin/config">["list"][number]
+export type SystemConfig = ApiGetData<"/admin/system-config">["list"][number]
 
-export type CreateConfigDto = ApiPostReqBody<"/admin/config">
+export type CreateSystemConfigDto = ApiPostReqBody<"/admin/system-config">
 
-export type UpdateConfigDto = ApiPatchReqBody<"/admin/config/{id}">
+export type UpdateSystemConfigDto = ApiPatchReqBody<"/admin/system-config/{id}">
 
-export type QueryConfigDto = ApiGetQuery<"/admin/config">
+export type QuerySystemConfigDto = ApiGetQuery<"/admin/system-config">
 
-export const useConfigList = (query: Reactive<QueryConfigDto>) => {
+export const useConfigList = (query: Reactive<QuerySystemConfigDto>) => {
   return useQuery({
-    queryKey: ["config", query],
+    queryKey: ["system-config", query],
     placeholderData: keepPreviousData,
     queryFn: async () => {
       return useApiData(() =>
-        fetchClient.GET("/admin/config", {
+        fetchClient.GET("/admin/system-config", {
           params: {
             query: toValue(query),
           },
@@ -36,10 +36,10 @@ export const useConfigList = (query: Reactive<QueryConfigDto>) => {
 
 export const useConfigCreate = () => {
   return useMutation({
-    mutationKey: ["create-config"],
-    mutationFn: (body: CreateConfigDto) => {
+    mutationKey: ["create-system-config"],
+    mutationFn: (body: CreateSystemConfigDto) => {
       return useApiData(() =>
-        fetchClient.POST("/admin/config", {
+        fetchClient.POST("/admin/system-config", {
           body,
         }),
       )
@@ -49,10 +49,10 @@ export const useConfigCreate = () => {
 
 export const useConfigUpdate = () => {
   return useMutation({
-    mutationKey: ["update-config"],
-    mutationFn: ({ id, body }: { id: string; body: UpdateConfigDto }) => {
+    mutationKey: ["update-system-config"],
+    mutationFn: ({ id, body }: { id: string; body: UpdateSystemConfigDto }) => {
       return useApiData(() =>
-        fetchClient.PATCH("/admin/config/{id}", {
+        fetchClient.PATCH("/admin/system-config/{id}", {
           params: {
             path: {
               id,
@@ -67,10 +67,10 @@ export const useConfigUpdate = () => {
 
 export const useConfigDelete = () => {
   return useMutation({
-    mutationKey: ["delete-config"],
+    mutationKey: ["delete-system-config"],
     mutationFn: (id: string) => {
       return useApiData(() =>
-        fetchClient.DELETE("/admin/config/{id}", {
+        fetchClient.DELETE("/admin/system-config/{id}", {
           params: {
             path: {
               id,

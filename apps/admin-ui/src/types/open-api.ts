@@ -1,4 +1,3 @@
-// oxlint-disable no-duplicate-enum-values 
 export interface paths {
     "/admin/permission/all": {
         parameters: {
@@ -707,23 +706,23 @@ export interface paths {
         patch: operations["DictController_updateOne"];
         trace?: never;
     };
-    "/admin/config": {
+    "/admin/system-config": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["ConfigController_pagination"];
+        get: operations["SystemConfigController_pagination"];
         put?: never;
-        post: operations["ConfigController_createOne"];
+        post: operations["SystemConfigController_createOne"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/config/{id}": {
+    "/admin/system-config/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -735,10 +734,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete: operations["ConfigController_deleteOne"];
+        delete: operations["SystemConfigController_deleteOne"];
         options?: never;
         head?: never;
-        patch: operations["ConfigController_updateOne"];
+        patch: operations["SystemConfigController_updateOne"];
         trace?: never;
     };
     "/admin/dashboard/home-statistics": {
@@ -860,6 +859,26 @@ export interface components {
             title: string;
             content: string;
         };
+        /** @enum {string} */
+        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
+        /** @enum {string} */
+        FileStatus: "NORMAL" | "MISSING";
+        CoverImage: {
+            channel: components["schemas"]["UploadFileChannel"];
+            status: components["schemas"]["FileStatus"];
+            createdAt: string;
+            updatedAt: string;
+            id: string;
+            fileName: string;
+            filePath: string;
+            fileExt: string;
+            fileSize: number;
+            groupId: string | null;
+            mime: string;
+            originalName: string;
+            uploaderId: string;
+            order: number;
+        };
         ArticleDto: {
             id: string;
             order: number;
@@ -868,6 +887,7 @@ export interface components {
             fakeViewCount: number;
             articleCategoryId: string;
             translations: components["schemas"]["ArticleTranslationDto"][];
+            coverImage: components["schemas"]["CoverImage"] | null;
             coverImageId: string | null;
             /** Format: date-time */
             createdAt: string;
@@ -1077,9 +1097,18 @@ export interface components {
             updatedAt: string;
         };
         /** @enum {string} */
-        UploadFileChannel: "ADMIN" | "WEB" | "S3_CONSOLE";
+        StorageType: "LOCAL" | "S3";
         /** @enum {string} */
-        FileStatus: "NORMAL" | "MISSING";
+        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
+        CorrespondingFileStorage: {
+            type: components["schemas"]["StorageType"];
+            status: components["schemas"]["FileStorageStatus"];
+            createdAt: string;
+            updatedAt: string;
+            hostname: string;
+            name: string;
+            bucket: string | null;
+        };
         UploadFileDto: {
             channel: components["schemas"]["UploadFileChannel"];
             status: components["schemas"]["FileStatus"];
@@ -1097,6 +1126,7 @@ export interface components {
             uploader: {
                 userName: string;
             };
+            storage: components["schemas"]["CorrespondingFileStorage"];
             order: number;
         };
         UploadFilesAndGroupsDto: {
@@ -1125,10 +1155,6 @@ export interface components {
             parentId?: string | null;
             order?: number;
         };
-        /** @enum {string} */
-        FileStorageStatus: "NORMAL" | "DISABLED" | "DISABLED_UPLOAD";
-        /** @enum {string} */
-        StorageType: "LOCAL" | "S3";
         FileStorageDto: {
             status: components["schemas"]["FileStorageStatus"];
             type: components["schemas"]["StorageType"];
@@ -1280,12 +1306,13 @@ export interface components {
             status: boolean;
             translations?: components["schemas"]["DictTranslationDto"][];
         };
-        ConfigTranslationDto: {
+        SystemConfigTranslationDto: {
             langKey: string;
             name: string;
-            remark?: string;
+            /** @default  */
+            remark: string;
         };
-        ConfigDto: {
+        SystemConfigDto: {
             id: string;
             key: string;
             value: string;
@@ -1294,17 +1321,17 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            translations: components["schemas"]["ConfigTranslationDto"][];
+            translations: components["schemas"]["SystemConfigTranslationDto"][];
         };
-        CreateConfigDto: {
+        CreateSystemConfigDto: {
             key: string;
             value: string;
-            translations: components["schemas"]["ConfigTranslationDto"][];
+            translations: components["schemas"]["SystemConfigTranslationDto"][];
         };
-        UpdateConfigDto: {
+        UpdateSystemConfigDto: {
             key?: string;
             value?: string;
-            translations?: components["schemas"]["ConfigTranslationDto"][];
+            translations?: components["schemas"]["SystemConfigTranslationDto"][];
         };
         NationCount: {
             nation: string;
@@ -1346,6 +1373,9 @@ export type PermissionGroupDto = components['schemas']['PermissionGroupDto'];
 export type CreatePermissionGroupDto = components['schemas']['CreatePermissionGroupDto'];
 export type UpdatePermissionGroupDto = components['schemas']['UpdatePermissionGroupDto'];
 export type ArticleTranslationDto = components['schemas']['ArticleTranslationDto'];
+export type UploadFileChannel = components['schemas']['UploadFileChannel'];
+export type FileStatus = components['schemas']['FileStatus'];
+export type CoverImage = components['schemas']['CoverImage'];
 export type ArticleDto = components['schemas']['ArticleDto'];
 export type CreateArticleDto = components['schemas']['CreateArticleDto'];
 export type UpdateArticleDto = components['schemas']['UpdateArticleDto'];
@@ -1371,16 +1401,15 @@ export type CreateAuthRouteDto = components['schemas']['CreateAuthRouteDto'];
 export type UpdateAuthRouteDto = components['schemas']['UpdateAuthRouteDto'];
 export type UploadFileGroupPathDto = components['schemas']['UploadFileGroupPathDto'];
 export type UploadFileGroupDto = components['schemas']['UploadFileGroupDto'];
-export type UploadFileChannel = components['schemas']['UploadFileChannel'];
-export type FileStatus = components['schemas']['FileStatus'];
+export type StorageType = components['schemas']['StorageType'];
+export type FileStorageStatus = components['schemas']['FileStorageStatus'];
+export type CorrespondingFileStorage = components['schemas']['CorrespondingFileStorage'];
 export type UploadFileDto = components['schemas']['UploadFileDto'];
 export type UploadFilesAndGroupsDto = components['schemas']['UploadFilesAndGroupsDto'];
 export type CreateUploadFileDto = components['schemas']['CreateUploadFileDto'];
 export type UpdateUploadFileDto = components['schemas']['UpdateUploadFileDto'];
 export type CreateUploadFileGroupDto = components['schemas']['CreateUploadFileGroupDto'];
 export type UpdateUploadFileGroupDto = components['schemas']['UpdateUploadFileGroupDto'];
-export type FileStorageStatus = components['schemas']['FileStorageStatus'];
-export type StorageType = components['schemas']['StorageType'];
 export type FileStorageDto = components['schemas']['FileStorageDto'];
 export type OmitTypeClass = components['schemas']['OmitTypeClass'];
 export type CreateFileStorageDto = components['schemas']['CreateFileStorageDto'];
@@ -1398,10 +1427,10 @@ export type DictTranslationDto = components['schemas']['DictTranslationDto'];
 export type DictDto = components['schemas']['DictDto'];
 export type CreateDictDto = components['schemas']['CreateDictDto'];
 export type UpdateDictDto = components['schemas']['UpdateDictDto'];
-export type ConfigTranslationDto = components['schemas']['ConfigTranslationDto'];
-export type ConfigDto = components['schemas']['ConfigDto'];
-export type CreateConfigDto = components['schemas']['CreateConfigDto'];
-export type UpdateConfigDto = components['schemas']['UpdateConfigDto'];
+export type SystemConfigTranslationDto = components['schemas']['SystemConfigTranslationDto'];
+export type SystemConfigDto = components['schemas']['SystemConfigDto'];
+export type CreateSystemConfigDto = components['schemas']['CreateSystemConfigDto'];
+export type UpdateSystemConfigDto = components['schemas']['UpdateSystemConfigDto'];
 export type NationCount = components['schemas']['NationCount'];
 export type TimesCount = components['schemas']['TimesCount'];
 export type HomeStatisticsDto = components['schemas']['HomeStatisticsDto'];
@@ -3564,7 +3593,7 @@ export interface operations {
             };
         };
     };
-    ConfigController_pagination: {
+    SystemConfigController_pagination: {
         parameters: {
             query: {
                 currentPage: number;
@@ -3587,7 +3616,7 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ResponseJson"] & {
                         data: components["schemas"]["PaginationResponseDto"] & {
-                            list: components["schemas"]["ConfigDto"][];
+                            list: components["schemas"]["SystemConfigDto"][];
                         };
                     };
                 };
@@ -3603,7 +3632,7 @@ export interface operations {
             };
         };
     };
-    ConfigController_createOne: {
+    SystemConfigController_createOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -3612,7 +3641,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateConfigDto"];
+                "application/json": components["schemas"]["CreateSystemConfigDto"];
             };
         };
         responses: {
@@ -3635,7 +3664,7 @@ export interface operations {
             };
         };
     };
-    ConfigController_deleteOne: {
+    SystemConfigController_deleteOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -3665,7 +3694,7 @@ export interface operations {
             };
         };
     };
-    ConfigController_updateOne: {
+    SystemConfigController_updateOne: {
         parameters: {
             query?: never;
             header?: never;
@@ -3676,7 +3705,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateConfigDto"];
+                "application/json": components["schemas"]["UpdateSystemConfigDto"];
             };
         };
         responses: {
@@ -3739,14 +3768,14 @@ export const pathsAdminLanguageGetParametersQueryOrientationValues: ReadonlyArra
 export const responseStatusCodeValues: ReadonlyArray<components["schemas"]["ResponseStatusCode"]> = [-1, 0, 401, 403, 400];
 export const requestMethodValues: ReadonlyArray<components["schemas"]["RequestMethod"]> = ["GET", "POST", "PUT", "DELETE", "PATCH", "ALL", "OPTIONS", "HEAD", "SEARCH", "PROPFIND", "PROPPATCH", "MKCOL", "COPY", "MOVE", "LOCK", "UNLOCK"];
 export const adminPermissionSourceValues: ReadonlyArray<components["schemas"]["AdminPermissionSource"]> = ["BUILT_IN", "EXTERNAL"];
+export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
+export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
 export const languageOrientationValues: ReadonlyArray<components["schemas"]["LanguageOrientation"]> = ["LTR", "RTL"];
 export const createLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["CreateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const updateLanguageDtoOrientationValues: ReadonlyArray<components["schemas"]["UpdateLanguageDto"]["orientation"]> = ["LTR", "RTL"];
 export const routeTypeValues: ReadonlyArray<components["schemas"]["RouteType"]> = ["GROUP", "SMALL_GROUP", "MENU", "BUTTON"];
-export const uploadFileChannelValues: ReadonlyArray<components["schemas"]["UploadFileChannel"]> = ["ADMIN", "WEB", "S3_CONSOLE"];
-export const fileStatusValues: ReadonlyArray<components["schemas"]["FileStatus"]> = ["NORMAL", "MISSING"];
-export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];
 export const storageTypeValues: ReadonlyArray<components["schemas"]["StorageType"]> = ["LOCAL", "S3"];
+export const fileStorageStatusValues: ReadonlyArray<components["schemas"]["FileStorageStatus"]> = ["NORMAL", "DISABLED", "DISABLED_UPLOAD"];
 export enum ApiPaths {
     PermissionController_getAll = "/admin/permission/all",
     PermissionController_createOne = "/admin/permission",
@@ -3813,9 +3842,9 @@ export enum ApiPaths {
     DictController_createOne = "/admin/dict",
     DictController_updateOne = "/admin/dict/{id}",
     DictController_deleteOne = "/admin/dict/{id}",
-    ConfigController_pagination = "/admin/config",
-    ConfigController_createOne = "/admin/config",
-    ConfigController_updateOne = "/admin/config/{id}",
-    ConfigController_deleteOne = "/admin/config/{id}",
+    SystemConfigController_pagination = "/admin/system-config",
+    SystemConfigController_createOne = "/admin/system-config",
+    SystemConfigController_updateOne = "/admin/system-config/{id}",
+    SystemConfigController_deleteOne = "/admin/system-config/{id}",
     DashboardController_getHomeStatistics = "/admin/dashboard/home-statistics"
 }

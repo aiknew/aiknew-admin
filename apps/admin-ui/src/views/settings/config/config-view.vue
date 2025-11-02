@@ -12,9 +12,9 @@ import { computed, ref } from "vue"
 import {
   useConfigDelete,
   useConfigList,
-  type Config,
-  type QueryConfigDto,
-} from "@/api/config"
+  type SystemConfig,
+  type QuerySystemConfigDto,
+} from "@/api/system-config"
 import { toReactive } from "@vueuse/core"
 import { useTemplateRef } from "vue"
 import ConfigModal from "./components/config-modal.vue"
@@ -25,7 +25,7 @@ import z from "zod"
 
 const configModalRef = useTemplateRef("configModalRef")
 const { t } = useI18n()
-const query = ref<QueryConfigDto>({
+const query = ref<QuerySystemConfigDto>({
   currentPage: 1,
   pageSize: 10,
 })
@@ -45,7 +45,7 @@ const handleAdd = () => {
   configModalRef.value?.add()
 }
 
-const handleEdit = (row: Config) => {
+const handleEdit = (row: SystemConfig) => {
   configModalRef.value?.edit(row)
 }
 
@@ -53,7 +53,7 @@ const refresh = () => {
   refetchConfigData()
 }
 
-const handleDelete = async (row: Config) => {
+const handleDelete = async (row: SystemConfig) => {
   await deleteConfig(row.id)
   refresh()
 }
@@ -150,7 +150,7 @@ const handleResetQueryForm = () => {
     >
       <ElTableColumn prop="id" label="ID" width="150" show-overflow-tooltip />
       <ElTableColumn :label="t('configView.name')" width="200">
-        <template #default="{ row }: { row: Config }">
+        <template #default="{ row }: { row: SystemConfig }">
           <span>{{ tField(row.translations, "name").value }}</span>
         </template>
       </ElTableColumn>
@@ -170,7 +170,7 @@ const handleResetQueryForm = () => {
         </template>
       </ElTableColumn>
       <ElTableColumn :label="t('configView.remark')" show-overflow-tooltip>
-        <template #default="{ row }: { row: Config }">
+        <template #default="{ row }: { row: SystemConfig }">
           <span>{{ tField(row.translations, "remark").value }}</span>
         </template>
       </ElTableColumn>

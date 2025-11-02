@@ -74,7 +74,8 @@
     "remark": "备注",
     "nameRequired": "配置名称不能为空",
     "nameLengthExceeded": "配置名称长度不能超过50个字符",
-    "remarkLengthExceeded": "备注长度不能超过200个字符"
+    "remarkLengthExceeded": "备注长度不能超过200个字符",
+    "remarkRequired": "备注不能为空"
   },
   "storageSetting": {
     "storageType": "存储类型",

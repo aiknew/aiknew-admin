@@ -1,13 +1,15 @@
 import { Injectable } from "@nestjs/common"
 import { Prisma, PrismaService } from "@aiknew/shared-admin-db"
-import { CreateConfigDto } from "./dto/create-config.dto"
-import { UpdateConfigDto } from "./dto/update-config.dto"
-import { QueryConfigDto } from "./dto/query-config.dto"
+import {
+  CreateSystemConfigDto,
+  UpdateSystemConfigDto,
+  QuerySystemConfigDto,
+} from "./dto"
 import { AppBadRequestException } from "@aiknew/shared-api-exceptions"
 import { I18nContext, I18nService } from "nestjs-i18n"
 
 @Injectable()
-export class ConfigService {
+export class SystemConfigService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly i18n: I18nService,
@@ -21,7 +23,7 @@ export class ConfigService {
     return this.prisma.configTranslation
   }
 
-  async pagination(query: QueryConfigDto) {
+  async pagination(query: QuerySystemConfigDto) {
     const { currentPage, pageSize, key, name, remark, value } = query
 
     return this.model.paginate(
@@ -54,7 +56,7 @@ export class ConfigService {
     )
   }
 
-  async createOne(data: CreateConfigDto) {
+  async createOne(data: CreateSystemConfigDto) {
     try {
       const { translations, ...rest } = data
       return await this.model.create({
@@ -81,7 +83,7 @@ export class ConfigService {
     }
   }
 
-  async updateOne(id: string, data: UpdateConfigDto) {
+  async updateOne(id: string, data: UpdateSystemConfigDto) {
     const { translations, key, value } = data
     let system = false
 

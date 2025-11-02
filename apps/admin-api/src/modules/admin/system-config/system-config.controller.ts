@@ -15,38 +15,43 @@ import {
   Permission,
   PermissionGroup,
 } from "@aiknew/shared-api-decorators"
-import { ConfigDto } from "./dto/config.dto"
 import { PaginationResponseDto } from "@aiknew/shared-api-dtos"
-import { CreateConfigDto } from "./dto/create-config.dto"
-import { UpdateConfigDto } from "./dto/update-config.dto"
-import { ConfigService } from "./config.service"
-import { QueryConfigDto } from "./dto/query-config.dto"
+import { SystemConfigService } from "./system-config.service"
+import {
+  SystemConfigDto,
+  CreateSystemConfigDto,
+  UpdateSystemConfigDto,
+  QuerySystemConfigDto,
+} from "./dto"
 
 @PermissionGroup({ name: "config.configManagement" })
-@Controller("config")
-export class ConfigController {
-  constructor(private readonly configService: ConfigService) {}
+@Controller("system-config")
+export class SystemConfigController {
+  constructor(private readonly configService: SystemConfigService) {}
 
   @Permission({ key: "config:pagination", name: "config.configPagination" })
   @Get()
-  @AppApiPaginationResponse(ConfigDto)
+  @AppApiPaginationResponse(SystemConfigDto)
   async pagination(
-    @Query() query: QueryConfigDto,
-  ): Promise<PaginationResponseDto<ConfigDto[]>> {
+    @Query() query: QuerySystemConfigDto,
+  ): Promise<PaginationResponseDto<SystemConfigDto[]>> {
     return this.configService.pagination(query)
   }
 
   @Permission({ key: "config:create", name: "config.configCreate" })
   @Post()
   @AppApiCreatedResponse()
-  async createOne(@Body() data: CreateConfigDto) {
+  async createOne(@Body() data: CreateSystemConfigDto) {
     return this.configService.createOne(data)
   }
 
   @Permission({ key: "config:update", name: "config.configUpdate" })
   @Patch(":id")
   @AppApiOkResponse()
-  async updateOne(@Param("id") id: string, @Body() data: UpdateConfigDto) {
+  async updateOne(
+    @Param("id") id: string,
+    @Body() data: UpdateSystemConfigDto,
+  ) {
     return this.configService.updateOne(id, data)
   }
 

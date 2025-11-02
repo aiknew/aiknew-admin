@@ -1,0 +1,5 @@
+export * from "./create-system-config.dto"
+export * from "./query-system-config.dto"
+export * from "./system-config-translation.dto"
+export * from "./system-config.dto"
+export * from "./update-system-config.dto"

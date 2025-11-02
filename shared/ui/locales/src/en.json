@@ -74,7 +74,8 @@
     "remark": "Remark",
     "nameRequired": "Config name cannot be empty",
     "nameLengthExceeded": "Config name length cannot exceed 50 characters",
-    "remarkLengthExceeded": "Remark length cannot exceed 200 characters"
+    "remarkLengthExceeded": "Remark length cannot exceed 200 characters",
+    "remarkRequired": "Remark cannot be empty"
   },
   "storageSetting": {
     "storageType": "Storage Type",

@@ -15,7 +15,7 @@ import { DiscoveryService, MetadataScanner, RouterModule } from "@nestjs/core"
 import { FileStorageModule } from "./file-storage/file-storage.module"
 import { S3Module } from "./s3/s3.module"
 import { DictModule } from "./dict/dict.module"
-import { ConfigModule } from "./config/config.module"
+import { SystemConfigModule } from "./system-config/system-config.module"
 import { LoginLogModule } from "./login-log/login-log.module"
 import { adminBasePath } from "../../common/constants"
 import { DashboardModule } from "./dashboard/dashboard.module"
@@ -36,7 +36,7 @@ const adminModules = [
   FileStorageModule,
   S3Module,
   DictModule,
-  ConfigModule,
+  SystemConfigModule,
   LoginLogModule,
   DashboardModule,
 ]

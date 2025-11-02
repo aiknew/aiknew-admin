@@ -1,7 +1,7 @@
 import { PaginationDto } from "@aiknew/shared-api-dtos"
 import { IsOptional, IsString } from "class-validator"
 
-export class QueryConfigDto extends PaginationDto {
+export class QuerySystemConfigDto extends PaginationDto {
   @IsString()
   @IsOptional()
   key?: string

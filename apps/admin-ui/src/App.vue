@@ -20,9 +20,9 @@ watch(data, () => {
 
 <template>
   <ProgressProvider>
-    <el-config-provider :locale="elementLocale">
+    <ElConfigProvider :locale="elementLocale">
       <RouterView />
       <VueQueryDevtools />
-    </el-config-provider>
+    </ElConfigProvider>
   </ProgressProvider>
 </template>

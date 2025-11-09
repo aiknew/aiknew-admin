@@ -5,7 +5,6 @@
     "redis": "catalog:api",
     "@redis/client": "catalog:api",
     "@nestjs/common": "catalog:api",
-    "@nestjs/config": "catalog:api",
     "@aiknew/shared-api-utils": "workspace:*"
   },
   "devDependencies": {

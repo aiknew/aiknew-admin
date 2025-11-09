@@ -1,3 +1,3 @@
-export * from "./api-ports.js"
-export * from "./config-keys.js"
-export * from "./default-configs.js"
+export * from "./api-ports"
+export * from "./config-keys"
+export * from "./default-configs"

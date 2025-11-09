@@ -9,7 +9,6 @@
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace: *"
   },
-  "type": "module",
   "main": "index.js",
   "exports": {
     ".": {

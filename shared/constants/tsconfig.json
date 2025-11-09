@@ -1,7 +1,10 @@
 {
   "extends": "@aiknew/shared-ts-config/base.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tsup.config.ts"], // include tsup.config.ts for eslint type checking
+  "exclude": ["node_modules", "dist"]
 }

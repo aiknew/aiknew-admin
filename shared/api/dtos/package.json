@@ -2,7 +2,6 @@
   "name": "@aiknew/shared-api-dtos",
   "version": "0.0.1",
   "description": "",
-  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "exports": {

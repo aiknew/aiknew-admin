@@ -14,7 +14,7 @@ import {
 } from "@nestjs/common"
 import { FileService as UploadFileService } from "./upload-file.service"
 import { FileInterceptor } from "@nestjs/platform-express"
-import { Express } from "express"
+import { type Express } from "express"
 import { ConfigService } from "@nestjs/config"
 import { relative, extname } from "node:path"
 import { DelInvalidFileFilter } from "./del-invalid-file.filter"

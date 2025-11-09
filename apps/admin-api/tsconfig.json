@@ -1,6 +1,7 @@
 {
   "extends": "@aiknew/shared-ts-config/nest.json",
   "compilerOptions": {
+    "isolatedModules": true,
     "declaration": false,
     "declarationMap": false,
     "sourceMap": true,

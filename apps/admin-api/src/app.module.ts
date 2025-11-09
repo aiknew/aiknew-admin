@@ -4,7 +4,6 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core"
 import { ResponseJsonInterceptor } from "@aiknew/shared-api-interceptors"
 import { AllExceptionsFilter } from "@aiknew/shared-api-filters"
 import { ConfigModule, ConfigService } from "@nestjs/config"
-import { GlobalModule } from "./modules/global/global.module"
 import { AuthGuard, ThrottlerBehindProxyGuard } from "./common/guards"
 import {
   AcceptLanguageResolver,
@@ -19,6 +18,8 @@ import { JwtService } from "@nestjs/jwt"
 import { AdminUserService } from "./modules/admin/admin-user/admin-user.service"
 import { ScheduleModule } from "@nestjs/schedule"
 import { ThrottlerModule } from "@nestjs/throttler"
+import { AppController } from "./app.controller"
+import { GlobalModule } from "./modules/global/global.module"
 
 @Module({
   imports: [
@@ -76,7 +77,7 @@ import { ThrottlerModule } from "@nestjs/throttler"
       ],
     }),
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
     AdminUserService,
     ConfigService,

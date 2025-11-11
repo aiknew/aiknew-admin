@@ -18,12 +18,35 @@
   },
   "scripts": {
     "build": "pnpm tsc",
-    "clean": "rm -rf ./dist"
+    "clean": "rm -rf ./dist",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage"
   },
   "devDependencies": {
     "@aiknew/shared-ts-config": "workspace: *",
     "@aiknew/shared-api-types": "workspace: *",
-    "@types/node": "catalog:common"
+    "@types/node": "catalog:common",
+    "@types/jest": "catalog:api",
+    "jest": "catalog:api",
+    "ts-jest": "catalog:api"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",

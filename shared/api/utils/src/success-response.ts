@@ -1,5 +1,6 @@
-import { ResponseJson } from "@aiknew/shared-api-dtos"
 import { ResponseStatusCode } from "@aiknew/shared-api-enums"
+import { isObject } from "./type-guard"
+import { type ResponseJson } from "@aiknew/shared-api-dtos"
 
 export class SuccessResponse {
   code: (typeof ResponseStatusCode)[keyof typeof ResponseStatusCode] =
@@ -9,27 +10,16 @@ export class SuccessResponse {
   isRaw: boolean = false
   rawData: unknown
 
-  constructor(msg: string, raw?: false)
-  constructor(data: Record<string, unknown>, raw?: false)
-  constructor(rawData: unknown, raw: true)
-  constructor(param: unknown, raw?: boolean) {
-    this.isRaw = Boolean(raw)
-
-    if (raw) {
-      this.rawData = param
-    } else if (typeof param === "string") {
-      this.msg = param
-    } else if (typeof param === "object") {
-      this.data = param as Record<string, unknown>
-    }
-  }
-
   setCode(code: (typeof ResponseStatusCode)[keyof typeof ResponseStatusCode]) {
     this.code = code
     return this
   }
 
   setData(data: Record<string, unknown>) {
+    if (!isObject(data)) {
+      throw Error("data should be an object")
+    }
+
     this.data = data
     return this
   }
@@ -37,6 +27,24 @@ export class SuccessResponse {
   setMsg(msg: string) {
     this.msg = msg
     return this
+  }
+
+  setRaw(data: unknown) {
+    this.isRaw = true
+    this.rawData = data
+    return this
+  }
+
+  getResponse() {
+    if (this.isRaw) {
+      return this.rawData
+    }
+
+    return {
+      code: this.code,
+      data: this.data,
+      msg: this.msg,
+    }
   }
 
   getResponseJson(): ResponseJson {

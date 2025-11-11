@@ -56,17 +56,13 @@ export class ResponseJsonInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data: Record<string, unknown>) => {
         if (data instanceof SuccessResponse) {
-          if (data.isRaw) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            return data.getResponseRaw()
-          }
-
-          return data.getResponseJson()
+          return data.getResponse()
         }
 
-        return new SuccessResponse(this.getDefaultMsg(context))
+        return new SuccessResponse()
+          .setMsg(this.getDefaultMsg(context))
           .setData(data ?? {})
-          .getResponseJson()
+          .getResponse()
       }),
     )
   }

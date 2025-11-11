@@ -51,6 +51,7 @@
     "db:studio": "dotenvx run -f ../../../../apps/admin-api/.env -- pnpm prisma studio",
     "db:deploy:prod": "pnpm prisma migrate deploy",
     "db:seed:prod": "pnpm prisma db seed",
+    "db:seed:test": "pnpm prisma db seed",
     "db:generate": "pnpm prisma generate"
   }
 }

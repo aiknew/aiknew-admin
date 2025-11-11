@@ -18,8 +18,10 @@ maxnumber
 oxlint
 Popconfirm
 Previewable
+schemaname
 spamfilter
 syntroy
+tablename
 tiptap
 unplugin
 Uploaderid

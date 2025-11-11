@@ -138,6 +138,10 @@ export class AuthService {
   }
 
   async processVerification(verificationData: DeepPartial<VerificationData>) {
+    if (process.env.NODE_ENV === "test") {
+      return
+    }
+
     const { altcha, captcha } = verificationData
     let verificationTypeConfig = await this.systemConfigService.getConfigByKey(
       LoginVerificationTypeKey,

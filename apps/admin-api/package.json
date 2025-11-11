@@ -10,7 +10,9 @@
     "db:dev": "pnpm -w --filter @aiknew/shared-admin-db db:dev",
     "sync-permissions:prod": "pnpm env:prod -- pnpm -w --filter @aiknew/shared-api-permission-sync sync:prod",
     "db:deploy:prod": "pnpm env:prod -- pnpm -w --filter @aiknew/shared-admin-db db:deploy:prod",
+    "db:reset:test": "pnpm env:test -- pnpm -w --filter @aiknew/shared-admin-db db:migrate:reset --force",
     "db:seed:prod": "pnpm env:prod -- pnpm -w --filter @aiknew/shared-admin-db db:seed:prod",
+    "db:seed:test": "pnpm env:test -- pnpm -w --filter @aiknew/shared-admin-db db:seed:test",
     "env:prod:encrypt": "pnpm dotenvx encrypt -f .env.production",
     "env:prod:decrypt": "pnpm dotenvx decrypt -f .env.production",
     "build": "nest build",
@@ -26,7 +28,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "pnpm env:test -- jest --config ./test/jest-e2e.json",
+    "test:e2e": "pnpm env:test -- jest --config ./jest-e2e.json",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

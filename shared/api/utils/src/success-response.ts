@@ -1,12 +1,11 @@
 import { ResponseStatusCode } from "@aiknew/shared-api-enums"
-import { isObject } from "./type-guard"
 import { type ResponseJson } from "@aiknew/shared-api-dtos"
 
 export class SuccessResponse {
   code: (typeof ResponseStatusCode)[keyof typeof ResponseStatusCode] =
     ResponseStatusCode.COMMON_SUCCESS
   msg: string = "success"
-  data: Record<string, unknown> = {}
+  data: unknown = {}
   isRaw: boolean = false
   rawData: unknown
 
@@ -15,11 +14,7 @@ export class SuccessResponse {
     return this
   }
 
-  setData(data: Record<string, unknown>) {
-    if (!isObject(data)) {
-      throw Error("data should be an object")
-    }
-
+  setData(data: unknown) {
     this.data = data
     return this
   }

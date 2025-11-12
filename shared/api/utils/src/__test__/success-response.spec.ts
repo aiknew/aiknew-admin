@@ -129,12 +129,6 @@ describe("success-response", () => {
   })
 
   describe("edge cases", () => {
-    it("should throw error when undefined is passed to setData", () => {
-      expect(() => successResponse.setData(undefined as never)).toThrow(
-        "data should be an object",
-      )
-    })
-
     it("should handle switching between raw and regular response modes", () => {
       const rawData = ["raw", "data"]
       const regularData = { formatted: "data" }

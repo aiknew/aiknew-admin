@@ -61,7 +61,7 @@ export class AuthController {
   @ApiOperation({ security: [] })
   async altcha() {
     const data = await this.service.createAltchaChallenge()
-    return new SuccessResponse().setRaw(data).getResponse()
+    return new SuccessResponse().setRaw(data)
   }
 
   @Authenticated()
